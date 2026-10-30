@@ -1,0 +1,48 @@
+name: Lean build and axiom audit
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lean-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Check original toolchain and mathlib pins
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          assert Path('lean-toolchain').read_text().strip() == 'leanprover/lean4:v4.19.0'
+          manifest = json.loads(Path('lake-manifest.json').read_text())
+          mathlib = next(package for package in manifest['packages'] if package['name'] == 'mathlib')
+          assert mathlib['rev'] == 'c44e0c8ee63ca166450922a373c7409c5d26b00b'
+          PY
+
+      - name: Build the original Lean library
+        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          build: true
+          test: false
+          lint: false
+          use-mathlib-cache: true
+
+      - name: Run the original complete theorem axiom audit
+        run: lake env lean Audit.lean
+
+      - name: Check the concrete submission statement and proof
+        shell: bash
+        run: |
+          lake env lean -o .lake/build/lib/lean/Challenge.olean Challenge.lean
+          lake env lean Solution.lean

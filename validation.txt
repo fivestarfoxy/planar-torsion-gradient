@@ -1,0 +1,92 @@
+Validation: unconditional exact spectral optimization theorem
+UTC: 2026-10-29T21:15:28.346781+00:00
+
+Lean: 4.19.0, release commit 6caaee842e94.
+mathlib: v4.19.0, c44e0c8ee63ca166450922a373c7409c5d26b00b.
+Manifest SHA256: 0a2901d5a5f5be5992d20ccb1f6e6f81f79dbc005d1659be411dced748b444f5
+Dependency manifest, lean-toolchain and lakefile.toml are unchanged.
+
+lake exe cache get: PASS, exit 0 (Completed successfully; no files to download).
+lake build: PASS, exit 0 (Build completed successfully; 3407 targets).
+lake env lean Audit.lean: PASS, exit 0.
+Audited 3,587 project theorem declarations, including generated declarations
+and retained backports. Allowed axioms: propext, Classical.choice, Quot.sound.
+Comment/string-stripped mathematical code scan: no sorry, admit, custom axiom,
+constant declaration or native_decide. Every mathematical module is root-imported.
+Only routine tactic-linter/unused-variable warnings are present.
+Full command outputs: validation/cache.log, build.log, audit.log.
+Explicit mathematical hypotheses are NOT discharged by the axiom audit.
+The final theorem's type itself has NO mathematical proof parameters.
+
+Mathematical modules: 392
+Lines in Torsion/**/*.lean: 52,713
+This continuation adds 26 modules, 2,923 lines and 162 audited declarations.
+ALL 366 mathematical modules from the immediately preceding verified ZIP
+(version 7) are preserved byte-for-byte, including the original development.
+
+THE ORIGINAL UNIVERSAL INEQUALITY IS NOW PROVED:
+Torsion.DirichletTheory.G_le_second_spectral_bound proves for every actual
+DirichletTheory T and every original ConvexDomain D:
+  T.G D <= ENNReal.ofReal
+    (spectralConstant secondEigenvalue secondEigenfunction * sqrt D.area).
+Torsion.second_universal gives exactly the original
+ReferenceCertificate.universal inequality with its original constants.
+No smooth-domain, boundary-regularity, stationarity, calibration or comparison
+hypothesis remains. No admissible class or optimization constant was changed.
+
+ACTUAL FINAL INTERFACES AND UNCONDITIONAL OPTIMIZATION:
+- Torsion.secondReferenceCertificate :
+    ReferenceCertificate torsionTheory secondMoments
+- Torsion.secondSpectralBridge :
+    SpectralBridge torsionTheory secondEigenvalue secondEigenfunction
+- Torsion.second_exact_value, with NO arguments, proves:
+    torsionTheory.cStar = ENNReal.ofReal
+      (spectralConstant secondEigenvalue secondEigenfunction)
+  and an actual original ConvexDomain D whose carrier is the normalized
+  second-eigenfunction Cauchy image, with D.area=1 and G(D) exactly equal
+  to that same original spectral constant.
+The preserved older conditional constructors are used with their inputs
+fully proved, not with new assumptions or certificates restating the goal.
+
+NEW COMPARISON PROOF:
+1. Convex gauge geometry constructs positive continuous radial outer domains
+   at each supporting origin, with exact radial-domain identity and actual
+   areas converging to the original area. The existing unconditional canonical
+   radial bound controls genuine supporting-boundary quotient limits.
+2. Actual orthogonal covariance preserves original test functions, H10 graph,
+   weak torsion equation, Euclidean area and G. Hahn-Banach separation and Riesz
+   construct unit inward normals. Maximal interior balls identify the actual
+   nearest boundary normal with the displacement from the nearest frontier.
+3. A short real base constructs actual marked convex outer hulls. A fixed
+   inball and displacement bound give an explicit uniform flat-patch radius.
+   Thickening/dilation comparison bounds their actual square-root area loss.
+4. Actual Caccioppoli bounds, fixed convolution derivative estimates and odd
+   harmonic reflection give a uniform torsion normal-quotient Taylor remainder.
+   It depends only on the fixed half-ball and slab height, not on the domain
+   or choice of a global quadratic cutoff or local smooth representative.
+5. Choosing the hull radius before the collar width proves uniform sharp
+   distance collars with arbitrarily small losses over all supporting frames.
+6. Local Weyl representatives glue to a smooth interior representative of
+   each actual weak torsion pair. The crude slab barrier first proves a
+   continuous zero extension, independently of the sharp comparison.
+7. Compact smooth flat truncations and the original energy/Poincare estimate
+   prove a maximum principle on arbitrary bounded open sets. Actual weak
+   translation comparison converts approximate collars into exact global
+   Lipschitz bounds. Local gradient identification bounds the ORIGINAL weak
+   gradient essential supremum, completing the universal inequality.
+This route avoids needing a general smooth curved-boundary torsion regularity
+or boundary maximum-gradient theorem. No circular use of the universal bound
+occurs; independent mathematical review of these steps found no gap.
+
+SCOPE:
+The main exact spectral optimization theorem and all fields of its original
+reference and spectral interfaces are now unconditional. The preceding exact
+localized Hadamard formula on the spectral reference and the actual kernel
+normalizations/stationarity are retained unchanged.
+The broader non-spectral boundary-integral version of manuscript Lemma 4.1
+for arbitrary smooth radial reference arcs is not asserted. Actual localized
+radial flux differentiability for every positive continuous reference was
+already proved. Appendix A's benchmarks/minimization and Appendix B's numerical
+illustration are not complete formal theorems. No classification of all convex
+maximizers is asserted. These peripheral scope limits are not hypotheses or
+missing fields of the unconditional main optimization theorem.

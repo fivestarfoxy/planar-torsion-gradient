@@ -1,0 +1,900 @@
+Torsion.exact_value_of_spectralBridge (a : ℝ) (φ : ℝ → ℝ) (B : Torsion.SpectralBridge Torsion.torsionTheory a φ) :
+  Torsion.torsionTheory.cStar = ENNReal.ofReal (Torsion.Spectral.spectralConstant a φ) ∧
+    ∃ D,
+      D.carrier = Torsion.Spectral.normalizedImage a φ ∧
+        D.area = 1 ∧ Torsion.torsionTheory.G D = ENNReal.ofReal (Torsion.Spectral.spectralConstant a φ)
+Torsion.HilbertDirichlet.exists_dirichletSolution_of_bounded {D : Set Torsion.Plane} (hD : MeasurableSet D)
+  (hb : Bornology.IsBounded D) : Nonempty (Torsion.DirichletSolution D)
+Torsion.ScalingLaw.proved (T : Torsion.DirichletTheory) : Torsion.ScalingLaw T
+Torsion.markedFluxExistence_proved : Torsion.MarkedFluxExistence
+Torsion.torsionFlux_radial_concaveOn :
+  ConcaveOn ℝ Torsion.RadialFluxConcavity.positiveContinuousProfiles fun R =>
+    Torsion.torsionFlux (Torsion.radialDomain R)
+Torsion.Spectral.cauchy_injOn_upperHalfPlane {φ : ℝ → ℝ} (hφ : Continuous φ) (hodd : Function.Odd φ)
+  (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0) (hpos : ∀ s ∈ Set.Ioo 0 1, 0 < φ s) :
+  Set.InjOn (Torsion.Spectral.cauchy φ) Torsion.upperHalfPlane
+Torsion.Spectral.quadratic_identity_of_holder_boundary_equation {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal} (ha : a ≠ 0)
+  (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0)
+  (hlinear : ∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b)
+  (z : Torsion.Plane) :
+  z ∈ Torsion.upperHalfPlane →
+    deriv (Torsion.Spectral.auxiliary φ) z =
+      ↑(b / a) * deriv (Torsion.Spectral.cauchy φ) z - deriv (Torsion.Spectral.cauchy φ) z ^ 2 / ↑(2 * a)
+Torsion.Spectral.IsRestrictedEigenfunction.eigenvalue_pos {a : ℝ} {φ : ℝ → ℝ}
+  (hφ : Torsion.Spectral.IsRestrictedEigenfunction a φ) : 0 < a
+Torsion.Spectral.physicalCandidate_isWeakTorsion {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal} (ha : a ≠ 0)
+  (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0)
+  (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x)
+  (hlinear : ∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b) :
+  Torsion.IsWeakTorsion (Torsion.Spectral.cauchyImage φ) (Torsion.Spectral.physicalZeroExtension φ)
+    (Torsion.Spectral.physicalZeroGradient φ)
+Torsion.Spectral.cauchyImage_isMarked {φ : ℝ → ℝ} {C α : NNReal} (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1)
+  (hodd : Function.Odd φ) (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0) (hpos : ∀ s ∈ Set.Ioo 0 1, 0 < φ s) :
+  Torsion.IsMarked (Torsion.Spectral.cauchyImage φ)
+Torsion.Spectral.torsionFlux_cauchyImage {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal} (ha : a ≠ 0) (hφ : HolderWith C α φ)
+  (hα0 : 0 < α) (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0)
+  (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x)
+  (hlinear : ∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b) :
+  Torsion.torsionFlux (Torsion.Spectral.cauchyImage φ) = b / a
+Torsion.Spectral.cauchy_boundary_deriv_holderOn {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal} (hφ : HolderWith C α φ)
+  (hα0 : 0 < α) (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0)
+  (hlinear : ∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b) :
+  ∃ K, HolderOnWith K α (deriv fun x => Torsion.Spectral.cauchyExtension φ ↑x) (Set.Icc (-1) 1)
+Torsion.Spectral.cauchyAtInfinity_hasDerivAt_zero {φ : ℝ → ℝ} (hφ : ContinuousOn φ (Set.Icc 0 1)) :
+  HasDerivAt (Torsion.Spectral.cauchyAtInfinity φ) ((↑Real.pi)⁻¹ * ↑(Torsion.Spectral.mass φ)) 0
+Torsion.Spectral.IsRestrictedEigenfunction.height_equation {a : ℝ} {φ : ℝ → ℝ}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (hφ : Continuous φ) (hodd : Function.Odd φ) :
+  ∃ b,
+    ∀ (ψ : ℝ → ℝ),
+      Torsion.Spectral.IsCore ψ →
+        Torsion.Spectral.energy (Torsion.Spectral.height φ) ψ =
+          (a * ∫ (x : ℝ), Torsion.Spectral.height φ x * ψ x) - b * ∫ (x : ℝ), ψ x
+Torsion.Spectral.IsRestrictedEigenfunction.height_equation_unique {a : ℝ} {φ : ℝ → ℝ}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (hφ : Continuous φ) (hodd : Function.Odd φ) :
+  ∃! b,
+    ∀ (ψ : ℝ → ℝ),
+      Torsion.Spectral.IsCore ψ →
+        Torsion.Spectral.energy (Torsion.Spectral.height φ) ψ =
+          (a * ∫ (x : ℝ), Torsion.Spectral.height φ x * ψ x) - b * ∫ (x : ℝ), ψ x
+Torsion.Spectral.IsRestrictedEigenfunction.exists_even_or_odd {a : ℝ} {φ : ℝ → ℝ}
+  (hφ : Torsion.Spectral.IsRestrictedEigenfunction a φ) :
+  ∃ ψ, Torsion.Spectral.IsRestrictedEigenfunction a ψ ∧ (Function.Even ψ ∨ Function.Odd ψ)
+Torsion.Spectral.cauchyBoundaryHomeomorph {φ : ℝ → ℝ} {C α : NNReal} (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1)
+  (hodd : Function.Odd φ) (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0) (hpos : ∀ s ∈ Set.Ioo 0 1, 0 < φ s) :
+  OnePoint ℝ ≃ₜ ↑(frontier (Torsion.Spectral.cauchyImage φ))
+Torsion.Spectral.frontier_cauchyImage_freeArc_union_segment {φ : ℝ → ℝ} {C α : NNReal} (hφ : HolderWith C α φ)
+  (hα0 : 0 < α) (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0)
+  (hpos : ∀ s ∈ Set.Ioo 0 1, 0 < φ s) :
+  frontier (Torsion.Spectral.cauchyImage φ) =
+    (fun x => Torsion.Spectral.cauchyExtension φ ↑x) '' Set.Icc (-1) 1 ∪
+      Complex.ofReal '' Set.Icc (Torsion.Spectral.cauchyExtension φ 1).re (Torsion.Spectral.cauchyExtension φ (-1)).re
+Torsion.Spectral.gradient_product_physicalCandidate_kernel_boundary_tendsto {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal}
+  (ha : 0 < a) (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1) (hodd : Function.Odd φ)
+  (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x)
+  (hlinear : ∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b)
+  {x : ℝ} (hx : x ∈ Set.Icc (-1) 1) :
+  Filter.Tendsto
+    (fun z =>
+      ‖gradient (Torsion.Spectral.physicalCandidate φ) (Torsion.Spectral.cauchy φ z)‖ *
+        ‖gradient (Torsion.Spectral.physicalMarkedKernel φ) (Torsion.Spectral.cauchy φ z)‖)
+    (nhdsWithin (↑x) Torsion.upperHalfPlane) (nhds (1 / (2 * a * Torsion.Spectral.mass φ)))
+Torsion.Spectral.IsRestrictedEigenfunction.linear_hilbert_equation {a : ℝ} {φ : ℝ → ℝ} {C α : NNReal}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (hφ : HolderWith C α φ) (hα : 0 < α) (hodd : Function.Odd φ) :
+  ∃! b, ∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b
+Torsion.Spectral.IsRestrictedEigenfunction.cauchy_torsion_construction {a : ℝ} {φ : ℝ → ℝ} {C α : NNReal}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1)
+  (hodd : Function.Odd φ) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x) :
+  ∃ b,
+    0 < b ∧
+      (∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b) ∧
+        a * Torsion.Spectral.squareMass φ = 2 * b * Torsion.Spectral.mass φ ∧
+          Torsion.IsWeakTorsion (Torsion.Spectral.cauchyImage φ) (Torsion.Spectral.physicalZeroExtension φ)
+              (Torsion.Spectral.physicalZeroGradient φ) ∧
+            Torsion.torsionFlux (Torsion.Spectral.cauchyImage φ) = b / a
+Torsion.Spectral.IsRestrictedEigenfunction.cauchy_reference_geometry {a : ℝ} {φ : ℝ → ℝ} {C α : NNReal}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1)
+  (hodd : Function.Odd φ) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x) (hconc : ConcaveOn ℝ (Set.Ioo 0 1) φ)
+  (hd : ∀ x ∈ Set.Ioo 0 1, DifferentiableAt ℝ φ x) :
+  ∃ D,
+    D.carrier = Torsion.Spectral.cauchyImage φ ∧
+      D.area = a * Torsion.Spectral.squareMass φ / 2 ∧
+        Torsion.IsMarked D.carrier ∧
+          ∀ (T : Torsion.DirichletTheory),
+            ENNReal.ofReal (Torsion.Spectral.squareMass φ / (2 * Torsion.Spectral.mass φ)) ≤ T.G D
+Torsion.Spectral.IsRestrictedEigenfunction.normalized_cauchy_candidate {a : ℝ} {φ : ℝ → ℝ} {C α : NNReal}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1)
+  (hodd : Function.Odd φ) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x) (hconc : ConcaveOn ℝ (Set.Ioo 0 1) φ)
+  (hd : ∀ x ∈ Set.Ioo 0 1, DifferentiableAt ℝ φ x) :
+  ∃ D,
+    D.carrier = Torsion.Spectral.normalizedImage a φ ∧
+      D.area = 1 ∧ ENNReal.ofReal (Torsion.Spectral.spectralConstant a φ) ≤ Torsion.torsionTheory.G D
+Torsion.Spectral.IsRestrictedEigenfunction.spectralConstant_le_cStar {a : ℝ} {φ : ℝ → ℝ} {C α : NNReal}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1)
+  (hodd : Function.Odd φ) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x) (hconc : ConcaveOn ℝ (Set.Ioo 0 1) φ)
+  (hd : ∀ x ∈ Set.Ioo 0 1, DifferentiableAt ℝ φ x) :
+  ENNReal.ofReal (Torsion.Spectral.spectralConstant a φ) ≤ Torsion.torsionTheory.cStar
+Torsion.Spectral.MemRestrictedFormDomain.fractional_poincare {f : ℝ → ℝ}
+  (hf : Torsion.Spectral.MemRestrictedFormDomain f) : ∫ (x : ℝ), f x ^ 2 ≤ 8 / Real.pi * Torsion.Spectral.energy f f
+Torsion.Spectral.IsRestrictedEigenfunction.eigenvalue_ge_pi_div_eight {a : ℝ} {φ : ℝ → ℝ}
+  (hφ : Torsion.Spectral.IsRestrictedEigenfunction a φ) : Real.pi / 8 ≤ a
+Torsion.Spectral.cauchyImage_convex {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal} (ha : 0 < a) (hφ : HolderWith C α φ)
+  (hα0 : 0 < α) (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0)
+  (hpos : ∀ s ∈ Set.Ioo 0 1, 0 < φ s)
+  (hlinear : ∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b)
+  (hc : ConcaveOn ℝ (Set.Ioo 0 1) φ) (hd : ∀ x ∈ Set.Ioo 0 1, DifferentiableAt ℝ φ x) :
+  Convex ℝ (Torsion.Spectral.cauchyImage φ)
+Torsion.Spectral.area_cauchyImage_eq_half_squareMass {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal} (ha : a ≠ 0)
+  (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0)
+  (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x)
+  (hlinear : ∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b) :
+  (MeasureTheory.volume (Torsion.Spectral.cauchyImage φ)).toReal = a * Torsion.Spectral.squareMass φ / 2
+Torsion.Spectral.cauchyClosureHomeomorph {φ : ℝ → ℝ} {C α : NNReal} (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1)
+  (hodd : Function.Odd φ) (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0) (hpos : ∀ s ∈ Set.Ioo 0 1, 0 < φ s) :
+  OnePoint Torsion.Spectral.CauchyClosedHalfPlane ≃ₜ ↑(closure (Torsion.Spectral.cauchyImage φ))
+Torsion.Spectral.cauchyJoinedBoundary_regular_frontier_charts {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal} (ha : 0 < a)
+  (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0)
+  (hpos : ∀ s ∈ Set.Ioo 0 1, 0 < φ s)
+  (hlinear : ∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b) :
+  ∃ δ ρ,
+    0 < δ ∧
+      0 < ρ ∧
+        (Topology.IsClosedEmbedding fun t => Torsion.Spectral.cauchyJoinedBoundary φ ↑t) ∧
+          Torsion.Spectral.cauchyJoinedBoundary φ '' Set.Icc (-1 - δ) (1 + δ) ⊆
+              frontier (Torsion.Spectral.cauchyImage φ) ∧
+            frontier (Torsion.Spectral.cauchyImage φ) ∩ Metric.ball (Torsion.Spectral.cauchyExtension φ (-1)) ρ ⊆
+                Torsion.Spectral.cauchyJoinedBoundary φ '' Set.Icc (-1 - δ) (1 + δ) ∧
+              frontier (Torsion.Spectral.cauchyImage φ) ∩ Metric.ball (Torsion.Spectral.cauchyExtension φ 1) ρ ⊆
+                  Torsion.Spectral.cauchyJoinedBoundary φ '' Set.Icc (-1 - δ) (1 + δ) ∧
+                ContDiff ℝ 1 (Torsion.Spectral.cauchyJoinedBoundary φ) ∧
+                  (∃ K, HolderWith K α (deriv (Torsion.Spectral.cauchyJoinedBoundary φ))) ∧
+                    ∀ (t : ℝ), deriv (Torsion.Spectral.cauchyJoinedBoundary φ) t ≠ 0
+Torsion.Spectral.signed_stationarity_physicalCandidate_kernel_tendsto_at_freeArc {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal}
+  (ha : 0 < a) (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1) (hodd : Function.Odd φ)
+  (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x)
+  (hlinear : ∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b)
+  {t : ℝ} (ht : t ∈ Set.Icc (-1) 1) :
+  Filter.Tendsto
+    (fun w =>
+      -inner (gradient (Torsion.Spectral.physicalCandidate φ) w) (Torsion.Spectral.cauchyOutwardNormal φ t) *
+        -inner (gradient (Torsion.Spectral.physicalMarkedKernel φ) w) (Torsion.Spectral.cauchyOutwardNormal φ t))
+    (nhdsWithin (Torsion.Spectral.cauchyExtension φ ↑t) (Torsion.Spectral.cauchyImage φ))
+    (nhds (1 / (2 * a * Torsion.Spectral.mass φ)))
+Torsion.Spectral.radialDomain_cauchyRadialProfile_eq {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal} (ha : 0 < a)
+  (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0)
+  (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x)
+  (hlinear : ∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b)
+  (hc : ConcaveOn ℝ (Set.Ioo 0 1) φ) (hd : ∀ x ∈ Set.Ioo 0 1, DifferentiableAt ℝ φ x) :
+  Torsion.radialDomain
+      ⇑(Torsion.ContinuousProfiles.extend
+          (Torsion.Spectral.cauchyRadialProfile ha hφ hα0 hα1 hodd hzero hpos hlinear hc hd)) =
+    Torsion.Spectral.cauchyImage φ
+Torsion.Spectral.norm_sq_embed_cauchyRadialProfile {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal} (ha : 0 < a)
+  (hφ : HolderWith C α φ) (hα0 : 0 < α) (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0)
+  (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x)
+  (hlinear : ∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b)
+  (hc : ConcaveOn ℝ (Set.Ioo 0 1) φ) (hd : ∀ x ∈ Set.Ioo 0 1, DifferentiableAt ℝ φ x) :
+  ‖Torsion.ContinuousProfiles.embed
+          (Torsion.Spectral.cauchyRadialProfile ha hφ hα0 hα1 hodd hzero hpos hlinear hc hd)‖ ^
+      2 =
+    a * Torsion.Spectral.squareMass φ
+Torsion.Spectral.RestrictedHilbert.valueMap_isCompactOperator :
+  IsCompactOperator ⇑Torsion.Spectral.RestrictedHilbert.valueMap
+Torsion.Spectral.exists_first_two_restricted_eigenpairs_even_nonnegative_first :
+  ∃ a₁ a₂,
+    0 < a₁ ∧
+      a₁ ≤ a₂ ∧
+        ∃ φ₁ φ₂,
+          Torsion.Spectral.IsRestrictedEigenfunction a₁ φ₁ ∧
+            Torsion.Spectral.IsRestrictedEigenfunction a₂ φ₂ ∧
+              ∫ (x : ℝ), φ₁ x ^ 2 = 1 ∧
+                ∫ (x : ℝ), φ₂ x ^ 2 = 1 ∧
+                  ∫ (x : ℝ), φ₁ x * φ₂ x = 0 ∧
+                    Function.Even φ₁ ∧
+                      (∀ (x : ℝ), 0 ≤ φ₁ x) ∧
+                        (∀ (ψ : ℝ → ℝ),
+                            Torsion.Spectral.MemRestrictedFormDomain ψ →
+                              a₁ * ∫ (x : ℝ), ψ x ^ 2 ≤ Torsion.Spectral.energy ψ ψ) ∧
+                          ∀ (ψ : ℝ → ℝ),
+                            Torsion.Spectral.MemRestrictedFormDomain ψ →
+                              ∫ (x : ℝ), φ₁ x * ψ x = 0 → a₂ * ∫ (x : ℝ), ψ x ^ 2 ≤ Torsion.Spectral.energy ψ ψ
+Torsion.Spectral.secondEigenfunctionL2_isRestrictedEigenfunction :
+  Torsion.Spectral.IsRestrictedEigenfunction Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunctionL2
+Torsion.Spectral.firstEigenvalue_lt_secondEigenvalue :
+  Torsion.Spectral.firstEigenvalue < Torsion.Spectral.secondEigenvalue
+Torsion.Spectral.leastOddEigenvalue_eq_secondEigenvalue :
+  Torsion.Spectral.leastOddEigenvalue = Torsion.Spectral.secondEigenvalue
+Torsion.Spectral.exists_second_odd_nonnegative_simple_restricted_eigenfunction :
+  ∃ φ,
+    Torsion.Spectral.IsRestrictedEigenfunction Torsion.Spectral.secondEigenvalue φ ∧
+      Function.Odd φ ∧
+        (∀ (x : ℝ), 1 ≤ |x| → φ x = 0) ∧
+          (∀ (x : ℝ), 0 ≤ x → 0 ≤ φ x) ∧
+            ∫ (x : ℝ), φ x ^ 2 = 1 ∧
+              (∀ᵐ (x : ℝ) ∂MeasureTheory.volume.restrict (Set.Ioo 0 1), 0 < φ x) ∧
+                ∀ (g : ℝ → ℝ),
+                  Torsion.Spectral.IsRestrictedEigenfunction Torsion.Spectral.secondEigenvalue g →
+                    ∃ c, g =ᵐ[MeasureTheory.volume] fun x => c * φ x
+Torsion.Spectral.secondOddEigenfunctionL2_simple {g : ℝ → ℝ}
+  (hg : Torsion.Spectral.IsRestrictedEigenfunction Torsion.Spectral.secondEigenvalue g) :
+  ∃ c, g =ᵐ[MeasureTheory.volume] fun x => c * Torsion.Spectral.secondOddEigenfunctionL2 x
+Torsion.Spectral.secondOddEigenfunctionL2_pos_ae :
+  ∀ᵐ (x : ℝ) ∂MeasureTheory.volume.restrict (Set.Ioo 0 1), 0 < Torsion.Spectral.secondOddEigenfunctionL2 x
+Torsion.Spectral.MemRestrictedFormDomain.even_mean_zero_energy_ge {f : ℝ → ℝ}
+  (hf : Torsion.Spectral.MemRestrictedFormDomain f) (heven : Function.Even f) (hmean : ∫ (x : ℝ), f x = 0) :
+  63 / 20 * ∫ (x : ℝ), f x ^ 2 ≤ Torsion.Spectral.energy f f
+Torsion.Spectral.oddTrial_memRestrictedFormDomain : Torsion.Spectral.MemRestrictedFormDomain Torsion.Spectral.oddTrial
+Torsion.Spectral.oddTrial_energy_lt_even_gap :
+  Torsion.Spectral.energy Torsion.Spectral.oddTrial Torsion.Spectral.oddTrial <
+    63 / 20 * ∫ (x : ℝ), Torsion.Spectral.oddTrial x ^ 2
+Torsion.Spectral.IsRestrictedEigenfunction.height_equation_of_odd {a : ℝ} {φ : ℝ → ℝ}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (hodd : Function.Odd φ) :
+  ∃ b,
+    ∀ (ψ : ℝ → ℝ),
+      Torsion.Spectral.IsCore ψ →
+        Torsion.Spectral.energy (Torsion.Spectral.height φ) ψ =
+          (a * ∫ (x : ℝ), Torsion.Spectral.height φ x * ψ x) - b * ∫ (x : ℝ), ψ x
+Torsion.Spectral.IsRestrictedEigenfunction.height_Cauchy_boundary_hasDerivAt {a : ℝ} {φ : ℝ → ℝ}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (hodd : Function.Odd φ) :
+  ∃ b,
+    ∀ x ∈ Set.Ioo (-1) 1,
+      HasDerivAt (Torsion.Spectral.realCauchyBoundaryRe (Torsion.Spectral.height φ))
+        (-a * Torsion.Spectral.height φ x + b) x
+Torsion.Spectral.IsRestrictedEigenfunction.height_analyticAt_of_odd {a : ℝ} {φ : ℝ → ℝ}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (hodd : Function.Odd φ) (x : ℝ) (hx : x ∈ Set.Ioo (-1) 1) :
+  AnalyticAt ℝ (Torsion.Spectral.height φ) x
+Torsion.Spectral.exists_second_analytic_simple_restricted_eigenfunction :
+  ∃ φ,
+    Torsion.Spectral.IsRestrictedEigenfunction Torsion.Spectral.secondEigenvalue φ ∧
+      Function.Odd φ ∧
+        (∀ (x : ℝ), 1 ≤ |x| → φ x = 0) ∧
+          ∫ (x : ℝ), φ x ^ 2 = 1 ∧
+            AnalyticOnNhd ℝ φ (Set.Ioo (-1) 1) ∧
+              (∀ x ∈ Set.Ioo 0 1, 0 ≤ φ x) ∧
+                (∀ᵐ (x : ℝ) ∂MeasureTheory.volume.restrict (Set.Ioo 0 1), 0 < φ x) ∧
+                  ∀ (g : ℝ → ℝ),
+                    Torsion.Spectral.IsRestrictedEigenfunction Torsion.Spectral.secondEigenvalue g →
+                      ∃ c, g =ᵐ[MeasureTheory.volume] fun x => c * φ x
+Torsion.Spectral.secondEigenfunction_isRestrictedEigenfunction :
+  Torsion.Spectral.IsRestrictedEigenfunction Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction
+Torsion.Spectral.secondEigenfunction_analyticOnNhd :
+  AnalyticOnNhd ℝ Torsion.Spectral.secondEigenfunction (Set.Ioo (-1) 1)
+Torsion.Spectral.secondEigenfunction_simple {g : ℝ → ℝ}
+  (hg : Torsion.Spectral.IsRestrictedEigenfunction Torsion.Spectral.secondEigenvalue g) :
+  ∃ c, g =ᵐ[MeasureTheory.volume] fun x => c * Torsion.Spectral.secondEigenfunction x
+Torsion.Spectral.secondEigenvalue_le_of_isRestrictedEigenfunction_ne_first {a : ℝ} {φ : ℝ → ℝ}
+  (hφ : Torsion.Spectral.IsRestrictedEigenfunction a φ) (hne : a ≠ Torsion.Spectral.firstEigenvalue) :
+  Torsion.Spectral.secondEigenvalue ≤ a
+Torsion.Spectral.IsRestrictedEigenfunction.regularEigenfunction_pos {a : ℝ} {f : ℝ → ℝ}
+  (hf : Torsion.Spectral.IsRestrictedEigenfunction a f) (hodd : Function.Odd f)
+  (hnonneg : 0 ≤ᵐ[MeasureTheory.volume.restrict (Set.Ioi 0)] f) (x : ℝ) :
+  x ∈ Set.Ioo 0 1 → 0 < Torsion.Spectral.regularEigenfunction f x
+Torsion.Spectral.secondEigenfunction_pos (x : ℝ) (hx : x ∈ Set.Ioo 0 1) : 0 < Torsion.Spectral.secondEigenfunction x
+Torsion.Spectral.exists_second_positive_analytic_simple_restricted_eigenfunction :
+  ∃ φ,
+    Torsion.Spectral.IsRestrictedEigenfunction Torsion.Spectral.secondEigenvalue φ ∧
+      Function.Odd φ ∧
+        (∀ (x : ℝ), 1 ≤ |x| → φ x = 0) ∧
+          ∫ (x : ℝ), φ x ^ 2 = 1 ∧
+            AnalyticOnNhd ℝ φ (Set.Ioo (-1) 1) ∧
+              (∀ x ∈ Set.Ioo 0 1, 0 < φ x) ∧
+                ∀ (g : ℝ → ℝ),
+                  Torsion.Spectral.IsRestrictedEigenfunction Torsion.Spectral.secondEigenvalue g →
+                    ∃ c, g =ᵐ[MeasureTheory.volume] fun x => c * φ x
+Torsion.Spectral.semicircleBarrier_memRestrictedFormDomain :
+  Torsion.Spectral.MemRestrictedFormDomain Torsion.Spectral.semicircleBarrier
+Torsion.Spectral.semicircleBarrier_weak_equation (ψ : ℝ → ℝ) (hψ : Torsion.Spectral.MemRestrictedFormDomain ψ) :
+  Torsion.Spectral.energy Torsion.Spectral.semicircleBarrier ψ = ∫ (x : ℝ), ψ x
+Torsion.Spectral.secondEigenfunction_sqrt_boundary_bound :
+  ∃ C, 0 < C ∧ ∀ (x : ℝ), |Torsion.Spectral.secondEigenfunction x| ≤ C * √(1 - x ^ 2)
+Torsion.Spectral.secondEigenfunction_exteriorResidualZero_integrable :
+  MeasureTheory.Integrable (Torsion.Spectral.exteriorResidualZero Torsion.Spectral.secondEigenfunction)
+    MeasureTheory.volume
+Torsion.Spectral.secondEigenfunction_global_schwartz_equation (S : SchwartzMap ℝ ℝ) :
+  Torsion.Spectral.energy Torsion.Spectral.secondEigenfunction ⇑S =
+    ∫ (x : ℝ),
+      (Torsion.Spectral.secondEigenvalue * Torsion.Spectral.secondEigenfunction x -
+          Torsion.Spectral.exteriorResidualZero Torsion.Spectral.secondEigenfunction x) *
+        S x
+Torsion.Spectral.secondEigenfunction_second_deriv_eq (x : ℝ) (hx : x ∈ Set.Ioo (-1) 1) :
+  deriv (deriv Torsion.Spectral.secondEigenfunction) x =
+    -Torsion.Spectral.secondEigenvalue ^ 2 * Torsion.Spectral.secondEigenfunction x -
+      1 / Real.pi *
+        ∫ (y : ℝ), Torsion.Spectral.exteriorResidualZero Torsion.Spectral.secondEigenfunction y / (x - y) ^ 2
+Torsion.Spectral.secondEigenfunction_strictConcaveOn :
+  StrictConcaveOn ℝ (Set.Icc 0 1) Torsion.Spectral.secondEigenfunction
+Torsion.Spectral.secondEigenfunction_concaveOn : ConcaveOn ℝ (Set.Icc 0 1) Torsion.Spectral.secondEigenfunction
+Torsion.Spectral.secondEigenfunction_holder_half : ∃ C, HolderWith C (1 / 2) Torsion.Spectral.secondEigenfunction
+Torsion.Spectral.secondEigenfunction_linear_hilbert_equation :
+  ∃! b,
+    ∀ x ∈ Set.Ioo (-1) 1,
+      Torsion.Spectral.realCauchyBoundaryRe Torsion.Spectral.secondEigenfunction x =
+        Torsion.Spectral.secondEigenvalue * Torsion.Spectral.height Torsion.Spectral.secondEigenfunction x - b
+Torsion.Spectral.exists_second_restricted_spectral_profile :
+  ∃ φ C,
+    Torsion.Spectral.IsRestrictedEigenfunction Torsion.Spectral.secondEigenvalue φ ∧
+      Function.Odd φ ∧
+        (∀ (x : ℝ), 1 ≤ |x| → φ x = 0) ∧
+          ∫ (x : ℝ), φ x ^ 2 = 1 ∧
+            AnalyticOnNhd ℝ φ (Set.Ioo (-1) 1) ∧
+              (∀ x ∈ Set.Ioo 0 1, 0 < φ x) ∧
+                StrictConcaveOn ℝ (Set.Icc 0 1) φ ∧
+                  HolderWith C (1 / 2) φ ∧
+                    ∀ (g : ℝ → ℝ),
+                      Torsion.Spectral.IsRestrictedEigenfunction Torsion.Spectral.secondEigenvalue g →
+                        ∃ c, g =ᵐ[MeasureTheory.volume] fun x => c * φ x
+Torsion.Spectral.secondMoments : Torsion.Moments
+Torsion.Spectral.secondCauchyDomain_isWeakTorsion :
+  Torsion.IsWeakTorsion Torsion.Spectral.secondCauchyDomain.carrier
+    (Torsion.Spectral.physicalZeroExtension Torsion.Spectral.secondEigenfunction)
+    (Torsion.Spectral.physicalZeroGradient Torsion.Spectral.secondEigenfunction)
+Torsion.Spectral.secondCauchyDomain_area :
+  Torsion.Spectral.secondCauchyDomain.area = Torsion.Spectral.secondMoments.area
+Torsion.Spectral.secondCauchyDomain_flux :
+  Torsion.torsionFlux Torsion.Spectral.secondCauchyDomain.carrier = Torsion.Spectral.secondMoments.flux
+Torsion.Spectral.secondCalibrationDensity_euler :
+  inner Torsion.Spectral.secondCalibrationDensity
+      (Torsion.ContinuousProfiles.embed Torsion.Spectral.secondRadialProfile) =
+    Torsion.torsionFlux Torsion.Spectral.secondCauchyDomain.carrier
+Torsion.Spectral.secondCalibrationDensity_constant :
+  √2 * ‖Torsion.Spectral.secondCalibrationDensity‖ =
+    Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction
+Torsion.Spectral.second_spectralConstant_le_cStar :
+  ENNReal.ofReal
+      (Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction) ≤
+    Torsion.torsionTheory.cStar
+Torsion.Spectral.second_radial_bound_of_smooth_local_derivative
+  (hlocal :
+    ∀ (f : ℝ → ℝ),
+      ContDiff ℝ (↑⊤) f →
+        HasCompactSupport f →
+          tsupport f ⊆ Set.Ioo 0 Real.pi →
+            (fun θ => (Torsion.ContinuousProfiles.extend Torsion.Spectral.secondRadialProfile) θ + f θ) ∈
+                Torsion.RadialFluxConcavity.positiveContinuousProfiles →
+              HasDerivWithinAt
+                (fun t =>
+                  Torsion.torsionFlux
+                    (Torsion.radialDomain fun θ =>
+                      (Torsion.ContinuousProfiles.extend Torsion.Spectral.secondRadialProfile) θ + t * f θ))
+                (∫ (θ : ℝ) in Set.Ioo 0 Real.pi,
+                  Torsion.Spectral.secondMoments.stationarity *
+                      (Torsion.ContinuousProfiles.extend Torsion.Spectral.secondRadialProfile) θ *
+                    f θ)
+                (Set.Ioi 0) 0)
+  (R : Torsion.ContinuousProfiles.Profile) (hR : ∀ (θ : ↑Torsion.ContinuousProfiles.Angle), 0 < R θ) :
+  Torsion.torsionFlux (Torsion.radialDomain ⇑(Torsion.ContinuousProfiles.extend R)) ≤
+    Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction *
+      √(Torsion.radialArea ⇑(Torsion.ContinuousProfiles.extend R))
+Torsion.secondSpectralBridge_of_universal
+  (huniversal :
+    ∀ (D : Torsion.ConvexDomain),
+      Torsion.torsionTheory.G D ≤
+        ENNReal.ofReal
+          (2 * Torsion.Spectral.secondMoments.stationarity * √Torsion.Spectral.secondMoments.area * √D.area)) :
+  Torsion.SpectralBridge Torsion.torsionTheory Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction
+Torsion.second_exact_value_of_universal
+  (huniversal :
+    ∀ (D : Torsion.ConvexDomain),
+      Torsion.torsionTheory.G D ≤
+        ENNReal.ofReal
+          (2 * Torsion.Spectral.secondMoments.stationarity * √Torsion.Spectral.secondMoments.area * √D.area)) :
+  Torsion.torsionTheory.cStar =
+      ENNReal.ofReal
+        (Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction) ∧
+    ∃ D,
+      D.carrier =
+          Torsion.Spectral.normalizedImage Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction ∧
+        D.area = 1 ∧
+          Torsion.torsionTheory.G D =
+            ENNReal.ofReal
+              (Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction)
+Torsion.RadialCalibration.calibration_of_smooth_local_derivative {R₀ R γ : ℝ → ℝ}
+  (h₀ : R₀ ∈ Torsion.RadialFluxConcavity.positiveContinuousProfiles)
+  (hR : R ∈ Torsion.RadialFluxConcavity.positiveContinuousProfiles) (hγ : ContinuousOn γ (Set.Icc 0 Real.pi))
+  (heuler : Torsion.torsionFlux (Torsion.radialDomain R₀) = ∫ (θ : ℝ) in Set.Ioo 0 Real.pi, γ θ * R₀ θ)
+  (hlocal :
+    ∀ (f : ℝ → ℝ),
+      ContDiff ℝ (↑⊤) f →
+        HasCompactSupport f →
+          tsupport f ⊆ Set.Ioo 0 Real.pi →
+            (fun θ => R₀ θ + f θ) ∈ Torsion.RadialFluxConcavity.positiveContinuousProfiles →
+              HasDerivWithinAt (fun t => Torsion.torsionFlux (Torsion.radialDomain fun θ => R₀ θ + t * f θ))
+                (∫ (θ : ℝ) in Set.Ioo 0 Real.pi, γ θ * f θ) (Set.Ioi 0) 0) :
+  Torsion.torsionFlux (Torsion.radialDomain R) ≤ ∫ (θ : ℝ) in Set.Ioo 0 Real.pi, γ θ * R θ
+Torsion.HalfPlane.integral_poisson {z : Torsion.Plane} (hz : 0 < z.im) : ∫ (x : ℝ), Torsion.HalfPlane.poisson z x = 1
+Torsion.HalfPlane.fundamental_circle_flux (w : Torsion.Plane) {r : ℝ} (hr : 0 < r) :
+  ∫ (θ : ℝ) in 0 ..2 * Real.pi,
+      inner (gradient (Torsion.HalfPlane.fundamental w) (w + ↑r * Complex.exp (↑θ * Complex.I)))
+        (↑r * Complex.exp (↑θ * Complex.I)) =
+    -1
+Torsion.HalfPlane.green_hasDerivAt_boundary_source {z : Torsion.Plane} (hz : 0 < z.im) (x : ℝ) :
+  HasDerivAt (fun t => Torsion.HalfPlane.green z (↑x + ↑t * Complex.I)) (z.im / (Real.pi * ((z.re - x) ^ 2 + z.im ^ 2)))
+    0
+Torsion.Spectral.physicalGreen_regular_part_tendsto {φ : ℝ → ℝ} (hφ : Continuous φ) (hodd : Function.Odd φ)
+  (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x) {z : Torsion.Plane}
+  (hz : z ∈ Torsion.upperHalfPlane) :
+  Filter.Tendsto
+    (fun w =>
+      Torsion.Spectral.physicalGreen φ w (Torsion.Spectral.cauchy φ z) +
+        Real.log ‖w - Torsion.Spectral.cauchy φ z‖ / (2 * Real.pi))
+    (nhdsWithin (Torsion.Spectral.cauchy φ z) {Torsion.Spectral.cauchy φ z}ᶜ)
+    (nhds ((Real.log ‖z - star z‖ - Real.log ‖(deriv (Torsion.Spectral.cauchy φ) z)⁻¹‖) / (2 * Real.pi)))
+Torsion.Spectral.physicalGreen_marked_source_quotient_tendsto {φ : ℝ → ℝ} (hφ : Continuous φ) (hodd : Function.Odd φ)
+  (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x) {w : Torsion.Plane}
+  (hw : w ∈ Torsion.Spectral.cauchyImage φ) :
+  Filter.Tendsto
+    (fun t =>
+      Torsion.Spectral.physicalGreen φ w (Torsion.Spectral.cauchyAtInfinity φ (↑t * Complex.I)) /
+        (Torsion.Spectral.cauchyAtInfinity φ (↑t * Complex.I)).im)
+    (nhdsWithin 0 (Set.Ioi 0)) (nhds (Torsion.Spectral.physicalMarkedKernel φ w))
+Torsion.DirichletTheory.G_area_bound_of_exhaustion (T : Torsion.DirichletTheory) (D : ℕ → Torsion.ConvexDomain)
+  (E : Torsion.ConvexDomain) (hmono : Monotone fun n => (D n).carrier) (hunion : ⋃ n, (D n).carrier = E.carrier) (c : ℝ)
+  (hbound : ∀ (n : ℕ), T.G (D n) ≤ ENNReal.ofReal (c * √(D n).area)) : T.G E ≤ ENNReal.ofReal (c * √E.area)
+Torsion.IsWeakTorsion.tendsto_eLpNorm_gradient_of_outer_dilation {D : Set Torsion.Plane} {E : ℕ → Set Torsion.Plane}
+  {u : Torsion.Plane → ℝ} {g : Torsion.Plane → Torsion.Plane} {v : ℕ → Torsion.Plane → ℝ}
+  {h : ℕ → Torsion.Plane → Torsion.Plane} (hu : Torsion.IsWeakTorsion D u g)
+  (hv : ∀ (n : ℕ), Torsion.IsWeakTorsion (E n) (v n) (h n)) (hD : IsOpen D) (hE : ∀ (n : ℕ), IsOpen (E n)) (s : ℕ → ℝ)
+  (hs : ∀ (n : ℕ), 0 < s n) (hslim : Filter.Tendsto s Filter.atTop (nhds 1)) (hDE : ∀ (n : ℕ), D ⊆ E n)
+  (hEsD : ∀ (n : ℕ), E n ⊆ s n • D) :
+  Filter.Tendsto (fun n => MeasureTheory.eLpNorm (fun x => h n x - g x) 2 MeasureTheory.volume) Filter.atTop (nhds 0)
+Torsion.DirichletTheory.G_area_bound_of_metric_outer (T : Torsion.DirichletTheory) (D : Torsion.ConvexDomain)
+  (E : ℕ → Torsion.ConvexDomain) {r : ℝ} (hr : 0 < r) (hball : Metric.ball 0 r ⊆ D.carrier) (δ : ℕ → ℝ)
+  (hδ : ∀ (n : ℕ), 0 < δ n) (hδlim : Filter.Tendsto δ Filter.atTop (nhds 0))
+  (hDE : ∀ (n : ℕ), D.carrier ⊆ (E n).carrier) (hED : ∀ (n : ℕ), (E n).carrier ⊆ Metric.thickening (δ n) D.carrier)
+  (c : ℝ) (hbound : ∀ (n : ℕ), T.G (E n) ≤ ENNReal.ofReal (c * √(E n).area)) : T.G D ≤ ENNReal.ofReal (c * √D.area)
+Torsion.HalfPlane.fundamental_weak_source {D : Set Torsion.Plane} {ψ : Torsion.Plane → ℝ} (hψ : Torsion.IsTest D ψ) :
+  ∫ (z : Torsion.Plane), inner (gradient (Torsion.HalfPlane.fundamental 0) z) (gradient ψ z) = ψ 0
+Torsion.DirichletTheory.G_translate (T : Torsion.DirichletTheory) (D : Torsion.ConvexDomain) (a : Torsion.Plane) :
+  T.G (D.translate a) = T.G D
+Torsion.DirichletTheory.tendsto_gradient_of_outer_approximation (T : Torsion.DirichletTheory) (D : Torsion.ConvexDomain)
+  (E : ℕ → Torsion.ConvexDomain) (δ : ℕ → ℝ) (hδ : ∀ (n : ℕ), 0 < δ n) (hδlim : Filter.Tendsto δ Filter.atTop (nhds 0))
+  (hDE : ∀ (n : ℕ), D.carrier ⊆ (E n).carrier) (hED : ∀ (n : ℕ), (E n).carrier ⊆ Metric.thickening (δ n) D.carrier) :
+  Filter.Tendsto
+    (fun n =>
+      MeasureTheory.eLpNorm (fun x => (T.solution (E n)).weakGradient x - (T.solution D).weakGradient x) 2
+        MeasureTheory.volume)
+    Filter.atTop (nhds 0)
+Torsion.ConvexDomain.area_tendsto_of_outer_approximation (D : Torsion.ConvexDomain) (E : ℕ → Torsion.ConvexDomain)
+  (δ : ℕ → ℝ) (hδ : ∀ (n : ℕ), 0 < δ n) (hδlim : Filter.Tendsto δ Filter.atTop (nhds 0))
+  (hDE : ∀ (n : ℕ), D.carrier ⊆ (E n).carrier) (hED : ∀ (n : ℕ), (E n).carrier ⊆ Metric.thickening (δ n) D.carrier) :
+  Filter.Tendsto (fun n => (E n).area) Filter.atTop (nhds D.area)
+Torsion.DirichletTheory.G_area_bound_of_outer_approximation (T : Torsion.DirichletTheory) (D : Torsion.ConvexDomain)
+  (E : ℕ → Torsion.ConvexDomain) (δ : ℕ → ℝ) (hδ : ∀ (n : ℕ), 0 < δ n) (hδlim : Filter.Tendsto δ Filter.atTop (nhds 0))
+  (hDE : ∀ (n : ℕ), D.carrier ⊆ (E n).carrier) (hED : ∀ (n : ℕ), (E n).carrier ⊆ Metric.thickening (δ n) D.carrier)
+  (c : ℝ) (hbound : ∀ (n : ℕ), T.G (E n) ≤ ENNReal.ofReal (c * √(E n).area)) : T.G D ≤ ENNReal.ofReal (c * √D.area)
+Torsion.HalfPlane.fundamental_weak_source_at {D : Set Torsion.Plane} {ψ : Torsion.Plane → ℝ} (hψ : Torsion.IsTest D ψ)
+  (w : Torsion.Plane) : ∫ (z : Torsion.Plane), inner (gradient (Torsion.HalfPlane.fundamental w) z) (gradient ψ z) = ψ w
+Torsion.DirichletTheory.tendsto_of_outer_approximation (T : Torsion.DirichletTheory) (D : Torsion.ConvexDomain)
+  (E : ℕ → Torsion.ConvexDomain) (δ : ℕ → ℝ) (hδ : ∀ (n : ℕ), 0 < δ n) (hδlim : Filter.Tendsto δ Filter.atTop (nhds 0))
+  (hDE : ∀ (n : ℕ), D.carrier ⊆ (E n).carrier) (hED : ∀ (n : ℕ), (E n).carrier ⊆ Metric.thickening (δ n) D.carrier) :
+  Filter.Tendsto
+      (fun n =>
+        MeasureTheory.eLpNorm (fun x => (T.solution (E n)).value x - (T.solution D).value x) 2 MeasureTheory.volume)
+      Filter.atTop (nhds 0) ∧
+    Filter.Tendsto
+      (fun n =>
+        MeasureTheory.eLpNorm (fun x => (T.solution (E n)).weakGradient x - (T.solution D).weakGradient x) 2
+          MeasureTheory.volume)
+      Filter.atTop (nhds 0)
+Torsion.HalfPlane.green_pairing_integrable {D : Set Torsion.Plane} {ψ : Torsion.Plane → ℝ} (hψ : Torsion.IsTest D ψ)
+  (w : Torsion.Plane) :
+  MeasureTheory.Integrable (fun z => inner (gradient (fun u => Torsion.HalfPlane.green u w) z) (gradient ψ z))
+    MeasureTheory.volume
+Torsion.HalfPlane.green_weak_source {ψ : Torsion.Plane → ℝ} (hψ : Torsion.IsTest Torsion.upperHalfPlane ψ)
+  {w : Torsion.Plane} (hw : w ∈ Torsion.upperHalfPlane) :
+  ∫ (z : Torsion.Plane) in Torsion.upperHalfPlane,
+      inner (gradient (fun u => Torsion.HalfPlane.green u w) z) (gradient ψ z) =
+    ψ w
+Torsion.Spectral.physicalGreen_weak_source {φ : ℝ → ℝ} (hφ : Continuous φ) (hodd : Function.Odd φ)
+  (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x) {v : Torsion.Plane}
+  (hv : v ∈ Torsion.Spectral.cauchyImage φ) {ψ : Torsion.Plane → ℝ}
+  (hψ : Torsion.IsTest (Torsion.Spectral.cauchyImage φ) ψ) :
+  ∫ (w : ℂ) in Torsion.Spectral.cauchyImage φ,
+      inner (gradient (fun u => Torsion.Spectral.physicalGreen φ u v) w) (gradient ψ w) =
+    ψ v
+Torsion.Spectral.physicalGreen_pairing_integrable {φ : ℝ → ℝ} (hφ : Continuous φ) (hodd : Function.Odd φ)
+  (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x) {v : Torsion.Plane}
+  (hv : v ∈ Torsion.Spectral.cauchyImage φ) {ψ : Torsion.Plane → ℝ}
+  (hψ : Torsion.IsTest (Torsion.Spectral.cauchyImage φ) ψ) :
+  MeasureTheory.Integrable (fun w => inner (gradient (fun u => Torsion.Spectral.physicalGreen φ u v) w) (gradient ψ w))
+    MeasureTheory.volume
+Torsion.Spectral.physicalGreenRegular_contDiffOn {φ : ℝ → ℝ} (hφ : Continuous φ) (hodd : Function.Odd φ)
+  (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x) {v : Torsion.Plane}
+  (hv : v ∈ Torsion.Spectral.cauchyImage φ) :
+  ContDiffOn ℝ (↑⊤) (Torsion.Spectral.physicalGreenRegular φ v) (Torsion.Spectral.cauchyImage φ)
+Torsion.Spectral.physicalGreen_marked_normal_source_hasDerivWithinAt {φ : ℝ → ℝ} (hφ : Continuous φ)
+  (hodd : Function.Odd φ) (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x) {w : Torsion.Plane}
+  (hw : w ∈ Torsion.Spectral.cauchyImage φ) :
+  HasDerivWithinAt (fun t => if t = 0 then 0 else Torsion.Spectral.physicalGreen φ w (↑t * Complex.I))
+    (Torsion.Spectral.physicalMarkedKernel φ w) (Set.Ici 0) 0
+Torsion.Spectral.physicalMarkedPoisson_eq_kernel {φ : ℝ → ℝ} (hφ : Continuous φ) (hodd : Function.Odd φ)
+  (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x) {w : Torsion.Plane}
+  (hw : w ∈ Torsion.Spectral.cauchyImage φ) :
+  Torsion.Spectral.physicalMarkedPoisson φ w = Torsion.Spectral.physicalMarkedKernel φ w
+Torsion.Spectral.second_signed_poisson_stationarity {t : ℝ} (ht : t ∈ Set.Icc (-1) 1) :
+  Filter.Tendsto
+    (fun w =>
+      -inner (gradient (Torsion.Spectral.physicalCandidate Torsion.Spectral.secondEigenfunction) w)
+            (Torsion.Spectral.cauchyOutwardNormal Torsion.Spectral.secondEigenfunction t) *
+        -inner (gradient (Torsion.Spectral.physicalMarkedPoisson Torsion.Spectral.secondEigenfunction) w)
+            (Torsion.Spectral.cauchyOutwardNormal Torsion.Spectral.secondEigenfunction t))
+    (nhdsWithin (Torsion.Spectral.cauchyExtension Torsion.Spectral.secondEigenfunction ↑t)
+      Torsion.Spectral.secondCauchyDomain.carrier)
+    (nhds Torsion.Spectral.secondMoments.stationarity)
+Torsion.Spectral.physicalHarmonicLift_marked_normal_tendsto {φ g : ℝ → ℝ} (hφ : Continuous φ) (hodd : Function.Odd φ)
+  (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0) (hpos : ∀ s ∈ Set.Ioo 0 1, 0 < φ s) (hg : ContinuousOn g (Set.Icc (-1) 1)) :
+  Filter.Tendsto (fun t => Torsion.Spectral.physicalHarmonicLift φ g (↑t * Complex.I) / t) (nhdsWithin 0 (Set.Ioi 0))
+    (nhds ((∫ (s : ℝ) in Set.Icc (-1) 1, g s) / Torsion.Spectral.mass φ))
+Torsion.Spectral.physicalHarmonicLift_marked_boundary_tendsto {φ g : ℝ → ℝ} {C α : NNReal} (hφ : HolderWith C α φ)
+  (hα0 : 0 < α) (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0)
+  (hpos : ∀ s ∈ Set.Ioo 0 1, 0 < φ s) (hg : ContinuousOn g (Set.Icc (-1) 1)) :
+  Filter.Tendsto (Torsion.Spectral.physicalHarmonicLift φ g) (nhdsWithin 0 (Torsion.Spectral.cauchyImage φ)) (nhds 0)
+Torsion.ConvexDomain.exists_smooth_strictConvex_outer_sequence (D : Torsion.ConvexDomain) :
+  ∃ E F b,
+    (∀ (n : ℕ),
+        ContDiff ℝ (↑⊤) (F n) ∧
+          StrictConvexOn ℝ Set.univ (F n) ∧
+            StrictConvex ℝ (closure (E n).carrier) ∧
+              (∀ x ∈ frontier (E n).carrier, fderiv ℝ (F n) x ≠ 0) ∧ (E n).carrier = {x | F n x < b n}) ∧
+      (∀ (n : ℕ), D.carrier ⊆ (E n).carrier) ∧ ∀ (n : ℕ), (E n).carrier ⊆ Metric.thickening (1 / (↑n + 1)) D.carrier
+Torsion.DirichletTheory.G_area_bound_of_smooth_strictConvex (T : Torsion.DirichletTheory) (c : ℝ)
+  (hbound :
+    ∀ (E : Torsion.ConvexDomain) (F : Torsion.Plane → ℝ) (b : ℝ),
+      ContDiff ℝ (↑⊤) F →
+        StrictConvex ℝ (closure E.carrier) →
+          (∀ x ∈ frontier E.carrier, fderiv ℝ F x ≠ 0) →
+            E.carrier = {x | F x < b} → T.G E ≤ ENNReal.ofReal (c * √E.area))
+  (D : Torsion.ConvexDomain) : T.G D ≤ ENNReal.ofReal (c * √D.area)
+Torsion.secondSpectralBridge_of_smooth_comparison
+  (hbound :
+    ∀ (E : Torsion.ConvexDomain) (F : Torsion.Plane → ℝ) (c : ℝ),
+      ContDiff ℝ (↑⊤) F →
+        StrictConvex ℝ (closure E.carrier) →
+          (∀ x ∈ frontier E.carrier, fderiv ℝ F x ≠ 0) →
+            E.carrier = {x | F x < c} →
+              Torsion.torsionTheory.G E ≤
+                ENNReal.ofReal
+                  (Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue
+                      Torsion.Spectral.secondEigenfunction *
+                    √E.area)) :
+  Torsion.SpectralBridge Torsion.torsionTheory Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction
+Torsion.Shape.exists_MemH10_transport_deformation {V : Torsion.Plane → Torsion.Plane} (hV : ContDiff ℝ (↑⊤) V)
+  (hVc : HasCompactSupport V) :
+  ∃ δ,
+    0 < δ ∧
+      ∀ (t : ℝ),
+        |t| < δ →
+          ∃ e,
+            ⇑e = Torsion.Shape.deformation V t ∧
+              ContDiff ℝ ↑⊤ ⇑e.symm ∧
+                (∀ (D : Set Torsion.Plane) (u : Torsion.Plane → ℝ) (g : Torsion.Plane → Torsion.Plane),
+                    Torsion.MemH10 (Torsion.Shape.deformation V t '' D) u g →
+                      Torsion.MemH10 D (u ∘ ⇑e) (Torsion.Shape.gradientPullback (⇑e) g)) ∧
+                  ∀ (D : Set Torsion.Plane) (u : Torsion.Plane → ℝ) (g : Torsion.Plane → Torsion.Plane),
+                    Torsion.MemH10 D u g →
+                      Torsion.MemH10 (Torsion.Shape.deformation V t '' D) (u ∘ ⇑e.symm)
+                        (Torsion.Shape.gradientPullback (⇑e.symm) g)
+Torsion.Shape.exists_weakTorsion_pullback_deformation {V : Torsion.Plane → Torsion.Plane} (hV : ContDiff ℝ (↑⊤) V)
+  (hVc : HasCompactSupport V) :
+  ∃ δ,
+    0 < δ ∧
+      ∀ (t : ℝ),
+        |t| < δ →
+          ∃ e,
+            ⇑e = Torsion.Shape.deformation V t ∧
+              ContDiff ℝ ↑⊤ ⇑e.symm ∧
+                ∀ (D : Set Torsion.Plane),
+                  MeasurableSet D →
+                    ∀ (u : Torsion.Plane → ℝ) (g : Torsion.Plane → Torsion.Plane),
+                      Torsion.IsWeakTorsion (Torsion.Shape.deformation V t '' D) u g →
+                        Torsion.MemH10 D (u ∘ ⇑e) (Torsion.Shape.gradientPullback (⇑e) g) ∧
+                          ∀ (v : Torsion.Plane → ℝ) (h : Torsion.Plane → Torsion.Plane),
+                            Torsion.MemH10 D v h →
+                              ∫ (z : Torsion.Plane) in D,
+                                  inner
+                                    ((Torsion.Shape.pullbackEnergyOperator e z)
+                                      (Torsion.Shape.gradientPullback (⇑e) g z))
+                                    (h z) =
+                                ∫ (z : Torsion.Plane) in D, (fderiv ℝ (⇑e) z).det * v z
+Torsion.Shape.realMatrix_pullbackEnergyOperator_deformation {V : Torsion.Plane → Torsion.Plane} (hV : ContDiff ℝ (↑⊤) V)
+  (t : ℝ) (e : Torsion.Plane ≃ₜ Torsion.Plane) (heq : ⇑e = Torsion.Shape.deformation V t)
+  (heinv : ContDiff ℝ ↑⊤ ⇑e.symm) (z : Torsion.Plane) :
+  Torsion.Shape.realMatrix (Torsion.Shape.pullbackEnergyOperator e z) = Torsion.Shape.physicalEnergyMatrix V t z
+Torsion.Shape.physical_forcing_hasDerivAt_zero {D : Set Torsion.Plane} {V : Torsion.Plane → Torsion.Plane}
+  (hV : ContDiff ℝ (↑⊤) V) {f : Torsion.Plane → ℝ} (hf : Torsion.IsTest D f) :
+  HasDerivAt (fun t => ∫ (z : Torsion.Plane) in D, LinearMap.det ↑(fderiv ℝ (Torsion.Shape.deformation V t) z) * f z)
+    (∫ (z : Torsion.Plane) in D, Torsion.Shape.divergence V z * f z) 0
+Torsion.Shape.uniformEnergyCoefficient_hasDerivAt_zero {V : Torsion.Plane → Torsion.Plane} (hV : ContDiff ℝ (↑⊤) V)
+  (hVc : HasCompactSupport V) (i j : Fin 2) :
+  HasDerivAt (Torsion.Shape.uniformEnergyCoefficient hV hVc i j) (Torsion.Shape.uniformEnergyVariation hV hVc i j) 0
+Torsion.Shape.uniformEnergyCoefficient_eventually_apply {V : Torsion.Plane → Torsion.Plane} (hV : ContDiff ℝ (↑⊤) V)
+  (hVc : HasCompactSupport V) :
+  ∀ᶠ (t : ℝ) in nhds 0,
+    ∀ (i j : Fin 2) (z : Torsion.Plane),
+      (Torsion.Shape.uniformEnergyCoefficient hV hVc i j t) z = Torsion.Shape.physicalEnergyMatrix V t z i j
+Torsion.IsWeakTorsion.le_slab_barrier {D : Set Torsion.Plane} {u : Torsion.Plane → ℝ}
+  {g : Torsion.Plane → Torsion.Plane} (hu : Torsion.IsWeakTorsion D u g) (hD : IsOpen D) (hbD : Bornology.IsBounded D)
+  {a b : ℝ} (hslab : ∀ z ∈ D, a < z.im ∧ z.im < b) :
+  ∀ᵐ (z : Torsion.Plane) ∂MeasureTheory.volume.restrict D, u z ≤ Torsion.slabTorsionBarrier a b z
+Torsion.Spectral.physicalGreen_boundary_tendsto {φ : ℝ → ℝ} {C α : NNReal} (hφ : HolderWith C α φ) (hα0 : 0 < α)
+  (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0) (hpos : ∀ s ∈ Set.Ioo 0 1, 0 < φ s)
+  {v p : Torsion.Plane} (hv : v ∈ Torsion.Spectral.cauchyImage φ) (hp : p ∈ frontier (Torsion.Spectral.cauchyImage φ)) :
+  Filter.Tendsto (fun w => Torsion.Spectral.physicalGreen φ w v) (nhdsWithin p (Torsion.Spectral.cauchyImage φ))
+    (nhds 0)
+Torsion.Shape.exists_local_radial_deformation {R f : ℝ → ℝ} (hR : ContinuousOn R (Set.Icc 0 Real.pi))
+  (hRpos : ∀ θ ∈ Set.Icc 0 Real.pi, 0 < R θ) (hf : ContDiff ℝ (↑⊤) f) (hfc : HasCompactSupport f)
+  (hfU : tsupport f ⊆ Set.Ioo 0 Real.pi) :
+  ∃ V δ,
+    ContDiff ℝ (↑⊤) V ∧
+      HasCompactSupport V ∧
+        tsupport V ⊆ Torsion.upperHalfPlane ∧
+          0 < δ ∧
+            (∀ (x : ℝ), V =ᶠ[nhds ↑x] 0) ∧
+              (∀ θ ∈ Set.Ioo 0 Real.pi,
+                  V (↑(R θ) * Complex.exp (↑θ * Complex.I)) = f θ • Complex.exp (↑θ * Complex.I)) ∧
+                ∀ (t : ℝ),
+                  |t| < δ →
+                    (fun θ => R θ + t * f θ) ∈ Torsion.RadialFluxConcavity.positiveContinuousProfiles ∧
+                      ∃ e,
+                        ⇑e = Torsion.Shape.deformation V t ∧
+                          ContDiff ℝ ↑⊤ ⇑e ∧
+                            ContDiff ℝ ↑⊤ ⇑e.symm ∧
+                              ⇑e '' Torsion.radialDomain R = Torsion.radialDomain fun θ => R θ + t * f θ
+Torsion.Shape.materialSolution_hasDerivAt_zero (D : Set Torsion.Plane) (hD : MeasurableSet D)
+  (hb : Bornology.IsBounded D) {V : Torsion.Plane → Torsion.Plane} (hV : ContDiff ℝ (↑⊤) V)
+  (hVc : HasCompactSupport V) :
+  HasDerivAt (Torsion.Shape.materialSolution D hD hb hV hVc) (Torsion.Shape.materialDerivative D hD hb hV hVc) 0
+Torsion.Shape.materialDerivative_compact_test_equation (D : Set Torsion.Plane) (hD : MeasurableSet D)
+  (hb : Bornology.IsBounded D) {V : Torsion.Plane → Torsion.Plane} (hV : ContDiff ℝ (↑⊤) V) (hVc : HasCompactSupport V)
+  {ψ : Torsion.Plane → ℝ} (hψ : Torsion.IsTest D ψ) :
+  ∫ (x : Torsion.Plane),
+      inner (↑↑((Torsion.HilbertDirichlet.gradientMap D) (Torsion.Shape.materialDerivative D hD hb hV hVc)) x)
+        (gradient ψ x) =
+    (∫ (x : Torsion.Plane), Torsion.Shape.divergence V x * ψ x) -
+      ∫ (x : Torsion.Plane),
+        inner
+          ((Torsion.Shape.energyVariationOperator V x)
+            (↑↑((Torsion.HilbertDirichlet.gradientMap D) (Torsion.Shape.materialSolution D hD hb hV hVc 0)) x))
+          (gradient ψ x)
+Torsion.Shape.exists_torsionFlux_deformation_hasDerivAt {D : Set Torsion.Plane} (hD : Torsion.IsMarked D)
+  {V : Torsion.Plane → Torsion.Plane} (hV : ContDiff ℝ (↑⊤) V) (hVc : HasCompactSupport V)
+  (hVU : tsupport V ⊆ Torsion.upperHalfPlane) (hzero : V =ᶠ[nhds 0] fun x => 0) :
+  ∃ r,
+    0 < r ∧
+      Torsion.upperHalfPlane ∩ Metric.ball 0 (4 * r) ⊆ D ∧
+        (∀ z ∈ Metric.ball 0 (4 * r), V =ᶠ[nhds z] fun x => 0) ∧
+          HasDerivAt (fun t => Torsion.torsionFlux (Torsion.Shape.deformation V t '' D))
+            (Torsion.markedGradientFlux r
+              ↑↑((Torsion.HilbertDirichlet.gradientMap D) (Torsion.Shape.materialDerivative D ⋯ ⋯ hV hVc)))
+            0
+Torsion.Shape.exists_local_radialFlux_hasDerivAt {R f : ℝ → ℝ} (hR : ContinuousOn R (Set.Icc 0 Real.pi))
+  (hRpos : ∀ θ ∈ Set.Icc 0 Real.pi, 0 < R θ) (hf : ContDiff ℝ (↑⊤) f) (hfc : HasCompactSupport f)
+  (hfU : tsupport f ⊆ Set.Ioo 0 Real.pi) :
+  ∃ V,
+    ∃ (hV : ContDiff ℝ (↑⊤) V) (hVc : HasCompactSupport V),
+      ∃ r,
+        tsupport V ⊆ Torsion.upperHalfPlane ∧
+          0 < r ∧
+            (∀ θ ∈ Set.Ioo 0 Real.pi, V (↑(R θ) * Complex.exp (↑θ * Complex.I)) = f θ • Complex.exp (↑θ * Complex.I)) ∧
+              Torsion.upperHalfPlane ∩ Metric.ball 0 (4 * r) ⊆ Torsion.radialDomain R ∧
+                (∀ z ∈ Metric.ball 0 (4 * r), V =ᶠ[nhds z] fun x => 0) ∧
+                  HasDerivAt (fun t => Torsion.torsionFlux (Torsion.radialDomain fun θ => R θ + t * f θ))
+                    (Torsion.markedGradientFlux r
+                      ↑↑((Torsion.HilbertDirichlet.gradientMap (Torsion.radialDomain R))
+                            (Torsion.Shape.materialDerivative (Torsion.radialDomain R) ⋯ ⋯ hV hVc)))
+                    0
+Torsion.Spectral.shapeCorrection_memH10 {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (ha : 0 < a) (hφ : HolderWith C α φ) (hα0 : 0 < α)
+  (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0) (hpos : ∀ s ∈ Set.Ioo 0 1, 0 < φ s)
+  (hlinear : ∀ s ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ s = a * Torsion.Spectral.height φ s - b)
+  {V : Torsion.Plane → Torsion.Plane} (hV : ContDiff ℝ (↑⊤) V) (hVc : HasCompactSupport V)
+  (hVU : tsupport V ⊆ Torsion.upperHalfPlane) :
+  Torsion.MemH10 (Torsion.Spectral.cauchyImage φ) (Torsion.Spectral.shapeCorrectionZeroExtension a φ V)
+    (Torsion.Spectral.shapeCorrectionZeroGradient a φ V)
+Torsion.Spectral.torsionFlux_cauchy_deformation_hasDerivAt {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (ha : 0 < a) (hφ : HolderWith C α φ) (hα0 : 0 < α)
+  (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0) (hpos : ∀ s ∈ Set.Ioo 0 1, 0 < φ s)
+  (hlinear : ∀ s ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ s = a * Torsion.Spectral.height φ s - b)
+  {V : Torsion.Plane → Torsion.Plane} (hV : ContDiff ℝ (↑⊤) V) (hVc : HasCompactSupport V)
+  (hVU : tsupport V ⊆ Torsion.upperHalfPlane) :
+  HasDerivAt (fun t => Torsion.torsionFlux (Torsion.Shape.deformation V t '' Torsion.Spectral.cauchyImage φ))
+    ((∫ (s : ℝ) in Set.Icc (-1) 1, Torsion.Spectral.shapeBoundaryData a φ V s) / Torsion.Spectral.mass φ) 0
+Torsion.Spectral.torsionFlux_cauchy_boundary_hadamard {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (ha : 0 < a) (hφ : HolderWith C α φ) (hα0 : 0 < α)
+  (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (s : ℝ), 1 ≤ |s| → φ s = 0) (hpos : ∀ s ∈ Set.Ioo 0 1, 0 < φ s)
+  (hlinear : ∀ s ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ s = a * Torsion.Spectral.height φ s - b)
+  {V : Torsion.Plane → Torsion.Plane} (hV : ContDiff ℝ (↑⊤) V) (hVc : HasCompactSupport V)
+  (hVU : tsupport V ⊆ Torsion.upperHalfPlane) :
+  HasDerivAt (fun t => Torsion.torsionFlux (Torsion.Shape.deformation V t '' Torsion.Spectral.cauchyImage φ))
+    (∫ (s : ℝ) in Set.Icc (-1) 1,
+      ‖Torsion.Spectral.cauchyDerivativeExtension φ ↑s‖ / (2 * a) *
+            (1 / (Torsion.Spectral.mass φ * ‖Torsion.Spectral.cauchyDerivativeExtension φ ↑s‖)) *
+          inner (V (Torsion.Spectral.cauchyExtension φ ↑s)) (Torsion.Spectral.cauchyOutwardNormal φ s) *
+        ‖Torsion.Spectral.cauchyDerivativeExtension φ ↑s‖)
+    0
+Torsion.Spectral.cauchy_radial_torsionFlux_hasDerivAt {a b : ℝ} {φ : ℝ → ℝ} {C α : NNReal}
+  (hEig : Torsion.Spectral.IsRestrictedEigenfunction a φ) (ha : 0 < a) (hφ : HolderWith C α φ) (hα0 : 0 < α)
+  (hα1 : α ≤ 1) (hodd : Function.Odd φ) (hzero : ∀ (x : ℝ), 1 ≤ |x| → φ x = 0) (hpos : ∀ x ∈ Set.Ioo 0 1, 0 < φ x)
+  (hlinear : ∀ x ∈ Set.Ioo (-1) 1, Torsion.Spectral.realCauchyBoundaryRe φ x = a * Torsion.Spectral.height φ x - b)
+  (hc : ConcaveOn ℝ (Set.Ioo 0 1) φ) (hd : ∀ x ∈ Set.Ioo 0 1, DifferentiableAt ℝ φ x) (f : ℝ → ℝ)
+  (hf : ContDiff ℝ (↑⊤) f) (hfc : HasCompactSupport f) (hfU : tsupport f ⊆ Set.Ioo 0 Real.pi) :
+  HasDerivAt
+    (fun t =>
+      Torsion.torsionFlux
+        (Torsion.radialDomain fun θ =>
+          (Torsion.ContinuousProfiles.extend
+                (Torsion.Spectral.cauchyRadialProfile ha hφ hα0 hα1 hodd hzero hpos hlinear hc hd))
+              θ +
+            t * f θ))
+    (1 / (2 * a * Torsion.Spectral.mass φ) *
+      ∫ (θ : ℝ) in Set.Ioo 0 Real.pi,
+        (Torsion.ContinuousProfiles.extend
+              (Torsion.Spectral.cauchyRadialProfile ha hφ hα0 hα1 hodd hzero hpos hlinear hc hd))
+            θ *
+          f θ)
+    0
+Torsion.Spectral.second_localized_hadamard (f : ℝ → ℝ) (hf : ContDiff ℝ (↑⊤) f) (hfc : HasCompactSupport f)
+  (hfU : tsupport f ⊆ Set.Ioo 0 Real.pi) :
+  HasDerivAt
+    (fun t =>
+      Torsion.torsionFlux
+        (Torsion.radialDomain fun θ =>
+          (Torsion.ContinuousProfiles.extend Torsion.Spectral.secondRadialProfile) θ + t * f θ))
+    (∫ (θ : ℝ) in Set.Ioo 0 Real.pi,
+      Torsion.Spectral.secondMoments.stationarity *
+          (Torsion.ContinuousProfiles.extend Torsion.Spectral.secondRadialProfile) θ *
+        f θ)
+    0
+Torsion.Spectral.second_radial_calibration (R : Torsion.ContinuousProfiles.Profile)
+  (hR : ∀ (θ : ↑Torsion.ContinuousProfiles.Angle), 0 < R θ) :
+  Torsion.torsionFlux (Torsion.radialDomain ⇑(Torsion.ContinuousProfiles.extend R)) ≤
+    inner Torsion.Spectral.secondCalibrationDensity (Torsion.ContinuousProfiles.embed R)
+Torsion.Spectral.second_radial_bound (R : Torsion.ContinuousProfiles.Profile)
+  (hR : ∀ (θ : ↑Torsion.ContinuousProfiles.Angle), 0 < R θ) :
+  Torsion.torsionFlux (Torsion.radialDomain ⇑(Torsion.ContinuousProfiles.extend R)) ≤
+    Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction *
+      √(Torsion.radialArea ⇑(Torsion.ContinuousProfiles.extend R))
+Torsion.ConvexDomain.exists_nearest_supported_frontier (D : Torsion.ConvexDomain) {x : Torsion.Plane}
+  (hx : x ∈ D.carrier) :
+  ∃ p ∈ frontier D.carrier,
+    0 < Metric.infDist x D.carrierᶜ ∧
+      ‖x - p‖ = Metric.infDist x D.carrierᶜ ∧
+        ‖(Metric.infDist x D.carrierᶜ)⁻¹ • (x - p)‖ = 1 ∧
+          ∀ z ∈ D.carrier, 0 < inner ((Metric.infDist x D.carrierᶜ)⁻¹ • (x - p)) (z - p)
+Torsion.ConvexDomain.exists_marked_flat_outer (D : Torsion.ConvexDomain) (hDU : D.carrier ⊆ Torsion.upperHalfPlane)
+  (hzero : 0 ∈ closure D.carrier) {ε : ℝ} (hε : 0 < ε) :
+  ∃ E, Torsion.IsMarked E.carrier ∧ D.carrier ⊆ E.carrier ∧ E.carrier ⊆ Metric.thickening ε D.carrier
+Torsion.DirichletTheory.G_isometryPreimage (T : Torsion.DirichletTheory) (D : Torsion.ConvexDomain)
+  (e : Torsion.Plane ≃ₗᵢ[ℝ] Torsion.Plane) : T.G (D.isometryPreimage e) = T.G D
+Torsion.IsWeakTorsion.exists_continuous_smooth_representative {D : Torsion.ConvexDomain} {u : Torsion.Plane → ℝ}
+  {g : Torsion.Plane → Torsion.Plane} (hu : Torsion.IsWeakTorsion D.carrier u g) :
+  ∃ U,
+    Continuous U ∧
+      ContDiffOn ℝ (↑⊤) U D.carrier ∧
+        (∀ x ∉ D.carrier, U x = 0) ∧
+          (∀ (x : Torsion.Plane), 0 ≤ U x) ∧
+            u =ᵐ[MeasureTheory.volume.restrict D.carrier] U ∧ g =ᵐ[MeasureTheory.volume.restrict D.carrier] gradient U
+Torsion.IsWeakTorsion.lipschitzWith_of_boundary_collar_approx {D : Set Torsion.Plane} {u U : Torsion.Plane → ℝ}
+  {g : Torsion.Plane → Torsion.Plane} (hu : Torsion.IsWeakTorsion D u g) (hD : IsOpen D) (hb : Bornology.IsBounded D)
+  (hc : Continuous U) (hs : ContDiffOn ℝ (↑⊤) U D) (hgrad : g =ᵐ[MeasureTheory.volume.restrict D] gradient U)
+  (hzero : ∀ x ∉ D, U x = 0) (hpos : ∀ (x : Torsion.Plane), 0 ≤ U x) {L : NNReal}
+  (hcollar :
+    ∀ (ε : NNReal), 0 < ε → ∃ δ, 0 < δ ∧ ∀ x ∈ D, Metric.infDist x Dᶜ < δ → U x ≤ ↑(L + ε) * Metric.infDist x Dᶜ) :
+  LipschitzWith L U
+Torsion.IsWeakTorsion.gradient_bound_of_boundary_collar_approx {D : Set Torsion.Plane} {u U : Torsion.Plane → ℝ}
+  {g : Torsion.Plane → Torsion.Plane} (hu : Torsion.IsWeakTorsion D u g) (hD : IsOpen D) (hb : Bornology.IsBounded D)
+  (hc : Continuous U) (hs : ContDiffOn ℝ (↑⊤) U D) (hgrad : g =ᵐ[MeasureTheory.volume.restrict D] gradient U)
+  (hrep : u =ᵐ[MeasureTheory.volume.restrict D] U) (hzero : ∀ x ∉ D, U x = 0) (hpos : ∀ (x : Torsion.Plane), 0 ≤ U x)
+  {L : NNReal}
+  (hcollar :
+    ∀ (ε : NNReal), 0 < ε → ∃ δ, 0 < δ ∧ ∀ x ∈ D, Metric.infDist x Dᶜ < δ → U x ≤ (↑L + ↑ε) * Metric.infDist x Dᶜ) :
+  MeasureTheory.eLpNorm g ⊤ (MeasureTheory.volume.restrict D) ≤ ↑L
+Torsion.HasMarkedFlux.le_second_spectral_bound {D : Torsion.ConvexDomain} {u : Torsion.Plane → ℝ}
+  {g : Torsion.Plane → Torsion.Plane} {q : ℝ} (hq : Torsion.HasMarkedFlux u q)
+  (hu : Torsion.IsWeakTorsion D.carrier u g) (huc : ContinuousOn u D.carrier) (hzero : 0 ∈ closure D.carrier)
+  (hhalf : D.carrier ⊆ Torsion.upperHalfPlane)
+  (hline : ∀ᶠ (t : ℝ) in nhdsWithin 0 (Set.Ioi 0), ↑t * Complex.I ∈ D.carrier) :
+  q ≤ Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction * √D.area
+Torsion.exists_uniform_slab_marked_torsion_normal_quotient_constant_on_representative {r : ℝ} (hr : 0 < r) :
+  ∃ C,
+    0 < C ∧
+      ∀ {D : Set Torsion.Plane} {u W : Torsion.Plane → ℝ} {g : Torsion.Plane → Torsion.Plane} {b : ℝ},
+        Torsion.IsMarked D →
+          Torsion.IsWeakTorsion D u g →
+            0 ≤ b →
+              Torsion.upperHalfPlane ∩ Metric.ball 0 (4 * r) ⊆ D →
+                (∀ z ∈ D, z.im < b) →
+                  ContinuousOn W D →
+                    u =ᵐ[MeasureTheory.volume.restrict D] W →
+                      ∀ (h : ℝ),
+                        0 < h →
+                          h < r / 2 →
+                            |W (↑h * Complex.I) / h - Torsion.torsionFlux D| ≤ (C * (2 * r * b + 8 * r ^ 2) + 1 / 2) * h
+Torsion.exists_uniform_second_supported_normal_bound {A h M b : ℝ} (_hA : 0 ≤ A) (hh : 0 < h) (hM : 0 ≤ M) (hb : 0 ≤ b)
+  {ε : ℝ} (hε : 0 < ε) :
+  ∃ δ,
+    0 < δ ∧
+      ∀ {D : Torsion.ConvexDomain} {a : Torsion.Plane} {u U : Torsion.Plane → ℝ} {g : Torsion.Plane → Torsion.Plane},
+        D.area = A →
+          D.carrier ⊆ Torsion.upperHalfPlane →
+            0 ∈ closure D.carrier →
+              a ∈ D.carrier →
+                Metric.ball a h ⊆ D.carrier →
+                  h ≤ a.im →
+                    ‖a‖ ≤ M →
+                      (∀ z ∈ D.carrier, z.im ≤ b) →
+                        Torsion.IsWeakTorsion D.carrier u g →
+                          ContinuousOn U D.carrier →
+                            u =ᵐ[MeasureTheory.volume.restrict D.carrier] U →
+                              ∀ (t : ℝ),
+                                0 < t →
+                                  t < δ →
+                                    ↑t * Complex.I ∈ D.carrier →
+                                      U (↑t * Complex.I) ≤
+                                        (Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue
+                                                Torsion.Spectral.secondEigenfunction *
+                                              √A +
+                                            ε) *
+                                          t
+Torsion.IsWeakTorsion.second_boundary_collar {D : Torsion.ConvexDomain} {u U : Torsion.Plane → ℝ}
+  {g : Torsion.Plane → Torsion.Plane} (hu : Torsion.IsWeakTorsion D.carrier u g) (hc : Continuous U)
+  (hrep : u =ᵐ[MeasureTheory.volume.restrict D.carrier] U) (hzero : ∀ x ∉ D.carrier, U x = 0) {ε : ℝ} (hε : 0 < ε) :
+  ∃ δ,
+    0 < δ ∧
+      ∀ x ∈ D.carrier,
+        Metric.infDist x D.carrierᶜ < δ →
+          U x ≤
+            (Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction *
+                  √D.area +
+                ε) *
+              Metric.infDist x D.carrierᶜ
+Torsion.DirichletTheory.G_le_second_spectral_bound (T : Torsion.DirichletTheory) (D : Torsion.ConvexDomain) :
+  T.G D ≤
+    ENNReal.ofReal
+      (Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction *
+        √D.area)
+Torsion.second_universal (D : Torsion.ConvexDomain) :
+  Torsion.torsionTheory.G D ≤
+    ENNReal.ofReal (2 * Torsion.Spectral.secondMoments.stationarity * √Torsion.Spectral.secondMoments.area * √D.area)
+Torsion.secondReferenceCertificate : Torsion.ReferenceCertificate Torsion.torsionTheory Torsion.Spectral.secondMoments
+Torsion.secondSpectralBridge :
+  Torsion.SpectralBridge Torsion.torsionTheory Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction
+Torsion.second_exact_value :
+  Torsion.torsionTheory.cStar =
+      ENNReal.ofReal
+        (Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction) ∧
+    ∃ D,
+      D.carrier =
+          Torsion.Spectral.normalizedImage Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction ∧
+        D.area = 1 ∧
+          Torsion.torsionTheory.G D =
+            ENNReal.ofReal
+              (Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue Torsion.Spectral.secondEigenfunction)
+structure Torsion.ReferenceCertificate (T : Torsion.DirichletTheory) (d : Torsion.Moments) : Type
+number of parameters: 2
+fields:
+  Torsion.ReferenceCertificate.domain : Torsion.ConvexDomain
+  Torsion.ReferenceCertificate.area_eq : self.domain.area = d.area
+  Torsion.ReferenceCertificate.marked_lower : ENNReal.ofReal d.flux ≤ T.G self.domain
+  Torsion.ReferenceCertificate.universal : ∀ (D : Torsion.ConvexDomain),
+      T.G D ≤ ENNReal.ofReal (2 * d.stationarity * √d.area * √D.area)
+constructor:
+  Torsion.ReferenceCertificate.mk {T : Torsion.DirichletTheory} {d : Torsion.Moments} (domain : Torsion.ConvexDomain)
+    (area_eq : domain.area = d.area) (marked_lower : ENNReal.ofReal d.flux ≤ T.G domain)
+    (universal : ∀ (D : Torsion.ConvexDomain), T.G D ≤ ENNReal.ofReal (2 * d.stationarity * √d.area * √D.area)) :
+    Torsion.ReferenceCertificate T d
+structure Torsion.SpectralBridge (T : Torsion.DirichletTheory) (a : ℝ) (φ : ℝ → ℝ) : Type
+number of parameters: 3
+fields:
+  Torsion.SpectralBridge.moments : Torsion.Moments
+  Torsion.SpectralBridge.eigenvalue_eq : self.moments.a = a
+  Torsion.SpectralBridge.mass_eq : self.moments.M = Torsion.Spectral.mass φ
+  Torsion.SpectralBridge.squareMass_eq : self.moments.N = Torsion.Spectral.squareMass φ
+  Torsion.SpectralBridge.reference : Torsion.ReferenceCertificate T self.moments
+  Torsion.SpectralBridge.image_eq : self.reference.domain.carrier = Torsion.Spectral.cauchy φ '' Torsion.upperHalfPlane
+constructor:
+  Torsion.SpectralBridge.mk {T : Torsion.DirichletTheory} {a : ℝ} {φ : ℝ → ℝ} (moments : Torsion.Moments)
+    (eigenvalue_eq : moments.a = a) (mass_eq : moments.M = Torsion.Spectral.mass φ)
+    (squareMass_eq : moments.N = Torsion.Spectral.squareMass φ) (reference : Torsion.ReferenceCertificate T moments)
+    (image_eq : reference.domain.carrier = Torsion.Spectral.cauchy φ '' Torsion.upperHalfPlane) :
+    Torsion.SpectralBridge T a φ
+Audited 3587 project theorems: only propext, Classical.choice, Quot.sound allowed.

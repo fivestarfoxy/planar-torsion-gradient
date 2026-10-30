@@ -1,0 +1,88 @@
+⚠ [3295/3407] Replayed Torsion.HalfPlaneGreen
+warning: ././././Torsion/HalfPlaneGreen.lean:101:51: this tactic is never executed
+note: this linter can be disabled with `set_option linter.unreachableTactic false`
+warning: ././././Torsion/HalfPlaneGreen.lean:101:51: 'simp' tactic does nothing
+note: this linter can be disabled with `set_option linter.unusedTactic false`
+info: ././././Torsion/HalfPlaneGreen.lean:301:4: Try this: ring_nf
+warning: ././././Torsion/HalfPlaneGreen.lean:285:27: this tactic is never executed
+note: this linter can be disabled with `set_option linter.unreachableTactic false`
+warning: ././././Torsion/HalfPlaneGreen.lean:289:27: this tactic is never executed
+note: this linter can be disabled with `set_option linter.unreachableTactic false`
+warning: ././././Torsion/HalfPlaneGreen.lean:285:27: 'ring' tactic does nothing
+note: this linter can be disabled with `set_option linter.unusedTactic false`
+warning: ././././Torsion/HalfPlaneGreen.lean:289:27: 'ring' tactic does nothing
+note: this linter can be disabled with `set_option linter.unusedTactic false`
+warning: ././././Torsion/HalfPlaneGreen.lean:285:14: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+note: this linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ././././Torsion/HalfPlaneGreen.lean:289:14: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+note: this linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3299/3407] Replayed Torsion.HalfPlaneGreenSource
+warning: ././././Torsion/HalfPlaneGreenSource.lean:48:34: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+note: this linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ././././Torsion/HalfPlaneGreenSource.lean:48:66: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+note: this linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3300/3407] Replayed Torsion.PhysicalCauchyGreen
+warning: ././././Torsion/PhysicalCauchyGreen.lean:180:17: unused variable `hw`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3325/3407] Replayed Torsion.ShapeCoefficients
+warning: ././././Torsion/ShapeCoefficients.lean:118:22: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+note: this linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ././././Torsion/ShapeCoefficients.lean:128:22: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+note: this linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ././././Torsion/ShapeCoefficients.lean:135:44: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+note: this linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ././././Torsion/ShapeCoefficients.lean:136:66: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+note: this linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ././././Torsion/ShapeCoefficients.lean:138:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+note: this linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ././././Torsion/ShapeCoefficients.lean:138:89: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+note: this linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3339/3407] Replayed Torsion.CauchyShapeBoundaryData
+warning: ././././Torsion/CauchyShapeBoundaryData.lean:70:4: try 'simp at hpos' instead of 'simpa using hpos'
+note: this linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3342/3407] Replayed Torsion.PhysicalCauchyHarmonicBound
+warning: ././././Torsion/PhysicalCauchyHarmonicBound.lean:35:6: try 'simp at hp' instead of 'simpa using hp'
+note: this linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: ././././Torsion/PhysicalCauchyHarmonicBound.lean:92:38: try 'simp at hz' instead of 'simpa using hz'
+note: this linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3344/3407] Replayed Torsion.CauchyShapeBoundaryTrace
+warning: ././././Torsion/CauchyShapeBoundaryTrace.lean:115:6: try 'simp at hlt' instead of 'simpa using hlt'
+note: this linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3359/3407] Replayed Torsion.ShapeMaterialIdentification
+warning: ././././Torsion/ShapeMaterialIdentification.lean:22:4: try 'simp' instead of 'simpa'
+note: this linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3366/3407] Replayed Torsion.RadialDeformationField
+warning: ././././Torsion/RadialDeformationField.lean:103:2: try 'simp at h' instead of 'simpa using h'
+note: this linter can be disabled with `set_option linter.unnecessarySimpa false`
+✔ [3380/3407] Built Torsion.RealTaylorBound
+✔ [3381/3407] Built Torsion.ConvolutionDerivativeBounds
+✔ [3382/3407] Built Torsion.WeakTorsionInterior
+✔ [3383/3407] Built Torsion.WeakTranslationLipschitz
+✔ [3384/3407] Built Torsion.ConvexGaugeRadial
+⚠ [3385/3407] Built Torsion.LocalHarmonicBound
+warning: ././././Torsion/LocalHarmonicBound.lean:22:13: unused variable `hM`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+✔ [3386/3407] Built Torsion.SupportedConvexFlatHull
+✔ [3387/3407] Built Torsion.SobolevIsometry
+✔ [3388/3407] Built Torsion.BoundaryCollarGradient
+✔ [3389/3407] Built Torsion.ConvexSupportingRadial
+✔ [3390/3407] Built Torsion.WeakTorsionRepresentative
+✔ [3391/3407] Built Torsion.ConvexSupportingPoint
+✔ [3392/3407] Built Torsion.FlatOuterHullArea
+✔ [3393/3407] Built Torsion.HarmonicNormalTaylor
+✔ [3394/3407] Built Torsion.TorsionIsometry
+✔ [3395/3407] Built Torsion.CanonicalSupportingFlux
+⚠ [3396/3407] Built Torsion.SupportedConvexFlatHullUniform
+warning: ././././Torsion/SupportedConvexFlatHullUniform.lean:58:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+note: this linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+✔ [3397/3407] Built Torsion.NormalFrame
+✔ [3398/3407] Built Torsion.SupportingSublevelRay
+✔ [3399/3407] Built Torsion.NormalFrameFlatPatch
+✔ [3400/3407] Built Torsion.MarkedTorsionTaylor
+✔ [3401/3407] Built Torsion.ConvexTorsionContinuity
+✔ [3402/3407] Built Torsion.MarkedHullCollarComparison
+✔ [3403/3407] Built Torsion.UniformSupportedCollar
+✔ [3404/3407] Built Torsion.CanonicalUniversal
+✔ [3405/3407] Built Torsion.CanonicalOptimization
+✔ [3406/3407] Built Torsion
+Build completed successfully.
