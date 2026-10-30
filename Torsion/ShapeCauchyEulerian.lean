@@ -62,6 +62,7 @@ theorem second_negative_convection_boundary_tendsto {V : Plane → Plane}
       (𝓝 (V (cauchyExtension secondEigenfunction (t : ℂ)))) :=
     (hV.tendsto (cauchyExtension secondEigenfunction (t : ℂ))).mono_left nhdsWithin_le_nhds
   have h := (hv.inner hg (𝕜 := ℝ)).neg
-  simpa only [real_inner_smul_right, cauchyOutwardNormal, inner_neg_right, mul_neg] using h
+  simpa only [secondCauchyDomain_carrier, real_inner_smul_right,
+    cauchyOutwardNormal, inner_neg_right, mul_neg] using h
 
 end Torsion.Spectral

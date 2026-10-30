@@ -25,9 +25,9 @@ theorem fundamental_pairing_integrable_at {D : Set Plane} {ψ : Plane → ℝ}
   have hη := hψ.translatedValue (-w)
   have hI := (fundamental_pairing_integrable hη).comp_add_right (-w)
   apply hI.congr
-  filter_upwards [(countable_singleton w).ae_not_mem volume] with z hz
+  filter_upwards [(countable_singleton w).ae_notMem volume] with z hz
   have hz : z ≠ w := by simpa using hz
-  have hzw : z + -w ≠ 0 := by simpa using sub_ne_zero.mpr hz
+  have hzw : z + -w ≠ 0 := by simpa only [sub_eq_add_neg] using sub_ne_zero.mpr hz
   rw [(fundamental_hasGradientAt hzw).gradient, (fundamental_hasGradientAt hz).gradient]
   have hgrad : gradient η (z + -w) = gradient ψ z := by
     simpa [translatedValue, sub_neg_eq_add, add_assoc] using
@@ -46,7 +46,7 @@ theorem fundamental_weak_source_at {D : Set Plane} {ψ : Plane → ℝ}
       (∫ z : Plane, inner (𝕜 := ℝ) (gradient (fundamental w) (z+w)) (gradient ψ (z+w))) =
       ∫ z : Plane, inner (𝕜 := ℝ) (gradient (fundamental 0) z) (gradient η z) := by
     apply integral_congr_ae
-    filter_upwards [(countable_singleton (0 : Plane)).ae_not_mem volume] with z hz
+    filter_upwards [(countable_singleton (0 : Plane)).ae_notMem volume] with z hz
     have hz : z ≠ 0 := by simpa using hz
     have hzw : z+w ≠ w := by simpa using hz
     rw [(fundamental_hasGradientAt hzw).gradient,
@@ -77,8 +77,8 @@ theorem green_pairing_integrable {D : Set Plane} {ψ : Plane → ℝ}
       (gradient (fun u => green u w) z) (gradient ψ z)) := by
   apply ((fundamental_pairing_integrable_at hψ w).sub
     (fundamental_pairing_integrable_at hψ (star w))).congr
-  filter_upwards [(countable_singleton w).ae_not_mem volume,
-    (countable_singleton (star w)).ae_not_mem volume] with z hp hr
+  filter_upwards [(countable_singleton w).ae_notMem volume,
+    (countable_singleton (star w)).ae_notMem volume] with z hp hr
   have hp : z ≠ w := by simpa using hp
   have hr : z ≠ star w := by simpa using hr
   rw [green_gradient_sub_fundamental hp hr, inner_sub_left]
@@ -95,8 +95,8 @@ theorem green_weak_sources {D : Set Plane} {ψ : Plane → ℝ}
         inner (𝕜 := ℝ) (gradient (fundamental w) z) (gradient ψ z) -
         inner (𝕜 := ℝ) (gradient (fundamental (star w)) z) (gradient ψ z) := by
       apply integral_congr_ae
-      filter_upwards [(countable_singleton w).ae_not_mem volume,
-        (countable_singleton (star w)).ae_not_mem volume] with z hp hr
+      filter_upwards [(countable_singleton w).ae_notMem volume,
+        (countable_singleton (star w)).ae_notMem volume] with z hp hr
       have hp : z ≠ w := by simpa using hp
       have hr : z ≠ star w := by simpa using hr
       rw [green_gradient_sub_fundamental hp hr, inner_sub_left]

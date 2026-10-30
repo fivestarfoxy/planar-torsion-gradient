@@ -57,7 +57,9 @@ theorem flatOuterHull_subset_upper_height {D : Set Plane} {b : ℝ}
     exact hb
   have hh := convexHull_min (union_subset hcl hbase) (convex_halfSpace_im_le b)
   have hi := interior_mono hh
-  simpa only [flatOuterHull, Complex.interior_setOf_im_le] using hi
+  intro z hz
+  have hzi : z ∈ interior {z : Plane | z.im ≤ b} := hi hz
+  simpa only [Complex.interior_setOf_im_le, Set.mem_setOf_eq] using hzi
 
 /-- The actual continuous original torsion representative at a common
 normal-ray point is bounded by the sharp spectral area term and a uniform

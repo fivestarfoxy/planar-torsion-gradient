@@ -25,7 +25,7 @@ theorem green_tendsto_zero_of_norm_tendsto {ι : Type*} {l : Filter ι}
     Tendsto (fun i => green (z i) w) l (𝓝 0) := by
   have hi : Tendsto (fun i => (z i)⁻¹) l (𝓝 (0 : Plane)) := by
     apply tendsto_zero_iff_norm_tendsto_zero.mpr
-    simpa only [norm_inv] using tendsto_inv_atTop_zero.comp hz
+    simpa only [norm_inv, Function.comp_apply] using! tendsto_inv_atTop_zero.comp hz
   have ha : Tendsto (fun i => 1 - star w * (z i)⁻¹) l (𝓝 (1 : Plane)) := by
     simpa using tendsto_const_nhds.sub (hi.const_mul (star w))
   have hb : Tendsto (fun i => 1 - w * (z i)⁻¹) l (𝓝 (1 : Plane)) := by

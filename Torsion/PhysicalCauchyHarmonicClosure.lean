@@ -32,7 +32,7 @@ theorem poisson_closedHalfPlane_tendsto_zero {g : ℝ → ℝ}
   have hs : IsClosed {z : Plane | 0 ≤ z.im} := isClosed_le continuous_const Complex.continuous_im
   have hsub : Tendsto (fun z : CauchyClosedHalfPlane => (z : Plane))
       (coclosedCompact CauchyClosedHalfPlane) (cocompact Plane) := by
-    simpa only [coclosedCompact_eq_cocompact] using hs.isClosedEmbedding_subtypeVal.tendsto_cocompact
+    simpa only [coclosedCompact_eq_cocompact, CauchyClosedHalfPlane] using! hs.isClosedEmbedding_subtypeVal.tendsto_cocompact
   have hn : Tendsto (fun z : CauchyClosedHalfPlane => ‖(z : Plane)‖)
       (coclosedCompact CauchyClosedHalfPlane) atTop := tendsto_norm_cocompact_atTop.comp hsub
   have hC : Tendsto (fun z : CauchyClosedHalfPlane => realCauchy g (z : Plane))

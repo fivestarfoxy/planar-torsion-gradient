@@ -89,7 +89,7 @@ theorem shapeCorrection_gradient
       (gradient (fun z => inner (𝕜 := ℝ) (V z) (gradient (physicalCandidate φ) z)) w +
         gradient (physicalHarmonicLift φ (shapeBoundaryData a φ V)) w) w := by
     apply hasGradientAt_iff_hasFDerivAt.mpr
-    simpa only [map_add] using
+    simpa only [map_add, shapeCorrection, Pi.add_def] using!
       ((hconv.differentiableAt (by simp)).hasGradientAt.hasFDerivAt.add
         (hlift.differentiableAt (by simp)).hasGradientAt.hasFDerivAt)
   exact h.gradient

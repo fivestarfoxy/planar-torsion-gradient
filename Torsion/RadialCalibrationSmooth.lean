@@ -50,7 +50,7 @@ theorem compact_calibration_of_smooth_perturbations {R₀ S γ : ℝ → ℝ}
     simpa [ε] using mul_le_mul_of_nonneg_left hinv (by positivity : 0 ≤ m / 2)
   have hεlim : Tendsto ε atTop (𝓝 0) := by
     have hi : Tendsto (fun n : ℕ => 1 / ((n : ℝ) + 1)) atTop (𝓝 0) := by
-      simpa only [one_div] using tendsto_inv_atTop_zero.comp
+      simpa only [one_div, Function.comp_apply] using! tendsto_inv_atTop_zero.comp
         (Filter.tendsto_atTop_add_const_right atTop (1 : ℝ) tendsto_natCast_atTop_atTop)
     simpa [ε] using hi.const_mul (m / 2)
   choose g hgs hgc hgu hga using fun n =>
@@ -88,7 +88,7 @@ theorem compact_calibration_of_smooth_perturbations {R₀ S γ : ℝ → ℝ}
         measurableSet_Ioo) hb
     · intro n
       filter_upwards [ae_restrict_mem measurableSet_Ioo] with θ hθ
-      rw [Real.norm_eq_abs, abs_mul]
+      rw [Real.norm_eq_abs, Pi.mul_apply, abs_mul]
       apply mul_le_mul_of_nonneg_left _ (abs_nonneg _)
       have he : |T n θ - S θ| ≤ m :=
         (herr n θ ⟨hθ.1.le, hθ.2.le⟩).le.trans ((hεm n).trans (by linarith))

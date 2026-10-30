@@ -50,7 +50,7 @@ theorem MemRestrictedFormDomain.height_extension_second_derivative
     filter_upwards [Metric.isOpen_ball.mem_nhds hzball, hHopen.mem_nhds hzH] with w hwb hwH
     exact hDpoint w hwb hwH
   rw [heqD.deriv_eq]
-  simpa only [neg_mul] using
+  simpa only [neg_mul, Pi.neg_apply] using!
     (hasDerivAt_realCauchy_of_integrable hf.integrable.integrableOn hzH).neg.deriv
 
 /-- At a hypothetical nonnegative interior zero, the actual original
@@ -75,9 +75,9 @@ theorem IsRestrictedEigenfunction.integral_div_sq_eq_zero_of_regularEigenfunctio
     hz.eventually (Metric.ball_mem_nhds (x : ℂ) hr)
   have hzH : ∀ᶠ y : ℝ in 𝓝[>] 0, z y ∈ upperHalfPlane := by
     filter_upwards [self_mem_nhdsWithin] with y hy
-    simpa only [z, upperHalfPlane, mem_setOf_eq, Complex.add_im, Complex.ofReal_im,
+    simpa only [z, upperHalfPlane, mem_ofPred_eq, mem_Ioi, Complex.add_im, Complex.ofReal_im,
       Complex.mul_im, Complex.ofReal_re, Complex.I_im, Complex.I_re, mul_one,
-      zero_mul, add_zero, zero_add] using hy
+      zero_mul, add_zero, zero_add] using! hy
   have hAc : ContinuousAt (deriv (deriv A)) (x : ℂ) :=
     (((hAd.analyticOnNhd Metric.isOpen_ball).deriv.deriv) (x : ℂ)
       (Metric.mem_ball_self hr)).continuousAt

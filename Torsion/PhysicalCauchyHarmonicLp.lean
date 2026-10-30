@@ -70,7 +70,7 @@ theorem physicalHarmonicLift_memLp {φ g : ℝ → ℝ} {p : ℝ≥0∞}
   have hU := cauchyImage_isOpen hφ hodd hzero hpos
   have hb := cauchy_image_isBounded hφ hodd hzero
   haveI : IsFiniteMeasure (volume.restrict (cauchyImage φ)) :=
-    ⟨by simpa only [Measure.restrict_apply_univ] using hb.measure_lt_top⟩
+    ⟨by simpa only [Measure.restrict_apply_univ, cauchyImage] using hb.measure_lt_top⟩
   obtain ⟨B, _, hB⟩ := physicalHarmonicLift_exists_norm_bound (φ := φ) hg hgc hgs
   apply MemLp.of_bound
     ((physicalHarmonicLift_continuousOn hφ hodd hzero hpos hg.continuous).aestronglyMeasurable
@@ -92,7 +92,7 @@ theorem physicalHarmonicLift_gradient_memLp
   have hU := cauchyImage_isOpen hc hodd hzero hpos
   have hb := cauchy_image_isBounded hc hodd hzero
   haveI : IsFiniteMeasure (volume.restrict (cauchyImage φ)) :=
-    ⟨by simpa only [Measure.restrict_apply_univ] using hb.measure_lt_top⟩
+    ⟨by simpa only [Measure.restrict_apply_univ, cauchyImage] using hb.measure_lt_top⟩
   obtain ⟨B, _, hB⟩ := physicalHarmonicLift_gradient_exists_norm_bound ha hφ hα0 hα1
     hodd hzero hpos hlinear hg hgc hgs
   apply MemLp.of_bound

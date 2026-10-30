@@ -97,7 +97,6 @@ theorem physicalHarmonicLift_gradient_exists_norm_bound
     rw [hEe z hz, cauchyDerivativeExtension_eq hc hodd hzero hz]
     have hzne : z ≠ 0 := by intro hn; simpa [upperHalfPlane, hn] using hz
     field_simp [hzne, cauchy_derivative_ne_zero hc hodd hzero hpos hz]
-    ring
   obtain ⟨B, hB0, hB⟩ := bound_of_continuousOn_closure_tendsto_infinity hF hFlim
   refine ⟨B, hB0, ?_⟩
   rintro _ ⟨z, hz, rfl⟩

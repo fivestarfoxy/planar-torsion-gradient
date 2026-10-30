@@ -35,7 +35,7 @@ theorem IsWeakTorsion.exists_distance_bound_on_representative
   obtain ⟨R, hR, hRD⟩ := D.bounded.closure.subset_ball_lt 0 (0 : Plane)
   let B : ℝ := 2 * R + 1
   have hB : 0 < B := by dsimp [B]; linarith
-  refine ⟨⟨B / 2, (half_pos hB).le⟩, ?_⟩
+  refine ⟨NNReal.mk (B / 2) (half_pos hB).le, ?_⟩
   intro x hx
   obtain ⟨p, hp, hd, hnorm, hn, hs⟩ := D.exists_nearest_supported_frontier hx
   let d : ℝ := infDist x D.carrierᶜ
@@ -75,7 +75,7 @@ theorem IsWeakTorsion.exists_distance_bound_on_representative
     rw [pow_two, ← mul_assoc, inv_mul_cancel₀ hd.ne', one_mul]
   have hez : e z + p = x := by
     simp only [z, LinearIsometryEquiv.apply_symm_apply, sub_add_cancel]
-  simpa only [hez, hzim, sub_zero, NNReal.coe_mk] using hbd
+  simpa only [hez, hzim, sub_zero, NNReal.coe_mk] using! hbd
 
 /-- The actual weak solution on every original convex domain admits a
 globally continuous zero extension with smooth interior, preserving its

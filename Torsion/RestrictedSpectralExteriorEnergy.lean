@@ -112,7 +112,7 @@ theorem integrable_exterior_div_pow {r : ℝ → ℝ} (hr : Integrable r)
     Integrable (fun s : ℝ => r s / (x - s) ^ m) := by
   have hε : 0 < (1 - |x|) / 2 := by linarith
   have hm : AEStronglyMeasurable (fun s : ℝ => r s / (x - s) ^ m) := by
-    simpa only [div_eq_mul_inv] using hr.aestronglyMeasurable.mul
+    simpa only [div_eq_mul_inv, Pi.mul_apply, Pi.inv_apply, Pi.pow_apply, Pi.sub_apply, Pi.neg_apply, id_eq] using! hr.aestronglyMeasurable.mul
       (((continuous_const.sub continuous_id).pow m).measurable.inv.aestronglyMeasurable)
   apply (hr.norm.div_const (((1 - |x|) / 2) ^ m)).mono' hm
   filter_upwards [hzero] with s hs
@@ -133,7 +133,7 @@ theorem continuousAt_integral_exterior_div_pow {r : ℝ → ℝ} (hr : Integrabl
   apply continuousAt_of_dominated
     (bound := fun s : ℝ => ‖r s‖ / (((1 - |x|) / 2) ^ m))
   · exact Eventually.of_forall fun u => by
-      simpa only [div_eq_mul_inv] using hr.aestronglyMeasurable.mul
+      simpa only [div_eq_mul_inv, Pi.mul_apply, Pi.inv_apply, Pi.pow_apply, Pi.sub_apply, Pi.neg_apply, id_eq] using! hr.aestronglyMeasurable.mul
         (((continuous_const.sub continuous_id).pow m).measurable.inv.aestronglyMeasurable)
   · filter_upwards [ball_mem_nhds x hε] with u hu
     filter_upwards [hzero] with s hs
@@ -161,10 +161,10 @@ theorem hasDerivAt_integral_exterior_div {r : ℝ → ℝ} (hr : Integrable r)
       (-(∫ s : ℝ, r s / (x - s) ^ 2)) x := by
   have hε : 0 < (1 - |x|) / 2 := by linarith
   have hmeas (u : ℝ) : AEStronglyMeasurable (fun s : ℝ => r s / (u - s)) := by
-    simpa only [div_eq_mul_inv] using hr.aestronglyMeasurable.mul
+    simpa only [div_eq_mul_inv, Pi.mul_apply, Pi.inv_apply, Pi.pow_apply, Pi.sub_apply, Pi.neg_apply, id_eq] using! hr.aestronglyMeasurable.mul
       ((continuous_const.sub continuous_id).measurable.inv.aestronglyMeasurable)
   have hmeas' : AEStronglyMeasurable (fun s : ℝ => -r s / (x - s) ^ 2) := by
-    simpa only [div_eq_mul_inv] using hr.aestronglyMeasurable.neg.mul
+    simpa only [div_eq_mul_inv, Pi.mul_apply, Pi.inv_apply, Pi.pow_apply, Pi.sub_apply, Pi.neg_apply, id_eq] using! hr.aestronglyMeasurable.neg.mul
       (((continuous_const.sub continuous_id).pow 2).measurable.inv.aestronglyMeasurable)
   have hbound : ∀ᵐ s : ℝ, ∀ u ∈ ball x ((1 - |x|) / 2),
       ‖-r s / (u - s) ^ 2‖ ≤ ‖r s‖ / (((1 - |x|) / 2) ^ 2) := by
@@ -183,9 +183,10 @@ theorem hasDerivAt_integral_exterior_div {r : ℝ → ℝ} (hr : Integrable r)
     · have hne : u - s ≠ 0 :=
         abs_pos.1 (hε.trans_le (exterior_gap_le_abs_sub hx hu hsi))
       convert (hasDerivAt_const u (r s)).div ((hasDerivAt_id u).sub_const s) hne using 1
-      simp only [id_eq]
-      ring
-  have hi := hasDerivAt_integral_of_dominated_loc_of_deriv_le hε
+      all_goals (try funext u)
+      all_goals (try dsimp only [Pi.div_apply, id_eq])
+      all_goals ring
+  have hi := hasDerivAt_integral_of_dominated_loc_of_deriv_le (ball_mem_nhds x hε)
     (Eventually.of_forall hmeas)
     (by simpa only [pow_one] using integrable_exterior_div_pow hr hzero hx 1)
     hmeas' hbound (hr.norm.div_const _) hdiff
@@ -276,7 +277,7 @@ theorem damped_energy_eq_real_kernel_pairing {r ψ : ℝ → ℝ}
   simp_rw [exterior_damped_pairing_deriv hψ] at hre
   simpa only [mul_assoc] using hre
 
-private def exteriorKernelPair (r : ℝ → ℝ) (y x : ℝ) : ℝ :=
+def exteriorKernelPair (r : ℝ → ℝ) (y x : ℝ) : ℝ :=
   ∫ s : ℝ, r s * (-(x - s) / (Real.pi * ((x - s) ^ 2 + y ^ 2)))
 
 private theorem exterior_scalar_kernel_bound {a δ : ℝ} (hδ : 0 < δ) (ha : δ ≤ |a|)
@@ -324,7 +325,7 @@ private theorem exteriorKernelPair_measurable {r : ℝ → ℝ} (hr : Integrable
       -(p.1 - p.2) / (Real.pi * ((p.1 - p.2) ^ 2 + y ^ 2))) :=
     (measurable_fst.sub measurable_snd).neg.div
       (measurable_const.mul (((measurable_fst.sub measurable_snd).pow_const 2).add measurable_const))
-  exact (hr.aestronglyMeasurable.snd.mul hk.aestronglyMeasurable).integral_prod_right'
+  exact (hr.aestronglyMeasurable.comp_snd.mul hk.aestronglyMeasurable).integral_prod_right'
 
 private theorem exteriorKernelPair_continuousAt_zero {r : ℝ → ℝ} (hr : Integrable r)
     (hzero : ∀ᵐ s : ℝ, s ∈ Ioo (-1 : ℝ) 1 → r s = 0)
@@ -354,7 +355,7 @@ private theorem exteriorKernelPair_continuousAt_zero {r : ℝ → ℝ} (hr : Int
       exact continuousAt_const
     · have hne : x - s ≠ 0 := by
         intro hz
-        exact hsi (by simpa only [sub_eq_zero.1 hz] using abs_lt.1 hx)
+        exact hsi (by simpa only [← sub_eq_zero.1 hz] using! abs_lt.1 hx)
       apply continuousAt_const.mul
       apply continuousAt_const.div
       · exact continuousAt_const.mul (continuousAt_const.add (continuousAt_id.pow 2))
@@ -400,7 +401,6 @@ private theorem exteriorKernelPair_zero (r : ℝ → ℝ) (x : ℝ) :
     · simp [hne]
     · simp only [zero_pow (by norm_num : (2 : ℕ) ≠ 0), add_zero]
       field_simp [Real.pi_ne_zero, hne]
-      ring
 
 /-- The original Fourier energy of integrable exterior data against a
 genuine interior core test is its concrete separated-support kernel.
@@ -463,8 +463,8 @@ theorem integrable_exterior_double_kernel {r ψ : ℝ → ℝ} (hr : Integrable 
   have hm : AEStronglyMeasurable
       (fun p : ℝ × ℝ => ψ p.1 * r p.2 / (p.1 - p.2) ^ 2)
       ((volume : Measure ℝ).prod volume) := by
-    simpa only [div_eq_mul_inv] using
-      (hψi.aestronglyMeasurable.fst.mul hr.aestronglyMeasurable.snd).mul
+    simpa only [div_eq_mul_inv, Pi.mul_apply, Pi.inv_apply, Pi.pow_apply, Pi.sub_apply] using!
+      (hψi.aestronglyMeasurable.comp_fst.mul hr.aestronglyMeasurable.comp_snd).mul
         (((measurable_fst.sub measurable_snd).pow_const 2).inv.aestronglyMeasurable)
   apply ((hψi.norm.mul_prod hr.norm).div_const ((1 - R) ^ 2)).mono' hm
   filter_upwards [Measure.quasiMeasurePreserving_snd.ae hzero] with p hp

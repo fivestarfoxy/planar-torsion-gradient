@@ -95,7 +95,7 @@ theorem zero_exterior_of_tendsto_eLpNorm_two
     ∀ᵐ x : ℝ, x ∉ Ioo (-1 : ℝ) 1 → f x = 0 := by
   have hlim' : Tendsto (fun n => eLpNorm (v n - f) 2 volume) atTop (𝓝 0) := by
     simpa only [Pi.sub_def] using hlim
-  have hmeasure := tendstoInMeasure_of_tendsto_eLpNorm (by norm_num : (2 : ℝ≥0∞) ≠ 0) hlim' 
+  have hmeasure := tendstoInMeasure_of_tendsto_eLpNorm (by norm_num : (2 : ℝ≥0∞) ≠ 0) hlim'
   obtain ⟨ns, _, hns⟩ := hmeasure.exists_seq_tendsto_ae
   filter_upwards [hns, ae_all_iff.2 hvzero] with x hx hzero hout
   have heq : (fun n => v (ns n) x) = fun _ => (0 : ℝ) :=

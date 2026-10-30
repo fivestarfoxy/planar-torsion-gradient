@@ -42,7 +42,7 @@ theorem cauchy_doublePole_vertical_tendsto {f : ℝ → ℝ} {x : ℝ}
     by
       have hd : Continuous (fun s : ℝ =>
           (((x : ℂ) + (y : ℂ) * Complex.I) - (s : ℂ)) ^ 2) := by fun_prop
-      simpa only [div_eq_mul_inv] using
+      simpa only [div_eq_mul_inv, Pi.mul_apply, Pi.inv_apply] using!
         hfc.aestronglyMeasurable.mul hd.measurable.inv.aestronglyMeasurable
   have hbound (y : ℝ) : ∀ᵐ s : ℝ ∂volume.restrict (Icc (-1 : ℝ) 1),
       ‖(f s : ℂ) / (((x : ℂ) + (y : ℂ) * Complex.I) - (s : ℂ)) ^ 2‖ ≤

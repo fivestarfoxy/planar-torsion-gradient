@@ -78,7 +78,7 @@ theorem second_radial_calibration_of_local_derivative
     ((continuous_const.mul (ContinuousProfiles.extend secondRadialProfile).continuous).continuousOn)
     secondRadialProfile_integral_euler hlocal
   rw [secondCalibrationDensity, real_inner_smul_left, ContinuousProfiles.inner_embed]
-  simpa only [mul_assoc, integral_const_mul] using h
+  simpa only [Pi.mul_apply, mul_assoc, integral_const_mul] using! h
 
 /-- Cauchy--Schwarz with the exact constructed density gives the sharp
 spectral marked-flux bound for the whole positive continuous radial class,
@@ -136,7 +136,7 @@ theorem second_radial_calibration_of_smooth_local_derivative
     ((continuous_const.mul (ContinuousProfiles.extend secondRadialProfile).continuous).continuousOn)
     secondRadialProfile_integral_euler hlocal
   rw [secondCalibrationDensity, real_inner_smul_left, ContinuousProfiles.inner_embed]
-  simpa only [mul_assoc, integral_const_mul] using h
+  simpa only [Pi.mul_apply, mul_assoc, integral_const_mul] using! h
 
 /-- The sharp spectral radial bound with exactly the smooth local
 Hadamard premise used by the manuscript. This is a marked-flux statement;

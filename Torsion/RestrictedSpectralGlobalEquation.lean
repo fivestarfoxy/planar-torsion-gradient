@@ -26,7 +26,7 @@ namespace Torsion.Spectral
 theorem integrable_mul_schwartz {q : ℝ → ℝ} (hq : Integrable q) (S : 𝓢(ℝ, ℝ)) :
     Integrable (fun x : ℝ => q x * S x) := by
   have h := hq.bdd_mul S.continuous.aestronglyMeasurable
-    ⟨SchwartzMap.seminorm ℝ 0 0 S, fun x => SchwartzMap.norm_le_seminorm ℝ S x⟩
+    (ae_of_all _ fun x => SchwartzMap.norm_le_seminorm ℝ S x)
   simpa only [mul_comm] using h
 
 /-- Actual Fourier energy against real Schwartz tests is linear. -/
@@ -150,7 +150,8 @@ theorem IsRestrictedEigenfunction.global_schwartz_equation
     have hE := (energy_endpointCutoff_tendsto_zero hf.1.integrable hf.1.2.1 S.smooth' hAn hDn e).comp
       (tendsto_add_atTop_nat 3)
     have hQ := (integral_mul_endpointCutoff_tendsto_zero hq S e).comp (tendsto_add_atTop_nat 3)
-    simpa only [sub_zero] using hE.sub hQ
+    simpa only [sub_zero, F, E, Q, schwartzEnergyFunctional, schwartzPairFunctional,
+      LinearMap.sub_apply, Function.comp_apply] using! hE.sub hQ
   have hleft : Tendsto (fun n => F (endpointTrimSchwartz S n)) atTop (𝓝 0) := by
     simpa only [htrim] using (tendsto_const_nhds (x := (0 : ℝ)))
   have hright : Tendsto (fun n => F (endpointTrimSchwartz S n)) atTop (𝓝 (F S)) := by

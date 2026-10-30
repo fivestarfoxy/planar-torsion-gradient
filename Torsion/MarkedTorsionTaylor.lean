@@ -112,6 +112,7 @@ theorem exists_uniform_marked_torsion_normal_quotient_constant {r : ℝ} (hr : 0
     linarith
   have hgrad : gradient U 0 = gradient v 0 := by
     unfold gradient
+    change (InnerProductSpace.toDual ℝ Plane).symm (fderiv ℝ (v - quadraticIm) 0) = _
     rw [fderiv_sub (hv.differentiable (by simp) 0)
       (quadraticIm_contDiff.differentiable (by simp) 0), map_sub]
     change gradient v 0 - gradient quadraticIm 0 = gradient v 0
@@ -137,7 +138,7 @@ theorem exists_uniform_marked_torsion_normal_quotient_constant {r : ℝ} (hr : 0
   rw [heq]
   calc
     _ ≤ |v ((h : Plane)*Complex.I)/h - torsionFlux D| + |h/2| := abs_sub _ _
-    _ ≤ C*M*h + h/2 := by rw [abs_of_pos (half_pos hh)]; exact add_le_add_right hvbound _
+    _ ≤ C*M*h + h/2 := by rw [abs_of_pos (half_pos hh)]; exact add_le_add hvbound le_rfl
     _ = (C*(4*r*B + 8*r^2) + 1/2)*h := by dsimp [M]; ring
 
 /-- A containing horizontal slab discharges the linear barrier premise of
@@ -206,7 +207,7 @@ theorem exists_uniform_slab_marked_torsion_normal_quotient_constant_on_represent
 theorem abs_normal_remainder_le_sq_of_quotient_bound
     {a Q L h : ℝ} (hh : 0 < h) (hb : |a/h-Q| ≤ L*h) :
     |a-Q*h| ≤ L*h^2 := by
-  have heq : a-Q*h = (a/h-Q)*h := by field_simp; ring
+  have heq : a-Q*h = (a/h-Q)*h := by field_simp
   rw [heq, abs_mul, abs_of_pos hh]
   calc
     _ ≤ (L*h)*h := mul_le_mul_of_nonneg_right hb hh.le

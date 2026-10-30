@@ -97,7 +97,7 @@ theorem conformalGreenRegular_laplacian_eq_zero {U : Set Plane} (hU : IsOpen U)
       apply hasGradientAt_iff_hasFDerivAt.mpr
       have h := ((hasGradientAt_iff_hasFDerivAt.mp hg1).sub
         (hasGradientAt_iff_hasFDerivAt.mp hg2')).mul_const ((2 * Real.pi)⁻¹)
-      simpa only [conformalGreenRegular, map_smul, map_sub, div_eq_mul_inv] using h
+      simpa only [conformalGreenRegular, map_smul, map_sub, div_eq_mul_inv, Pi.sub_apply] using! h
     exact hh.gradient
   -- The actual differential is linear, so the two zero divergences subtract.
   have hd1 := Complex.conjCLE.toContinuousLinearMap.hasFDerivAt.comp w

@@ -4,9 +4,9 @@
 
 The original Lean 4.19 baseline at commit `a4fe19c71d4ac5ffbd85fc9d2f013a0c7b1a5e4b` passed its complete build, 3,587-theorem axiom audit, and aggregate submission wrapper in [GitHub run 41132349657](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/runs/41132349657). Both the original audit and the wrapper allow only `propext`, `Classical.choice`, and `Quot.sound`.
 
-This compatibility branch genuinely targets Lean **4.35.0-rc2** and mathlib commit **065356127b1dc0016f66b7283ce0ce2c4055aa55**, with transitive versions pinned in `lake-manifest.json`. The current official Principia template requires this newer toolchain for its bundled Comparator and independent kernels. Porting includes the required `module` headers, public imports, exposed public declarations, and adaptations to changed mathlib APIs. Mathematical statements, definitions, and proof scope are preserved. The passing `main` baseline remains intact while this port is validated.
+This compatibility branch genuinely targets Lean **4.35.0-rc2** and mathlib commit **065356127b1dc0016f66b7283ce0ce2c4055aa55**, with transitive versions pinned in `lake-manifest.json`. The current official Principia template requires this newer toolchain for its bundled Comparator and independent kernels. Porting includes the required `module` headers, public imports, exposed public declarations, and adaptations to changed mathlib APIs. Headline statements, original mathematical objects, and proof scope are preserved. The auxiliary measurable-input adaptation and its callers are documented in [LEAN435_PORT.md](LEAN435_PORT.md). The passing `main` baseline remains intact while this port is validated.
 
-The port's complete build, recursive axiom audit, and Comparator verification are **pending**. The old successful run is evidence for its recorded commit and compiler; it is not a verification pass for the port.
+The port passed its complete local build, a full audit of 4,201 theorem declarations across all 393 project modules, and the aggregate submission proof. The exact-commit external Comparator status is reported by GitHub Actions and Principia. [The local verification record](../validation/LEAN435_VERIFICATION.md) records the commands and scope.
 
 ## Concrete statement and proof
 
@@ -16,9 +16,11 @@ The claim covers the universal sharp bound, exact optimal constant, and attainme
 
 `definition_names` in `comparator.json` is deliberately empty. The official Comparator uses this field for definition **holes** whose bodies may differ; it is not an exact-body comparison list. The concrete `Claim` definition remains fixed and is subject to Comparator's comparison of declarations used in the theorem statement. The permitted axiom list contains only the three axioms named above.
 
-`formalization.yaml` follows the official v0.4 format. It credits Caden Young, identifies the unpublished manuscript, discloses ChatGPT assistance without inventing exact historical model identifiers, and distinguishes baseline verification from the pending port checks. External-wrapper repository metadata is omitted because this repository contains the substantive proof development.
+`formalization.yaml` follows the official v0.4 format. It credits Caden Young, identifies the unpublished manuscript, discloses ChatGPT assistance without inventing exact historical model identifiers, and distinguishes the historical baseline, the current local checks, and the separately reported external Comparator check. External-wrapper repository metadata is omitted because this repository contains the substantive proof development.
 
 ## Ordinary build and audit
+
+`Audit.lean` uses `import all` for each project module and inspects the private environment. The module system can represent imported public theorems as `axiomInfo`, so enumerating ordinary public imports would miss theorem roots. A coverage guard rejects any project module lacking a full import; the checked roots include private/generated declarations and backports outside the `Torsion` namespace.
 
 The `lean-audit.yml` workflow checks the exact Lean and mathlib pins, builds the full library, runs `Audit.lean`, and builds `SubmissionStatement`, `Challenge`, and `Solution`. The local equivalents are:
 

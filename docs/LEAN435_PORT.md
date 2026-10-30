@@ -31,7 +31,9 @@ The mathematical statements and hypotheses of these callers are unchanged.
 This adjustment adds no measurability premise to a competitor or domain and
 does not weaken the headline Sobolev, PDE, or final optimization statements.
 
-Targeted builds of all 42 Sobolev and Weak modules have succeeded under the
-new toolchain. At the time of this note, the complete Lean 4.35 build, audit,
-and Principia Comparator verification are still pending. The previously
-verified Lean 4.19 baseline is a separate verification result.
+The complete Lean 4.35 project build, full 4,201-theorem axiom audit, and
+aggregate submission proof have passed locally. The audit explicitly loads
+all 393 project modules, including their private/generated theorem bodies.
+The exact-commit external Comparator result is reported separately by
+GitHub Actions and Principia. The Lean 4.19 baseline remains a historical
+verification result. See [the verification record](../validation/LEAN435_VERIFICATION.md).

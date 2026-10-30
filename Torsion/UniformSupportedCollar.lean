@@ -67,6 +67,7 @@ theorem exists_uniform_second_supported_normal_bound
   have hE : IsMarked E.carrier :=
     flatOuterHull_isMarked D.isOpen D.bounded hhalf D.nonempty hr
   have hpatch : upperHalfPlane ∩ ball (0 : Plane) (4*ρ) ⊆ E.carrier := by
+    simp only [E, ConvexDomain.flatHull_carrier]
     convert halfBall_subset_flatOuterHull_of_point_bounds D.isOpen ha hr hh hM hheight hnorm using 1
     dsimp [ρ]
     ring_nf
@@ -81,7 +82,7 @@ theorem exists_uniform_second_supported_normal_bound
       S * Real.sqrt E.area ≤ S*((1+2*r/h)*Real.sqrt A) :=
         mul_le_mul_of_nonneg_left hareaE hS
       _ = B + (2*r/h)*B := by dsimp [B]; ring
-      _ ≤ B + ε/2 := add_le_add_left hrloss B
+      _ ≤ B + ε/2 := add_le_add le_rfl hrloss
   have htK : K*t ≤ ε/2 := by
     have htbound : t < ε/(2*(K+1)) := htδ.trans_le (min_le_right _ _)
     have hm := (lt_div_iff₀ (show 0 < 2*(K+1) by positivity)).mp htbound

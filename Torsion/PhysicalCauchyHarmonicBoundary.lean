@@ -69,6 +69,6 @@ theorem physicalHarmonicLift_marked_boundary_tendsto {φ g : ℝ → ℝ} {C α 
   have hC : Tendsto (fun w => realCauchy g (cauchyInverse φ w))
       (𝓝[cauchyImage φ] 0) (𝓝 0) := by
     simpa only [mul_zero, Function.comp_apply, realCauchy] using h
-  simpa only [physicalHarmonicLift, Complex.zero_im] using (Complex.continuous_im.tendsto (0 : Plane)).comp hC
+  simpa only [physicalHarmonicLift, Complex.zero_im, Function.comp_apply] using! (Complex.continuous_im.tendsto (0 : Plane)).comp hC
 
 end Torsion.Spectral

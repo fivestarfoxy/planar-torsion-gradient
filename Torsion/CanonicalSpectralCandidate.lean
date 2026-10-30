@@ -44,8 +44,8 @@ theorem secondBoundaryConstant_equation (x : ℝ) (hx : x ∈ Ioo (-1 : ℝ) 1) 
       secondEigenvalue * height secondEigenfunction x - secondBoundaryConstant :=
   secondEigenfunction_linear_hilbert_equation.exists.choose_spec x hx
 
-private theorem half_pos_nnreal : (0 : ℝ≥0) < 1 / 2 := by norm_num
-private theorem half_le_one_nnreal : (1 / 2 : ℝ≥0) ≤ 1 := by norm_num
+theorem half_pos_nnreal : (0 : ℝ≥0) < 1 / 2 := by norm_num
+theorem half_le_one_nnreal : (1 / 2 : ℝ≥0) ≤ 1 := by norm_num
 
 theorem secondEigenfunction_differentiableAt_positive (x : ℝ)
     (hx : x ∈ Ioo (0 : ℝ) 1) : DifferentiableAt ℝ secondEigenfunction x :=

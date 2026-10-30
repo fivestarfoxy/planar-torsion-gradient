@@ -88,7 +88,7 @@ theorem integrable_exteriorTest_kernel {f S : ℝ → ℝ}
   have hmajor := (hf.norm.mul_prod hS.norm).div_const (δ ^ 2)
   have hm : AEStronglyMeasurable (fun p : ℝ × ℝ => f p.1 * S p.2 / (p.1 - p.2) ^ 2)
       (volume : Measure (ℝ × ℝ)) := by
-    simpa only [div_eq_mul_inv] using
+    simpa only [div_eq_mul_inv, Pi.mul_apply, Pi.inv_apply, Pi.pow_apply, Pi.sub_apply, Function.comp_apply] using!
       ((hf.aestronglyMeasurable.comp_quasiMeasurePreserving
         (Measure.quasiMeasurePreserving_fst (μ := volume) (ν := volume))).mul
         (hS.aestronglyMeasurable.comp_quasiMeasurePreserving

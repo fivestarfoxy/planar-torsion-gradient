@@ -73,7 +73,7 @@ theorem integrable_div_sq_of_quadratic_bound {f : ℝ → ℝ} {x₀ δ K : ℝ}
     simp only [g, Real.norm_eq_abs, abs_div, abs_pow, sq_abs]
   have hfinite : volume (Metric.ball x₀ δ) < (⊤ : ℝ≥0∞) :=
     (measure_mono Metric.ball_subset_closedBall).trans_lt (isCompact_closedBall x₀ δ).measure_lt_top
-  haveI : IsFiniteMeasure (volume.restrict (Metric.ball x₀ δ)) := ⟨by simp [hfinite]⟩
+  haveI : IsFiniteMeasure (volume.restrict (Metric.ball x₀ δ)) := ⟨by rw [Measure.restrict_apply_univ]; exact hfinite⟩
   have hnear : IntegrableOn g (Metric.ball x₀ δ) := by
     apply (integrable_const K).mono' hgm.restrict
     filter_upwards [ae_restrict_mem measurableSet_ball] with s hs

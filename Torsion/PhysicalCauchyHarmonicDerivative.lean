@@ -29,7 +29,7 @@ theorem realCauchy_hasDerivAt {g : ℝ → ℝ} (hg : Continuous g)
     {z : Plane} (hz : z ∈ upperHalfPlane) :
     HasDerivAt (realCauchy g) ((Real.pi : Plane)⁻¹ *
       ∫ s in Icc (-1 : ℝ) 1, (g s : Plane) / (z - (s : Plane)) ^ 2) z := by
-  simpa only [realCauchy, neg_div, integral_neg, neg_mul_neg] using
+  simpa only [realCauchy, neg_div, integral_neg, neg_mul_neg, Function.comp_apply] using!
     (hasDerivAt_cauchy_integral (Complex.continuous_ofReal.comp hg).continuousOn hz).const_mul
       (-((Real.pi : Plane)⁻¹))
 
@@ -90,7 +90,7 @@ theorem physicalHarmonicLift_hasGradientAt_cauchy {φ g : ℝ → ℝ}
     ((isOpen_lt continuous_const Complex.continuous_im).mem_nhds hz)
   have hInv := cauchyInverse_hasDerivAt hφ hodd hzero hpos hz
   have h := hG.hasDerivAt.comp_of_eq _ hInv (cauchyInverse_cauchy hφ hodd hzero hpos hz).symm
-  simpa only [physicalHarmonicLift, Function.comp_def, div_eq_mul_inv] using
+  simpa only [physicalHarmonicLift, Function.comp_def, div_eq_mul_inv] using!
     PhysicalTorsion.hasGradientAt_im_of_hasDerivAt h
 
 theorem realCauchy_derivative_moment {g : ℝ → ℝ}

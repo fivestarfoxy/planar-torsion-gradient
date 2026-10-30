@@ -87,7 +87,7 @@ theorem DirichletTheory.tendsto_value_of_outer_approximation (T : DirichletTheor
     (Or.inr ENNReal.ofReal_ne_top)
   simp only [mul_zero] at hlim
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hlim
-    (fun _ => zero_le _)
+    (fun _ => zero_le)
   intro n
   exact hP _ _ (((T.solution (E n)).weakEquation.1.mono (hEB n)).sub
     ((T.solution D).weakEquation.1.mono hDB))

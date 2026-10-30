@@ -41,7 +41,7 @@ theorem physicalMarkedPoisson_eq_kernel {φ : ℝ → ℝ}
     {w : Plane} (hw : w ∈ cauchyImage φ) :
     physicalMarkedPoisson φ w = physicalMarkedKernel φ w :=
   (physicalGreen_marked_normal_source_hasDerivWithinAt hφ hodd hzero hpos hw).derivWithin
-    (uniqueDiffOn_Ici 0 0 left_mem_Ici)
+    (uniqueDiffOn_Ici 0 0 (by simp))
 
 theorem gradient_physicalMarkedPoisson_eq_kernel {φ : ℝ → ℝ}
     (hφ : Continuous φ) (hodd : Function.Odd φ)

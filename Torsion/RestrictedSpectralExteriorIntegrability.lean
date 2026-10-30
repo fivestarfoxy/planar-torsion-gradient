@@ -36,7 +36,7 @@ theorem integrable_exteriorResidualZero_of_endpoint_quotient {f : ℝ → ℝ}
   have hKm : AEStronglyMeasurable K (μ.prod ν) := by
     dsimp only [K]
     simp only [div_eq_mul_inv]
-    exact hfm.fst.mul (((measurable_snd.sub measurable_fst).pow_const 2).inv.aestronglyMeasurable)
+    exact hfm.comp_fst.mul (((measurable_snd.sub measurable_fst).pow_const 2).inv.aestronglyMeasurable)
   have hKi : ∀ᵐ s : ℝ ∂μ, Integrable (fun y : ℝ => K (s, y)) ν := by
     filter_upwards [ae_restrict_mem measurableSet_Ioo] with s hs
     have hi := integrableOn_exterior_inv_sub_sq (abs_lt.2 hs)

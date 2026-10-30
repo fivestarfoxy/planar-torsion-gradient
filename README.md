@@ -1,5 +1,8 @@
 # Planar torsion-gradient optimization in Lean
 
+[![Comparator](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/comparator.yml/badge.svg?branch=principia-lean4.35)](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/comparator.yml?query=branch%3Aprincipia-lean4.35)
+[![Build and audit](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/lean-audit.yml/badge.svg?branch=principia-lean4.35)](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/lean-audit.yml?query=branch%3Aprincipia-lean4.35)
+
 Caden Young. Companion development for *An exact spectral construction for the optimal planar torsion gradient*.
 
 The formalized core proves the sharp torsion-gradient bound for every original bounded, open, nonempty convex planar domain, the exact spectral value, and attainment by the constructed area-normalized Cauchy image. The weak Dirichlet solution, gradient norm, Euclidean area, restricted half-Laplacian eigenpair, and attaining domain use their original mathematical definitions.
@@ -9,10 +12,10 @@ The formalized core proves the sharp torsion-gradient bound for every original b
 | Development | Status |
 | --- | --- |
 | Lean 4.19 baseline at `a4fe19c71d4ac5ffbd85fc9d2f013a0c7b1a5e4b` | Full build, 3,587-theorem axiom audit, and submission wrapper passed [GitHub run 41132349657](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/runs/41132349657). |
-| Current Lean 4.35.0-rc2 port | Full build and axiom audit pending while API migration is in progress. |
-| Principia Comparator for the port | Pending; no Comparator pass is claimed. |
+| Current Lean 4.35.0-rc2 port | Complete local build, 4,201-theorem audit across 393 project modules, and aggregate submission proof passed; see [verification record](validation/LEAN435_VERIFICATION.md). |
+| Principia Comparator for the port | Exact-commit status is reported by the Comparator badge and the Principia project. |
 
-The passing Lean 4.19 baseline remains intact on `main` while the compatibility branch is prepared. The current port changes module visibility metadata and mathlib API usage while preserving the mathematical statements and definitions. The recorded v8 census of 392 mathematical modules, 52,713 lines, and 3,587 audited theorem declarations describes the historical source, not a new census or audit of this port.
+The passing Lean 4.19 baseline remains intact on `main` while the compatibility branch is prepared. The current port changes module visibility metadata and mathlib API usage while preserving the headline statements and original mathematical objects. One auxiliary convergence lemma makes measurability explicit; its callers already supply those facts. See [the port note](docs/LEAN435_PORT.md). The recorded v8 census of 392 mathematical modules, 52,713 lines, and 3,587 audited theorem declarations describes the historical source, not a new census or audit of this port.
 
 ## Build the compatibility branch
 
@@ -25,7 +28,7 @@ lake env lean Audit.lean
 lake build SubmissionStatement Challenge Solution
 ```
 
-`Torsion.lean` imports the complete development. `Audit.lean` checks every project theorem's axiom dependencies, allowing only `propext`, `Classical.choice`, and `Quot.sound`. `Solution.lean` additionally checks the submission theorem's axiom dependencies.
+`Torsion.lean` imports the complete development. `Audit.lean` explicitly imports every project proof body with `import all`, checks that this coverage is complete, and checks every project theorem's axiom dependencies, allowing only `propext`, `Classical.choice`, and `Quot.sound`. `Solution.lean` additionally checks the submission theorem's axiom dependencies.
 
 The separate [Comparator workflow](.github/workflows/comparator.yml) uses the `lake comparator` bundled with the pinned Lean toolchain. It builds the solution in its bubblewrap sandbox, compares it with the reference statement, and replays the proof through Lean's kernel and the bundled independent kernels NanoDa and con-ron. It uses a fresh runner checkout; an ordinary build or axiom-audit pass does not substitute for this check. See [docs/PRINCIPIA_CI_SETUP.md](docs/PRINCIPIA_CI_SETUP.md) for the interface and reproduction instructions.
 

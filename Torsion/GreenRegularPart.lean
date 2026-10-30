@@ -31,7 +31,7 @@ private theorem gradient_eq_fundamental_add_regular {D : Set Plane}
     exact hdecomp y hy hyp
   rw [heq.gradient_eq]
   have hd := ((hh x hx).contDiffAt (hD.mem_nhds hx)).differentiableAt (by simp)
-  simp only [gradient, fderiv_add (HalfPlane.fundamental_hasGradientAt hp).differentiableAt hd,
+  simp only [gradient, fderiv_fun_add (HalfPlane.fundamental_hasGradientAt hp).differentiableAt hd,
     map_add]
 
 /-- Every actual logarithmic-pole decomposition with a smooth harmonic
@@ -50,7 +50,7 @@ theorem green_regular_part_weak_source {D : Set Plane} {H h ψ : Plane → ℝ} 
   have heq : (fun x => inner (𝕜 := ℝ) (gradient H x) (gradient ψ x)) =ᵐ[volume]
       (fun x => inner (𝕜 := ℝ) (gradient (HalfPlane.fundamental w) x) (gradient ψ x) +
         inner (𝕜 := ℝ) (gradient h x) (gradient ψ x)) := by
-    filter_upwards [(countable_singleton w).ae_not_mem volume] with x hp
+    filter_upwards [(countable_singleton w).ae_notMem volume] with x hp
     have hp : x ≠ w := by simpa using hp
     by_cases hx : x ∈ D
     · rw [gradient_eq_fundamental_add_regular hD hh hdecomp hx hp, inner_add_left]

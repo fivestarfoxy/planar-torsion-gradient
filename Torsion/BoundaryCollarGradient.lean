@@ -34,7 +34,7 @@ theorem continuous_of_zero_extension_boundary_collar
     funext x
     by_cases hx : x ∈ D
     · exact indicator_of_mem hx U
-    · rw [indicator_of_not_mem hx U, hzero x hx]
+    · rw [indicator_of_notMem hx U, hzero x hx]
   rw [← heq]
   apply continuous_indicator_of_zero_boundary_tendsto hD hU
   intro p hp
