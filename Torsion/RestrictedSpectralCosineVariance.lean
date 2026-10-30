@@ -1,4 +1,11 @@
-import Mathlib.Analysis.SpecialFunctions.Integrals
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! Exact elementary cosine variance on the restricted interval. -/
 noncomputable section

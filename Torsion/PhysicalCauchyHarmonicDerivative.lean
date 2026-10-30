@@ -1,8 +1,15 @@
-import Torsion.PhysicalCauchyHarmonicBoundary
-import Torsion.CauchyTransformIntegrationByParts
-import Torsion.CauchyTransformMoments
-import Torsion.CauchyTransformImageBound
-import Torsion.RadialDeformationCollar
+module
+
+public import Torsion.PhysicalCauchyHarmonicBoundary
+public import Torsion.CauchyTransformIntegrationByParts
+public import Torsion.CauchyTransformMoments
+public import Torsion.CauchyTransformImageBound
+public import Torsion.RadialDeformationCollar
+public import Mathlib.Analysis.Calculus.ContDiff.Deriv
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual derivatives of smooth compact-data harmonic lifts

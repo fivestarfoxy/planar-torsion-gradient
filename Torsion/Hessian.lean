@@ -1,10 +1,14 @@
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Algebra.BigOperators.Group.Finset.Sigma
-import Mathlib.Algebra.Order.BigOperators.Group.Finset
-import Mathlib.Data.Real.Basic
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Algebra.BigOperators.Group.Finset.Sigma
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+public import Mathlib.Data.Real.Basic
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # The finite-dimensional Hessian identity
@@ -116,7 +120,6 @@ theorem quadratic_form_nonpos (H : ι → ι → ℝ) (x : ι → ℝ)
     apply Finset.sum_congr rfl
     intro j hj
     field_simp [ne_of_gt (hx i), ne_of_gt (hx j)]
-    ring
   rw [hleft] at hidentity
   linarith
 

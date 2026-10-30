@@ -1,6 +1,12 @@
-import Torsion.CauchyConformalGeometry.Convexity
-import Torsion.CauchyConformalGeometry.InverseBoundary
-import Torsion.PhysicalCauchyKernel
+module
+
+public import Torsion.CauchyConformalGeometry.Convexity
+public import Torsion.CauchyConformalGeometry.InverseBoundary
+public import Torsion.PhysicalCauchyKernel
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Genuine supporting unit normals and signed boundary stationarity

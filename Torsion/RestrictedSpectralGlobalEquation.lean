@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralTestPartition
-import Torsion.RestrictedSpectralExteriorTest
+module
+
+public import Torsion.RestrictedSpectralTestPartition
+public import Torsion.RestrictedSpectralExteriorTest
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual whole-line weak restricted spectral equation
@@ -66,7 +73,7 @@ theorem IsRestrictedEigenfunction.schwartz_core_density_equation
         intro hs
         have hi := abs_lt.2 (hS.2.2 hs)
         linarith
-      rw [image_eq_zero_of_nmem_tsupport hn, mul_zero]
+      rw [image_eq_zero_of_notMem_tsupport hn, mul_zero]
       rfl
     · simp only [exteriorResidualZero, if_neg hx, zero_mul, Pi.zero_apply]
   rw [hf.2.2 S hS.memRestrictedFormDomain]

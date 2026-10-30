@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralGraphHilbert
-import Torsion.RestrictedSpectralCoreDirections
-import Mathlib.Analysis.InnerProductSpace.Adjoint
+module
+
+public import Torsion.RestrictedSpectralGraphHilbert
+public import Torsion.RestrictedSpectralCoreDirections
+public import Mathlib.Analysis.InnerProductSpace.Adjoint
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The actual restricted Fourier-form resolvent
@@ -91,7 +98,7 @@ theorem resolvent_core_ne_zero {f : ℝ → ℝ} (hf : IsCore f)
   rw [he0] at htest
   have hval : valueMap q = hf.memLp_value.toLp f := rfl
   rw [hval, real_inner_self_eq_norm_sq] at htest
-  have hzero : hf.memLp_value.toLp f = 0 := norm_eq_zero.mp (pow_eq_zero htest.symm)
+  have hzero : hf.memLp_value.toLp f = 0 := norm_eq_zero.mp (eq_zero_of_pow_eq_zero htest.symm)
   apply hne
   exact hf.memLp_value.coeFn_toLp.symm.trans (Lp.eq_zero_iff_ae_eq_zero.mp hzero)
 

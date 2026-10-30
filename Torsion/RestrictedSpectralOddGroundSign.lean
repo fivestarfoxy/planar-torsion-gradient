@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralOddStrictMarkov
-import Torsion.RestrictedSpectralOddGroundState
+module
+
+public import Torsion.RestrictedSpectralOddStrictMarkov
+public import Torsion.RestrictedSpectralOddGroundState
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Half-line sign and simplicity of the actual least odd eigenvalue

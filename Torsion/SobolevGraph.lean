@@ -1,6 +1,12 @@
-import Torsion.SobolevCore
-import Mathlib.Topology.Sequences
-import Mathlib.Topology.Algebra.Module.Basic
+module
+
+public import Torsion.SobolevCore
+public import Mathlib.Topology.Sequences
+public import Mathlib.Topology.Algebra.Module.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # A complete closed subspace realizing the concrete `MemH10` predicate
@@ -89,9 +95,9 @@ theorem memH10_iff_mem_H10Graph {D : Set Plane} {u : Plane → ℝ} {g : Plane �
     refine ⟨fun n => (hf n).graph, (fun n => ⟨f n, hf n, rfl⟩), ?_⟩
     apply Tendsto.prodMk_nhds
     · apply tendsto_iff_edist_tendsto_0.mpr
-      simpa only [IsTest.graph, Lp.edist_toLp_toLp] using hfu
+      simpa only [IsTest.graph, Lp.edist_toLp_toLp, Pi.sub_def] using hfu
     · apply tendsto_iff_edist_tendsto_0.mpr
-      simpa only [IsTest.graph, Lp.edist_toLp_toLp] using hfg
+      simpa only [IsTest.graph, Lp.edist_toLp_toLp, Pi.sub_def] using hfg
   · intro hmem
     obtain ⟨p, hp, hlim⟩ := mem_closure_iff_seq_limit.mp hmem
     choose f hf heq using hp
@@ -99,9 +105,9 @@ theorem memH10_iff_mem_H10Graph {D : Set Plane} {u : Plane → ℝ} {g : Plane �
       simpa only [heq] using hlim
     refine ⟨hu, hg, f, hf, ?_, ?_⟩
     · have hl := tendsto_iff_edist_tendsto_0.mp hlim'.fst_nhds
-      simpa only [IsTest.graph, Lp.edist_toLp_toLp] using hl
+      simpa only [IsTest.graph, Lp.edist_toLp_toLp, Pi.sub_def] using hl
     · have hl := tendsto_iff_edist_tendsto_0.mp hlim'.snd_nhds
-      simpa only [IsTest.graph, Lp.edist_toLp_toLp] using hl
+      simpa only [IsTest.graph, Lp.edist_toLp_toLp, Pi.sub_def] using hl
 
 /-- The actual Sobolev graph is closed under simultaneous L² limits. -/
 theorem MemH10.of_tendsto {D : Set Plane} {u : Plane → ℝ} {g : Plane → Plane}
@@ -114,10 +120,10 @@ theorem MemH10.of_tendsto {D : Set Plane} {u : Plane → ℝ} {g : Plane → Pla
   apply (memH10_iff_mem_H10Graph hu hg).mpr
   have hv : Tendsto (fun n => (hseq n).1.toLp (uₙ n)) atTop (𝓝 (hu.toLp u)) := by
     apply tendsto_iff_edist_tendsto_0.mpr
-    simpa only [Lp.edist_toLp_toLp] using hval
+    simpa only [Lp.edist_toLp_toLp, Pi.sub_def] using hval
   have hh : Tendsto (fun n => (hseq n).2.1.toLp (gₙ n)) atTop (𝓝 (hg.toLp g)) := by
     apply tendsto_iff_edist_tendsto_0.mpr
-    simpa only [Lp.edist_toLp_toLp] using hgrad
+    simpa only [Lp.edist_toLp_toLp, Pi.sub_def] using hgrad
   apply (isClosed_H10Graph D).mem_of_tendsto (hv.prodMk_nhds hh)
   exact Eventually.of_forall (fun n =>
     (memH10_iff_mem_H10Graph (hseq n).1 (hseq n).2.1).mp (hseq n))

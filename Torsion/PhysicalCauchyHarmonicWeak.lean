@@ -1,5 +1,11 @@
-import Torsion.PhysicalCauchyHarmonicClosure
-import Torsion.ClassicalWeakLaplacian
+module
+
+public import Torsion.PhysicalCauchyHarmonicClosure
+public import Torsion.ClassicalWeakLaplacian
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Actual weak harmonicity of the compact-data physical boundary lift -/
 

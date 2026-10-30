@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralLatticeApprox
-import Torsion.RestrictedSpectralWeakClosure
+module
+
+public import Torsion.RestrictedSpectralLatticeApprox
+public import Torsion.RestrictedSpectralWeakClosure
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual absolute-value Markov contraction for the restricted Fourier form

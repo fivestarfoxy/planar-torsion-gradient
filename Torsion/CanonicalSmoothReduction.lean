@@ -1,5 +1,11 @@
-import Torsion.CanonicalSpectralCandidate
-import Torsion.SmoothConvexReduction
+module
+
+public import Torsion.CanonicalSpectralCandidate
+public import Torsion.SmoothConvexReduction
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The canonical final bridge reduced to smooth competitor comparison

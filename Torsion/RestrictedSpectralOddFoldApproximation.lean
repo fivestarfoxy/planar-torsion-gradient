@@ -1,4 +1,11 @@
-import Torsion.RestrictedSpectralOddFold
+module
+
+public import Torsion.RestrictedSpectralOddFold
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual L² convergence of the flat odd-fold approximants

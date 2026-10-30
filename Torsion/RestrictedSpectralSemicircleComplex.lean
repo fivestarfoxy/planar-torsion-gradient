@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralSemicircle
-import Mathlib.Analysis.Calculus.Deriv.Slope
-import Mathlib.Analysis.Calculus.DiffContOnCl
-import Mathlib.Analysis.SpecialFunctions.Sqrt
+module
+
+public import Torsion.RestrictedSpectralSemicircle
+public import Mathlib.Analysis.Calculus.Deriv.Slope
+public import Mathlib.Analysis.Calculus.DiffContOnCl
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The holomorphic square-root branch for the semicircle barrier
@@ -202,7 +209,7 @@ theorem semicircleRoot_re_mul_re_nonneg {z : ℂ} (hz : z ∈ upperHalfPlane) :
   have hsq := congrArg Complex.im (semicircleRoot_sq (show 0 ≤ z.im from (show 0 < z.im from hz).le))
   simp only [pow_two, Complex.mul_im, Complex.sub_im, Complex.one_im, sub_zero] at hsq
   have hmul : (semicircleRoot z).re * (semicircleRoot z).im = z.re * z.im := by nlinarith
-  apply (mul_le_mul_right (semicircleRoot_im_pos hz)).mp
+  apply (mul_le_mul_iff_right₀ (semicircleRoot_im_pos hz)).mp
   simp only [zero_mul]
   calc
     _ = z.re ^ 2 * z.im := by linear_combination (z.re) * hmul

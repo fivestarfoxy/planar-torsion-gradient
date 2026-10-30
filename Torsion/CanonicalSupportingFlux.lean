@@ -1,5 +1,11 @@
-import Torsion.ConvexSupportingRadial
-import Torsion.CanonicalHadamard
+module
+
+public import Torsion.ConvexSupportingRadial
+public import Torsion.CanonicalHadamard
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # The actual canonical sharp comparison for supporting-boundary fluxes -/
 

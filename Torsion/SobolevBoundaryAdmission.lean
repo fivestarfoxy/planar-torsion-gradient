@@ -1,9 +1,15 @@
-import Torsion.SmoothPositivePart
-import Torsion.SobolevComposition
-import Torsion.L2Dominated
-import Mathlib.Analysis.Calculus.ContDiff.Operations
-import Mathlib.Data.Complex.FiniteDimensional
-import Mathlib.Topology.MetricSpace.Bounded
+module
+
+public import Torsion.SmoothPositivePart
+public import Torsion.SobolevComposition
+public import Torsion.L2Dominated
+public import Mathlib.Analysis.Calculus.ContDiff.Operations
+public import Mathlib.Data.Complex.FiniteDimensional
+public import Mathlib.Topology.MetricSpace.Bounded
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Direct H¹₀ admission from positive smooth zero-boundary data

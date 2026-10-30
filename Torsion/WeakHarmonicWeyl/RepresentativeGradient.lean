@@ -1,6 +1,12 @@
-import Torsion.WeakHarmonicWeyl.MeanValue
-import Torsion.WeakHarmonicWeyl.RadialKernel
-import Torsion.WeakHarmonicWeyl.Associativity
+module
+
+public import Torsion.WeakHarmonicWeyl.MeanValue
+public import Torsion.WeakHarmonicWeyl.RadialKernel
+public import Torsion.WeakHarmonicWeyl.Associativity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # A fixed local smooth representative of an actual weak harmonic gradient -/
 noncomputable section

@@ -1,4 +1,11 @@
-import Torsion.RestrictedSpectralMinimizer
+module
+
+public import Torsion.RestrictedSpectralMinimizer
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Odd-sector Rayleigh minimizers satisfy the full actual weak equation
@@ -70,7 +77,7 @@ private theorem odd_linear_coefficient_eq_zero {b c : ℝ}
   rw [heq] at h
   have hb : b ^ 2 = 0 := by
     nlinarith [sq_nonneg b, mul_nonneg (sq_nonneg b) hc]
-  exact pow_eq_zero hb
+  exact eq_zero_of_pow_eq_zero hb
 
 /-- The actual odd-sector minimum gives its weak equation against every
 original odd admissible test. -/

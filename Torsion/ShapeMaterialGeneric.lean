@@ -1,5 +1,11 @@
-import Mathlib.Analysis.Calculus.Deriv.Mul
-import Mathlib.Analysis.InnerProductSpace.Dual
+module
+
+public import Mathlib.Analysis.Calculus.Deriv.Mul
+public import Mathlib.Analysis.InnerProductSpace.Dual
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Hilbert-space differentiation of Riesz data
@@ -35,16 +41,16 @@ section Hilbert
 variable (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℝ E] [CompleteSpace E]
 
 /-- The real Riesz inverse as an actual bounded linear map. -/
-def hilbertRieszSourceMap : NormedSpace.Dual ℝ E →L[ℝ] E :=
+def hilbertRieszSourceMap : StrongDual ℝ E →L[ℝ] E :=
   (InnerProductSpace.toDual ℝ E).symm.toContinuousLinearEquiv.toContinuousLinearMap
 
 /-- Riesz identification of an actual bounded bilinear form. -/
 def hilbertRieszFormMap : (E →L[ℝ] E →L[ℝ] ℝ) →L[ℝ] (E →L[ℝ] E) :=
-  (ContinuousLinearMap.compL ℝ E (NormedSpace.Dual ℝ E) E)
+  (ContinuousLinearMap.compL ℝ E (StrongDual ℝ E) E)
     (hilbertRieszSourceMap E)
 
 @[simp] theorem hilbertRieszSourceMap_apply_inner
-    (f : NormedSpace.Dual ℝ E) (q : E) :
+    (f : StrongDual ℝ E) (q : E) :
     inner (𝕜 := ℝ) (hilbertRieszSourceMap E f) q = f q :=
   InnerProductSpace.toDual_symm_apply
 
@@ -54,11 +60,11 @@ def hilbertRieszFormMap : (E →L[ℝ] E →L[ℝ] ℝ) →L[ℝ] (E →L[ℝ] E
   InnerProductSpace.continuousLinearMapOfBilin_apply B p q
 
 theorem hilbertRieszSourceMap_comp_hasDerivAt
-    {f : ℝ → NormedSpace.Dual ℝ E} {f' : NormedSpace.Dual ℝ E} {x : ℝ}
+    {f : ℝ → StrongDual ℝ E} {f' : StrongDual ℝ E} {x : ℝ}
     (hf : HasDerivAt f f' x) :
     HasDerivAt (fun t : ℝ => hilbertRieszSourceMap E (f t))
       (hilbertRieszSourceMap E f') x :=
-  fixedCLM_comp_hasDerivAt (E := NormedSpace.Dual ℝ E) (F := E)
+  fixedCLM_comp_hasDerivAt (E := StrongDual ℝ E) (F := E)
     (hilbertRieszSourceMap E) hf
 
 theorem hilbertRieszFormMap_comp_hasDerivAt

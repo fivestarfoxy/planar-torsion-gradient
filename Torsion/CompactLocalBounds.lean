@@ -1,5 +1,11 @@
-import Torsion.ClassicalWeakLaplacian
-import Torsion.WeakHarmonicWeyl.Classical
+module
+
+public import Torsion.ClassicalWeakLaplacian
+public import Torsion.WeakHarmonicWeyl.Classical
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Genuine compact bounds from local smooth extensions -/
 

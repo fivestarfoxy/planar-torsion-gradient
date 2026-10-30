@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralWeakPrimitive
-import Torsion.RestrictedSpectralCorePrimitive
+module
+
+public import Torsion.RestrictedSpectralWeakPrimitive
+public import Torsion.RestrictedSpectralCorePrimitive
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The actual integrated equation without datum regularity

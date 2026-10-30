@@ -1,5 +1,11 @@
-import Torsion.Poincare
-import Mathlib.Analysis.Normed.Module.Convex
+module
+
+public import Torsion.Poincare
+public import Mathlib.Analysis.Normed.Module.Convex
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Poincaré estimates on arbitrary bounded domains
 

@@ -1,4 +1,10 @@
-import Torsion.CauchyTransformDecay
+module
+
+public import Torsion.CauchyTransformDecay
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Infinity moments of the differentiated Cauchy transforms

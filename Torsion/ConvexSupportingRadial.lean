@@ -1,5 +1,11 @@
-import Torsion.ConvexGaugeRadial
-import Torsion.MarkedFlux
+module
+
+public import Torsion.ConvexGaugeRadial
+public import Torsion.MarkedFlux
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Radial outer comparison at supporting boundary points

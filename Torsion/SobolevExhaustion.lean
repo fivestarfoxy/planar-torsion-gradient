@@ -1,5 +1,11 @@
-import Torsion.SobolevGraph
-import Torsion.SobolevMonotone
+module
+
+public import Torsion.SobolevGraph
+public import Torsion.SobolevMonotone
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Increasing-domain density for the concrete zero-boundary Sobolev graph

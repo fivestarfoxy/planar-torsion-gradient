@@ -1,6 +1,12 @@
-import Torsion.CauchyTransformImaginaryBoundary
-import Mathlib.Analysis.Calculus.MeanValue
-import Mathlib.Topology.MetricSpace.Holder
+module
+
+public import Torsion.CauchyTransformImaginaryBoundary
+public import Mathlib.Analysis.Calculus.MeanValue
+public import Mathlib.Topology.MetricSpace.Holder
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Hölder calculus for the actual integrated spectral densities

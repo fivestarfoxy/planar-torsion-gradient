@@ -1,5 +1,11 @@
-import Torsion.WeakHarmonicWeyl.ConvolutionEstimates
-import Torsion.WeakReflection
+module
+
+public import Torsion.WeakHarmonicWeyl.ConvolutionEstimates
+public import Torsion.WeakReflection
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Fixed smoothing kernels under parameter-dependent strong L² limits

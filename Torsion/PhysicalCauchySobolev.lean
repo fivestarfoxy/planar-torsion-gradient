@@ -1,8 +1,14 @@
-import Torsion.SobolevBoundaryAdmission
-import Torsion.PhysicalCauchyZeroExtension
-import Torsion.PhysicalCauchyPositivity
-import Mathlib.MeasureTheory.Function.LpSpace.Indicator
-import Mathlib.Analysis.Calculus.ContDiff.Operations
+module
+
+public import Torsion.SobolevBoundaryAdmission
+public import Torsion.PhysicalCauchyZeroExtension
+public import Torsion.PhysicalCauchyPositivity
+public import Mathlib.MeasureTheory.Function.LpSpace.Indicator
+public import Mathlib.Analysis.Calculus.ContDiff.Operations
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual H¹₀ admissibility of the physical Cauchy candidate
@@ -26,7 +32,7 @@ theorem physicalZeroGradient_eq {φ : ℝ → ℝ} {w : Plane} (hw : w ∈ cauch
   indicator_of_mem hw _
 
 theorem physicalZeroGradient_eq_zero {φ : ℝ → ℝ} {w : Plane} (hw : w ∉ cauchyImage φ) :
-    physicalZeroGradient φ w = 0 := indicator_of_not_mem hw _
+    physicalZeroGradient φ w = 0 := indicator_of_notMem hw _
 
 theorem physicalCandidate_contDiffOn {φ : ℝ → ℝ}
     (hφ : Continuous φ) (hodd : Function.Odd φ)

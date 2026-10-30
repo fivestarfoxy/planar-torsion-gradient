@@ -1,5 +1,11 @@
-import Torsion.CauchyConformalGeometry.BoundaryJunctionHolder
-import Torsion.CauchyConformalGeometry.FlatSegment
+module
+
+public import Torsion.CauchyConformalGeometry.BoundaryJunctionHolder
+public import Torsion.CauchyConformalGeometry.FlatSegment
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The joined charts cover actual frontier neighborhoods of both junctions

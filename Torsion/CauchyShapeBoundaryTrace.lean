@@ -1,6 +1,12 @@
-import Torsion.CauchyShapeBoundaryData
-import Torsion.PhysicalCauchyHarmonicBoundary
-import Torsion.PhysicalCauchyHarmonicLp
+module
+
+public import Torsion.CauchyShapeBoundaryData
+public import Torsion.PhysicalCauchyHarmonicBoundary
+public import Torsion.PhysicalCauchyHarmonicLp
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # The actual zero boundary trace of convection plus its harmonic lift -/
 

@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralEndpointIntegrability
-import Torsion.RestrictedSpectralSecondEndpoint
+module
+
+public import Torsion.RestrictedSpectralEndpointIntegrability
+public import Torsion.RestrictedSpectralSecondEndpoint
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! The endpoint quotient is integrable for the actual selected second eigenfunction. -/
 noncomputable section

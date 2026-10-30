@@ -1,4 +1,10 @@
-import Torsion.PhysicalCauchyHarmonicDerivative
+module
+
+public import Torsion.PhysicalCauchyHarmonicDerivative
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual uniform gradient bounds for smooth compact-data harmonic lifts

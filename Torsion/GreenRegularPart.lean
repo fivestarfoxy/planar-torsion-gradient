@@ -1,5 +1,11 @@
-import Torsion.ClassicalWeakLaplacian
-import Torsion.HalfPlaneGreenSourceTranslation
+module
+
+public import Torsion.ClassicalWeakLaplacian
+public import Torsion.HalfPlaneGreenSourceTranslation
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # A normalized logarithmic pole plus an actual harmonic regular part

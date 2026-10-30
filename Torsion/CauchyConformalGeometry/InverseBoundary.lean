@@ -1,5 +1,11 @@
-import Torsion.CauchyConformalGeometry.ExteriorBoundary
-import Mathlib.Topology.MetricSpace.Bounded
+module
+
+public import Torsion.CauchyConformalGeometry.ExteriorBoundary
+public import Mathlib.Topology.MetricSpace.Bounded
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Arbitrary physical approaches to the finite Cauchy boundary

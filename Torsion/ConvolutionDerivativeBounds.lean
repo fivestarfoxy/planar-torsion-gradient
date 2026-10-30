@@ -1,5 +1,11 @@
-import Torsion.WeakHarmonicWeyl.ConvolutionEstimates
-import Torsion.WeakHarmonicWeyl.RadialKernel
+module
+
+public import Torsion.WeakHarmonicWeyl.ConvolutionEstimates
+public import Torsion.WeakHarmonicWeyl.RadialKernel
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Quantitative derivatives of a fixed smoothing

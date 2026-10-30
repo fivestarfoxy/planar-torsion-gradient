@@ -1,6 +1,12 @@
-import Torsion.PhysicalCauchySobolev
-import Torsion.ClassicalWeakTorsion
-import Torsion.SobolevUniqueness
+module
+
+public import Torsion.PhysicalCauchySobolev
+public import Torsion.ClassicalWeakTorsion
+public import Torsion.SobolevUniqueness
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Identification of the physical Cauchy formula as actual weak torsion
@@ -27,13 +33,13 @@ theorem IsWeakTorsion.value_global_ae_eq_of_bounded {D : Set Plane}
     filter_upwards [hgrad] with x hx
     simp only [hx, sub_self, Pi.zero_apply]
   have hgradnorm : eLpNorm (fun x => g x - h x) 2 volume = 0 :=
-    (eLpNorm_eq_zero_iff htest.2.1.1 (by norm_num)).mpr hdiffgrad
+    (eLpNorm_eq_zero_iff (by norm_num)).mpr hdiffgrad
   obtain ⟨K, _, hP⟩ := exists_poincare_constant_of_bounded hb
   have hvaluenorm : eLpNorm (fun x => u x - v x) 2 volume = 0 := by
     apply le_antisymm
     · simpa only [hgradnorm, mul_zero] using hP _ _ htest
-    · exact zero_le _
-  have hdiffvalue := (eLpNorm_eq_zero_iff htest.1.1 (by norm_num)).mp hvaluenorm
+    · exact zero_le
+  have hdiffvalue := (eLpNorm_eq_zero_iff (by norm_num)).mp hvaluenorm
   filter_upwards [hdiffvalue] with x hx
   exact sub_eq_zero.mp hx
 

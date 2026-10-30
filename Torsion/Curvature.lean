@@ -1,6 +1,12 @@
-import Mathlib.Data.Real.Basic
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Data.Real.Basic
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The strict-curvature inequalities

@@ -1,7 +1,13 @@
-import Torsion.SobolevBoundaryAdmission
-import Torsion.ClassicalWeakLaplacian
-import Torsion.SobolevEnergy
-import Torsion.TorsionTranslation
+module
+
+public import Torsion.SobolevBoundaryAdmission
+public import Torsion.ClassicalWeakLaplacian
+public import Torsion.SobolevEnergy
+public import Torsion.TorsionTranslation
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Positive-part maximum principle and translation comparison

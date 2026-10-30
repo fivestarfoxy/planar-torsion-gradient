@@ -1,6 +1,12 @@
-import Lean
-import SubmissionStatement
-import Torsion.CanonicalOptimization
+module
+
+public import Lean
+public import SubmissionStatement
+public import Torsion.CanonicalOptimization
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 namespace TorsionSubmission
 
@@ -17,11 +23,7 @@ end TorsionSubmission
 
 -- Audit this new entry point as well as the original project's Audit.lean.
 run_cmd do
-  let env ← Lean.getEnv
-  let collect : Lean.CollectAxioms.M Unit := do
-    Lean.CollectAxioms.collect `TorsionSubmission.solution
-  let (_, state) := ((collect.run env).run {})
-  for ax in state.axioms do
+  for ax in (← Lean.collectAxioms `TorsionSubmission.solution) do
     unless [(`propext), (`Classical.choice), (`Quot.sound)].contains ax do
       throwError "Unexpected axiom {ax} in the submission theorem"
   Lean.logInfo "Submission theorem depends only on the permitted axioms."

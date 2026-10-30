@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralSecondExteriorIntegrability
-import Torsion.RestrictedSpectralConcavity
+module
+
+public import Torsion.RestrictedSpectralSecondExteriorIntegrability
+public import Torsion.RestrictedSpectralConcavity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual strict concavity of the constructed second eigenfunction

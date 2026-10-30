@@ -1,5 +1,9 @@
-import Mathlib.MeasureTheory.Function.L2Space
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
+module
+
+public import Mathlib.MeasureTheory.Function.L2Space
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
+
+@[expose] public section
 
 /-! The elementary one-half Hölder estimate for an actual L² primitive. -/
 noncomputable section
@@ -23,7 +27,7 @@ private theorem integral_mul_sq_le {μ : Measure ℝ} {f g : ℝ → ℝ}
 /-- A globally L² function is integrable on every finite interval. -/
 theorem _root_.MeasureTheory.MemLp.intervalIntegrable_of_two {f : ℝ → ℝ}
     (hf : MemLp f 2 volume) (a b : ℝ) : IntervalIntegrable f volume a b := by
-  apply intervalIntegrable_iff'.mpr
+  apply (intervalIntegrable_iff' (by finiteness)).mpr
   change Integrable f (volume.restrict (Icc (min a b) (max a b)))
   exact MemLp.integrable (by norm_num : (1 : ℝ≥0∞) ≤ 2) (hf.restrict _)
 
@@ -40,8 +44,7 @@ theorem _root_.MeasureTheory.MemLp.intervalIntegral_sq_le {f : ℝ → ℝ}
       simpa only [neg_sub] using hle b a hba
   intro a b hab
   have hg : MemLp (fun _ : ℝ => (1 : ℝ)) 2 (volume.restrict (Icc a b)) := by
-    apply (memLp_two_iff_integrable_sq aestronglyMeasurable_const).mpr
-    simpa only [one_pow] using (continuous_const : Continuous (fun _ : ℝ => (1 : ℝ))).integrableOn_Icc
+    exact memLp_const (1 : ℝ)
   have hCS := integral_mul_sq_le (hf.restrict (Icc a b)) hg
   simp only [mul_one, one_pow, setIntegral_const, smul_eq_mul, mul_one,
     Real.volume_real_Icc_of_le hab] at hCS

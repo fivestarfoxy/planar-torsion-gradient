@@ -1,6 +1,12 @@
-import Torsion.HilbertDirichlet
-import Torsion.ShapeMaterialInverse
-import Torsion.ShapeMaterialGeneric
+module
+
+public import Torsion.HilbertDirichlet
+public import Torsion.ShapeMaterialInverse
+public import Torsion.ShapeMaterialGeneric
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # The genuine base Dirichlet operator for material differentiation -/
 set_option maxHeartbeats 200000
@@ -11,11 +17,11 @@ open Set
 namespace Torsion.Shape
 open HilbertDirichlet
 
-def rieszSourceMap (D : Set Plane) : NormedSpace.Dual ℝ (space D) →L[ℝ] space D :=
+def rieszSourceMap (D : Set Plane) : StrongDual ℝ (space D) →L[ℝ] space D :=
   hilbertRieszSourceMap (space D)
 
 @[simp] theorem rieszSourceMap_apply_inner (D : Set Plane)
-    (f : NormedSpace.Dual ℝ (space D)) (q : space D) :
+    (f : StrongDual ℝ (space D)) (q : space D) :
     inner (𝕜 := ℝ) (rieszSourceMap D f) q = f q :=
   hilbertRieszSourceMap_apply_inner (space D) f q
 
@@ -35,7 +41,7 @@ theorem rieszFormMap_comp_hasDerivAt (D : Set Plane)
   hilbertRieszFormMap_comp_hasDerivAt (space D) hB
 
 theorem rieszSourceMap_comp_hasDerivAt (D : Set Plane)
-    {f : ℝ → NormedSpace.Dual ℝ (space D)} {f' : NormedSpace.Dual ℝ (space D)}
+    {f : ℝ → StrongDual ℝ (space D)} {f' : StrongDual ℝ (space D)}
     (hf : HasDerivAt f f' 0) :
     HasDerivAt (fun t : ℝ => rieszSourceMap D (f t)) (rieszSourceMap D f') 0 :=
   hilbertRieszSourceMap_comp_hasDerivAt (space D) hf

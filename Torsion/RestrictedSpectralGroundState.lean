@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralEigenpairs
-import Torsion.RestrictedSpectralMinimizer
-import Torsion.CompactSpectral.SecondAfterFirst
+module
+
+public import Torsion.RestrictedSpectralEigenpairs
+public import Torsion.RestrictedSpectralMinimizer
+public import Torsion.CompactSpectral.SecondAfterFirst
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # An actual even nonnegative normalized restricted ground state
@@ -90,7 +97,7 @@ theorem resolvent_quadratic_bound_of_form_lower_bound {a : ℝ} (ha : 0 < a)
   have hwpos : 0 < ‖w‖ := norm_pos_iff.mpr hw
   have hcs : inner (𝕜 := ℝ) F w ≤ ‖F‖ * ‖w‖ := real_inner_le_norm F w
   have hmul : a * ‖w‖ ≤ ‖F‖ := by
-    apply (mul_le_mul_right hwpos).mp
+    apply (mul_le_mul_iff_right₀ hwpos).mp
     nlinarith [hl, hcs]
   have hwnorm : ‖w‖ ≤ ‖F‖ / a :=
     (le_div_iff₀ ha).mpr (by simpa only [mul_comm] using hmul)

@@ -1,6 +1,12 @@
-import Torsion.ShapeMaterialIdentification
-import Torsion.ShapeEulerianCommutator
-import Torsion.SobolevUniqueness
+module
+
+public import Torsion.ShapeMaterialIdentification
+public import Torsion.ShapeEulerianCommutator
+public import Torsion.SobolevUniqueness
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # The actual material derivative gives a localized Eulerian harmonic pair -/
 
@@ -56,7 +62,7 @@ theorem materialDerivative_compact_test_equation (D : Set Plane) (hD : Measurabl
       rw [hx]
     · apply setIntegral_eq_integral_of_forall_compl_eq_zero
       intro x hx
-      rw [image_eq_zero_of_nmem_tsupport (fun h => hx (hψ.2.2 h)), mul_zero]
+      rw [image_eq_zero_of_notMem_tsupport (fun h => hx (hψ.2.2 h)), mul_zero]
   have ha : (∫ x in D, inner (𝕜 := ℝ)
       (energyVariationOperator V x (gradientMap D (materialSolution D hD hb hV hVc 0) x))
       (gradientMap D q x)) = ∫ x, inner (𝕜 := ℝ)

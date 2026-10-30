@@ -1,4 +1,11 @@
-import Torsion.RestrictedSpectralLattice
+module
+
+public import Torsion.RestrictedSpectralLattice
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual Rayleigh minimizers satisfy the actual weak eigenfunction equation
@@ -28,7 +35,7 @@ private theorem linear_coefficient_eq_zero_of_nonneg_quadratic {b c : ℝ}
   rw [heq] at h
   have hb : b ^ 2 = 0 := by
     nlinarith [sq_nonneg b, mul_nonneg (sq_nonneg b) hc]
-  exact pow_eq_zero hb
+  exact eq_zero_of_pow_eq_zero hb
 
 /-- The exact quadratic energy expansion in the original concrete form. -/
 theorem energy_add_const_mul_self {f g : ℝ → ℝ}

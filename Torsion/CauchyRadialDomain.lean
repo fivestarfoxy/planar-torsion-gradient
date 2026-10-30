@@ -1,9 +1,15 @@
-import Torsion.CauchyConformalGeometry.Convexity
-import Torsion.CauchyConformalGeometry.MarkedGeometry
-import Torsion.ContinuousProfiles
-import Torsion.CauchyRadialProfile
-import Torsion.CauchyImageAreaExact
-import Torsion.PhysicalCauchyMarkedFlux
+module
+
+public import Torsion.CauchyConformalGeometry.Convexity
+public import Torsion.CauchyConformalGeometry.MarkedGeometry
+public import Torsion.ContinuousProfiles
+public import Torsion.CauchyRadialProfile
+public import Torsion.CauchyImageAreaExact
+public import Torsion.PhysicalCauchyMarkedFlux
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual radial domain of the Cauchy image

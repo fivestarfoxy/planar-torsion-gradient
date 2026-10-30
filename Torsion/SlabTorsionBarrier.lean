@@ -1,6 +1,12 @@
-import Torsion.ClassicalWeakTorsion
-import Torsion.DomainComparison
-import Torsion.WeakReflection.Poisson
+module
+
+public import Torsion.ClassicalWeakTorsion
+public import Torsion.DomainComparison
+public import Torsion.WeakReflection.Poisson
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual torsion barrier of a containing slab

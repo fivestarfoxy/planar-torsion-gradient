@@ -1,8 +1,15 @@
-import Torsion.SobolevGraph
-import Torsion.Sobolev
-import Torsion.L2Dominated
-import Mathlib.Analysis.Calculus.Deriv.Comp
-import Mathlib.MeasureTheory.Function.ConvergenceInMeasure
+module
+
+public import Torsion.SobolevGraph
+public import Torsion.Sobolev
+public import Torsion.L2Dominated
+public import Mathlib.Analysis.Calculus.Deriv.Comp
+public import Mathlib.Analysis.Calculus.ContDiff.Deriv
+public import Mathlib.MeasureTheory.Function.ConvergenceInMeasure
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Smooth Lipschitz chain rules in the actual zero-boundary Sobolev graph -/
 
@@ -31,6 +38,8 @@ theorem IsTest.comp_smooth {D : Set Plane} {f : Plane → ℝ} {Ψ : ℝ → ℝ
 /-- Lipschitz scalar composition preserves L² convergence of values. -/
 theorem tendsto_eLpNorm_lipschitz_comp {Ψ : ℝ → ℝ} {C : ℝ≥0}
     (hLip : LipschitzWith C Ψ) {uₙ : ℕ → Plane → ℝ} {u : Plane → ℝ}
+    (huₙ : ∀ n, AEStronglyMeasurable (uₙ n) volume)
+    (hu : AEStronglyMeasurable u volume)
     (hval : Tendsto (fun n => eLpNorm (fun x => uₙ n x - u x) 2 volume) atTop (𝓝 0)) :
     Tendsto (fun n => eLpNorm (fun x => Ψ (uₙ n x) - Ψ (u x)) 2 volume)
       atTop (𝓝 0) := by
@@ -38,9 +47,11 @@ theorem tendsto_eLpNorm_lipschitz_comp {Ψ : ℝ → ℝ} {C : ℝ≥0}
     (Or.inr ENNReal.ofReal_ne_top)
   simp only [mul_zero] at hlim
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hlim
-    (fun _ => zero_le _)
+    (fun _ => zero_le)
   intro n
   exact eLpNorm_le_mul_eLpNorm_of_ae_le_mul
+    ((hLip.continuous.comp_aestronglyMeasurable (huₙ n)).sub
+      (hLip.continuous.comp_aestronglyMeasurable hu))
     (Eventually.of_forall (fun x => hLip.norm_sub_le (uₙ n x) (u x))) 2
 
 /-- The genuine smooth Lipschitz chain rule in the original H¹₀ graph.
@@ -54,14 +65,14 @@ theorem MemH10.comp_smooth_lipschitz {D : Set Plane} {u : Plane → ℝ} {g : Pl
   obtain ⟨hmu, hmg, f, hf, hval, hgrad⟩ := hu
   have hderiv : Continuous (deriv Ψ) := hΨ.continuous_deriv (by simp)
   have hameas : AEStronglyMeasurable (fun x => deriv Ψ (u x)) volume :=
-    hderiv.comp_aestronglyMeasurable hmu.1
+    hderiv.comp_aestronglyMeasurable hmu.aestronglyMeasurable
   have hbound : ∀ᵐ x ∂volume, ‖deriv Ψ (u x)‖ ≤ (C : ℝ) :=
     Eventually.of_forall (fun _ => norm_deriv_le_of_lipschitz hLip)
   have htarget : MemLp (fun x => deriv Ψ (u x) • g x) 2 volume :=
     memLp_bounded_coeff_smul hameas hmg hbound
   have hmeasure := tendstoInMeasure_of_tendsto_eLpNorm
-    (by norm_num : (2 : ℝ≥0∞) ≠ 0)
-    (fun n => (hf n).1.continuous.aestronglyMeasurable) hmu.1 hval
+    (f := f) (g := u) (μ := volume) (by norm_num : (2 : ℝ≥0∞) ≠ 0)
+    (by simpa only [Pi.sub_def] using hval)
   obtain ⟨ν, hν, hνae⟩ := hmeasure.exists_seq_tendsto_ae
   have hvalsub := hval.comp hν.tendsto_atTop
   have hgradsub := hgrad.comp hν.tendsto_atTop
@@ -77,7 +88,9 @@ theorem MemH10.comp_smooth_lipschitz {D : Set Plane} {u : Plane → ℝ} {g : Pl
     (fun n => (hf (ν n)).memLp_gradient) hmg hbn hbound halim hgradsub
   refine ⟨hLip.comp_memLp hzero hmu, htarget,
     (fun n => Ψ ∘ f (ν n)), (fun n => (hf (ν n)).comp_smooth hΨ hzero),
-    tendsto_eLpNorm_lipschitz_comp hLip hvalsub, ?_⟩
+    tendsto_eLpNorm_lipschitz_comp hLip
+      (fun n => (hf (ν n)).1.continuous.aestronglyMeasurable)
+      hmu.aestronglyMeasurable hvalsub, ?_⟩
   have heq (n : ℕ) : gradient (Ψ ∘ f (ν n)) =
       fun x => deriv Ψ (f (ν n) x) • gradient (f (ν n)) x := by
     funext x

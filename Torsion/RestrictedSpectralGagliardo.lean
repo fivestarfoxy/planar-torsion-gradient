@@ -1,7 +1,14 @@
-import Torsion.FourierPlancherel
-import Torsion.RestrictedSpectralEnergyContinuity
-import Torsion.RestrictedSpectralGagliardoSymbol
-import Mathlib.MeasureTheory.Integral.Prod
+module
+
+public import Torsion.FourierPlancherel
+public import Torsion.RestrictedSpectralEnergyContinuity
+public import Torsion.RestrictedSpectralGagliardoSymbol
+public import Mathlib.MeasureTheory.Integral.Prod
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Translation and Gagliardo foundations for the actual Fourier form
@@ -113,6 +120,7 @@ theorem gagliardoEnergy_abs_le (f : ℝ → ℝ) :
 
 /-- The physical squared translated quotient is genuinely integrable for
 all translations of a compact smooth function, including h=0. -/
+set_option maxHeartbeats 800000 in
 theorem integrable_sq_translate_quotient_of_core {f : ℝ → ℝ}
     (hf : ContDiff ℝ ∞ f) (hc : HasCompactSupport f) (h : ℝ) :
     Integrable (fun x : ℝ => (f (x + h) - f x) ^ 2 / h ^ 2) := by
@@ -189,11 +197,7 @@ theorem gagliardoEnergy_eq_frequency_iterated_of_core {f : ℝ → ℝ}
   have hm : Measurable (fun p : ℝ × ℝ =>
       ENNReal.ofReal ((2 - 2 * Real.cos (p.1 * p.2)) / p.1 ^ 2) *
         ENNReal.ofReal (‖fourier f p.2‖ ^ 2)) := by
-    apply Measurable.mul
-    · apply Measurable.ennreal_ofReal
-      fun_prop
-    · apply Measurable.ennreal_ofReal
-      exact ((hF.comp continuous_snd).norm.pow 2).measurable
+    fun_prop
   rw [lintegral_lintegral_swap hm.aemeasurable]
   apply lintegral_congr
   intro ξ
@@ -236,6 +240,6 @@ theorem energy_comp_le_of_core {f Φ : ℝ → ℝ}
   rw [gagliardoEnergy_of_core hcomp hcompc, gagliardoEnergy_of_core hf hc] at hG
   have hreal := (ENNReal.ofReal_le_ofReal_iff
     (mul_nonneg gagliardoSymbolConstant_pos.le (energy_nonneg f))).1 hG
-  exact (mul_le_mul_left gagliardoSymbolConstant_pos).1 hreal
+  exact (mul_le_mul_iff_left₀ gagliardoSymbolConstant_pos).1 hreal
 
 end Torsion.Spectral

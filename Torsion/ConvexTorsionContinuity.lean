@@ -1,8 +1,14 @@
-import Torsion.NormalFrame
-import Torsion.ConvexSupportingPoint
-import Torsion.WeakTorsionRepresentative
-import Torsion.SlabTorsionBarrier
-import Torsion.BoundaryCollarGradient
+module
+
+public import Torsion.NormalFrame
+public import Torsion.ConvexSupportingPoint
+public import Torsion.WeakTorsionRepresentative
+public import Torsion.SlabTorsionBarrier
+public import Torsion.BoundaryCollarGradient
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Genuine continuous zero extension on every original convex domain

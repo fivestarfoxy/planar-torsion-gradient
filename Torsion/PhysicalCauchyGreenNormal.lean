@@ -1,5 +1,11 @@
-import Torsion.PhysicalCauchyGreen
-import Torsion.PositiveLocalInverse
+module
+
+public import Torsion.PhysicalCauchyGreen
+public import Torsion.PositiveLocalInverse
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The physical inward-normal Green source at the marked point

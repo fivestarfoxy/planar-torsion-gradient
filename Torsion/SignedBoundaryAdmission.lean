@@ -1,5 +1,11 @@
-import Torsion.SmoothZeroLevel
-import Torsion.SobolevBoundaryAdmission
+module
+
+public import Torsion.SmoothZeroLevel
+public import Torsion.SobolevBoundaryAdmission
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Signed zero-boundary admission in the original Sobolev graph

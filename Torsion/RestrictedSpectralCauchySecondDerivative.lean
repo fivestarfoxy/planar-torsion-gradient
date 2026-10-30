@@ -1,4 +1,11 @@
-import Torsion.RestrictedSpectralQuadraticZero
+module
+
+public import Torsion.RestrictedSpectralQuadraticZero
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 noncomputable section
 open Set Filter MeasureTheory Metric

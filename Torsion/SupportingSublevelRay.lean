@@ -1,6 +1,12 @@
-import Torsion.CanonicalSupportingFlux
-import Mathlib.Analysis.Calculus.Deriv.Comp
-import Mathlib.Analysis.Calculus.Deriv.Slope
+module
+
+public import Torsion.CanonicalSupportingFlux
+public import Mathlib.Analysis.Calculus.Deriv.Comp
+public import Mathlib.Analysis.Calculus.Deriv.Slope
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Actual inward normal rays in regular sublevel domains -/
 

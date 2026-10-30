@@ -1,5 +1,11 @@
-import Torsion.RestrictedSpectralPrimitive
-import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+module
+
+public import Torsion.RestrictedSpectralPrimitive
+public import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The damped Hilbert Fourier multiplier

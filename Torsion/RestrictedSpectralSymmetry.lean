@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralDistribution
-import Mathlib.MeasureTheory.Group.Integral
-import Mathlib.Algebra.Group.EvenFunction
-import Mathlib.MeasureTheory.Function.LpSeminorm.TriangleInequality
+module
+
+public import Torsion.RestrictedSpectralDistribution
+public import Mathlib.MeasureTheory.Group.Integral
+public import Mathlib.Algebra.Group.EvenFunction
+public import Mathlib.MeasureTheory.Function.LpSeminorm.TriangleInequality
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Reflection symmetry of the concrete restricted Fourier problem
@@ -77,7 +84,7 @@ theorem MemRestrictedFormDomain.reflect {f : ℝ → ℝ}
     funext n
     change eLpNorm ((fun x => v n x - f x) ∘ (fun x => -x)) 2 volume = _
     exact eLpNorm_comp_measurePreserving
-      (((hv n).1.continuous.aestronglyMeasurable).sub hlp.1)
+      (((hv n).1.continuous.aestronglyMeasurable).sub hlp.aestronglyMeasurable)
       (Measure.measurePreserving_neg volume)
   · convert hve using 1
     funext n
@@ -91,7 +98,10 @@ theorem IsRestrictedEigenfunction.reflect {a : ℝ} {φ : ℝ → ℝ}
   refine ⟨hφ.1.reflect, ?_, ?_⟩
   · intro hz
     have hz' := (Measure.measurePreserving_neg (volume : Measure ℝ)).quasiMeasurePreserving.ae hz
-    exact hφ.2.1 (by simpa only [neg_neg] using hz')
+    apply hφ.2.1
+    filter_upwards [hz'] with x hx
+    change φ x = 0
+    simpa only [neg_neg, Pi.zero_apply] using hx
   · intro ψ hψ
     rw [energy_reflect_left, hφ.2.2 _ hψ.reflect]
     congr 1
@@ -102,7 +112,7 @@ theorem IsRestrictedEigenfunction.reflect {a : ℝ} {φ : ℝ → ℝ}
 theorem IsCore.add {f g : ℝ → ℝ} (hf : IsCore f) (hg : IsCore g) :
     IsCore (fun x => f x + g x) :=
   ⟨hf.1.add hg.1, hf.2.1.add hg.2.1,
-    tsupport_add.trans (union_subset hf.2.2 hg.2.2)⟩
+    (tsupport_add f g).trans (union_subset hf.2.2 hg.2.2)⟩
 
 /-- Scalar multiplication preserves the actual smooth core. -/
 theorem IsCore.const_mul {f : ℝ → ℝ} (hf : IsCore f) (c : ℝ) :
@@ -166,15 +176,13 @@ theorem MemRestrictedFormDomain.add {f g : ℝ → ℝ}
   · apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds
       (by simpa using hvlp.add hwlp)
     · intro n
-      exact zero_le _
+      exact zero_le
     · intro n
       have heq : (fun x => v n x + w n x - (f x + g x)) =
           fun x => (v n x - f x) + (w n x - g x) := by funext x; ring
       dsimp only
       rw [heq]
-      exact eLpNorm_add_le
-        (((hv n).1.continuous.aestronglyMeasurable).sub hflp.1)
-        (((hw n).1.continuous.aestronglyMeasurable).sub hglp.1) (by norm_num)
+      exact eLpNorm_add_le (by norm_num)
   · apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds
       (by simpa using (hve.const_mul 2).add (hwe.const_mul 2))
     · intro n

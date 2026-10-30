@@ -1,10 +1,16 @@
-import Torsion.SobolevGraph
-import Torsion.SobolevSupport
-import Torsion.Poincare
-import Torsion.BoundedDomains
-import Mathlib.Analysis.InnerProductSpace.ProdL2
-import Mathlib.Analysis.InnerProductSpace.LaxMilgram
-import Mathlib.MeasureTheory.Function.L2Space
+module
+
+public import Torsion.SobolevGraph
+public import Torsion.SobolevSupport
+public import Torsion.Poincare
+public import Torsion.BoundedDomains
+public import Mathlib.Analysis.InnerProductSpace.ProdL2
+public import Mathlib.Analysis.InnerProductSpace.LaxMilgram
+public import Mathlib.MeasureTheory.Function.L2Space
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Construction of the actual weak Dirichlet solution

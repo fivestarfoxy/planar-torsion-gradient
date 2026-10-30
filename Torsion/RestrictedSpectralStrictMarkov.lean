@@ -1,4 +1,11 @@
-import Torsion.RestrictedSpectralGagliardoKernel
+module
+
+public import Torsion.RestrictedSpectralGagliardoKernel
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Strict absolute-value contraction and constant sign

@@ -1,6 +1,13 @@
-import Torsion.CauchyTracePairingLimit
-import Torsion.FourierHilbertPairing
-import Torsion.PhysicalCauchyMarkedFlux
+module
+
+public import Torsion.CauchyTracePairingLimit
+public import Torsion.FourierHilbertPairing
+public import Torsion.PhysicalCauchyMarkedFlux
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The linear Hilbert equation from the actual restricted eigenfunction

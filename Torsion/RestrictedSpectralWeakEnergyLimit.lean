@@ -1,8 +1,15 @@
-import Torsion.RestrictedSpectralEnergyContinuity
-import Torsion.RestrictedSpectralFourierWindows
-import Torsion.RestrictedSpectralParseval
-import Torsion.FourierHilbertPairing
-import Torsion.L2Dominated
+module
+
+public import Torsion.RestrictedSpectralEnergyContinuity
+public import Torsion.RestrictedSpectralFourierWindows
+public import Torsion.RestrictedSpectralParseval
+public import Torsion.FourierHilbertPairing
+public import Torsion.L2Dominated
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Weak vanishing of actual finite-energy Fourier pairings

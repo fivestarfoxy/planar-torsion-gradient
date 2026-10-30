@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralBoundaryPrimitive
-import Torsion.RestrictedSpectralRegularRepresentative
-import Torsion.FourierHilbertPairing
+module
+
+public import Torsion.RestrictedSpectralBoundaryPrimitive
+public import Torsion.RestrictedSpectralRegularRepresentative
+public import Torsion.FourierHilbertPairing
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The actual energy kernel for separated integrable data
@@ -374,13 +381,13 @@ theorem exterior_kernel_pairing_continuousAt_zero {r ψ : ℝ → ℝ}
       · rw [norm_mul]
         exact mul_le_mul_of_nonneg_left
           (exteriorKernelPair_bound hr hzero hR1 (hR x (hsupp hx)) y) (norm_nonneg _)
-      · simp only [image_eq_zero_of_nmem_tsupport hx, zero_mul, norm_zero, le_refl]
+      · simp only [image_eq_zero_of_notMem_tsupport hx, zero_mul, norm_zero, le_refl]
   · exact hdi.norm.mul_const _
   · exact ae_of_all _ fun x => by
       by_cases hx : x ∈ tsupport (_root_.deriv ψ)
       · exact continuousAt_const.mul (exteriorKernelPair_continuousAt_zero hr hzero
           ((hR x (hsupp hx)).trans_lt hR1))
-      · simp only [image_eq_zero_of_nmem_tsupport hx, zero_mul]
+      · simp only [image_eq_zero_of_notMem_tsupport hx, zero_mul]
         exact continuousAt_const
 
 private theorem exteriorKernelPair_zero (r : ℝ → ℝ) (x : ℝ) :
@@ -431,7 +438,7 @@ theorem energy_eq_exterior_kernel_pairing {r ψ : ℝ → ℝ}
     by_cases hx : x ∈ Ioo (-1 : ℝ) 1
     · rw [hHd x hx]
       ring
-    · have hz : ψ x = 0 := image_eq_zero_of_nmem_tsupport (fun h => hx (hψ.2.2 h))
+    · have hz : ψ x = 0 := image_eq_zero_of_notMem_tsupport (fun h => hx (hψ.2.2 h))
       simp [hz]
   calc
     energy r ψ = ∫ x : ℝ, H x * _root_.deriv ψ x := by
@@ -472,7 +479,7 @@ theorem integrable_exterior_double_kernel {r ψ : ℝ → ℝ} (hr : Integrable 
       simp only [norm_div, norm_mul, norm_pow, Real.norm_eq_abs]
       exact div_le_div_of_nonneg_left (mul_nonneg (abs_nonneg _) (abs_nonneg _))
         (sq_pos_of_pos hδ) (pow_le_pow_left₀ hδ.le hd 2)
-  · simp [image_eq_zero_of_nmem_tsupport hx]
+  · simp [image_eq_zero_of_notMem_tsupport hx]
 
 /-- Fubini in the actual separated kernel, including its symmetry under
 interchanging the interior and exterior variables. -/

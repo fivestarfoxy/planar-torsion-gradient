@@ -1,5 +1,11 @@
-import Torsion.ConformalGreenRegularPart
-import Torsion.GreenRegularPart
+module
+
+public import Torsion.ConformalGreenRegularPart
+public import Torsion.GreenRegularPart
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual weak Green equation on the Cauchy image

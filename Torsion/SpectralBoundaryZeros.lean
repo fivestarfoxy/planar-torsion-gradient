@@ -1,7 +1,11 @@
-import Torsion.CauchyTransformHeightDerivative
-import Torsion.CurvatureFromConcavity
-import Mathlib.Analysis.Calculus.Deriv.MeanValue
-import Mathlib.Topology.Order.IntermediateValue
+module
+
+public import Torsion.CauchyTransformHeightDerivative
+public import Torsion.CurvatureFromConcavity
+public import Mathlib.Analysis.Calculus.Deriv.MeanValue
+public import Mathlib.Topology.Order.IntermediateValue
+
+@[expose] public section
 
 /-!
 # The unique zero of the spectral boundary velocity
@@ -78,9 +82,9 @@ theorem hasDerivAt_boundaryVelocity {a b : ℝ} {φ : ℝ → ℝ}
     (hφ : Continuous φ) (hodd : Function.Odd φ)
     (hzero : ∀ x : ℝ, 1 ≤ |x| → φ x = 0) (x : ℝ) :
     HasDerivAt (boundaryVelocity a b φ) (a * φ x) x := by
-  convert (hasDerivAt_const x b).sub ((hasDerivAt_height hφ hodd hzero x).const_mul a)
-    using 1
-  simp [boundaryVelocity]
+  set_option backward.isDefEq.respectTransparency false in
+  simpa only [boundaryVelocity, mul_neg, sub_neg_eq_add, zero_add] using!
+    (hasDerivAt_const x b).sub ((hasDerivAt_height hφ hodd hzero x).const_mul a)
 
 /-- The actual velocity is strictly increasing on the entire closed
 positive interval, including its two endpoints. -/
@@ -109,7 +113,7 @@ theorem boundaryVelocity_zero_le_negative_half_height {a b : ℝ} {φ : ℝ → 
   have hN := squareMass_le_height_zero_mul_mass hφ
     (nonneg_on_unitInterval_of_odd_positive hodd hzero hpos)
   have hb : 2 * b ≤ a * height φ 0 := by
-    apply (mul_le_mul_right hM).mp
+    apply (mul_le_mul_iff_right₀ hM).mp
     nlinarith [mul_le_mul_of_nonneg_left hN ha.le]
   dsimp [boundaryVelocity]
   linarith

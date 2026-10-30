@@ -1,22 +1,33 @@
 # Planar torsion-gradient optimization in Lean
 
-[![Lean build and axiom audit](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/lean-audit.yml/badge.svg)](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/lean-audit.yml)
-
 Caden Young. Companion development for *An exact spectral construction for the optimal planar torsion gradient*.
 
-The formalized core proves the sharp torsion-gradient bound for every original bounded, open, nonempty convex planar domain, the exact spectral value, and attainment by the constructed area-normalized Cauchy image. The weak Dirichlet solution, gradient norm, Euclidean area, restricted half-Laplacian eigenpair, and attaining domain are constructed from their original mathematical definitions.
+The formalized core proves the sharp torsion-gradient bound for every original bounded, open, nonempty convex planar domain, the exact spectral value, and attainment by the constructed area-normalized Cauchy image. The weak Dirichlet solution, gradient norm, Euclidean area, restricted half-Laplacian eigenpair, and attaining domain use their original mathematical definitions.
 
-## Build
+## Verification status
 
-Lean **4.19.0**; mathlib revision **c44e0c8ee63ca166450922a373c7409c5d26b00b**, with all dependencies pinned by `lake-manifest.json`.
+| Development | Status |
+| --- | --- |
+| Lean 4.19 baseline at `a4fe19c71d4ac5ffbd85fc9d2f013a0c7b1a5e4b` | Full build, 3,587-theorem axiom audit, and submission wrapper passed [GitHub run 41132349657](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/runs/41132349657). |
+| Current Lean 4.35.0-rc2 port | Full build and axiom audit pending while API migration is in progress. |
+| Principia Comparator for the port | Pending; no Comparator pass is claimed. |
+
+The passing Lean 4.19 baseline remains intact on `main` while the compatibility branch is prepared. The current port changes module visibility metadata and mathlib API usage while preserving the mathematical statements and definitions. The recorded v8 census of 392 mathematical modules, 52,713 lines, and 3,587 audited theorem declarations describes the historical source, not a new census or audit of this port.
+
+## Build the compatibility branch
+
+Lean **4.35.0-rc2**; mathlib revision **065356127b1dc0016f66b7283ce0ce2c4055aa55**. The complete dependency set is pinned in `lake-manifest.json`.
 
 ```sh
 lake exe cache get
 lake build
 lake env lean Audit.lean
+lake build SubmissionStatement Challenge Solution
 ```
 
-`Torsion.lean` imports the original development. `Audit.lean` checks every project theorem's axiom dependencies, allowing only `propext`, `Classical.choice`, and `Quot.sound`. The supplied v8 records report 392 mathematical modules, 52,713 source lines, and 3,587 audited theorem declarations. GitHub Actions supplies a separate check of the current repository commit.
+`Torsion.lean` imports the complete development. `Audit.lean` checks every project theorem's axiom dependencies, allowing only `propext`, `Classical.choice`, and `Quot.sound`. `Solution.lean` additionally checks the submission theorem's axiom dependencies.
+
+The separate [Comparator workflow](.github/workflows/comparator.yml) uses the `lake comparator` bundled with the pinned Lean toolchain. It builds the solution in its bubblewrap sandbox, compares it with the reference statement, and replays the proof through Lean's kernel and the bundled independent kernels NanoDa and con-ron. It uses a fresh runner checkout; an ordinary build or axiom-audit pass does not substitute for this check. See [docs/PRINCIPIA_CI_SETUP.md](docs/PRINCIPIA_CI_SETUP.md) for the interface and reproduction instructions.
 
 ## Main declarations
 
@@ -24,17 +35,17 @@ lake env lean Audit.lean
 - `Torsion.DirichletTheory.G_le_second_spectral_bound`: universal bound for arbitrary convex competitors (`Torsion/CanonicalUniversal.lean`).
 - `Torsion.Spectral.second_localized_hadamard`: localized marked Hadamard formula (`Torsion/CanonicalHadamard.lean`).
 
-`SubmissionStatement.lean` defines a concrete aggregate claim using the original objects. `Challenge.lean` states it with the single deliberate reference placeholder used by Comparator. `Solution.lean` imports the statement definitions, never the reference theorem, and proves the same claim from the unconditional development while auditing its own axiom dependencies. CI checks these additive entry points after building and auditing the original library. The reference placeholder is outside the proof development. No Comparator pass is claimed.
+`SubmissionStatement.lean` defines the concrete aggregate claim using the original objects. `Challenge.lean` states it with the single deliberate reference placeholder used by Comparator. `Solution.lean` imports the statement definitions, never the reference theorem, and proves the same claim from the unconditional development. The reference placeholder is outside the proof development.
 
 ## Scope and provenance
 
-The manuscript's classical uniqueness classification is outside the existing Lean final theorem. General deficit identities are formalized with their explicit premises; no separate concrete theorem of full gradient-functional shape stability is claimed. Floating-point illustrations are not proof inputs.
+The scope remains the sharp bound, exact value, and attainment. The manuscript's classical uniqueness classification is outside the existing Lean final theorem. General deficit identities are formalized with their explicit premises; no separate concrete theorem of full gradient-functional shape stability is claimed. Floating-point illustrations are not proof inputs.
 
-The original mathematical sources, toolchain, dependency manifest, and audit are preserved. Lake configuration adds only the three submission-module targets, with the original default target unchanged; its original configuration is retained in `docs/UPSTREAM_V8_LAKEFILE.toml`. The supplied original README is retained in [docs/UPSTREAM_V8_README.md](docs/UPSTREAM_V8_README.md), and historical logs remain in `validation/`. Earlier comments about conditional interfaces are superseded by the final canonical constructions; inspect their actual definitions and theorem statements.
+The original Lean 4.19 source and verification evidence remain available at the baseline commit above. The supplied original README is retained in [docs/UPSTREAM_V8_README.md](docs/UPSTREAM_V8_README.md), its original Lake configuration in `docs/UPSTREAM_V8_LAKEFILE.toml`, and historical logs in `validation/`. These records retain their original toolchain context. Earlier comments about conditional interfaces are superseded by the final canonical constructions; inspect the actual definitions and theorem statements.
 
 Source archive v8 SHA-256: `1059841c96aef5d29d8187e53cdf3e69129ee9e3b4bd1ca2d46aab5972185e33`.
 
-[Principia project](https://principia-math.com/projects/bba012475f16aba858c09b39c012a93d). See [docs/PRINCIPIA_CI_SETUP.md](docs/PRINCIPIA_CI_SETUP.md) for the build/audit workflow and remaining comparator compatibility work. The existing Lean 4.19 baseline has not been silently upgraded to the newer template toolchain.
+[Principia project](https://principia-math.com/projects/bba012475f16aba858c09b39c012a93d).
 
 ## License
 

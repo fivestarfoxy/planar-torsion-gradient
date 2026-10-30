@@ -1,5 +1,11 @@
-import Torsion.NormalFrame
-import Torsion.SupportedConvexFlatHullUniform
+module
+
+public import Torsion.NormalFrame
+public import Torsion.SupportedConvexFlatHullUniform
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Uniform interior balls and flat outer patches in supporting normal frames -/
 

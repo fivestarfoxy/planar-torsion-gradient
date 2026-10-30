@@ -1,6 +1,13 @@
-import Torsion.SobolevBoundaryAdmission
-import Torsion.RestrictedSpectralWeakClosure
-import Torsion.RestrictedSpectralGagliardo
+module
+
+public import Torsion.SobolevBoundaryAdmission
+public import Torsion.RestrictedSpectralWeakClosure
+public import Torsion.RestrictedSpectralGagliardo
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Admission of continuous positive interior data from its actual difference energy

@@ -1,6 +1,12 @@
-import Torsion.MarkedHullCollarComparison
-import Torsion.SupportedConvexFlatHullUniform
-import Torsion.FlatOuterHullArea
+module
+
+public import Torsion.MarkedHullCollarComparison
+public import Torsion.SupportedConvexFlatHullUniform
+public import Torsion.FlatOuterHullArea
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # A sharp uniform normal collar bound from the actual flat outer hull

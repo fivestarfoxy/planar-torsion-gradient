@@ -1,7 +1,13 @@
-import Torsion.PhysicalTorsionCalculus
-import Torsion.CauchyConformalGeometry.Inverse
-import Torsion.CauchySpectralIdentity
-import Mathlib.Analysis.Complex.ReImTopology
+module
+
+public import Torsion.PhysicalTorsionCalculus
+public import Torsion.CauchyConformalGeometry.Inverse
+public import Torsion.CauchySpectralIdentity
+public import Mathlib.Analysis.Complex.ReImTopology
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The physical Cauchy candidate on its actual conformal image

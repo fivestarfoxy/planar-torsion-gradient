@@ -1,5 +1,11 @@
-import Torsion.WeakReflection.Translation
-import Torsion.SobolevLocalization
+module
+
+public import Torsion.WeakReflection.Translation
+public import Torsion.SobolevLocalization
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual zero-boundary admission for a flat half-plane

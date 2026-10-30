@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralGagliardo
-import Torsion.SmoothPositivePart
-import Torsion.L2Dominated
+module
+
+public import Torsion.RestrictedSpectralGagliardo
+public import Torsion.SmoothPositivePart
+public import Torsion.L2Dominated
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Smooth absolute-value approximants for the actual restricted form

@@ -1,6 +1,12 @@
-import Torsion.SobolevLocalization
-import Torsion.SobolevMinContinuity
-import Torsion.BoundedDomains
+module
+
+public import Torsion.SobolevLocalization
+public import Torsion.SobolevMinContinuity
+public import Torsion.BoundedDomains
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The zero-boundary Sobolev ideal property

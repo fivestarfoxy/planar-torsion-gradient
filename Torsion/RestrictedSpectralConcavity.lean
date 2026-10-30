@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralConcavitySign
-import Torsion.RestrictedSpectralGlobalEquation
+module
+
+public import Torsion.RestrictedSpectralConcavitySign
+public import Torsion.RestrictedSpectralGlobalEquation
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Concavity of genuine odd restricted eigenfunctions

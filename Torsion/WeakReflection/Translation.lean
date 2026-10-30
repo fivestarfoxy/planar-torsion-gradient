@@ -1,5 +1,11 @@
-import Torsion.WeakGradient
-import Mathlib.MeasureTheory.Function.LpSpace.ContinuousCompMeasurePreserving
+module
+
+public import Torsion.WeakGradient
+public import Mathlib.MeasureTheory.Function.LpSpace.ContinuousCompMeasurePreserving
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! Translation of the concrete H¹₀ graph and strong L² continuity. -/
 

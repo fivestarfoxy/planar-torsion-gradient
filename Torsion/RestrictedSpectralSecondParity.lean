@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralSelection
-import Torsion.RestrictedSpectralOddMinimizer
-import Torsion.RestrictedSpectralGroundSign
-import Torsion.RestrictedSpectralEvenGap
+module
+
+public import Torsion.RestrictedSpectralSelection
+public import Torsion.RestrictedSpectralOddMinimizer
+public import Torsion.RestrictedSpectralGroundSign
+public import Torsion.RestrictedSpectralEvenGap
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Excluding the even component below the actual even mean-zero gap

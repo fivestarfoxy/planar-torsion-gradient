@@ -1,7 +1,11 @@
-import Torsion.SpectralDefinitions
-import Mathlib.Analysis.Distribution.FourierSchwartz
-import Mathlib.Analysis.Distribution.AEEqOfIntegralContDiff
-import Mathlib.MeasureTheory.Function.L2Space
+module
+
+public import Torsion.SpectralDefinitions
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+public import Mathlib.Analysis.Distribution.AEEqOfIntegralContDiff
+public import Mathlib.MeasureTheory.Function.L2Space
+
+@[expose] public section
 
 /-!
 # Positivity and algebra of the actual restricted Fourier form
@@ -21,13 +25,12 @@ namespace Torsion.Spectral
 `2π`, and the source's energy normalization is kept unchanged. -/
 theorem fourier_eq_mathlib (f : ℝ → ℝ) (ξ : ℝ) :
     fourier f ξ = 𝓕 (fun x => (f x : ℂ)) (ξ / (2 * Real.pi)) := by
-  rw [Real.fourierIntegral_real_eq_integral_exp_smul]
+  rw [Real.fourier_real_eq_integral_exp_smul]
   apply integral_congr_ae
   exact ae_of_all _ fun x => by
     have hp : (2 * Real.pi : ℝ) ≠ 0 := mul_ne_zero (by norm_num) Real.pi_ne_zero
     have h : -2 * Real.pi * x * (ξ / (2 * Real.pi)) = -(x * ξ) := by
       field_simp
-      ring
     simp only [h, Complex.ofReal_neg, smul_eq_mul]
 
 /-- The diagonal of the concrete bilinear integral is its nonnegative
@@ -84,15 +87,15 @@ def compactSmoothSchwartz {ψ : ℝ → ℝ}
 /-- L¹ Fourier uniqueness obtained from actual Schwartz inversion and smooth
 test separation. No continuity of the original function is required. -/
 theorem ae_eq_zero_of_mathlib_fourier_eq_zero {f : ℝ → ℂ}
-    (hf : Integrable f) (hF : Real.fourierIntegral f = 0) :
+    (hf : Integrable f) (hF : 𝓕 f = 0) :
     f =ᵐ[volume] 0 := by
   apply ae_eq_zero_of_integral_contDiff_smul_eq_zero hf.locallyIntegrable
   intro ψ hψ hc
   let ψS := compactSmoothSchwartz hψ hc
-  let g := (SchwartzMap.fourierTransformCLE ℂ).symm ψS
-  have hg (x : ℝ) : Real.fourierIntegral g x = (ψ x : ℂ) := by
+  let g : 𝓢(ℝ, ℂ) := 𝓕⁻ ψS
+  have hg (x : ℝ) : (𝓕 g : 𝓢(ℝ, ℂ)) x = (ψ x : ℂ) := by
     exact congrArg (fun h : 𝓢(ℝ, ℂ) => h x)
-      ((SchwartzMap.fourierTransformCLE ℂ).apply_symm_apply ψS)
+      (FourierTransform.fourier_fourierInv_eq (F := 𝓢(ℝ, ℂ)) ψS)
   have hflip : (innerₗ ℝ : ℝ →ₗ[ℝ] ℝ →ₗ[ℝ] ℝ).flip = innerₗ ℝ := by
     apply LinearMap.ext
     intro x
@@ -103,13 +106,13 @@ theorem ae_eq_zero_of_mathlib_fourier_eq_zero {f : ℝ → ℂ}
     (L := innerₗ ℝ) (μ := volume) (ν := volume) (ContinuousLinearMap.mul ℂ ℂ)
     Real.continuous_fourierChar continuous_inner hf g.integrable
   rw [hflip] at h
-  change (∫ ξ : ℝ, Real.fourierIntegral f ξ * g ξ) =
-    ∫ x : ℝ, f x * Real.fourierIntegral g x at h
-  have hz : (∫ ξ : ℝ, Real.fourierIntegral f ξ * g ξ) = 0 := by
+  change (∫ ξ : ℝ, 𝓕 f ξ * g ξ) =
+    ∫ x : ℝ, f x * 𝓕 g x at h
+  have hz : (∫ ξ : ℝ, 𝓕 f ξ * g ξ) = 0 := by
     simp [hF]
   rw [hz] at h
   calc
-    (∫ x, ψ x • f x) = ∫ x, f x * Real.fourierIntegral g x := by
+    (∫ x, ψ x • f x) = ∫ x, f x * 𝓕 g x := by
       apply integral_congr_ae
       exact ae_of_all _ fun x => by
         dsimp only
@@ -121,7 +124,7 @@ theorem ae_eq_zero_of_mathlib_fourier_eq_zero {f : ℝ → ℂ}
 theorem ae_eq_zero_of_fourier_eq_zero {f : ℝ → ℝ}
     (hf : Integrable f) (hF : fourier f = 0) : f =ᵐ[volume] 0 := by
   have hfc : Integrable (fun x => (f x : ℂ)) := Complex.ofRealCLM.integrable_comp hf
-  have hz : Real.fourierIntegral (fun x => (f x : ℂ)) = 0 := by
+  have hz : 𝓕 (fun x => (f x : ℂ)) = 0 := by
     ext ξ
     have h := congrFun hF (2 * Real.pi * ξ)
     rw [fourier_eq_mathlib] at h
@@ -143,11 +146,11 @@ theorem fourier_congr_ae {f g : ℝ → ℝ} (hfg : f =ᵐ[volume] g) :
 theorem fourier_continuous {f : ℝ → ℝ} (hf : Integrable f) :
     Continuous (fourier f) := by
   have hfc : Integrable (fun x => (f x : ℂ)) := Complex.ofRealCLM.integrable_comp hf
-  have hcont : Continuous (Real.fourierIntegral (fun x => (f x : ℂ))) :=
+  have hcont : Continuous (𝓕 (fun x => (f x : ℂ))) :=
     VectorFourier.fourierIntegral_continuous Real.continuous_fourierChar
       continuous_inner hfc
   have heq : fourier f = fun ξ =>
-      Real.fourierIntegral (fun x => (f x : ℂ)) (ξ / (2 * Real.pi)) :=
+      𝓕 (fun x => (f x : ℂ)) (ξ / (2 * Real.pi)) :=
     funext (fourier_eq_mathlib f)
   rw [heq]
   exact hcont.comp (continuous_id.div_const _)
@@ -166,12 +169,12 @@ theorem energy_eq_zero_iff {f : ℝ → ℝ} (hf : Integrable f) (he : FiniteEne
       (integral_eq_zero_iff_of_nonneg
         (fun ξ => mul_nonneg (abs_nonneg ξ) (sq_nonneg _)) he).mp hi
     have hne0 : ∀ᵐ ξ : ℝ ∂volume, ξ ≠ 0 := by
-      simpa using (Set.countable_singleton (0 : ℝ)).ae_not_mem volume
+      simpa using (Set.countable_singleton (0 : ℝ)).ae_notMem volume
     have hae : fourier f =ᵐ[volume] 0 := by
       filter_upwards [hi0, hne0] with ξ hξ hne
       have hpow : ‖fourier f ξ‖ ^ 2 = 0 :=
         (mul_eq_zero.mp hξ).resolve_left (abs_ne_zero.mpr hne)
-      exact norm_eq_zero.mp (pow_eq_zero hpow)
+      exact norm_eq_zero.mp (eq_zero_of_pow_eq_zero hpow)
     exact ae_eq_zero_of_fourier_eq_zero hf
       (Measure.eq_of_ae_eq hae (fourier_continuous hf) continuous_const)
   · intro hz

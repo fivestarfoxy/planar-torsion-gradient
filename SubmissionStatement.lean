@@ -1,6 +1,12 @@
-import Torsion.ProvedMain
-import Torsion.RestrictedSpectralSecondProfile
-import Torsion.SpectralNormalization
+module
+
+public import Torsion.ProvedMain
+public import Torsion.RestrictedSpectralSecondProfile
+public import Torsion.SpectralNormalization
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 Concrete submission claim, stated using the original mathematical objects.

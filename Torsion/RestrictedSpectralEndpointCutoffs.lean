@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralEndpointCutoffBasic
-import Torsion.RestrictedSpectralCompactSmoothInterpolation
-import Torsion.RestrictedSpectralWeakEnergyLimit
-import Mathlib.Analysis.SpecificLimits.Basic
+module
+
+public import Torsion.RestrictedSpectralEndpointCutoffBasic
+public import Torsion.RestrictedSpectralCompactSmoothInterpolation
+public import Torsion.RestrictedSpectralWeakEnergyLimit
+public import Mathlib.Analysis.SpecificLimits.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Vanishing endpoint cutoffs in the original Fourier form
@@ -26,14 +33,14 @@ private theorem integral_le_length_mul_of_support_bound {f : ℝ → ℝ} (hf : 
   have h := integral_mono hf hB (fun x => by
     by_cases hx : x ∈ Icc l r
     · simpa only [indicator_of_mem hx] using hbound x hx
-    · simp only [hzero x hx, indicator_of_not_mem hx, le_refl])
+    · simp only [hzero x hx, indicator_of_notMem hx, le_refl])
   rw [integral_indicator measurableSet_Icc, setIntegral_const, Real.volume_real_Icc_of_le hlr] at h
   simpa only [smul_eq_mul] using h
 
 private theorem endpointCutoff_zero_off (ψ : ℝ → ℝ) (e : ℝ) (n : ℕ) (x : ℝ)
     (hx : x ∉ Icc (e - 2 / endpointCutoffScale n) (e + 2 / endpointCutoffScale n)) :
     endpointCutoff ψ e n x = 0 :=
-  image_eq_zero_of_nmem_tsupport (fun h => hx (endpointCutoff_tsupport_subset ψ e n h))
+  image_eq_zero_of_notMem_tsupport (fun h => hx (endpointCutoff_tsupport_subset ψ e n h))
 
 private theorem endpointCutoff_deriv_zero_off (ψ : ℝ → ℝ) (e : ℝ) (n : ℕ) (x : ℝ)
     (hx : x ∉ Icc (e - 2 / endpointCutoffScale n) (e + 2 / endpointCutoffScale n)) :

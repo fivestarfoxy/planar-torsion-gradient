@@ -1,5 +1,11 @@
-import Torsion.MarkedFluxFixedKernel
-import Torsion.FixedKernelContinuity
+module
+
+public import Torsion.MarkedFluxFixedKernel
+public import Torsion.FixedKernelContinuity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Differentiating genuine marked flux from a strong H¹ parameter limit

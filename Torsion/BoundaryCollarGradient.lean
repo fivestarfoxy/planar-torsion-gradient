@@ -1,6 +1,12 @@
-import Torsion.WeakTranslationLipschitz
-import Torsion.WeakTorsionInterior
-import Torsion.ZeroBoundaryContinuity
+module
+
+public import Torsion.WeakTranslationLipschitz
+public import Torsion.WeakTorsionInterior
+public import Torsion.ZeroBoundaryContinuity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Boundary growth controls the original interior essential gradient norm

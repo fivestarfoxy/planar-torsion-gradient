@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralCorePrimitive
-import Torsion.RestrictedSpectralSymmetry
-import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
+module
+
+public import Torsion.RestrictedSpectralCorePrimitive
+public import Torsion.RestrictedSpectralSymmetry
+public import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual independent directions in the restricted spectral core

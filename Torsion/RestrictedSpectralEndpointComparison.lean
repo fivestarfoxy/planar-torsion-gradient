@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralBarrierComparison
-import Torsion.RestrictedSpectralSemicircle
+module
+
+public import Torsion.RestrictedSpectralBarrierComparison
+public import Torsion.RestrictedSpectralSemicircle
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! Actual endpoint bounds from the concrete semicircle weak barrier. -/
 noncomputable section

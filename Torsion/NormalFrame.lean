@@ -1,6 +1,12 @@
-import Torsion.TorsionIsometry
-import Torsion.TorsionTranslation
-import Mathlib.Analysis.Complex.Isometry
+module
+
+public import Torsion.TorsionIsometry
+public import Torsion.TorsionTranslation
+public import Mathlib.Analysis.Complex.Isometry
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Physical orthogonal coordinates at a supporting boundary point -/
 

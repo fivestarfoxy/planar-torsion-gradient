@@ -1,5 +1,11 @@
-import Torsion.CauchyConformalGeometry
-import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+module
+
+public import Torsion.CauchyConformalGeometry
+public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Separation of the two halves of the concrete Cauchy image
 
@@ -68,10 +74,10 @@ theorem height_log_integrationByParts {φ : ℝ → ℝ}
   have hd : ∀ s : ℝ, HasDerivAt g (gp s) s := by
     intro s
     have hDs : HasDerivAt D (-2 * (x - s)) s := by
-      convert (((hasDerivAt_const s x).sub (hasDerivAt_id s)).pow 2).add_const (y ^ 2) using 1
-      simp [D]
+      convert! (((hasDerivAt_const s x).sub (hasDerivAt_id s)).pow 2).add_const (y ^ 2) using 1
+      simp [D, Pi.sub_apply]
     have h := (hasDerivAt_height hφ hodd hzero s).mul (hDs.log (hDp s).ne')
-    convert h using 1
+    convert! h using 1
     dsimp [gp]
     ring
   have hi := intervalIntegral.integral_eq_sub_of_hasDerivAt (fun s _ => hd s)
@@ -81,10 +87,14 @@ theorem height_log_integrationByParts {φ : ℝ → ℝ}
   simp only [g, hp, hm, zero_mul, sub_self] at hi
   have heq : -(∫ s in (-1 : ℝ)..1, φ s * Real.log (D s)) -
       2 * (∫ s in (-1 : ℝ)..1, height φ s * (x - s) / D s) = 0 := by
-    simpa only [gp, intervalIntegral.integral_sub
-      ((hφ.mul hlog).neg.intervalIntegrable (-1) 1)
-      ((continuous_const.mul hgpk).intervalIntegrable (-1) 1),
-      intervalIntegral.integral_neg, intervalIntegral.integral_const_mul] using hi
+    have hn : IntervalIntegrable (fun s => -(φ s * Real.log (D s))) volume (-1) 1 := by
+      simpa only [Pi.neg_apply, Pi.mul_apply] using! (hφ.mul hlog).neg.intervalIntegrable (-1) 1
+    have hk : IntervalIntegrable (fun s => 2 * (height φ s * (x - s) / D s)) volume (-1) 1 := by
+      simpa only [Pi.mul_apply] using! (continuous_const.mul hgpk).intervalIntegrable (-1) 1
+    have hs := intervalIntegral.integral_sub hn hk
+    simp only [gp] at hi
+    rw [hs, intervalIntegral.integral_neg, intervalIntegral.integral_const_mul] at hi
+    exact hi
   rw [integral_Icc_eq_integral_Ioc, integral_Icc_eq_integral_Ioc,
     ← intervalIntegral.integral_of_le (show (-1 : ℝ) ≤ 1 by norm_num),
     ← intervalIntegral.integral_of_le (show (-1 : ℝ) ≤ 1 by norm_num)]
@@ -108,7 +118,8 @@ theorem odd_log_integral_pair {φ : ℝ → ℝ}
   have hlog : Continuous (fun s : ℝ => Real.log ((x - s) ^ 2 + y ^ 2)) :=
     (by fun_prop : Continuous (fun s : ℝ => (x - s) ^ 2 + y ^ 2)).log
       (fun s => ne_of_gt (by positivity))
-  rw [integral_Icc_symmetric_pair (hφ.mul hlog)]
+  rw [integral_Icc_symmetric_pair
+    (f := fun s => φ s * Real.log ((x - s) ^ 2 + y ^ 2)) (by fun_prop)]
   apply intervalIntegral.integral_congr
   intro s _
   dsimp only

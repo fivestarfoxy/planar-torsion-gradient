@@ -1,5 +1,11 @@
-import Torsion.DirichletGalerkin
-import Torsion.DilationWeak
+module
+
+public import Torsion.DirichletGalerkin
+public import Torsion.DilationWeak
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Strong weak-torsion convergence under outer dilation sandwiches

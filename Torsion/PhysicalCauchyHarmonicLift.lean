@@ -1,5 +1,11 @@
-import Torsion.PhysicalCauchyGreenNormal
-import Torsion.CauchyTransformBoundaryExtension
+module
+
+public import Torsion.PhysicalCauchyGreenNormal
+public import Torsion.CauchyTransformBoundaryExtension
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual harmonic lifting of compact boundary data

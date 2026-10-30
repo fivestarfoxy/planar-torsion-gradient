@@ -1,7 +1,13 @@
-import Torsion.Definitions
-import Mathlib.MeasureTheory.Function.LpSpace.Basic
-import Mathlib.Analysis.Calculus.Deriv.Slope
-import Mathlib.Analysis.Normed.Group.Continuity
+module
+
+public import Torsion.Definitions
+public import Mathlib.MeasureTheory.Function.LpSpace.Basic
+public import Mathlib.Analysis.Calculus.Deriv.Slope
+public import Mathlib.Analysis.Normed.Group.Continuity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Actual L² representatives of a parameter derivative -/
 

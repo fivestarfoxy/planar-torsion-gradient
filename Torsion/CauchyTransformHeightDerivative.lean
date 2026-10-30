@@ -1,7 +1,13 @@
-import Torsion.SpectralPositivity
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
-import Mathlib.Analysis.Calculus.ContDiff.Basic
-import Mathlib.Topology.MetricSpace.Holder
+module
+
+public import Torsion.SpectralPositivity
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+public import Mathlib.Analysis.Calculus.ContDiff.Basic
+public import Mathlib.Topology.MetricSpace.Holder
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The derivative of the integrated odd profile

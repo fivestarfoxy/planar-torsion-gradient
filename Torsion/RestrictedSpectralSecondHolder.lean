@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralSecondConcavity
-import Torsion.RestrictedSpectralConcaveHolder
-import Torsion.RestrictedSpectralHilbert
+module
+
+public import Torsion.RestrictedSpectralSecondConcavity
+public import Torsion.RestrictedSpectralConcaveHolder
+public import Torsion.RestrictedSpectralHilbert
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Global one-half Hölder regularity of the actual second eigenfunction

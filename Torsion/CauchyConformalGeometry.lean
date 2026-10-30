@@ -1,6 +1,12 @@
-import Torsion.CauchyTransformIntegrationByParts
-import Torsion.CauchyTransformPoisson
-import Mathlib.Analysis.Complex.RealDeriv
+module
+
+public import Torsion.CauchyTransformIntegrationByParts
+public import Torsion.CauchyTransformPoisson
+public import Mathlib.Analysis.Complex.RealDeriv
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Concrete noncriticality of the Cauchy map

@@ -1,9 +1,13 @@
-import Torsion.SpectralPositivity
-import Mathlib.Analysis.Calculus.ParametricIntegral
-import Mathlib.Analysis.Calculus.Deriv.Inv
-import Mathlib.Analysis.Complex.CauchyIntegral
-import Mathlib.Analysis.Calculus.FDeriv.Analytic
-import Mathlib.Tactic
+module
+
+public import Torsion.SpectralPositivity
+public import Mathlib.Analysis.Calculus.ParametricIntegral
+public import Mathlib.Analysis.Calculus.Deriv.Inv
+public import Mathlib.Analysis.Complex.CauchyIntegral
+public import Mathlib.Analysis.Calculus.FDeriv.Analytic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Holomorphy of the concrete Cauchy transforms
@@ -84,10 +88,10 @@ theorem hasDerivAt_cauchy_integral {f : ℝ → ℂ}
       ∀ w ∈ ball z (z.im / 2), HasDerivAt (fun w => F w s) (F' w s) w := by
     filter_upwards with s w hw
     have hne := sub_ofReal_ne_zero (im_pos_of_mem_half_im_ball hz hw) s
-    simpa [F, F'] using
+    simpa [F, F'] using!
       (hasDerivAt_const w (f s)).div ((hasDerivAt_id w).sub_const (s : ℂ)) hne
   exact (hasDerivAt_integral_of_dominated_loc_of_deriv_le
-    hε hmeas hint hmeas' hbound hintbound hdiff).2
+    (ball_mem_nhds z hε) hmeas hint hmeas' hbound hintbound hdiff).2
 
 /-- Holomorphy of the compact Cauchy integral follows from the proved
 derivative formula, rather than being postulated as boundary input. -/
@@ -107,7 +111,7 @@ theorem hasDerivAt_cauchy {φ : ℝ → ℝ}
         ∫ s in Icc (-1 : ℝ) 1, (height φ s : ℂ) / (z - (s : ℂ)) ^ 2) z := by
   have hc : ContinuousOn (fun s : ℝ => (height φ s : ℂ)) (Icc (-1 : ℝ) 1) :=
     (Complex.continuous_ofReal.comp (height_continuous hφ)).continuousOn
-  simpa only [cauchy, neg_div, integral_neg, neg_mul_neg] using
+  simpa only [cauchy, neg_div, integral_neg, neg_mul_neg] using!
     (hasDerivAt_cauchy_integral hc hz).const_mul (-((Real.pi : ℂ)⁻¹))
 
 /-- Holomorphy of the concrete transform constructed from the integrated
@@ -134,7 +138,7 @@ theorem hasDerivAt_auxiliary {φ : ℝ → ℝ}
   have hc : ContinuousOn (fun s : ℝ => (((height φ s) ^ 2 : ℝ) : ℂ))
       (Icc (-1 : ℝ) 1) :=
     (Complex.continuous_ofReal.comp ((height_continuous hφ).pow 2)).continuousOn
-  simpa only [auxiliary, neg_div, integral_neg, neg_mul_neg] using
+  simpa only [auxiliary, neg_div, integral_neg, neg_mul_neg] using!
     (hasDerivAt_cauchy_integral hc hz).const_mul (-((2 * Real.pi : ℂ)⁻¹))
 
 theorem auxiliary_differentiableOn {φ : ℝ → ℝ}

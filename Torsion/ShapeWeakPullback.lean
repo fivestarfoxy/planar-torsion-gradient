@@ -1,4 +1,10 @@
-import Torsion.ShapeSobolevDeformation
+module
+
+public import Torsion.ShapeSobolevDeformation
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The genuine weak torsion equation under a smooth domain change

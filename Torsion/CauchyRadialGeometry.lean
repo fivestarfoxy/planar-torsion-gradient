@@ -1,5 +1,11 @@
-import Torsion.CauchyBoundaryStationarity
-import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
+module
+
+public import Torsion.CauchyBoundaryStationarity
+public import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Strict radial transversality of the actual free arc

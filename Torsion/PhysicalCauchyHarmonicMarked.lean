@@ -1,4 +1,10 @@
-import Torsion.PhysicalCauchyHarmonicLift
+module
+
+public import Torsion.PhysicalCauchyHarmonicLift
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Exact marked action of the actual compact-data harmonic lift

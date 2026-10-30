@@ -1,5 +1,11 @@
-import Torsion.PhysicalCauchyTorsion
-import Mathlib.MeasureTheory.Measure.OpenPos
+module
+
+public import Torsion.PhysicalCauchyTorsion
+public import Mathlib.MeasureTheory.Measure.OpenPos
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Strict positivity of the physical Cauchy candidate

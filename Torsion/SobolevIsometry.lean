@@ -1,6 +1,12 @@
-import Torsion.WeakGradient
-import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
-import Mathlib.Analysis.InnerProductSpace.LinearMap
+module
+
+public import Torsion.WeakGradient
+public import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
+public import Mathlib.Analysis.InnerProductSpace.LinearMap
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Physical orthogonal covariance of the original Sobolev graph -/
 

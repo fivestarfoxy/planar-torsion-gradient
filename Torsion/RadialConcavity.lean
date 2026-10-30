@@ -1,9 +1,15 @@
-import Torsion.Hessian
-import Mathlib.Analysis.Calculus.FDeriv.Symmetric
-import Mathlib.Analysis.Convex.Deriv
-import Mathlib.Analysis.Calculus.Deriv.Mul
-import Mathlib.Analysis.Calculus.Deriv.Slope
-import Mathlib.Tactic
+module
+
+public import Torsion.Hessian
+public import Mathlib.Analysis.Calculus.FDeriv.Symmetric
+public import Mathlib.Analysis.Convex.Deriv
+public import Mathlib.Analysis.Calculus.Deriv.Mul
+public import Mathlib.Analysis.Calculus.Deriv.Slope
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Homogeneity, supermodularity, and radial concavity
@@ -66,7 +72,7 @@ private theorem hasDerivAt_line {E : Type*} [NormedAddCommGroup E] [NormedSpace 
     HasDerivAt (fun t : ℝ => f (x + t • v)) (df v) 0 := by
   have hl : HasDerivAt (fun t : ℝ => x + t • v) v 0 := by
     simpa using ((hasDerivAt_id (0 : ℝ)).smul_const v).const_add x
-  simpa using (show HasFDerivAt f df (x + (0 : ℝ) • v) by simpa using hf).comp_hasDerivAt 0 hl
+  exact (show HasFDerivAt f df (x + (0 : ℝ) • v) by simpa using hf).comp_hasDerivAt 0 hl
 
 private theorem deriv_nonneg_of_right {g : ℝ → ℝ} {d : ℝ}
     (hg : HasDerivAt g d 0) (hge : ∀ t : ℝ, 0 < t → g 0 ≤ g t) : 0 ≤ d := by
@@ -84,7 +90,9 @@ theorem euler_identity {F : Vec ι → ℝ} (hhom : Homogeneous F)
     fderiv ℝ F x x = F x := by
   have hl : HasDerivAt (fun t : ℝ => F (t • x)) (fderiv ℝ F x x) 1 := by
     have hf' : HasFDerivAt F (fderiv ℝ F x) ((1 : ℝ) • x) := by simpa using (hf x hx).hasFDerivAt
-    simpa using hf'.comp_hasDerivAt 1 ((hasDerivAt_id (1 : ℝ)).smul_const x)
+    have hid : HasDerivAt (fun t : ℝ => t • x) x 1 := by
+      simpa only [id_eq, one_smul] using (hasDerivAt_id (1 : ℝ)).smul_const x
+    exact hf'.comp_hasDerivAt 1 hid
   have hr : HasDerivAt (fun t : ℝ => F (t • x)) (F x) 1 := by
     have hr' : HasDerivAt (fun t : ℝ => t * F x) (F x) 1 := by
       simpa using ((hasDerivAt_id (1 : ℝ)).mul_const (F x))
@@ -152,7 +160,7 @@ theorem partial_derivative_mono {F : Vec ι → ℝ} (hsuper : Supermodular F)
   have hnonneg := deriv_nonneg_of_right hder (by
     intro h hh
     have hrectangle := rectangle_inequality hsuper hx hij hh.le hk
-    simp only [zero_smul, add_zero]
+    simp only [Pi.sub_apply, zero_smul, add_zero]
     linarith)
   linarith
 

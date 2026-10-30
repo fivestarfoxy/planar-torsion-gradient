@@ -1,4 +1,10 @@
-import Torsion.CauchyFreeArcGradient
+module
+
+public import Torsion.CauchyFreeArcGradient
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Constructed compact smooth Eulerian boundary data

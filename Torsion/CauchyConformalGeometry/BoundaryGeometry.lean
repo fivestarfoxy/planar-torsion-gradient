@@ -1,6 +1,12 @@
-import Torsion.CauchyConformalGeometry.ImageSeparation
-import Torsion.CauchyConformalGeometry.BoundaryDerivative
-import Mathlib.Analysis.Calculus.Deriv.MeanValue
+module
+
+public import Torsion.CauchyConformalGeometry.ImageSeparation
+public import Torsion.CauchyConformalGeometry.BoundaryDerivative
+public import Mathlib.Analysis.Calculus.Deriv.MeanValue
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Simplicity of the actual Cauchy free arc
 

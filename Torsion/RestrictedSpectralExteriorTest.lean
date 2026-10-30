@@ -1,8 +1,15 @@
-import Torsion.RestrictedSpectralExteriorEnergy
-import Torsion.RestrictedSpectralExteriorKernel
-import Torsion.RestrictedSpectralFourierContinuity
-import Torsion.RestrictedSpectralWeakPrimitive
-import Torsion.RestrictedSpectralSchwartz
+module
+
+public import Torsion.RestrictedSpectralExteriorEnergy
+public import Torsion.RestrictedSpectralExteriorKernel
+public import Torsion.RestrictedSpectralFourierContinuity
+public import Torsion.RestrictedSpectralWeakPrimitive
+public import Torsion.RestrictedSpectralSchwartz
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Testing the actual restricted density against exterior smooth data

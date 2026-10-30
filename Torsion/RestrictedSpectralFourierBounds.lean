@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralTranslation
-import Torsion.RestrictedSpectralParseval
+module
+
+public import Torsion.RestrictedSpectralTranslation
+public import Torsion.RestrictedSpectralParseval
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Quantitative Fourier bounds for the actual restricted form

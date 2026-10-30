@@ -1,6 +1,12 @@
-import Torsion.WeakHarmonicRegularity
-import Torsion.SobolevCutoff
-import Torsion.SobolevLocalization
+module
+
+public import Torsion.WeakHarmonicRegularity
+public import Torsion.SobolevCutoff
+public import Torsion.SobolevLocalization
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Interior energy estimates for concrete weak harmonic functions

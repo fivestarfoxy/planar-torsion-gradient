@@ -1,5 +1,11 @@
-import Torsion.CauchyConformalGeometry.BoundaryCurvature
-import Torsion.CauchyConformalGeometry.CompactifiedBoundary
+module
+
+public import Torsion.CauchyConformalGeometry.BoundaryCurvature
+public import Torsion.CauchyConformalGeometry.CompactifiedBoundary
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The concrete supporting functionals of the Cauchy free arc

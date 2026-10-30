@@ -1,7 +1,13 @@
-import Torsion.Sobolev
-import Torsion.SobolevSupport
-import Torsion.BoundedDomains
-import Mathlib.Tactic
+module
+
+public import Torsion.Sobolev
+public import Torsion.SobolevSupport
+public import Torsion.BoundedDomains
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual global weak equation and Galerkin orthogonality

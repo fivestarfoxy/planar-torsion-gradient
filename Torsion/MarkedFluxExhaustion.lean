@@ -1,6 +1,12 @@
-import Torsion.MarkedFlux
-import Torsion.DirichletExhaustion
-import Torsion.WeakHarmonicWeyl.ConvolutionEstimates
+module
+
+public import Torsion.MarkedFlux
+public import Torsion.DirichletExhaustion
+public import Torsion.WeakHarmonicWeyl.ConvolutionEstimates
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Actual marked-flux convergence along increasing domains -/
 noncomputable section
@@ -152,11 +158,11 @@ theorem torsionFlux_tendsto_of_exhaustion {D : ℕ → Set Plane}
   have hlimH : Tendsto (fun n => eLpNorm (H n) 2 volume) atTop (𝓝 0) := by
     have hbound (n : ℕ) : eLpNorm (H n) 2 volume ≤
         eLpNorm (k n) 2 volume + eLpNorm (k n) 2 volume := by
-      have hb := eLpNorm_sub_le (hk n).1 (memLp_reflectedGradient (hk n)).1
+      have hb := eLpNorm_sub_le (f := k n) (g := reflectedGradient (k n)) (μ := volume)
         (by norm_num : (1 : ℝ≥0∞) ≤ 2)
       simpa only [H, hnormRef] using hb
     apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds
-      (by simpa using hlim.add hlim) (fun _ => zero_le _) hbound
+      (by simpa using hlim.add hlim) (fun _ => zero_le) hbound
   have hsmooth := mollifyGradient_tendsto_zero_of_eLpNorm hH
     ((radialKernel_contDiff r).continuous.memLp_of_hasCompactSupport
       (radialKernel_hasCompactSupport hr)) hlimH (0 : Plane)

@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralFourierContinuity
-import Torsion.FourierPlancherel
+module
+
+public import Torsion.RestrictedSpectralFourierContinuity
+public import Torsion.FourierPlancherel
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Parseval on the actual restricted form domain

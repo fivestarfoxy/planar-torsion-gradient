@@ -1,5 +1,11 @@
-import Torsion.ShapeSobolevTransport
-import Torsion.ShapeCoefficients
+module
+
+public import Torsion.ShapeSobolevTransport
+public import Torsion.ShapeCoefficients
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual compact deformations transport the concrete weak Dirichlet graph

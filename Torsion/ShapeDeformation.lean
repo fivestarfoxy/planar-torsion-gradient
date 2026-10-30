@@ -1,10 +1,17 @@
-import Torsion.Definitions
-import Mathlib.Analysis.Calculus.InverseFunctionTheorem.ApproximatesLinearOn
-import Mathlib.Analysis.Calculus.MeanValue
-import Mathlib.Analysis.Calculus.ContDiff.Operations
-import Mathlib.Analysis.Normed.Group.Bounded
-import Mathlib.Analysis.SpecificLimits.Normed
-import Mathlib.Tactic
+module
+
+public import Torsion.Definitions
+public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.ApproximatesLinearOn
+public import Mathlib.Analysis.Calculus.MeanValue
+public import Mathlib.Analysis.Calculus.ContDiff.Operations
+public import Mathlib.Analysis.Normed.Group.Bounded
+public import Mathlib.Analysis.SpecificLimits.Normed
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual compact deformation maps
@@ -41,7 +48,8 @@ theorem deformation_hasFDerivAt {V : Plane → Plane} {z : Plane}
     (hV : DifferentiableAt ℝ V z) (t : ℝ) :
     HasFDerivAt (deformation V t)
       (ContinuousLinearMap.id ℝ Plane + t • fderiv ℝ V z) z := by
-  simpa only [deformation] using (hasFDerivAt_id z).add (hV.hasFDerivAt.const_smul t)
+  convert (hasFDerivAt_id z).add (hV.hasFDerivAt.const_smul t) using 1
+  rfl
 
 /-- The parameter derivative is the original physical vector field. -/
 theorem deformation_hasDerivAt (V : Plane → Plane) (z : Plane) (t : ℝ) :
@@ -92,7 +100,7 @@ theorem deformationHomeomorph_symm_lipschitz {V : Plane → Plane} {K : ℝ≥0}
     simpa using ha ⟨x, mem_univ x⟩ ⟨y, mem_univ y⟩
   exact hanti.to_rightInverse (deformationHomeomorph hV t ht).apply_symm_apply
 
-private theorem deformation_derivative_norm_lt {V : Plane → Plane} {K : ℝ≥0}
+theorem deformation_derivative_norm_lt {V : Plane → Plane} {K : ℝ≥0}
     (hV : LipschitzWith K V) (t : ℝ) (ht : ‖t‖₊ * K < 1) (z : Plane) :
     ‖-(t • fderiv ℝ V z)‖ < 1 := by
   rw [norm_neg, norm_smul]

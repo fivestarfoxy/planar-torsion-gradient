@@ -1,7 +1,13 @@
-import Torsion.PhysicalCauchyGreenWeak
-import Torsion.PhysicalCauchyGreenNormal
-import Torsion.CauchyBoundaryStationarity
-import Torsion.CanonicalSpectralCandidate
+module
+
+public import Torsion.PhysicalCauchyGreenWeak
+public import Torsion.PhysicalCauchyGreenNormal
+public import Torsion.CauchyBoundaryStationarity
+public import Torsion.CanonicalSpectralCandidate
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The marked Poisson kernel defined by the actual Green source derivative

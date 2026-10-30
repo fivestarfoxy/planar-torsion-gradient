@@ -1,7 +1,13 @@
-import Torsion.ConvolutionDerivativeBounds
-import Torsion.RealTaylorBound
-import Torsion.LocalHarmonicBound
-import Torsion.MarkedBoundaryRegularity
+module
+
+public import Torsion.ConvolutionDerivativeBounds
+public import Torsion.RealTaylorBound
+public import Torsion.LocalHarmonicBound
+public import Torsion.MarkedBoundaryRegularity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Fixed-ball normal Taylor estimates for actual weak harmonic functions

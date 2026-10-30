@@ -1,6 +1,12 @@
-import Torsion.WeakReflection.Translation
-import Torsion.GradientBoundExhaustion
-import Torsion.SobolevUniqueness
+module
+
+public import Torsion.WeakReflection.Translation
+public import Torsion.GradientBoundExhaustion
+public import Torsion.SobolevUniqueness
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Translation covariance of the concrete weak torsion problem

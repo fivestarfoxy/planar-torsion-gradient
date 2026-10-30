@@ -1,5 +1,11 @@
-import Torsion.CauchyConformalGeometry.InverseBoundary
-import Torsion.CauchyConformalGeometry.CompactifiedBoundary
+module
+
+public import Torsion.CauchyConformalGeometry.InverseBoundary
+public import Torsion.CauchyConformalGeometry.CompactifiedBoundary
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual compactified closed-half-plane homeomorphism

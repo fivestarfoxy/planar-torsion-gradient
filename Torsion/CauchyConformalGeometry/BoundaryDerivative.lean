@@ -1,4 +1,10 @@
-import Torsion.CauchyTransformBoundaryDerivative
+module
+
+public import Torsion.CauchyTransformBoundaryDerivative
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # The actual complex boundary tangent
 

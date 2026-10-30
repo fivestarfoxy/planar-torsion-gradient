@@ -1,7 +1,13 @@
-import Torsion.CauchyTransformBoundaryExtension
-import Mathlib.Analysis.Calculus.FDeriv.Extend
-import Mathlib.Analysis.Complex.RealDeriv
-import Mathlib.Analysis.Complex.Convex
+module
+
+public import Torsion.CauchyTransformBoundaryExtension
+public import Mathlib.Analysis.Calculus.FDeriv.Extend
+public import Mathlib.Analysis.Complex.RealDeriv
+public import Mathlib.Analysis.Complex.Convex
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Differentiating the actual real boundary curve
@@ -51,7 +57,7 @@ theorem hasDerivAt_boundary_of_continuous_derivative {F D : ℂ → ℂ}
     (fun z hz => (hF z hz).mono subset_closure) hlim
   have hc := hcl.comp x (Complex.ofRealCLM.hasFDerivAt.hasFDerivWithinAt (s := univ))
     (fun t _ => ofReal_mem_closure_upperHalfPlane t)
-  simpa using hc.hasFDerivAt_of_univ.hasDerivAt
+  simpa [Function.comp_def] using! hc.hasFDerivAt_of_univ.hasDerivAt
 
 private theorem cauchyExtension_hasDerivAt {φ : ℝ → ℝ}
     (hφ : Continuous φ) (hodd : Function.Odd φ)

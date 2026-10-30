@@ -1,6 +1,12 @@
-import Torsion.ComplexPrimitives
-import Mathlib.Analysis.SpecialFunctions.ExpDeriv
-import Mathlib.Analysis.Calculus.MeanValue
+module
+
+public import Torsion.ComplexPrimitives
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+public import Mathlib.Analysis.Calculus.MeanValue
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Holomorphic continuation through a first-order linear equation

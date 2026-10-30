@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralRegularRepresentative
-import Mathlib.Analysis.Analytic.IsolatedZeros
-import Mathlib.Analysis.Calculus.LocalExtr.Basic
+module
+
+public import Torsion.RestrictedSpectralRegularRepresentative
+public import Mathlib.Analysis.Analytic.IsolatedZeros
+public import Mathlib.Analysis.Calculus.LocalExtr.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Quadratic vanishing at an analytic nonnegative zero

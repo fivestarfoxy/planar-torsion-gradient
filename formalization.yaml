@@ -52,13 +52,21 @@ status:
     Euler premises; the source has no separate declaration of the paper's
     concrete marked-flux corollary verbatim. Full gradient-functional
     stability, perimeter normalization, and higher-dimensional extensions
-    are not claimed. The recorded v8 baseline reports 392 mathematical
-    modules, 52713 lines, and an audit of 3587 theorem declarations. These
-    are prior records, not a fresh review or new Comparator pass. At metadata
-    preparation the ordinary GitHub build and audit are pending. No current
-    Principia Comparator verification has passed. The original Lean 4.19.0
-    pin is below the current Principia preflight minimum; Comparator
-    integration requires a validated compatible path.
+    are not claimed. The historical v8 source reports 392 mathematical
+    modules, 52713 lines, and an audit of 3587 theorem declarations. The
+    original Lean 4.19 baseline at commit
+    a4fe19c71d4ac5ffbd85fc9d2f013a0c7b1a5e4b passed its full GitHub build,
+    3587-theorem axiom audit, and aggregate submission wrapper in run
+    41132349657; the wrapper also uses only the permitted three axioms.
+    The current compatibility branch genuinely targets Lean 4.35.0-rc2 and
+    mathlib commit 065356127b1dc0016f66b7283ce0ce2c4055aa55, with all
+    transitive dependencies pinned. It ports module visibility metadata
+    and mathlib APIs while preserving mathematical statements and
+    definitions. Its full build, axiom audit, and official sandboxed
+    Comparator with NanoDa and con-ron remain pending. No Comparator pass
+    is claimed. Historical counts and successful baseline checks are not
+    verification evidence for this port. The passing Lean 4.19 main
+    baseline is preserved while the compatibility branch is validated.
   # Counts describe the recorded proof development and exclude only the
   # intentional reference-theorem placeholder in Challenge.lean.
   sorry_count: 0
@@ -73,7 +81,9 @@ automation:
       tool_setup: >-
         Human-directed ChatGPT assistance in mathematical development,
         manuscript preparation, numerical checks, Lean formalization, and
-        repository packaging. The development uses Lean and mathlib.
+        repository packaging. The development uses Lean and mathlib. The
+        current compatibility work ports the source to Lean 4.35.0-rc2,
+        including module visibility metadata and changed mathlib APIs.
       cost:
         wall_time: "not tracked"
         spend_usd: "not tracked"
@@ -102,17 +112,21 @@ fidelity:
     certified decimal enclosures and are not used as premises of the core.
 
 review:
-  status: "agent-reviewed scope; prior build/audit recorded; current CI pending"
+  status: "Lean 4.19 baseline CI passed; Lean 4.35 port and Comparator pending"
   reviewers: []
   notes: >-
     ChatGPT performed source-level checks of the final theorem types, key
     definitions, import dependencies, and documented verification scope.
-    The supplied records report a previous successful Lean build and axiom
-    audit allowing only propext, Classical.choice, and Quot.sound. Metadata
-    preparation did not rerun that build. The current ordinary GitHub CI and
-    additive submission wrapper remain to be checked. No independent expert
-    peer review, author verification of every proof, or Comparator pass is
-    claimed.
+    GitHub run 41132349657 passed the complete build, original theorem
+    audit, and aggregate submission wrapper at baseline commit
+    a4fe19c71d4ac5ffbd85fc9d2f013a0c7b1a5e4b on Lean 4.19. Both axiom
+    checks allow only propext, Classical.choice, and Quot.sound. The current
+    Lean 4.35.0-rc2 port is still being validated; its full build, recursive
+    axiom audit, and sandboxed Comparator replay through Lean, NanoDa,
+    and con-ron are pending. The official bundled Comparator workflow is
+    configured separately from ordinary build/audit CI. No independent
+    expert peer review, author verification of every proof, or Comparator
+    pass is claimed.
 
 alignment:
   namespace: "Torsion"
@@ -120,17 +134,17 @@ alignment:
     - source: "Theorem 1.1: sharp inequality on every admissible convex domain"
       lean: "Torsion.DirichletTheory.G_le_second_spectral_bound"
       module: "Torsion.CanonicalUniversal"
-      status: "proved in the recorded v8 development; current CI pending"
+      status: "Lean 4.19 baseline CI passed; Lean 4.35 port pending"
       note: "Uses the actual weak-gradient norm and original convex-domain class."
     - source: "Theorem 1.1: exact optimal constant and normalized-image attainment"
       lean: "Torsion.second_exact_value"
       module: "Torsion.CanonicalOptimization"
-      status: "proved in the recorded v8 development; current CI pending"
+      status: "Lean 4.19 baseline CI passed; Lean 4.35 port pending"
       note: "No mathematical proof parameters remain in this final theorem."
     - source: "Combined submission claim for Theorem 1.1"
       lean: "TorsionSubmission.solution"
       module: "Solution"
-      status: "additive wrapper; ordinary CI pending; not Comparator-verified"
+      status: "Lean 4.19 wrapper build and audit passed; port and Comparator pending"
       note: >-
         Combines the universal bound, exact cStar, and area-one normalized
         Cauchy-image attainment. Challenge contains only its

@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralFourierIdentification
-import Torsion.RestrictedSpectralExteriorEnergy
-import Torsion.RestrictedSpectralExteriorKernel
+module
+
+public import Torsion.RestrictedSpectralFourierIdentification
+public import Torsion.RestrictedSpectralExteriorEnergy
+public import Torsion.RestrictedSpectralExteriorKernel
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Interior composition with the actual exterior residual

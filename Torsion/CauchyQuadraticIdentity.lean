@@ -1,6 +1,12 @@
-import Torsion.CauchyTransformUniqueness
-import Torsion.SpectralMomentIdentity
-import Torsion.ComplexIdentity
+module
+
+public import Torsion.CauchyTransformUniqueness
+public import Torsion.SpectralMomentIdentity
+public import Torsion.ComplexIdentity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The quadratic Cauchy identity from the linear boundary equation
@@ -150,7 +156,7 @@ theorem quadratic_identity_of_boundary_equation {a b : ℝ} {φ : ℝ → ℝ}
     calc
       ‖Q z‖ ≤ ‖E z‖ +
           (‖((b / a : ℝ) : ℂ) * D z‖ + ‖D z ^ 2 / ((2 * a : ℝ) : ℂ)‖) :=
-        (norm_sub_le _ _).trans (add_le_add_left (norm_sub_le _ _) _)
+        (norm_sub_le _ _).trans (add_le_add_right (norm_sub_le _ _) _)
       _ ≤ BE + (‖((b / a : ℝ) : ℂ)‖ * BD + BD ^ 2 / ‖((2 * a : ℝ) : ℂ)‖) := by
         rw [norm_mul, norm_div, norm_pow]
         exact add_le_add (hBE' z hz) (add_le_add

@@ -1,6 +1,12 @@
-import Torsion.RadialDeformationCollar
-import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
-import Mathlib.Analysis.InnerProductSpace.Calculus
+module
+
+public import Torsion.RadialDeformationCollar
+public import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
+public import Mathlib.Analysis.InnerProductSpace.Calculus
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual smooth compact radial displacement fields
@@ -32,7 +38,7 @@ private theorem polarPoint_continuous : Continuous polarPoint := by
 
 private theorem polarPoint_im_pos {p : ℝ × ℝ}
     (hr : 0 < p.1) (hθ : p.2 ∈ Ioo 0 Real.pi) : 0 < (polarPoint p).im := by
-  simpa [polarPoint, Complex.exp_mul_I, Complex.mul_im] using
+  simpa [polarPoint, Complex.exp_mul_I, Complex.mul_im, Complex.sin_ofReal_re] using
     mul_pos hr (Real.sin_pos_of_pos_of_lt_pi hθ.1 hθ.2)
 
 private theorem radialDisplacement_tsupport_subset_polar {β f : ℝ → ℝ}
@@ -89,7 +95,7 @@ theorem radialDisplacement_contDiff {β f : ℝ → ℝ} {a b : ℝ}
       apply hz
       have him : 0 < z.im := hsupport h
       exact Or.inr him.ne'
-    exact contDiffAt_const.congr_of_eventuallyEq (not_mem_tsupport_iff_eventuallyEq.mp hn)
+    exact contDiffAt_const.congr_of_eventuallyEq (notMem_tsupport_iff_eventuallyEq.mp hn)
 
 /-- The field vanishes on an actual neighborhood of every real-axis point,
 including the marked origin and both flat/free junctions. -/
@@ -97,7 +103,7 @@ theorem radialDisplacement_eventually_zero_at_real {β f : ℝ → ℝ} {a b : �
     (ha : 0 < a) (hβ : tsupport β ⊆ Icc a b)
     (hfc : HasCompactSupport f) (hfU : tsupport f ⊆ Ioo 0 Real.pi) (x : ℝ) :
     radialDisplacement β f =ᶠ[𝓝 (x : Plane)] 0 := by
-  apply not_mem_tsupport_iff_eventuallyEq.mp
+  apply notMem_tsupport_iff_eventuallyEq.mp
   intro hx
   have h := (radialDisplacement_compact_upper ha hβ hfc hfU).2 hx
   simpa [upperHalfPlane] using h
@@ -120,6 +126,5 @@ theorem radialDisplacement_polar {β f : ℝ → ℝ} {r θ : ℝ}
       ((β r * f θ : ℝ) : Plane) * Complex.exp ((θ : Plane) * Complex.I)
   rw [Complex.ofReal_div, Complex.ofReal_mul]
   field_simp [Complex.ofReal_ne_zero.mpr hr.ne']
-  ring
 
 end Torsion.Shape

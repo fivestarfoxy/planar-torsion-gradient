@@ -1,6 +1,10 @@
-import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
-import Mathlib.MeasureTheory.Measure.OpenPos
-import Mathlib.Tactic
+module
+
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
+public import Mathlib.MeasureTheory.Measure.OpenPos
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Pointwise signs of continuous interior representatives
@@ -45,12 +49,12 @@ theorem exists_mem_pos_of_ae_pos {g : ℝ → ℝ} {S : Set ℝ}
     (hS : volume S ≠ 0) (hpos : ∀ᵐ x : ℝ ∂volume.restrict S, 0 < g x) :
     ∃ x ∈ S, 0 < g x := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hnull : ∀ᵐ x : ℝ ∂volume, x ∉ S := by
     filter_upwards [ae_imp_of_ae_restrict hpos] with x hx
     exact fun hxS => not_lt_of_ge (h x hxS) (hx hxS)
   apply hS
-  simpa only [ae_iff, not_not] using hnull
+  simpa only [ae_iff, not_not, Set.ofPred_mem_eq] using hnull
 
 /-- In particular every nonempty open interval contains a positive point
 if the function is strictly positive almost everywhere on it. -/

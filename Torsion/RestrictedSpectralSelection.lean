@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralGroundState
-import Torsion.RestrictedSpectralGroundSign
+module
+
+public import Torsion.RestrictedSpectralGroundState
+public import Torsion.RestrictedSpectralGroundSign
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Selected first and second variational restricted eigenpairs

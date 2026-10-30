@@ -1,5 +1,11 @@
-import Torsion.CompactSpectral.PositiveEigenpair
-import Mathlib.Analysis.InnerProductSpace.Spectrum
+module
+
+public import Torsion.CompactSpectral.PositiveEigenpair
+public import Mathlib.Analysis.InnerProductSpace.Spectrum
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Two variational eigenpairs of a nonnegative compact self-adjoint operator

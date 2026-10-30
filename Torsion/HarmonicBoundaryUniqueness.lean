@@ -1,6 +1,12 @@
-import Torsion.SignedBoundaryAdmission
-import Torsion.ClassicalWeakLaplacian
-import Torsion.SobolevEnergy
+module
+
+public import Torsion.SignedBoundaryAdmission
+public import Torsion.ClassicalWeakLaplacian
+public import Torsion.SobolevEnergy
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Genuine harmonic uniqueness from signed zero-boundary data -/
 

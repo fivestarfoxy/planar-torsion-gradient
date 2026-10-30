@@ -1,5 +1,11 @@
-import Torsion.SobolevIdeal
-import Torsion.SobolevMinContinuity
+module
+
+public import Torsion.SobolevIdeal
+public import Torsion.SobolevMinContinuity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Admissible Sobolev tests in an intersection

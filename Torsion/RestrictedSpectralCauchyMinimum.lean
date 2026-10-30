@@ -1,4 +1,11 @@
-import Torsion.RestrictedSpectralCauchySecondDerivative
+module
+
+public import Torsion.RestrictedSpectralCauchySecondDerivative
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual Cauchy double-pole limits at an interior zero minimum

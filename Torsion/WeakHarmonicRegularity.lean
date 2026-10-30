@@ -1,6 +1,12 @@
-import Torsion.WeakGradient
-import Mathlib.Analysis.Calculus.BumpFunction.Convolution
-import Mathlib.Analysis.Convolution
+module
+
+public import Torsion.WeakGradient
+public import Mathlib.Analysis.Calculus.BumpFunction.Convolution
+public import Mathlib.Analysis.Convolution
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual smoothing of the concrete distributional weak gradient

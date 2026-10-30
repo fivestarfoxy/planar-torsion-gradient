@@ -1,7 +1,13 @@
-import Torsion.Curvature
-import Mathlib.Analysis.Convex.Deriv
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
-import Mathlib.Tactic
+module
+
+public import Torsion.Curvature
+public import Mathlib.Analysis.Convex.Deriv
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Strict curvature from actual eigenfunction concavity

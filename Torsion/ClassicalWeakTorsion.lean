@@ -1,5 +1,11 @@
-import Torsion.WeakHarmonicWeyl
-import Torsion.HilbertDirichlet
+module
+
+public import Torsion.WeakHarmonicWeyl
+public import Torsion.HilbertDirichlet
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual classical Poisson data identify weak H¹₀ torsion

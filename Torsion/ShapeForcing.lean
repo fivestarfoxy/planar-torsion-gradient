@@ -1,5 +1,13 @@
-import Torsion.ShapeCoefficients
-import Torsion.SobolevCore
+module
+
+public import Torsion.ShapeCoefficients
+public import Torsion.SobolevCore
+public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+public import Mathlib.MeasureTheory.Integral.IntegrableOn
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual fixed-domain forcing and its shape derivative

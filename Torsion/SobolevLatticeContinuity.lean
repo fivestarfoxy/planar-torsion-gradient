@@ -1,5 +1,11 @@
-import Torsion.SobolevLattice
-import Mathlib.Order.Filter.AtTopBot.CountablyGenerated
+module
+
+public import Torsion.SobolevLattice
+public import Mathlib.Order.Filter.AtTopBot.CountablyGenerated
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Strong H¹ continuity of the positive part -/
 
@@ -114,7 +120,8 @@ theorem MemH10.tendsto_eLpNorm_pos_part
     Tendsto (fun n => eLpNorm (fun x => (if 0 < uₙ n x then gₙ n x else 0) -
       (if 0 < u x then g x else 0)) 2 volume) atTop (𝓝 0) := by
   refine ⟨?_, ?_⟩
-  · exact tendsto_eLpNorm_lipschitz_comp Lp.lipschitzWith_pos_part hval
+  · exact tendsto_eLpNorm_lipschitz_comp Lp.lipschitzWith_pos_part
+      (fun n => (hun n).1.aestronglyMeasurable) hu.1.aestronglyMeasurable hval
   · apply Filter.tendsto_of_subseq_tendsto
     intro ν hν
     have hmeasure := tendstoInMeasure_of_tendsto_eLpNorm

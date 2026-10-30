@@ -1,7 +1,13 @@
-import Torsion.HilbertDirichlet
-import Torsion.DilationWeak
-import Torsion.SpectralMain
-import Torsion.SpectralNormalization
+module
+
+public import Torsion.HilbertDirichlet
+public import Torsion.DilationWeak
+public import Torsion.SpectralMain
+public import Torsion.SpectralNormalization
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Main theorem after constructing weak Dirichlet theory and proving scaling

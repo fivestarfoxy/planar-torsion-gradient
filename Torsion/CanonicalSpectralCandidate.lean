@@ -1,7 +1,13 @@
-import Torsion.RestrictedSpectralSecondHolder
-import Torsion.SpectralCandidate
-import Torsion.CauchyRadialDomain
-import Torsion.CauchyBoundaryStationarity
+module
+
+public import Torsion.RestrictedSpectralSecondHolder
+public import Torsion.SpectralCandidate
+public import Torsion.CauchyRadialDomain
+public import Torsion.CauchyBoundaryStationarity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual second spectral reference, without spectral hypotheses

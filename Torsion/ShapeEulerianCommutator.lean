@@ -1,7 +1,13 @@
-import Torsion.ShapeEnergyOperatorMatrix
-import Torsion.ClassicalWeakLaplacian
-import Torsion.WeakHarmonicWeyl.Classical
-import Torsion.ShapeForcing
+module
+
+public import Torsion.ShapeEnergyOperatorMatrix
+public import Torsion.ClassicalWeakLaplacian
+public import Torsion.WeakHarmonicWeyl.Classical
+public import Torsion.ShapeForcing
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual local Eulerian shape commutator

@@ -1,7 +1,13 @@
-import Torsion.CauchyConformalGeometry.BoundaryHolder
-import Mathlib.Topology.Order.ProjIcc
-import Mathlib.Topology.MetricSpace.Lipschitz
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+module
+
+public import Torsion.CauchyConformalGeometry.BoundaryHolder
+public import Mathlib.Topology.Order.ProjIcc
+public import Mathlib.Topology.MetricSpace.Lipschitz
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Genuine C¹,α charts through the free-arc junctions

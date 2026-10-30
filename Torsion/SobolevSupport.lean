@@ -1,4 +1,10 @@
-import Torsion.SobolevCore
+module
+
+public import Torsion.SobolevCore
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Zero extension inherited by the Sobolev graph closure
@@ -45,7 +51,7 @@ private theorem ae_zero_off_of_eLpNorm_approximation
       (fun n => eLpNorm (fun x => f n x - u x) 2 (volume.restrict Dᶜ)) atTop (𝓝 0) := by
     apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hlim
     · intro n
-      exact zero_le _
+      exact zero_le
     · intro n
       exact eLpNorm_restrict_le _ _ _ _
   have heq (n : ℕ) :
@@ -62,7 +68,7 @@ private theorem ae_zero_off_of_eLpNorm_approximation
       atTop (𝓝 0) := by simpa only [heq] using hrestrict
   have hzero : eLpNorm u 2 (volume.restrict Dᶜ) = 0 :=
     tendsto_nhds_unique tendsto_const_nhds hconst
-  exact (eLpNorm_eq_zero_iff (hu.restrict Dᶜ).1 (by norm_num)).mp hzero
+  exact (eLpNorm_eq_zero_iff (by norm_num)).mp hzero
 
 /-- The value coordinate of a zero-boundary Sobolev function is zero almost
  everywhere on the complement, inherited from its compact approximants. -/

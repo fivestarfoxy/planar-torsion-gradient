@@ -1,4 +1,10 @@
-import Torsion.CauchyFreeArcInverse
+module
+
+public import Torsion.CauchyFreeArcInverse
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Full local smoothness of the physical torsion gradient at the free arc -/
 

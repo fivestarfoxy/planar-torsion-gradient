@@ -1,8 +1,14 @@
-import Mathlib.Analysis.Convex.Topology
-import Mathlib.Analysis.Calculus.LocalExtr.Basic
-import Mathlib.Analysis.Calculus.FDeriv.Linear
-import Mathlib.Topology.MetricSpace.Bounded
-import Mathlib.Topology.Order.Compact
+module
+
+public import Mathlib.Analysis.Convex.Topology
+public import Mathlib.Analysis.Calculus.LocalExtr.Basic
+public import Mathlib.Analysis.Calculus.FDeriv.Linear
+public import Mathlib.Topology.MetricSpace.Bounded
+public import Mathlib.Topology.Order.Compact
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Convexity from supporting functionals on the actual frontier

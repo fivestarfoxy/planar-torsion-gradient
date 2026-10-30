@@ -1,5 +1,11 @@
-import Torsion.CauchyConformalGeometry.BoundaryHolder
-import Torsion.CauchyConformalGeometry.FlatSegment
+module
+
+public import Torsion.CauchyConformalGeometry.BoundaryHolder
+public import Torsion.CauchyConformalGeometry.FlatSegment
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Monotonicity of the actual free-arc tangent ratio

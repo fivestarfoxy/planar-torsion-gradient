@@ -1,6 +1,12 @@
-import Torsion.RestrictedSpectralAnalyticHeight
-import Torsion.CauchyBoundaryStationarity
-import Mathlib.Analysis.Calculus.InverseFunctionTheorem.ContDiff
+module
+
+public import Torsion.RestrictedSpectralAnalyticHeight
+public import Torsion.CauchyBoundaryStationarity
+public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.ContDiff
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Smooth extension of the actual inverse across the open free arc

@@ -1,6 +1,12 @@
-import Torsion.CauchyConformalGeometry.ExteriorBoundary
-import Mathlib.Topology.Compactification.OnePoint
-import Mathlib.Analysis.Normed.Group.Bounded
+module
+
+public import Torsion.CauchyConformalGeometry.ExteriorBoundary
+public import Mathlib.Topology.Compactification.OnePoint.Basic
+public import Mathlib.Analysis.Normed.Group.Bounded
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual compactified boundary homeomorphism

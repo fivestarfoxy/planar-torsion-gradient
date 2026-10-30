@@ -1,4 +1,11 @@
-import Torsion.RestrictedSpectralGagliardoAdmission
+module
+
+public import Torsion.RestrictedSpectralGagliardoAdmission
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! Elementary two-point endpoint estimates for the semicircle barrier. -/
 noncomputable section

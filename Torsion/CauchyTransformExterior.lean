@@ -1,5 +1,11 @@
-import Torsion.CauchyConformalGeometry.BoundaryGeometry
-import Torsion.CauchyTransformDecay
+module
+
+public import Torsion.CauchyConformalGeometry.BoundaryGeometry
+public import Torsion.CauchyTransformDecay
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The Cauchy integral across the exterior real boundary

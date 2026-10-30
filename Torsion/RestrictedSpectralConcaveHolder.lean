@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralHeightRegularity
-import Torsion.RestrictedSpectralConcavityBounds
-import Mathlib.Analysis.Convex.Slope
-import Mathlib.Analysis.Convex.Deriv
+module
+
+public import Torsion.RestrictedSpectralHeightRegularity
+public import Torsion.RestrictedSpectralConcavityBounds
+public import Mathlib.Analysis.Convex.Slope
+public import Mathlib.Analysis.Convex.Deriv
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Square-root modulus from actual concavity and endpoint bounds
@@ -70,7 +77,7 @@ theorem concaveOn_sub_le_sqrt_of_endpoint_bound {f : ℝ → ℝ} {C x y : ℝ}
   have hsqrt := mul_sqrt_le_mul_sqrt_of_le hdiff hdiffle
   have hmul := mul_le_mul_of_nonneg_left hsqrt hC
   have hfx := mul_le_mul_of_nonneg_right (hbound x hx) hdiff
-  apply (mul_le_mul_right (sub_pos.2 hxlt)).1
+  apply (mul_le_mul_iff_right₀ (sub_pos.2 hxlt)).1
   nlinarith [hchord, hfx, hmul]
 
 /-- Explicit origin and endpoint bounds together control every positive-
@@ -154,15 +161,16 @@ theorem holder_half_of_odd_zero_exterior {f : ℝ → ℝ} {K : ℝ}
     (hzero : ∀ x : ℝ, 1 ≤ |x| → f x = 0)
     (hhalf : ∀ x ∈ Icc (0 : ℝ) 1, ∀ y ∈ Icc (0 : ℝ) 1,
       |f x - f y| ≤ K * Real.sqrt |x - y|) :
-    HolderWith ⟨2 * K, by positivity⟩ (1 / 2) f := by
+    HolderWith (NNReal.mk (2 * K) (by positivity)) (1 / 2) f := by
+  let A : ℝ≥0 := NNReal.mk (2 * K) (by positivity)
+  change HolderWith A (1 / 2) f
   intro x y
   rw [edist_dist, edist_dist, ENNReal.ofReal_rpow_of_nonneg dist_nonneg (by positivity)]
-  rw [← ENNReal.ofReal_coe_nnreal]
-  simp only [NNReal.coe_mk]
-  rw [← ENNReal.ofReal_mul (by positivity : 0 ≤ 2 * K)]
+  rw [← ENNReal.ofReal_coe_nnreal (p := A), ← ENNReal.ofReal_mul A.coe_nonneg]
   apply ENNReal.ofReal_le_ofReal
   simpa only [Real.dist_eq, NNReal.coe_div, NNReal.coe_one, NNReal.coe_ofNat,
-    ← Real.sqrt_eq_rpow] using abs_sub_le_sqrt_of_odd_zero_exterior hK hodd hzero hhalf x y
+    A, NNReal.coe_mk, ← Real.sqrt_eq_rpow] using
+    abs_sub_le_sqrt_of_odd_zero_exterior hK hodd hzero hhalf x y
 
 
 /-- Concavity together with concrete origin and endpoint estimates yields
@@ -172,7 +180,7 @@ theorem holder_half_of_concave_odd_zero_exterior {f : ℝ → ℝ} {L C : ℝ}
     (hzero : ∀ x : ℝ, 1 ≤ |x| → f x = 0) (hL : 0 ≤ L) (hC : 0 ≤ C)
     (hlinear : ∀ t ∈ Icc (0 : ℝ) 1, f t ≤ L * t)
     (hendpoint : ∀ t ∈ Icc (0 : ℝ) 1, f t ≤ C * Real.sqrt (1 - t)) :
-    HolderWith ⟨2 * (L + C), by positivity⟩ (1 / 2) f := by
+    HolderWith (NNReal.mk (2 * (L + C)) (by positivity)) (1 / 2) f := by
   have hfzero : f 0 = 0 := by have h := hodd 0; simp only [neg_zero] at h; linarith
   exact holder_half_of_odd_zero_exterior (add_nonneg hL hC) hodd hzero
     (concaveOn_abs_sub_le_sqrt_of_bounds hconc hfzero (hzero 1 (by norm_num)) hL hC hlinear hendpoint)
@@ -188,7 +196,7 @@ theorem exists_holder_half_of_concave_odd_local_endpoint_bound {f : ℝ → ℝ}
     ∃ C : ℝ≥0, HolderWith C (1 / 2) f := by
   have hfzero : f 0 = 0 := by have h := hodd 0; simp only [neg_zero] at h; linarith
   obtain ⟨C, hC, hCb⟩ := exists_global_sqrt_bound_of_local_endpoint_bound hcont hδ hendpoint
-  exact ⟨⟨2 * (L + C), by positivity⟩, holder_half_of_concave_odd_zero_exterior
+  exact ⟨NNReal.mk (2 * (L + C)) (by positivity), holder_half_of_concave_odd_zero_exterior
     hconc hodd hzero hL hC (concaveOn_le_mul_of_hasDerivAt hconc hfzero hd) hCb⟩
 
 
@@ -210,7 +218,7 @@ theorem exists_holder_half_of_concave_odd_differentiable_local_endpoint_bound
     intro t ht
     exact (concaveOn_le_mul_of_hasDerivAt hconc hfzero hd.hasDerivAt t ht).trans
       (mul_le_mul_of_nonneg_right (le_max_left _ _) ht.1)
-  exact ⟨⟨2 * (L + C), by positivity⟩,
+  exact ⟨NNReal.mk (2 * (L + C)) (by positivity),
     holder_half_of_concave_odd_zero_exterior hconc hodd hzero hL hC hlinear hCb⟩
 
 

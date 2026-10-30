@@ -1,4 +1,10 @@
-import Torsion.ClassicalWeakTorsion
+module
+
+public import Torsion.ClassicalWeakTorsion
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Vanishing of the classical gradient on a zero level

@@ -1,5 +1,11 @@
-import Torsion.WeakHarmonicRegularity
-import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
+module
+
+public import Torsion.WeakHarmonicRegularity
+public import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Explicit normalized radial smoothing kernels

@@ -1,6 +1,12 @@
-import Torsion.SpectralDefinitions
-import Mathlib.Analysis.Complex.PhragmenLindelof
-import Mathlib.Analysis.Complex.Convex
+module
+
+public import Torsion.SpectralDefinitions
+public import Mathlib.Analysis.Complex.PhragmenLindelof
+public import Mathlib.Analysis.Complex.Convex
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Bounded holomorphic uniqueness in the upper half-plane

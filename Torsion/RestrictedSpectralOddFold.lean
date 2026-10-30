@@ -1,4 +1,11 @@
-import Torsion.RestrictedSpectralLatticeApprox
+module
+
+public import Torsion.RestrictedSpectralLatticeApprox
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Odd folding and flat smooth approximations on the positive half interval

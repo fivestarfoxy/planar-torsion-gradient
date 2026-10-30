@@ -1,4 +1,10 @@
-import Torsion.RadialFluxConcavity
+module
+
+public import Torsion.RadialFluxConcavity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Transfer from finite step domains to continuous radial profiles
@@ -32,7 +38,7 @@ theorem radialDomain_smul (R : ℝ → ℝ) (t : ℝ) (ht : 0 < t) :
     have harg : (t • z).arg = z.arg := Complex.arg_real_mul z ht
     have hn : ‖t • z‖ = t * ‖z‖ := by simp [norm_smul, abs_of_pos ht]
     simp only [him, harg, hn, Pi.smul_apply, smul_eq_mul,
-      mul_pos_iff_of_pos_left ht, mul_lt_mul_left ht]
+      mul_pos_iff_of_pos_left ht, mul_lt_mul_iff_right₀ ht]
   ext z
   constructor
   · intro hz
@@ -219,7 +225,7 @@ theorem radial_flux_concavity {Q : Set ℂ → ℝ} (hQ : MarkedFluxRules Q)
   have happrox := fun n => finite_approximation hQ hR hS hRp hSp ha hb hab (hε n) (hε1 n)
   choose qR qS qT hqR hqS hqT hconcave using happrox
   have hlimε : Tendsto ε atTop (𝓝 0) := by
-    simpa [ε] using tendsto_inv_atTop_zero.comp
+    simpa [ε, Function.comp_def] using! tendsto_inv_atTop_zero.comp
       (Filter.tendsto_atTop_add_const_right atTop (2 : ℝ) tendsto_natCast_atTop_atTop)
   have hlim (c : ℝ) (q : ℕ → ℝ)
       (hlo : ∀ n, (1 - ε n) * c ≤ q n) (hup : ∀ n, q n ≤ (1 + ε n) * c) :

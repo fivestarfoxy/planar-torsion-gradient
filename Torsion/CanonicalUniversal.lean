@@ -1,7 +1,13 @@
-import Torsion.UniformSupportedCollar
-import Torsion.NormalFrameFlatPatch
-import Torsion.ConvexSupportingPoint
-import Torsion.ConvexTorsionContinuity
+module
+
+public import Torsion.UniformSupportedCollar
+public import Torsion.NormalFrameFlatPatch
+public import Torsion.ConvexSupportingPoint
+public import Torsion.ConvexTorsionContinuity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The universal sharp bound over the original convex admissible class

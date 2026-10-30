@@ -1,4 +1,10 @@
-import Torsion.FourierHilbertKernel
+module
+
+public import Torsion.FourierHilbertKernel
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual height and the damped Hilbert multiplier

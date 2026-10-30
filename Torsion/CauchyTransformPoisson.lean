@@ -1,9 +1,15 @@
-import Torsion.CauchyTransform
-import Torsion.CauchyTransformHeightDerivative
-import Torsion.CauchyTransformIntegrationByParts
-import Mathlib.MeasureTheory.Integral.PeakFunction
-import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
-import Mathlib.Analysis.Normed.Group.Bounded
+module
+
+public import Torsion.CauchyTransform
+public import Torsion.CauchyTransformHeightDerivative
+public import Torsion.CauchyTransformIntegrationByParts
+public import Mathlib.MeasureTheory.Integral.PeakFunction
+public import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+public import Mathlib.Analysis.Normed.Group.Bounded
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The imaginary boundary trace of the Cauchy transform
@@ -232,7 +238,8 @@ theorem auxiliary_im_vertical_boundary {φ : ℝ → ℝ}
     (hφ : ContinuousOn φ (Icc (0 : ℝ) 1)) (x : ℝ) :
     Tendsto (fun c : ℝ => (auxiliary φ ((x : ℂ) + (c⁻¹ : ℝ) * Complex.I)).im)
       atTop (𝓝 ((height φ x) ^ 2 / 2)) := by
-  have h := (realCauchy_im_vertical_boundary ((height_continuous hφ).pow 2)
+  have h := (realCauchy_im_vertical_boundary (f := fun s => (height φ s) ^ 2)
+    (by simpa only [Pi.pow_apply] using! (height_continuous hφ).pow 2)
     (fun s hs => by rw [height_zero_of_one_le_abs φ hs]; norm_num) x).const_mul (1 / 2 : ℝ)
   have heq (z : ℂ) : auxiliary φ z = (1 / 2 : ℂ) *
       realCauchy (fun s => (height φ s) ^ 2) z := by
@@ -270,7 +277,8 @@ theorem auxiliary_derivative_im_vertical_boundary {φ : ℝ → ℝ}
       ((x : ℂ) + (c⁻¹ : ℝ) * Complex.I)).im)
       atTop (𝓝 (-(height φ x * φ x))) := by
   have hY := height_continuous hφ.continuousOn
-  apply (realCauchy_im_vertical_boundary (hY.mul hφ)
+  apply (realCauchy_im_vertical_boundary (f := fun s => height φ s * φ s)
+    (by fun_prop)
     (fun s hs => by rw [height_zero_of_one_le_abs φ hs, zero_mul]) x).neg.congr'
   filter_upwards [eventually_gt_atTop 0] with c hc
   have hz : (x : ℂ) + (c⁻¹ : ℝ) * Complex.I ∈ upperHalfPlane := by

@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralPoincare
-import Mathlib.MeasureTheory.Group.Integral
+module
+
+public import Torsion.RestrictedSpectralPoincare
+public import Mathlib.MeasureTheory.Group.Integral
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The actual half-energy controls translations in L²
@@ -98,7 +105,7 @@ theorem integral_sq_translation_le_of_compact_smooth {f : ℝ → ℝ}
     rw [energy_self]
     field_simp [Real.pi_ne_zero]
   rw [integral_norm_sq_fourier_of_core hg hgc, integral_const_mul, hE] at hi
-  apply (mul_le_mul_left (show 0 < 2 * Real.pi by positivity)).mp
+  apply (mul_le_mul_iff_left₀ (show 0 < 2 * Real.pi by positivity)).mp
   convert hi using 1
   ring
 

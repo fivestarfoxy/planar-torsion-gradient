@@ -1,4 +1,10 @@
-import Torsion.CanonicalUniversal
+module
+
+public import Torsion.CanonicalUniversal
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Unconditional exact spectral value and an actual maximizing domain

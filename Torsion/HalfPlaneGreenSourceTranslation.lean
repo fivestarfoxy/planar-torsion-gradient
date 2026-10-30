@@ -1,6 +1,12 @@
-import Torsion.HalfPlaneGreenSource
-import Torsion.WeakReflection.Translation
-import Mathlib.MeasureTheory.Group.Integral
+module
+
+public import Torsion.HalfPlaneGreenSource
+public import Torsion.WeakReflection.Translation
+public import Mathlib.MeasureTheory.Group.Integral
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Translation of the concrete logarithmic source identity -/
 

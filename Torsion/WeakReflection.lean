@@ -1,6 +1,12 @@
-import Torsion.WeakGradient
-import Mathlib.MeasureTheory.Measure.Lebesgue.Complex
-import Mathlib.Analysis.Calculus.ContDiff.Operations
+module
+
+public import Torsion.WeakGradient
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Complex
+public import Mathlib.Analysis.Calculus.ContDiff.Operations
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Reflection of the concrete zero-boundary Sobolev graph

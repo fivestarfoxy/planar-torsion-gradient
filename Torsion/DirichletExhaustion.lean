@@ -1,5 +1,11 @@
-import Torsion.DirichletGalerkin
-import Torsion.SobolevExhaustion
+module
+
+public import Torsion.DirichletGalerkin
+public import Torsion.SobolevExhaustion
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Strong H¹ convergence along increasing open-domain exhaustions
@@ -36,7 +42,7 @@ theorem IsWeakTorsion.tendsto_eLpNorm_gradient_of_exhaustion
     fun k => (hf k).memLp_gradient.toLp (gradient (f k))
   have hF : Tendsto F atTop (𝓝 G₀) := by
     apply tendsto_iff_edist_tendsto_0.mpr
-    simpa only [F, G₀, Lp.edist_toLp_toLp] using hfg
+    simpa only [F, G₀, Lp.edist_toLp_toLp, Pi.sub_def] using hfg
   have hG : Tendsto G atTop (𝓝 G₀) := by
     apply Metric.tendsto_atTop.mpr
     intro ε hε
@@ -52,7 +58,7 @@ theorem IsWeakTorsion.tendsto_eLpNorm_gradient_of_exhaustion
       _ = dist (F k) G₀ := (dist_eq_norm _ _).symm
       _ < ε := hk k le_rfl
   have hdist := tendsto_iff_edist_tendsto_0.mp hG
-  simpa only [G, G₀, Lp.edist_toLp_toLp] using hdist
+  simpa only [G, G₀, Lp.edist_toLp_toLp, Pi.sub_def] using hdist
 
 /-- On a common bounded union, both coordinates converge strongly in L².
 This proves the full simultaneous H¹ convergence needed before the harmonic
@@ -76,6 +82,6 @@ theorem IsWeakTorsion.tendsto_eLpNorm_of_exhaustion
     (Or.inr ENNReal.ofReal_ne_top)
   simp only [mul_zero] at hlim
   exact tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hlim
-    (fun _ => zero_le _) hbound
+    (fun _ => zero_le) hbound
 
 end Torsion

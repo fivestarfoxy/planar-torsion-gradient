@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralSecondParity
-import Torsion.RestrictedSpectralOddSelection
+module
+
+public import Torsion.RestrictedSpectralSecondParity
+public import Torsion.RestrictedSpectralOddSelection
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Identification of the second and least odd eigenvalues below the even gap

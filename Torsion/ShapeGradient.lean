@@ -1,6 +1,12 @@
-import Torsion.ShapeDeformation
-import Torsion.WeakGradient
-import Mathlib.Analysis.InnerProductSpace.Adjoint
+module
+
+public import Torsion.ShapeDeformation
+public import Torsion.WeakGradient
+public import Mathlib.Analysis.InnerProductSpace.Adjoint
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # The actual gradient pullback under smooth planar deformations -/
 

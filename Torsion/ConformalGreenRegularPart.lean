@@ -1,5 +1,11 @@
-import Torsion.PhysicalCauchyGreen
-import Mathlib.Analysis.Complex.RemovableSingularity
+module
+
+public import Torsion.PhysicalCauchyGreen
+public import Mathlib.Analysis.Complex.RemovableSingularity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # A smooth harmonic regular part for the conformal logarithmic kernel

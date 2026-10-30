@@ -1,12 +1,20 @@
-import Torsion.Definitions
-import Torsion.ShapeDeformation
-import Mathlib.Analysis.Matrix
-import Mathlib.Analysis.Calculus.Deriv.Prod
-import Mathlib.Analysis.Calculus.Deriv.Inv
-import Mathlib.Analysis.Complex.Isometry
-import Mathlib.LinearAlgebra.Matrix.Adjugate
-import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
-import Mathlib.Tactic
+module
+
+public import Torsion.Definitions
+public import Torsion.ShapeDeformation
+public import Mathlib.Analysis.Matrix
+public import Mathlib.Analysis.Calculus.Deriv.Prod
+public import Mathlib.Analysis.Calculus.Deriv.Inv
+public import Mathlib.Analysis.Calculus.Deriv.Pow
+public import Mathlib.Analysis.Complex.Isometry
+public import Mathlib.LinearAlgebra.Matrix.Adjugate
+public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Concrete planar coefficients for localized shape calculus
@@ -116,6 +124,8 @@ theorem energyMatrix_hasDerivAt_zero (B : RealMatrix) :
       ((hasDerivAt_id 0).mul_const p)).pow 2).add
       (((hasDerivAt_id 0).mul_const q).pow 2)).div hJ (by simp)
     convert h using 1 <;> simp
+    funext t
+    rfl
   have hoff : HasDerivAt
       (fun t => -(t * B 1 0 * (1 + t * B 1 1) +
         t * B 0 1 * (1 + t * B 0 0)) / jacobian B t)
@@ -126,6 +136,8 @@ theorem energyMatrix_hasDerivAt_zero (B : RealMatrix) :
         ((hasDerivAt_const 0 (1 : ℝ)).add ((hasDerivAt_id 0).mul_const (B 0 0))))).neg.div
         hJ (by simp)
     convert h using 1 <;> simp
+    funext t
+    rfl
   have hP : HasDerivAt P (energyVariation B) 0 := by
     apply hasDerivAt_pi.mpr
     intro i
@@ -134,7 +146,7 @@ theorem energyMatrix_hasDerivAt_zero (B : RealMatrix) :
     fin_cases i <;> fin_cases j
     · convert hdiag (B 1 1) (B 0 1) using 1 <;>
         simp [P, energyVariation, Matrix.trace, Fin.sum_univ_two] <;> ring
-    · simpa [P, energyVariation, Matrix.trace, Fin.sum_univ_two] using hoff
+    · convert hoff using 1 <;> simp [P, energyVariation, Matrix.trace, Fin.sum_univ_two] <;> ring
     · convert hoff using 1 <;> simp [P, energyVariation, Matrix.trace, Fin.sum_univ_two] <;> ring
     · convert hdiag (B 0 0) (B 1 0) using 1
       · funext t

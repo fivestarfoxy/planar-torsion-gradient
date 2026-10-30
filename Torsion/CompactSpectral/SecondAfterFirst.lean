@@ -1,4 +1,10 @@
-import Torsion.CompactSpectral.TwoEigenpairs
+module
+
+public import Torsion.CompactSpectral.TwoEigenpairs
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Second variational selection after a specified first eigenvector

@@ -1,7 +1,13 @@
-import Torsion.CauchyConformalGeometry.MarkedGeometry
-import Torsion.PhysicalCauchyWeakTorsion
-import Torsion.PhysicalCauchyBoundary
-import Torsion.MarkedFluxLowerBound
+module
+
+public import Torsion.CauchyConformalGeometry.MarkedGeometry
+public import Torsion.PhysicalCauchyWeakTorsion
+public import Torsion.PhysicalCauchyBoundary
+public import Torsion.MarkedFluxLowerBound
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual marked torsion flux of the Cauchy image

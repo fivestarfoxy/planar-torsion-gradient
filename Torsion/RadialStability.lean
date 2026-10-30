@@ -1,5 +1,11 @@
-import Torsion.Calibration
-import Torsion.Stability
+module
+
+public import Torsion.Calibration
+public import Torsion.Stability
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Radial stability from a stationary calibration

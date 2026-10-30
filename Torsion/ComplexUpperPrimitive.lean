@@ -1,5 +1,11 @@
-import Torsion.ComplexPrimitives
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
+module
+
+public import Torsion.ComplexPrimitives
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! A continuous primitive up to the boundary of the upper half-plane. -/
 noncomputable section
@@ -39,10 +45,12 @@ lemma upperPrimitive_continuous {f : ℂ → ℂ}
   · apply intervalIntegral.continuous_parametric_intervalIntegral_of_continuous
     · exact hg.comp (Complex.continuous_ofReal.comp continuous_snd)
     · exact Complex.continuous_re
-  · apply continuous_const.smul
-    apply intervalIntegral.continuous_parametric_intervalIntegral_of_continuous
-    · exact hg.comp (by fun_prop : Continuous (fun p : ℂ × ℝ => p.1.re + p.2 * I))
-    · exact Complex.continuous_im
+  · have hcont : Continuous (fun z : ℂ =>
+        ∫ y in (0 : ℝ)..z.im, (f ∘ upperClamp) (z.re + y * I)) := by
+      apply intervalIntegral.continuous_parametric_intervalIntegral_of_continuous
+      · exact hg.comp (by fun_prop : Continuous (fun p : ℂ × ℝ => p.1.re + p.2 * I))
+      · exact Complex.continuous_im
+    simpa only [Pi.smul_apply] using! hcont.const_smul I
 
 private lemma wedgePrimitive_sub {g : ℂ → ℂ} (hg : Continuous g)
     (hd : ∀ z : ℂ, 0 < z.im → DifferentiableAt ℂ g z)

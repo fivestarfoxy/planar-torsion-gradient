@@ -1,7 +1,13 @@
-import Torsion.CauchyTransformExterior
-import Mathlib.Analysis.Calculus.Deriv.Slope
-import Mathlib.Analysis.Normed.Field.Lemmas
-import Mathlib.Analysis.Complex.Conformal
+module
+
+public import Torsion.CauchyTransformExterior
+public import Mathlib.Analysis.Calculus.Deriv.Slope
+public import Mathlib.Analysis.Normed.Field.Lemmas
+public import Mathlib.Analysis.Complex.Conformal
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual Cauchy map at the compactified marked point

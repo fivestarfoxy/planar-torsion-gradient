@@ -1,6 +1,13 @@
-import Mathlib.Analysis.Calculus.MeanValue
-import Mathlib.Analysis.Calculus.ContDiff.Basic
-import Mathlib.Tactic
+module
+
+public import Mathlib.Analysis.Calculus.MeanValue
+public import Mathlib.Analysis.Calculus.ContDiff.Deriv
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # A uniform quadratic remainder on an actual real segment
@@ -36,9 +43,11 @@ theorem abs_sub_linear_le_sq_of_second_deriv_bound
     simpa only [Real.norm_eq_abs, sub_zero] using h
   let F : ℝ → ℝ := fun x => f x - f 0 - deriv f 0 * x
   have hF (x : ℝ) : HasDerivAt F (deriv f x - deriv f 0) x := by
-    simpa only [F, mul_one] using
-      ((hf x).hasDerivAt.sub_const (f 0)).sub
-        ((hasDerivAt_id x).const_mul (deriv f 0))
+    convert ((hf x).hasDerivAt.sub_const (f 0)).sub
+      ((hasDerivAt_id x).const_mul (deriv f 0)) using 1 <;>
+      simp [F]
+    funext y
+    rfl
   have h := norm_image_sub_le_of_norm_deriv_le_segment'
     (a := (0 : ℝ)) (b := h) (f := F) (f' := fun x => deriv f x - deriv f 0)
     (fun x _ => (hF x).hasDerivWithinAt)
@@ -70,7 +79,6 @@ theorem abs_quotient_sub_deriv_le_of_second_deriv_bound
   have heq : (f h - f 0) / h - deriv f 0 =
       (f h - f 0 - deriv f 0 * h) / h := by
     field_simp
-    ring
   rw [heq, abs_div, abs_of_pos hh]
   apply (div_le_iff₀ hh).mpr
   exact (abs_sub_linear_le_sq_of_second_deriv_bound hf hdf hC hh.le hbound).trans_eq

@@ -1,5 +1,11 @@
-import Torsion.MarkedFlux
-import Torsion.WeakHarmonicWeyl.ConvolutionEstimates
+module
+
+public import Torsion.MarkedFlux
+public import Torsion.WeakHarmonicWeyl.ConvolutionEstimates
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Fixed-ball representation of genuine marked flux

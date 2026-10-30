@@ -1,5 +1,11 @@
-import Torsion.CauchyTransformBoundaryDerivative
-import Torsion.RestrictedSpectralIntegrated
+module
+
+public import Torsion.CauchyTransformBoundaryDerivative
+public import Torsion.RestrictedSpectralIntegrated
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Passing from regularized Fourier pairings to the actual Cauchy trace

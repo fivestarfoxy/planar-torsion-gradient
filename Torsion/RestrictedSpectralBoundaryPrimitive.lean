@@ -1,5 +1,12 @@
-import Torsion.CauchyTracePairingLimit
-import Torsion.FourierHilbertPairing
+module
+
+public import Torsion.CauchyTracePairingLimit
+public import Torsion.FourierHilbertPairing
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The weak derivative of the genuine Cauchy boundary value

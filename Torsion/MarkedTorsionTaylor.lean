@@ -1,6 +1,12 @@
-import Torsion.HarmonicNormalTaylor
-import Torsion.SlabTorsionBarrier
-import Torsion.MarkedFlux
+module
+
+public import Torsion.HarmonicNormalTaylor
+public import Torsion.SlabTorsionBarrier
+public import Torsion.MarkedFlux
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Uniform marked torsion Taylor estimates from the actual slab barrier

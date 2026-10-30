@@ -1,8 +1,14 @@
-import Torsion.MarkedFluxExhaustion
-import Torsion.Calibration
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
-import Mathlib.Topology.Order.Lattice
+module
+
+public import Torsion.MarkedFluxExhaustion
+public import Torsion.Calibration
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
+public import Mathlib.Topology.Order.Lattice
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Concrete endpoint passage for radial calibration

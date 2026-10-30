@@ -1,4 +1,10 @@
-import Torsion.WeakReflection.Odd
+module
+
+public import Torsion.WeakReflection.Odd
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The marked Poisson correction and actual harmonic odd extension

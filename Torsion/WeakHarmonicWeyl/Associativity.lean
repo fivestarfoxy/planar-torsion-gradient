@@ -1,4 +1,10 @@
-import Torsion.WeakHarmonicRegularity
+module
+
+public import Torsion.WeakHarmonicRegularity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Commuting compact smoothing kernels against an actual L² field -/
 noncomputable section

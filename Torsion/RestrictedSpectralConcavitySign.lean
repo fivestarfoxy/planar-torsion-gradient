@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralConcavityComposition
-import Mathlib.Analysis.Convex.Deriv
+module
+
+public import Torsion.RestrictedSpectralConcavityComposition
+public import Mathlib.Analysis.Convex.Deriv
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Strict concavity from the actual exterior residual

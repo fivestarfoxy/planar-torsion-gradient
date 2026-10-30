@@ -1,0 +1,61 @@
+name: Comparator
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  comparator:
+    name: Comparator
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      # Tool setup and sandbox follow PrincipiaMathOrg/PrincipiaTemplate
+      # at da848aff2c509e82aae4426a82f50dc525928013.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Check Lean source requirements before builds
+        run: python3 scripts/check-lean-sources.py
+
+      - name: Install the pinned project toolchain and dependency cache
+        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+
+      - name: Install bubblewrap for lake comparator's sandbox
+        # The disposable Ubuntu runner restricts unprivileged user namespaces.
+        run: |
+          sudo apt-get update -qq >/dev/null
+          sudo apt-get install -y -qq bubblewrap >/dev/null
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      # Do not build Solution outside the sandbox before judging it.
+      - name: Compare the concrete statement and replay the proof in all kernels
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./scripts/verify-comparator.sh 2>&1 | tee "$RUNNER_TEMP/comparator.log"
+
+      - name: Preserve the Comparator log
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: comparator-log
+          path: ${{ runner.temp }}/comparator.log
+          if-no-files-found: ignore
+          retention-days: 30
+

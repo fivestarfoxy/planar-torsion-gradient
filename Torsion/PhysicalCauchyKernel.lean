@@ -1,4 +1,10 @@
-import Torsion.PhysicalCauchyBoundary
+module
+
+public import Torsion.PhysicalCauchyBoundary
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # A harmonic marked-kernel candidate and the constant free-arc product

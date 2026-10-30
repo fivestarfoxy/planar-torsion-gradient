@@ -1,5 +1,11 @@
-import Torsion.SobolevPositivePart
-import Torsion.WeakGradient
+module
+
+public import Torsion.SobolevPositivePart
+public import Torsion.WeakGradient
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Lattice calculus for the actual zero-boundary Sobolev graph

@@ -1,5 +1,12 @@
-import Torsion.Definitions
-import Mathlib.Topology.Algebra.GroupWithZero
+module
+
+public import Torsion.Definitions
+public import Mathlib.Topology.Algebra.GroupWithZero
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! # Continuity of a genuine zero extension from boundary limits -/
 
@@ -23,7 +30,7 @@ theorem continuous_indicator_of_zero_boundary_tendsto
     apply h.congr_of_eventuallyEq
     filter_upwards [hD.mem_nhds hp] with z hz
     exact indicator_of_mem hz u
-  · rw [ContinuousAt, indicator_of_not_mem hp u]
+  · rw [ContinuousAt, indicator_of_notMem hp u]
     by_cases hpc : p ∈ closure D
     · have hpf : p ∈ frontier D := by
         rw [hD.frontier_eq]
@@ -35,11 +42,11 @@ theorem continuous_indicator_of_zero_boundary_tendsto
       have ho : Tendsto (D.indicator u) (𝓝[Dᶜ] p) (𝓝 0) := by
         apply tendsto_const_nhds.congr'
         filter_upwards [self_mem_nhdsWithin] with z hz
-        exact (indicator_of_not_mem hz u).symm
+        exact (indicator_of_notMem hz u).symm
       have h := tendsto_sup.mpr ⟨hi, ho⟩
       simpa only [← nhdsWithin_union, union_compl_self, nhdsWithin_univ] using h
     · apply tendsto_const_nhds.congr'
       filter_upwards [isClosed_closure.isOpen_compl.mem_nhds hpc] with z hz
-      exact (indicator_of_not_mem (fun hzD => hz (subset_closure hzD)) u).symm
+      exact (indicator_of_notMem (fun hzD => hz (subset_closure hzD)) u).symm
 
 end Torsion

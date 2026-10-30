@@ -1,9 +1,13 @@
-import Torsion.Definitions
-import Mathlib.Analysis.SpecialFunctions.PolarCoord
-import Mathlib.Analysis.SpecialFunctions.Complex.Arg
-import Mathlib.Analysis.SpecialFunctions.Integrals
-import Mathlib.Analysis.Normed.Group.Bounded
-import Mathlib.Tactic
+module
+
+public import Torsion.Definitions
+public import Mathlib.Analysis.SpecialFunctions.PolarCoord
+public import Mathlib.Analysis.SpecialFunctions.Complex.Arg
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+public import Mathlib.Analysis.Normed.Group.Bounded
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Actual radial domains
@@ -81,7 +85,7 @@ theorem mem_radialDomain_iff (R : ℝ → ℝ) (z : ℂ) :
     have hn : ‖(r : ℂ) * Complex.exp ((θ : ℂ) * Complex.I)‖ = r := by
       simp [norm_mul, Complex.norm_exp_ofReal_mul_I, abs_of_pos hr]
     constructor
-    · simpa [Complex.exp_mul_I, Complex.mul_im] using
+    · simpa [Complex.exp_mul_I, Complex.mul_im, Complex.sin_ofReal_re] using
         mul_pos hr (Real.sin_pos_of_pos_of_lt_pi hθ hθπ)
     · simpa only [ha, hn] using hrR
   · rintro ⟨hz, hRz⟩
@@ -160,9 +164,9 @@ private theorem polar_measure (R : ℝ → ℝ) (hR : ContinuousOn R (Icc 0 Real
     · have hs := (mem_polar_symm_iff R ht).mp hd
       rw [Set.indicator_of_mem hd, Set.indicator_of_mem hs, mul_one]
     · have hs : p ∉ parameterSet R := fun hs => hd ((mem_polar_symm_iff R ht).mpr hs)
-      rw [Set.indicator_of_not_mem hd, Set.indicator_of_not_mem hs, mul_zero]
+      rw [Set.indicator_of_notMem hd, Set.indicator_of_notMem hs, mul_zero]
   · have hs : p ∉ parameterSet R := fun hs => ht (parameterSet_subset_target R hs)
-    rw [Set.indicator_of_not_mem ht, Set.indicator_of_not_mem hs]
+    rw [Set.indicator_of_notMem ht, Set.indicator_of_notMem hs]
 
 private theorem polar_integral_iterated {R : ℝ → ℝ}
     (hR : ContinuousOn R (Icc 0 Real.pi)) :
@@ -182,10 +186,10 @@ private theorem polar_integral_iterated {R : ℝ → ℝ}
     · have hp : (r, θ) ∈ parameterSet R := ⟨hθ, hr⟩
       rw [Set.indicator_of_mem hp, Set.indicator_of_mem hr]
     · have hp : (r, θ) ∉ parameterSet R := fun hp => hr hp.2
-      rw [Set.indicator_of_not_mem hp, Set.indicator_of_not_mem hr]
-  · rw [Set.indicator_of_not_mem hθ]
+      rw [Set.indicator_of_notMem hp, Set.indicator_of_notMem hr]
+  · rw [Set.indicator_of_notMem hθ]
     have hz : ∀ r : ℝ, (r, θ) ∉ parameterSet R := fun r hp => hθ hp.1
-    simp only [Set.indicator_of_not_mem (hz _), lintegral_zero]
+    simp only [Set.indicator_of_notMem (hz _), lintegral_zero]
 
 private theorem lintegral_radius {b : ℝ} (hb : 0 ≤ b) :
     (∫⁻ r in Ioo 0 b, ENNReal.ofReal r) = ENNReal.ofReal (b ^ 2 / 2) := by
@@ -215,7 +219,7 @@ theorem volume_radialDomain {R : ℝ → ℝ}
   calc
     _ = ∫⁻ θ in Ioo 0 Real.pi, ENNReal.ofReal ((R θ) ^ 2 / 2) := by
       apply setLIntegral_congr_fun measurableSet_Ioo
-      filter_upwards with θ hθ
+      intro θ hθ
       exact lintegral_radius (hpos θ ⟨hθ.1.le, hθ.2.le⟩).le
     _ = ENNReal.ofReal (∫ θ in Ioo 0 Real.pi, (R θ) ^ 2 / 2) :=
       (ofReal_integral_eq_lintegral_ofReal hi hnn).symm

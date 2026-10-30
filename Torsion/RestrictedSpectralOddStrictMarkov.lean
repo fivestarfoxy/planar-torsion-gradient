@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralOddGap
-import Torsion.RestrictedSpectralOddLattice
+module
+
+public import Torsion.RestrictedSpectralOddGap
+public import Torsion.RestrictedSpectralOddLattice
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Strict folded-absolute contraction on the actual odd restricted form

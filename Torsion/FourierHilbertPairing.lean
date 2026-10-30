@@ -1,6 +1,12 @@
-import Torsion.FourierHilbertHeight
-import Torsion.CauchyTransformRealBoundary
-import Mathlib.MeasureTheory.Integral.Prod
+module
+
+public import Torsion.FourierHilbertHeight
+public import Torsion.CauchyTransformRealBoundary
+public import Mathlib.MeasureTheory.Integral.Prod
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Absolute Fourier pairing for the conjugate Poisson kernel

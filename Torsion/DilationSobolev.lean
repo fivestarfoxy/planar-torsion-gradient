@@ -1,5 +1,11 @@
-import Torsion.Dilation
-import Mathlib.Analysis.Calculus.ContDiff.Operations
+module
+
+public import Torsion.Dilation
+public import Mathlib.Analysis.Calculus.ContDiff.Operations
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Dilation of the concrete zero-boundary Sobolev graph

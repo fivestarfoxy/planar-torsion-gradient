@@ -1,7 +1,13 @@
-import Torsion.RadialGeometry
-import Torsion.RadialConcavity.Mollification
-import Mathlib.Topology.Order.Lattice
-import Mathlib.Analysis.NormedSpace.Pointwise
+module
+
+public import Torsion.RadialGeometry
+public import Torsion.RadialConcavity.Mollification
+public import Mathlib.Topology.Order.Lattice
+public import Mathlib.Analysis.NormedSpace.Pointwise
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Radial flux concavity from marked-domain rules
@@ -120,7 +126,7 @@ private theorem smul_mem_domain_iff (r : ι → ℝ) (t : ℝ) (ht : 0 < t) (z :
   have harg : (t • z).arg = z.arg := Complex.arg_real_mul z ht
   have hn : ‖t • z‖ = t * ‖z‖ := by simp [norm_smul, abs_of_pos ht]
   simp only [domain, mem_setOf_eq, him, harg, hn, Pi.smul_apply, smul_eq_mul,
-    mul_pos_iff_of_pos_left ht, mul_lt_mul_left ht]
+    mul_pos_iff_of_pos_left ht, mul_lt_mul_iff_right₀ ht]
 
 omit [Fintype ι] in
 /-- Physical dilation, not an abstract action on domain labels. -/

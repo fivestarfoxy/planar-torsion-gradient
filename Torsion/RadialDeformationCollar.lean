@@ -1,7 +1,13 @@
-import Torsion.ShapeDeformation
-import Torsion.RadialGeometry
-import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
-import Mathlib.Analysis.Calculus.BumpFunction.Basic
+module
+
+public import Torsion.ShapeDeformation
+public import Torsion.RadialGeometry
+public import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
+public import Mathlib.Analysis.Calculus.BumpFunction.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # A concrete smooth radial collar

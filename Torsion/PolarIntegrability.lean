@@ -1,4 +1,10 @@
-import Mathlib.Analysis.SpecialFunctions.PolarCoord
+module
+
+public import Mathlib.Analysis.SpecialFunctions.PolarCoord
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! Integrability counterpart of mathlib's complex polar integral formula. -/
 

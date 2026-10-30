@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralSecondIdentification
-import Torsion.RestrictedSpectralPolynomialTrialApprox
+module
+
+public import Torsion.RestrictedSpectralSecondIdentification
+public import Torsion.RestrictedSpectralPolynomialTrialApprox
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The actual second restricted eigenpair is the simple least odd pair

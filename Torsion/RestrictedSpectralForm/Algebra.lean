@@ -1,4 +1,10 @@
-import Torsion.RestrictedSpectralForm
+module
+
+public import Torsion.RestrictedSpectralForm
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Algebra of the concrete restricted Fourier energy

@@ -1,5 +1,11 @@
-import Torsion.Main
-import Torsion.SpectralDefinitions
+module
+
+public import Torsion.Main
+public import Torsion.SpectralDefinitions
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Explicit connection to the Cauchy-transform domain

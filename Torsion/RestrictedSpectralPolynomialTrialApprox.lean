@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralPolynomialTrial
-import Torsion.SobolevBoundaryAdmission
-import Torsion.RestrictedSpectralWeakClosure
-import Torsion.RestrictedSpectralInterpolation
+module
+
+public import Torsion.RestrictedSpectralPolynomialTrial
+public import Torsion.SobolevBoundaryAdmission
+public import Torsion.RestrictedSpectralWeakClosure
+public import Torsion.RestrictedSpectralInterpolation
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Genuine smooth core approximation of the odd polynomial trial
@@ -77,7 +84,7 @@ theorem oddTrialCore_deriv (n : ℕ) (x : ℝ) :
 
 private theorem oddTrialCore_zero_off (n : ℕ) (x : ℝ)
     (hx : x ∉ Icc (-1 : ℝ) 1) : oddTrialCore n x = 0 :=
-  image_eq_zero_of_nmem_tsupport (fun h => hx (Ioo_subset_Icc_self ((oddTrialCore_isCore n).2.2 h)))
+  image_eq_zero_of_notMem_tsupport (fun h => hx (Ioo_subset_Icc_self ((oddTrialCore_isCore n).2.2 h)))
 
 private theorem oddTrialCore_deriv_zero_off (n : ℕ) (x : ℝ)
     (hx : x ∉ Icc (-1 : ℝ) 1) : deriv (oddTrialCore n) x = 0 := by
@@ -132,7 +139,7 @@ theorem oddTrialCore_tendsto_value :
           simp only [oddTrial, indicator_of_mem hx, trialFactor, oddTrialPolynomial]
           ring
         simpa only [oddTrialCore, hval, sub_self] using ht.sub_const (oddTrial x)
-      · simp only [oddTrialCore_zero_off _ _ hx, oddTrial, indicator_of_not_mem hx,
+      · simp only [oddTrialCore_zero_off _ _ hx, oddTrial, indicator_of_notMem hx,
           sub_self]
         exact tendsto_const_nhds
 
@@ -178,9 +185,9 @@ theorem oddTrialCore_tendsto_deriv :
       · rw [oddTrialCore_deriv_zero_off n x hx]
         simp [oddTrialDerivative, hx]
   · have hleft : ∀ᵐ x : ℝ ∂volume, x ≠ -1 := by
-      simpa using (countable_singleton (-1 : ℝ)).ae_not_mem volume
+      simpa using (countable_singleton (-1 : ℝ)).ae_notMem volume
     have hright : ∀ᵐ x : ℝ ∂volume, x ≠ 1 := by
-      simpa using (countable_singleton (1 : ℝ)).ae_not_mem volume
+      simpa using (countable_singleton (1 : ℝ)).ae_notMem volume
     filter_upwards [hleft, hright] with x hxleft hxright
     by_cases hx : x ∈ Icc (-1 : ℝ) 1
     · have hxo : x ∈ Ioo (-1 : ℝ) 1 :=
@@ -197,7 +204,7 @@ theorem oddTrialCore_tendsto_deriv :
         ring
       simpa only [← oddTrialCore_deriv, hval, sub_self] using hlim.sub_const (oddTrialDerivative x)
     · simp only [oddTrialCore_deriv_zero_off _ _ hx, oddTrialDerivative,
-        indicator_of_not_mem hx, sub_self]
+        indicator_of_notMem hx, sub_self]
       exact tendsto_const_nhds
 
 /-- The explicit zero-extended polynomial is genuinely in the original

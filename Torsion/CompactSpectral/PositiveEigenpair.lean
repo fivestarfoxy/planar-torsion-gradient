@@ -1,3 +1,5 @@
+module
+
 /-
 The weak compact maximum argument is adapted from Adam Benenson's
 `compact-spectral`, commit 72cd62dbdd4c397d26fc0c5777d60fea2211e938.
@@ -5,7 +7,11 @@ Copyright (c) 2026 Adam Benenson. Released under the Apache 2.0 license;
 see the accompanying LICENSE file. The explicit positive maximum and
 nonzero-eigenvalue conclusions extend that argument.
 -/
-import Torsion.CompactSpectral.RayleighCompact
+public import Torsion.CompactSpectral.RayleighCompact
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Positive extremal eigenpairs of compact self-adjoint operators

@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralEnergyContinuity
-import Torsion.RestrictedSpectralCorePrimitive
+module
+
+public import Torsion.RestrictedSpectralEnergyContinuity
+public import Torsion.RestrictedSpectralCorePrimitive
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual odd core approximation of an odd restricted form member
@@ -53,19 +60,18 @@ theorem MemRestrictedFormDomain.exists_odd_core_approximation {f : ℝ → ℝ}
   have hnegNorm (n : ℕ) : eLpNorm (fun x => -(e n (-x))) 2 volume =
       eLpNorm (e n) 2 volume := by
     rw [show (fun x => -(e n (-x))) = -(e n ∘ (fun x : ℝ => -x)) by rfl, eLpNorm_neg]
-    exact eLpNorm_comp_measurePreserving (heL n).1 (Measure.measurePreserving_neg volume)
+    exact eLpNorm_comp_measurePreserving (heL n).aestronglyMeasurable (Measure.measurePreserving_neg volume)
   have hSumL : Tendsto (fun n => eLpNorm (fun x => e n x + -(e n (-x))) 2 volume)
       atTop (𝓝 0) := by
     apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds
       (by simpa only [e, zero_add] using hL.add hL)
     · intro n
-      exact zero_le _
+      exact bot_le
     · intro n
       dsimp only
       calc
         _ ≤ eLpNorm (e n) 2 volume + eLpNorm (fun x => -(e n (-x))) 2 volume :=
-          eLpNorm_add_le (heL n).1
-            (((heL n).comp_measurePreserving (Measure.measurePreserving_neg volume)).1.neg) (by norm_num)
+          eLpNorm_add_le (by norm_num)
         _ = _ := by rw [hnegNorm]
   have hWL : Tendsto (fun n => eLpNorm (fun x => w n x - f x) 2 volume) atTop (𝓝 0) := by
     simp_rw [herr, eLpNorm_const_smul]

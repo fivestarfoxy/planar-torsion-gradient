@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralComposition
-import Torsion.RestrictedSpectralFourierBounds
+module
+
+public import Torsion.RestrictedSpectralComposition
+public import Torsion.RestrictedSpectralFourierBounds
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Global weak Fourier identification
@@ -46,7 +53,7 @@ def complexSourceFourier (S : ℝ → ℂ) (ξ : ℝ) : ℂ :=
 theorem complexSourceFourier_eq_integral (S : ℝ → ℂ) (ξ : ℝ) :
     complexSourceFourier S ξ =
       ∫ x : ℝ, Complex.exp (-((x * ξ : ℝ) : ℂ) * Complex.I) * S x := by
-  rw [complexSourceFourier, Real.fourierIntegral_real_eq_integral_exp_smul]
+  rw [complexSourceFourier, Real.fourier_real_eq_integral_exp_smul]
   apply integral_congr_ae
   exact ae_of_all _ fun x => by
     dsimp only

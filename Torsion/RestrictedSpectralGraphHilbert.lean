@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralGraph
-import Mathlib.Analysis.InnerProductSpace.ProdL2
-import Mathlib.Analysis.InnerProductSpace.LaxMilgram
+module
+
+public import Torsion.RestrictedSpectralGraph
+public import Mathlib.Analysis.InnerProductSpace.ProdL2
+public import Mathlib.Analysis.InnerProductSpace.LaxMilgram
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The genuine Hilbert space of the restricted Fourier form

@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralPoincare
-import Torsion.RestrictedSpectralFourierContinuity
-import Mathlib.Topology.Sequences
-import Mathlib.Topology.Algebra.Module.Basic
+module
+
+public import Torsion.RestrictedSpectralPoincare
+public import Torsion.RestrictedSpectralFourierContinuity
+public import Mathlib.Topology.Sequences
+public import Mathlib.Topology.Algebra.Module.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The actual closed graph of the restricted half-Laplacian form

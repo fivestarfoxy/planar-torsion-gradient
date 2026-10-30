@@ -1,4 +1,11 @@
-import Torsion.RestrictedSpectralInterpolation
+module
+
+public import Torsion.RestrictedSpectralInterpolation
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Fourier interpolation for arbitrary compact smooth functions

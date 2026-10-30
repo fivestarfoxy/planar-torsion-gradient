@@ -1,12 +1,18 @@
+module
+
 /-
 Copyright (c) 2026 Adam Benenson. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Benenson
 -/
-import Mathlib.Analysis.InnerProductSpace.Rayleigh
-import Mathlib.Tactic.Push
-import Mathlib.Analysis.Normed.Operator.Compact
-import Torsion.CompactSpectral.WeakHilbertCompact
+public import Mathlib.Analysis.InnerProductSpace.Rayleigh
+public import Mathlib.Tactic.Push
+public import Mathlib.Analysis.Normed.Operator.Compact.Basic
+public import Torsion.CompactSpectral.WeakHilbertCompact
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Rayleigh quotient for compact self-adjoint operators
@@ -88,7 +94,7 @@ lemma tendsto_apply_of_isCompactOperator (T : E →L[𝕜] E) (hTc : IsCompactOp
       (toWeakSpaceCLM 𝕜 E).continuous
     have h2 : Continuous (weakToWeakDual (𝕜 := 𝕜) (E := E)) :=
       continuous_weakToWeakDual (𝕜 := 𝕜) (E := E)
-    simpa [strongToWeakDual] using h2.comp h1
+    exact h2.comp h1
   have hinj : Function.Injective (strongToWeakDual (𝕜 := 𝕜) (E := E)) := by
     intro a b hab
     -- strongToWeakDual is the composition: toDual then toWeakDual, both injective
@@ -97,7 +103,7 @@ lemma tendsto_apply_of_isCompactOperator (T : E →L[𝕜] E) (hTc : IsCompactOp
     -- weakToWeakDual x = NormedSpace.Dual.toWeakDual (toDual x), so this gives
     -- NormedSpace.Dual.toWeakDual (toDual a) = NormedSpace.Dual.toWeakDual (toDual b)
     simp only [weakToWeakDual, toWeakSpaceCLM, toWeakSpace] at hab
-    have h1 := (NormedSpace.Dual.toWeakDual_inj (𝕜 := 𝕜) (E := E) _ _).mp hab
+    have h1 := (StrongDual.toWeakDual_inj (𝕜 := 𝕜) (E := E) _ _).mp hab
     exact (InnerProductSpace.toDual 𝕜 E).injective h1
   have huniq :
       ∀ z ∈ K, MapClusterPt z l (fun a => T (x a : E)) → z = T (x0 : E) := by
@@ -118,7 +124,7 @@ lemma tendsto_apply_of_isCompactOperator (T : E →L[𝕜] E) (hTc : IsCompactOp
         Tendsto
           (fun a => strongToWeakDual (𝕜 := 𝕜) (E := E) (T (x a : E))) l
           (𝓝 (strongToWeakDual (𝕜 := 𝕜) (E := E) (T (x0 : E)))) := by
-      simpa [strongToWeakDual, WeakSpace.map_apply, toWeakSpace, toWeakSpaceCLM] using hweakDual
+      exact hweakDual
     have :
         strongToWeakDual (𝕜 := 𝕜) (E := E) z =
           strongToWeakDual (𝕜 := 𝕜) (E := E) (T (x0 : E)) :=
@@ -154,9 +160,9 @@ lemma continuousOn_weakClosedBall_reApplyInnerSelf_of_isCompactOperator
         Tendsto (fun y : WeakSpace 𝕜 E =>
             ‖T (y : E) - T (x : E)‖) l (𝓝 (0 : ℝ)) := by
       have hcont : Continuous fun u : E => ‖u - T (x : E)‖ := by
-        simpa [sub_eq_add_neg] using
-          (continuous_norm.comp (continuous_id.add (continuous_const.neg)))
-      simpa using (hcont.tendsto (T (x : E))).comp hTt
+        exact (continuous_id.sub continuous_const).norm
+      simpa only [Function.comp_def, sub_self, norm_zero] using
+        (hcont.tendsto (T (x : E))).comp hTt
     have hnorm_inner :
         Tendsto
           (fun y : WeakSpace 𝕜 E =>
@@ -199,7 +205,7 @@ lemma continuousOn_weakClosedBall_reApplyInnerSelf_of_isCompactOperator
       have hcont :
           Continuous fun y : WeakSpace 𝕜 E =>
             ((InnerProductSpace.toDual 𝕜 E) (T (x : E))) (y : E) := by
-        simpa using
+        exact
           (WeakBilin.eval_continuous (B := (topDualPairing 𝕜 E).flip)
             (y := (InnerProductSpace.toDual 𝕜 E) (T (x : E))))
       have :
@@ -209,7 +215,7 @@ lemma continuousOn_weakClosedBall_reApplyInnerSelf_of_isCompactOperator
             l
             (𝓝 (((InnerProductSpace.toDual 𝕜 E) (T (x : E))) (x : E))) :=
         (hcont.tendsto x).comp hid
-      simpa [InnerProductSpace.toDual_apply] using this
+      simpa [InnerProductSpace.toDual_apply_apply] using this
     have hadd :
         Tendsto
           (fun y : WeakSpace 𝕜 E =>
@@ -231,7 +237,9 @@ lemma continuousOn_weakClosedBall_reApplyInnerSelf_of_isCompactOperator
           (x := (T (y : E) - T (x : E)))
           (y := T (x : E))
           (z := (y : E)))
-    simpa [hsplit] using hadd
+    rw [zero_add] at hadd
+    rw [hsplit]
+    exact hadd
   have hre :
       Tendsto
         (fun y : WeakSpace 𝕜 E =>

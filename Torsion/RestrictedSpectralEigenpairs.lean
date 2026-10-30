@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralCompactness
-import Torsion.RestrictedSpectralMinMax
-import Torsion.CompactSpectral
+module
+
+public import Torsion.RestrictedSpectralCompactness
+public import Torsion.RestrictedSpectralMinMax
+public import Torsion.CompactSpectral
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Construction of the first two actual restricted eigenpairs

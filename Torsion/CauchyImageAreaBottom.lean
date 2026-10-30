@@ -1,4 +1,10 @@
-import Torsion.CauchyImageAreaBoundary
+module
+
+public import Torsion.CauchyImageAreaBoundary
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual bottom-side area integral

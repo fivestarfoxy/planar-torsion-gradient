@@ -1,6 +1,12 @@
-import Torsion.CauchyTransformRealBoundary
-import Torsion.CauchyTransformImaginaryBoundary
-import Torsion.SpectralHolderCalculus
+module
+
+public import Torsion.CauchyTransformRealBoundary
+public import Torsion.CauchyTransformImaginaryBoundary
+public import Torsion.SpectralHolderCalculus
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # A genuine continuous Cauchy extension to the real boundary
@@ -116,7 +122,8 @@ theorem auxiliaryDerivativeExtension_eq {φ : ℝ → ℝ}
     {z : ℂ} (hz : z ∈ upperHalfPlane) :
     auxiliaryDerivativeExtension φ z = deriv (auxiliary φ) z := by
   rw [auxiliaryDerivativeExtension, realCauchyExtension_eq
-    ((height_continuous hφ.continuousOn).mul hφ)
+    (f := fun s => height φ s * φ s)
+    (by simpa only [Pi.mul_apply] using! (height_continuous hφ.continuousOn).mul hφ)
     (fun s hs => by rw [height_zero_of_one_le_abs φ hs, zero_mul]) hz,
     deriv_auxiliary_eq_product_integral hφ hodd hzero hz]
   simp [realCauchy]
@@ -167,7 +174,9 @@ def auxiliaryExtension (φ : ℝ → ℝ) (z : ℂ) : ℂ :=
 theorem auxiliaryExtension_eq {φ : ℝ → ℝ}
     (hφ : ContinuousOn φ (Icc (0 : ℝ) 1)) {z : ℂ} (hz : z ∈ upperHalfPlane) :
     auxiliaryExtension φ z = auxiliary φ z := by
-  rw [auxiliaryExtension, realCauchyExtension_eq ((height_continuous hφ).pow 2)
+  rw [auxiliaryExtension, realCauchyExtension_eq
+    (f := fun s => (height φ s) ^ 2)
+    (by simpa only [Pi.pow_apply] using! (height_continuous hφ).pow 2)
     (fun s hs => by rw [height_zero_of_one_le_abs φ hs]; norm_num) hz]
   unfold realCauchy auxiliary
   simp only [mul_inv_rev]

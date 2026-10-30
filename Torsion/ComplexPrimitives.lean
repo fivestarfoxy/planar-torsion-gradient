@@ -1,11 +1,15 @@
+module
+
 /-
 Copyright (c) 2024 Ian Jauslin and Alex Kontorovich. All rights reserved.
 Released under Apache 2.0 license as described in the file ComplexAnalysis/LICENSE.
 Authors: Ian Jauslin, Alex Kontorovich, Oliver Nash
 -/
-import Mathlib.Analysis.Complex.CauchyIntegral
+public import Mathlib.Analysis.Complex.CauchyIntegral
 
-import Mathlib.Analysis.Complex.Convex
+public import Mathlib.Analysis.Complex.Convex
+
+@[expose] public section
 
 /-!
 # Primitives of Holomorphic Functions
@@ -41,12 +45,7 @@ namespace Complex
 from mathlib commit 8fe7ce475b056f0b266d7107893f2c4d772c712f, preserving the original Apache
 license and authors. Dependency revisions remain pinned at mathlib v4.19.0. -/
 
-private lemma rectangle_eq_convexHull (z w : ℂ) :
-    Rectangle z w = convexHull ℝ {z, z.re + w.im * I, w.re + z.im * I, w} := by
-  simp_rw [Rectangle, ← segment_eq_uIcc, ← convexHull_pair, ← convexHull_reProdIm,
-    ← preimage_equivRealProd_prod, insert_prod, singleton_prod, image_pair, insert_union,
-    ← insert_eq, preimage_equiv_eq_image_symm, image_insert_eq, image_singleton,
-    equivRealProd_symm_apply, re_add_im]
+-- `Complex.rectangle_eq_convexHull` is now supplied by mathlib.
 
 private lemma convex_rectangle_subset {U : Set ℂ} (hU : Convex ℝ U) {z w : ℂ}
     (hz : z ∈ U) (hw : w ∈ U) (hzw : z.re + w.im * I ∈ U) (hwz : w.re + z.im * I ∈ U) :
@@ -224,7 +223,7 @@ private lemma hasDerivAt_wedgeIntegral_re_aux :
       fun x ↦ x - z.re from
     this.comp_tendsto (continuous_re.tendsto z) |>.trans_isBigO
       (Asymptotics.IsBigO.of_bound' (Filter.Eventually.of_forall fun w => by
-        simpa only [← sub_re, Real.norm_eq_abs] using abs_re_le_norm (w - z)))
+        simpa only [← sub_re, Real.norm_eq_abs, Function.comp_apply] using abs_re_le_norm (w - z)))
   let r₁ := r - dist z c
   have r₁_pos : 0 < r₁ := by simpa only [mem_ball, sub_pos, r₁] using hz
   let s : Set ℝ := Ioo (z.re - r₁) (z.re + r₁)

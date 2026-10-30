@@ -1,4 +1,11 @@
-import Torsion.RestrictedSpectralSmallSupport
+module
+
+public import Torsion.RestrictedSpectralSmallSupport
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Barrier comparison for the original restricted weak eigenfunction

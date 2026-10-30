@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralOddGap
-import Mathlib.MeasureTheory.Measure.Lebesgue.Integral
+module
+
+public import Torsion.RestrictedSpectralOddGap
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Integral
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Strict sign of the paired odd nonlocal kernel at a zero minimum

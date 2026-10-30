@@ -1,8 +1,15 @@
-import Torsion.Definitions
-import Mathlib.Analysis.Complex.Convex
-import Mathlib.Analysis.Complex.ReImTopology
-import Mathlib.Analysis.Convex.Topology
-import Mathlib.Analysis.Normed.Module.Convex
+module
+
+public import Torsion.Definitions
+public import Mathlib.Analysis.Complex.Convex
+public import Mathlib.Analysis.Complex.ReImTopology
+public import Mathlib.Analysis.Convex.Topology
+public import Mathlib.Analysis.Normed.Module.Convex
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Concrete flat outer hulls at a supported boundary point
@@ -105,10 +112,11 @@ theorem exists_halfBall_subset_flatOuterHull {D : Set Plane} (hD : IsOpen D)
         Complex.ofReal_re, Complex.ofReal_im, zero_mul, mul_zero, sub_zero]
       dsimp [s]
       field_simp [ne_of_gt (sub_pos.mpr htz1)]
+      ring
     · simp only [Complex.add_im, Complex.smul_im, Complex.ofReal_im, mul_zero, add_zero]
       dsimp [t]
       simpa only [mul_zero, add_zero] using div_mul_cancel₀ z.im haim.ne'
-  simpa only [heq] using hcombo
+  simpa only [heq, flatOuterHull] using hcombo
 
 /-- The construction is genuinely marked, with a proved common flat patch. -/
 theorem flatOuterHull_isMarked {D : Set Plane} (hD : IsOpen D)

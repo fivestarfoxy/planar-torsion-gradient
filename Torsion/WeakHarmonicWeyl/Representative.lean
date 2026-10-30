@@ -1,6 +1,12 @@
-import Torsion.WeakReflection.ZeroGradient
-import Torsion.SobolevLocalization
-import Torsion.WeakHarmonicWeyl.RepresentativeGradient
+module
+
+public import Torsion.WeakReflection.ZeroGradient
+public import Torsion.SobolevLocalization
+public import Torsion.WeakHarmonicWeyl.RepresentativeGradient
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual local value representatives from the mollified weak gradient

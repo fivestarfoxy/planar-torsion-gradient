@@ -1,7 +1,13 @@
-import Torsion.WeakHarmonicWeyl
-import Mathlib.Analysis.Calculus.FDeriv.Symmetric
-import Mathlib.Analysis.Calculus.FDeriv.RestrictScalars
-import Mathlib.Analysis.Complex.CauchyIntegral
+module
+
+public import Torsion.WeakHarmonicWeyl
+public import Mathlib.Analysis.Calculus.FDeriv.Symmetric
+public import Mathlib.Analysis.Calculus.FDeriv.RestrictScalars
+public import Mathlib.Analysis.Complex.CauchyIntegral
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The holomorphic gradient of a smooth planar harmonic function

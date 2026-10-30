@@ -1,7 +1,13 @@
-import Torsion.CompactSpectral.WeakHilbertCompact
-import Torsion.CompactSpectral.RayleighCompact
-import Torsion.CompactSpectral.PositiveEigenpair
-import Torsion.CompactSpectral.TwoEigenpairs
+module
+
+public import Torsion.CompactSpectral.WeakHilbertCompact
+public import Torsion.CompactSpectral.RayleighCompact
+public import Torsion.CompactSpectral.PositiveEigenpair
+public import Torsion.CompactSpectral.TwoEigenpairs
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Compact self-adjoint eigenpair selection

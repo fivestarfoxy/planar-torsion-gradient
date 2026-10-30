@@ -1,7 +1,13 @@
-import Torsion.CauchyTransformPoisson
-import Mathlib.Topology.MetricSpace.Holder
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
-import Mathlib.Analysis.SpecialFunctions.Integrals
+module
+
+public import Torsion.CauchyTransformPoisson
+public import Mathlib.Topology.MetricSpace.Holder
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The subtracted real Cauchy kernel
@@ -34,7 +40,6 @@ theorem subtractedRealCauchy_real (f : ℝ → ℝ) (R x : ℝ) :
   · simp [ht]
   · simp only [Complex.ofReal_im, Complex.ofReal_re, zero_pow (by norm_num : 2 ≠ 0), add_zero]
     field_simp
-    ring
 
 /-- The singular majorant needed for a positive Hölder exponent is locally
 integrable on both sides of zero. -/
@@ -50,7 +55,7 @@ theorem integrableOn_abs_rpow {p R : ℝ} (hp : -1 < p) (hR : 0 ≤ R) :
   have hpos' : IntervalIntegrable (fun t : ℝ => |t| ^ p) volume 0 R :=
     (intervalIntegrable_iff_integrableOn_Icc_of_le hR).2 hpos
   have hneg : IntervalIntegrable (fun t : ℝ => |t| ^ p) volume (-R) 0 := by
-    have h := IntervalIntegrable.iff_comp_neg.mp hpos'
+    have h := (IntervalIntegrable.iff_comp_neg).mp hpos'
     simpa only [neg_zero, abs_neg] using h.symm
   exact (intervalIntegrable_iff_integrableOn_Icc_of_le (by linarith : -R ≤ R)).1
     (hneg.trans hpos')
@@ -94,7 +99,7 @@ theorem subtractedRealCauchy_integrable {f : ℝ → ℝ} {C α : ℝ≥0}
     fun_prop
   apply ((integrableOn_abs_rpow (p := (α : ℝ) - 1) (by simpa using sub_lt_sub_right (show (0 : ℝ) < α by exact_mod_cast hα) 1) hR).const_mul
     (C : ℝ)).mono' hmeas.aestronglyMeasurable
-  filter_upwards [(by simpa using (countable_singleton (0 : ℝ)).ae_not_mem (volume.restrict (Icc (-R) R)) : ∀ᵐ t : ℝ ∂volume.restrict (Icc (-R) R), t ≠ 0)] with t ht
+  filter_upwards [(by simpa using (countable_singleton (0 : ℝ)).ae_notMem (volume.restrict (Icc (-R) R)) : ∀ᵐ t : ℝ ∂volume.restrict (Icc (-R) R), t ≠ 0)] with t ht
   exact (real_kernel_bound t z.im _).trans (holder_quotient_bound hf z.re t ht)
 
 /-- The regularized real Cauchy kernel has a jointly continuous extension
@@ -110,11 +115,11 @@ theorem subtractedRealCauchy_continuous {f : ℝ → ℝ} {C α : ℝ≥0}
   · intro z
     exact (subtractedRealCauchy_integrable hf hα hR z).aestronglyMeasurable
   · intro z
-    filter_upwards [(by simpa using (countable_singleton (0 : ℝ)).ae_not_mem (volume.restrict (Icc (-R) R)) : ∀ᵐ t : ℝ ∂volume.restrict (Icc (-R) R), t ≠ 0)] with t ht
+    filter_upwards [(by simpa using (countable_singleton (0 : ℝ)).ae_notMem (volume.restrict (Icc (-R) R)) : ∀ᵐ t : ℝ ∂volume.restrict (Icc (-R) R), t ≠ 0)] with t ht
     exact (real_kernel_bound t z.im _).trans (holder_quotient_bound hf z.re t ht)
   · exact (integrableOn_abs_rpow (p := (α : ℝ) - 1)
       (by simpa using sub_lt_sub_right (show (0 : ℝ) < α by exact_mod_cast hα) 1) hR).const_mul (C : ℝ)
-  · filter_upwards [(by simpa using (countable_singleton (0 : ℝ)).ae_not_mem (volume.restrict (Icc (-R) R)) : ∀ᵐ t : ℝ ∂volume.restrict (Icc (-R) R), t ≠ 0)] with t ht
+  · filter_upwards [(by simpa using (countable_singleton (0 : ℝ)).ae_notMem (volume.restrict (Icc (-R) R)) : ∀ᵐ t : ℝ ∂volume.restrict (Icc (-R) R), t ≠ 0)] with t ht
     have hden (z : ℂ) : t ^ 2 + z.im ^ 2 ≠ 0 := ne_of_gt (by positivity)
     exact ((continuous_const.div
       (continuous_const.add (Complex.continuous_im.pow 2)) hden).mul
@@ -315,7 +320,7 @@ theorem realCauchyReExtension_continuousOn {f : ℝ → ℝ} {C α : ℝ≥0}
     have hre : |w.re - z.re| < 1 := by
       simpa only [Complex.sub_re] using (Complex.abs_re_le_norm (w - z)).trans_lt hn
     have ha : |w.re| ≤ |w.re - z.re| + |z.re| := by
-      simpa only [sub_add_cancel] using abs_add (w.re - z.re) z.re
+      simpa only [sub_add_cancel] using abs_add_le (w.re - z.re) z.re
     dsimp [R]
     linarith
   · exact realCauchyReExtension_eq_subtracted hf hα hzero hz (by dsimp [R]; linarith)

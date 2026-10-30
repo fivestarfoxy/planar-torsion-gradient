@@ -1,5 +1,11 @@
-import Mathlib.Analysis.InnerProductSpace.Basic
-import Mathlib.Tactic.Linarith
+module
+
+public import Mathlib.Analysis.InnerProductSpace.Basic
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Variational comparison and supermodularity

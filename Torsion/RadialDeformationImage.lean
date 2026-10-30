@@ -1,5 +1,11 @@
-import Torsion.RadialDeformationField
-import Mathlib.Topology.Order.IntermediateValue
+module
+
+public import Torsion.RadialDeformationField
+public import Mathlib.Topology.Order.IntermediateValue
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Exact physical realization of radial profile perturbations

@@ -1,8 +1,14 @@
-import Torsion.DirichletExhaustion
-import Torsion.SobolevSupport
-import Mathlib.MeasureTheory.Function.ConvergenceInMeasure
-import Mathlib.MeasureTheory.Function.LpSpace.Complete
-import Mathlib.Analysis.SpecialFunctions.Sqrt
+module
+
+public import Torsion.DirichletExhaustion
+public import Torsion.SobolevSupport
+public import Mathlib.MeasureTheory.Function.ConvergenceInMeasure
+public import Mathlib.MeasureTheory.Function.LpSpace.Complete
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Passing actual weak-gradient bounds through increasing domains

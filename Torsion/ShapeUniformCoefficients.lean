@@ -1,8 +1,15 @@
-import Torsion.ShapeCoefficients
-import Mathlib.Topology.ContinuousMap.BoundedCompactlySupported
-import Mathlib.Analysis.Calculus.FDeriv.Mul
-import Mathlib.Analysis.Calculus.Deriv.Comp
-import Mathlib.Analysis.Normed.Ring.Units
+module
+
+public import Torsion.ShapeCoefficients
+public import Mathlib.Topology.ContinuousMap.BoundedCompactlySupported
+public import Mathlib.Analysis.Calculus.FDeriv.Mul
+public import Mathlib.Analysis.Calculus.Deriv.Comp
+public import Mathlib.Analysis.Normed.Ring.Units
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Uniform first variations of actual compact shape coefficients
@@ -39,7 +46,7 @@ theorem differential_entry_hasCompactSupport {V : Plane → Plane} (hVc : HasCom
   by_contra hnot
   apply hz
   change realMatrix (fderiv ℝ V z) i j = 0
-  rw [fderiv_of_not_mem_tsupport ℝ hnot]
+  rw [fderiv_of_notMem_tsupport ℝ hnot]
   simp [realMatrix]
 
 /-- An actual bounded continuous coordinate field of `DV`. -/
@@ -93,7 +100,9 @@ theorem uniformJacobian_hasDerivAt_zero {V : Plane → Plane} (hV : ContDiff ℝ
   have h := ((hasDerivAt_const 0 (1 : CoefficientField)).add
     ((hasDerivAt_id (0 : ℝ)).smul_const (boundedDivergence hV hVc))).add
     (((hasDerivAt_id (0 : ℝ)).pow 2).smul_const (boundedDifferentialDet hV hVc))
-  simpa [uniformJacobian] using h
+  convert h using 1 <;> simp [uniformJacobian]
+  funext t
+  rfl
 
 /-- The algebraic inverse Jacobian is a uniform coefficient field. Near
 zero it agrees with pointwise reciprocal of the actual physical Jacobian. -/
@@ -114,8 +123,7 @@ theorem uniformInverseJacobian_hasDerivAt_zero {V : Plane → Plane} (hV : ContD
   have hi' : HasFDerivAt Ring.inverse
       (-ContinuousLinearMap.mulLeftRight ℝ CoefficientField (1 : CoefficientField) 1)
       (uniformJacobian hV hVc 0) := by simpa using hi
-  convert hi'.comp_hasDerivAt 0 hJ using 1
-  simp
+  convert hi'.comp_hasDerivAt 0 hJ using 1 <;> first | rfl | simp [uniformInverseJacobian]
 
 private theorem coefficient_inverse_apply {f : CoefficientField} (hf : IsUnit f) (z : Plane) :
     (Ring.inverse f) z = (f z)⁻¹ := by
@@ -180,14 +188,18 @@ theorem uniformEnergyCoefficient_hasDerivAt_zero {V : Plane → Plane}
   have hlin (p : CoefficientField) : HasDerivAt (fun t : ℝ => t • p) p 0 := by
     simpa using (hasDerivAt_id (0 : ℝ)).smul_const p
   have hone (p : CoefficientField) : HasDerivAt (fun t : ℝ => 1 + t • p) p 0 :=
-    by simpa using (hasDerivAt_const 0 (1 : CoefficientField)).add (hlin p)
+    by
+      convert (hasDerivAt_const 0 (1 : CoefficientField)).add (hlin p) using 1 <;> simp
   have hdiag (p q : CoefficientField) : HasDerivAt
       (fun t : ℝ => (1 + t • p) ^ 2 + (t • q) ^ 2) (2 * p) 0 := by
-    simpa [pow_two, two_mul] using ((hone p).mul (hone p)).add ((hlin q).mul (hlin q))
+    convert ((hone p).mul (hone p)).add ((hlin q).mul (hlin q)) using 1 <;>
+      simp [pow_two, two_mul]
+    funext t
+    rfl
   have hoff (p q r s : CoefficientField) : HasDerivAt
       (fun t : ℝ => -((t • p) * (1 + t • q) + (t • r) * (1 + t • s)))
       (-(p + r)) 0 := by
-    simpa using (((hlin p).mul (hone q)).add ((hlin r).mul (hone s))).neg
+    convert (((hlin p).mul (hone q)).add ((hlin r).mul (hone s))).neg using 1 <;> simp
   have hi := uniformInverseJacobian_hasDerivAt_zero hV hVc
   fin_cases i <;> fin_cases j
   · have h := (hdiag (B 1 1) (B 0 1)).mul hi
@@ -210,8 +222,10 @@ theorem uniformEnergyCoefficient_hasDerivAt_zero {V : Plane → Plane}
     ring
   · have hN : HasDerivAt (fun t : ℝ => (t • B 1 0) ^ 2 + (1 + t • B 0 0) ^ 2)
         (2 * B 0 0) 0 := by
-      simpa [pow_two, two_mul] using ((hlin (B 1 0)).mul (hlin (B 1 0))).add
-        ((hone (B 0 0)).mul (hone (B 0 0)))
+      convert ((hlin (B 1 0)).mul (hlin (B 1 0))).add
+        ((hone (B 0 0)).mul (hone (B 0 0))) using 1 <;> simp [pow_two, two_mul]
+      funext t
+      rfl
     have h := hN.mul hi
     change HasDerivAt (fun t => ((t • B 1 0) ^ 2 + (1 + t • B 0 0) ^ 2) *
       uniformInverseJacobian hV hVc t) _ 0

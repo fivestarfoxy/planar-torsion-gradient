@@ -1,5 +1,11 @@
-import Torsion.PhysicalCauchyHarmonicMarked
-import Torsion.CauchyConformalGeometry.CompactifiedClosure
+module
+
+public import Torsion.PhysicalCauchyHarmonicMarked
+public import Torsion.CauchyConformalGeometry.CompactifiedClosure
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual compact-data lift at the marked physical boundary

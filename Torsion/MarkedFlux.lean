@@ -1,4 +1,10 @@
-import Torsion.MarkedBoundaryRegularity
+module
+
+public import Torsion.MarkedBoundaryRegularity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Constructed marked torsion flux and radial concavity

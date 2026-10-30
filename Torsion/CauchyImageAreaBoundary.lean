@@ -1,7 +1,13 @@
-import Torsion.CauchyImageArea
-import Torsion.CauchyConformalGeometry.BoundaryDerivative
-import Torsion.CauchySpectralIdentity
-import Mathlib.Analysis.Complex.CauchyIntegral
+module
+
+public import Torsion.CauchyImageArea
+public import Torsion.CauchyConformalGeometry.BoundaryDerivative
+public import Torsion.CauchySpectralIdentity
+public import Mathlib.Analysis.Complex.CauchyIntegral
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Rectangle area identities for the actual Cauchy map

@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralOddFoldCore
-import Torsion.RestrictedSpectralOddFoldApproximation
-import Torsion.RestrictedSpectralOddCore
-import Torsion.RestrictedSpectralWeakClosure
+module
+
+public import Torsion.RestrictedSpectralOddFoldCore
+public import Torsion.RestrictedSpectralOddFoldApproximation
+public import Torsion.RestrictedSpectralOddCore
+public import Torsion.RestrictedSpectralWeakClosure
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual folded absolute-value admission for the odd restricted form

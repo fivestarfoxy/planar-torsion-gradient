@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralParseval
-import Torsion.RestrictedSpectralEvenFourierBounds
-import Mathlib.Analysis.SpecialFunctions.Integrals
-import Mathlib.Data.Real.Pi.Bounds
+module
+
+public import Torsion.RestrictedSpectralParseval
+public import Torsion.RestrictedSpectralEvenFourierBounds
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+public import Mathlib.Data.Real.Pi.Bounds
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # A quantitative Fourier gap for even functions of mean zero
@@ -160,13 +167,13 @@ private theorem energy_ge_of_even_fourier_bounds {f : ℝ → ℝ}
       · have habs : |ξ| ≤ (9 / 2 : ℝ) := abs_le.2 hbig
         have hfactor : 0 ≤ (9 / 2 : ℝ) - |ξ| := by linarith
         have hmul := mul_le_mul_of_nonneg_left (hhigh ξ) hfactor
-        simp only [evenGapWeight, indicator_of_not_mem hsmall, indicator_of_mem hbig, zero_add]
+        simp only [evenGapWeight, indicator_of_notMem hsmall, indicator_of_mem hbig, zero_add]
         dsimp only [W, Ψ, M] at *
         nlinarith only [hmul]
       · have habs : (9 / 2 : ℝ) ≤ |ξ| :=
           le_of_not_ge (fun h => hbig (abs_le.1 h))
-        simp only [evenGapWeight, indicator_of_not_mem hsmall,
-          indicator_of_not_mem hbig, zero_add, zero_mul, add_zero]
+        simp only [evenGapWeight, indicator_of_notMem hsmall,
+          indicator_of_notMem hbig, zero_add, zero_mul, add_zero]
         dsimp only [W]
         exact mul_le_mul_of_nonneg_right habs hnonneg
   have hIntegral := integral_mono (hΨ.const_mul (9 / 2 : ℝ))

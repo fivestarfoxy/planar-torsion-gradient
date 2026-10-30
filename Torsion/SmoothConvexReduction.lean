@@ -1,5 +1,11 @@
-import Torsion.SmoothConvexOuterApproximation
-import Mathlib.Analysis.SpecificLimits.Basic
+module
+
+public import Torsion.SmoothConvexOuterApproximation
+public import Mathlib.Analysis.SpecificLimits.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual smooth approximation and reduction of the universal bound

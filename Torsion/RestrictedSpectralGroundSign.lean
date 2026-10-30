@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralStrictMarkov
-import Torsion.RestrictedSpectralMinimizer
+module
+
+public import Torsion.RestrictedSpectralStrictMarkov
+public import Torsion.RestrictedSpectralMinimizer
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Constant sign and simplicity of the genuine lowest restricted eigenvalue

@@ -1,9 +1,16 @@
-import Torsion.RestrictedSpectralSemicircleComplex
-import Torsion.RestrictedSpectralSemicircleAdmission
-import Torsion.RestrictedSpectralBoundaryPrimitive
-import Torsion.RestrictedSpectralWeakPrimitive
-import Torsion.CauchyTransformImageBound
-import Torsion.CauchyTransformUniqueness
+module
+
+public import Torsion.RestrictedSpectralSemicircleComplex
+public import Torsion.RestrictedSpectralSemicircleAdmission
+public import Torsion.RestrictedSpectralBoundaryPrimitive
+public import Torsion.RestrictedSpectralWeakPrimitive
+public import Torsion.CauchyTransformImageBound
+public import Torsion.CauchyTransformUniqueness
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The actual weak equation of the semicircle barrier
@@ -90,7 +97,7 @@ theorem semicircleBarrier_core_equation (ψ : ℝ → ℝ) (hψ : IsCore ψ) :
       · rw [realCauchyBoundaryRe_semicircle (abs_lt.2 hx)]
         ring
       · have hz : deriv ψ x = 0 :=
-          image_eq_zero_of_nmem_tsupport (fun h => hx (hψ.deriv.2.2 h))
+          image_eq_zero_of_notMem_tsupport (fun h => hx (hψ.deriv.2.2 h))
         rw [hz]
         ring
   rw [heq]

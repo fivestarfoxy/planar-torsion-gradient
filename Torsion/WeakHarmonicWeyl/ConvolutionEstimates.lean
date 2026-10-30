@@ -1,4 +1,10 @@
-import Torsion.WeakHarmonicWeyl.Associativity
+module
+
+public import Torsion.WeakHarmonicWeyl.Associativity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Pointwise smoothing bounds and L² continuity
 

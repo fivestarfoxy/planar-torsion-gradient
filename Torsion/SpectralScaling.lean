@@ -1,5 +1,11 @@
-import Torsion.SpectralDefinitions
-import Mathlib.Tactic.Ring
+module
+
+public import Torsion.SpectralDefinitions
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Scaling of the concrete spectral construction

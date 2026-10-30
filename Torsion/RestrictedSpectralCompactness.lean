@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralFourierBounds
-import Torsion.RestrictedSpectralFourierWindows
-import Torsion.RestrictedSpectralGraphHilbert
-import Mathlib.Analysis.Normed.Operator.Compact
+module
+
+public import Torsion.RestrictedSpectralFourierBounds
+public import Torsion.RestrictedSpectralFourierWindows
+public import Torsion.RestrictedSpectralGraphHilbert
+public import Mathlib.Analysis.Normed.Operator.Compact
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual compactness of the restricted half-energy inclusion
@@ -40,9 +47,9 @@ theorem norm_sub_frequencyWindow_sq_eq_tail {f : ℝ → ℂ}
   by_cases hI : ξ ∈ Icc (-R) R
   · have hnot : ξ ∉ {ξ : ℝ | R < |ξ|} := not_lt_of_ge (abs_le.2 hI)
     simp only [indicator_of_mem hI, sub_self, norm_zero, zero_pow (by norm_num : 2 ≠ 0),
-      indicator_of_not_mem hnot]
+      indicator_of_notMem hnot]
   · have htail : ξ ∈ {ξ : ℝ | R < |ξ|} := lt_of_not_ge (fun h => hI (abs_le.1 h))
-    simp only [indicator_of_not_mem hI, sub_zero, indicator_of_mem htail]
+    simp only [indicator_of_notMem hI, sub_zero, indicator_of_mem htail]
     dsimp only [u] at hξ ⊢
     rw [hξ]
 

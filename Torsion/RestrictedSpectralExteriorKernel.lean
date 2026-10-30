@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralOddKernelMinimum
-import Torsion.RestrictedSpectralPositiveSets
+module
+
+public import Torsion.RestrictedSpectralOddKernelMinimum
+public import Torsion.RestrictedSpectralPositiveSets
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The actual exterior residual and its odd kernel signs

@@ -1,4 +1,10 @@
-import SubmissionStatement
+module
+
+public import SubmissionStatement
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 Trusted Comparator reference, using the concrete Claim in SubmissionStatement.

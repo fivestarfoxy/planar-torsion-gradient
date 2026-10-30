@@ -1,5 +1,11 @@
-import Torsion.CanonicalSpectralCandidate
-import Torsion.RadialCalibrationSmooth
+module
+
+public import Torsion.CanonicalSpectralCandidate
+public import Torsion.RadialCalibrationSmooth
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Canonical radial calibration from the localized shape derivative

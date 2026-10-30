@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralSecondProfile
-import Torsion.RestrictedSpectralEndpointComparison
-import Torsion.RestrictedSpectralSemicircleWeak
+module
+
+public import Torsion.RestrictedSpectralSecondProfile
+public import Torsion.RestrictedSpectralEndpointComparison
+public import Torsion.RestrictedSpectralSemicircleWeak
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual square-root endpoint bounds for the selected second eigenfunction

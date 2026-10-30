@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralOddGroundSign
-import Torsion.RestrictedSpectralPositiveTest
+module
+
+public import Torsion.RestrictedSpectralOddGroundSign
+public import Torsion.RestrictedSpectralPositiveTest
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Non-null positive levels of the actual odd restricted eigenfunction

@@ -1,11 +1,17 @@
+module
+
 /-
 Copyright (c) 2026 Adam Benenson. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Benenson
 -/
-import Mathlib.Analysis.Normed.Module.WeakDual
-import Mathlib.Topology.Algebra.Module.WeakDual
-import Mathlib.Analysis.InnerProductSpace.Dual
+public import Mathlib.Analysis.Normed.Module.WeakDual
+public import Mathlib.Topology.Algebra.Module.Spaces.WeakDual
+public import Mathlib.Analysis.InnerProductSpace.Dual
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Weak compactness of Hilbert closed balls
@@ -43,12 +49,12 @@ noncomputable scoped instance instNormWeakSpace :
 /-- The Riesz map `E → E*` viewed as a function from the weak topology on `E`
 (`WeakSpace 𝕜 E`) to the weak-star topology on the dual (`WeakDual 𝕜 E`). -/
 noncomputable def weakToWeakDual : WeakSpace 𝕜 E → WeakDual 𝕜 E :=
-  fun x => NormedSpace.Dual.toWeakDual ((InnerProductSpace.toDual 𝕜 E) (x : E))
+  fun x => StrongDual.toWeakDual ((InnerProductSpace.toDual 𝕜 E) (x : E))
 
 /-- The inverse Riesz map `E* → E` viewed as a function from the weak-star dual (`WeakDual 𝕜 E`)
 to the weak topology on `E` (`WeakSpace 𝕜 E`). -/
 noncomputable def weakDualToWeak : WeakDual 𝕜 E → WeakSpace 𝕜 E :=
-  fun f => (InnerProductSpace.toDual 𝕜 E).symm (WeakDual.toNormedDual f)
+  fun f => (InnerProductSpace.toDual 𝕜 E).symm (WeakDual.toStrongDual f)
 
 lemma continuous_weakToWeakDual : Continuous (weakToWeakDual (𝕜 := 𝕜) (E := E)) := by
   refine WeakDual.continuous_of_continuous_eval (𝕜 := 𝕜) (E := E)
@@ -56,7 +62,7 @@ lemma continuous_weakToWeakDual : Continuous (weakToWeakDual (𝕜 := 𝕜) (E :
   intro y
 
   have h_eval : Continuous (fun x : WeakSpace 𝕜 E => (InnerProductSpace.toDual 𝕜 E y) x) := by
-    simpa using
+    exact
       (WeakBilin.eval_continuous (B := (topDualPairing 𝕜 E).flip)
         (y := (InnerProductSpace.toDual 𝕜 E y)))
   have h_conj : Continuous (fun z : 𝕜 => star z) := by
@@ -68,7 +74,7 @@ lemma continuous_weakToWeakDual : Continuous (weakToWeakDual (𝕜 := 𝕜) (E :
         fun x : WeakSpace 𝕜 E => star ((InnerProductSpace.toDual 𝕜 E y) x) := by
     funext x
     change ((InnerProductSpace.toDual 𝕜 E) (x : E)) y = _
-    simp [InnerProductSpace.toDual_apply, inner_conj_symm]
+    simp [InnerProductSpace.toDual_apply_apply, inner_conj_symm]
   simpa [h_eq] using h
 
 private lemma eval_weakDualToWeak (l : E →L[𝕜] 𝕜) (f : WeakDual 𝕜 E) :
@@ -169,8 +175,8 @@ noncomputable def weakClosedBall (r : ℝ) : Set (WeakSpace 𝕜 E) :=
 
 /-- The (weak-*) closed ball in the dual, as a subset of `WeakDual 𝕜 E`. -/
 noncomputable def weakDualClosedBall (r : ℝ) : Set (WeakDual 𝕜 E) :=
-  (fun f : WeakDual 𝕜 E => WeakDual.toNormedDual f) ⁻¹'
-    Metric.closedBall (α := NormedSpace.Dual 𝕜 E) (0 : NormedSpace.Dual 𝕜 E) r
+  (fun f : WeakDual 𝕜 E => WeakDual.toStrongDual f) ⁻¹'
+    Metric.closedBall (α := StrongDual 𝕜 E) (0 : StrongDual 𝕜 E) r
 
 private lemma weakDualToWeak_left_inv :
     Function.LeftInverse (weakDualToWeak (𝕜 := 𝕜) (E := E))
@@ -186,12 +192,12 @@ private lemma weakDualToWeak_image_weakDualClosedBall (r : ℝ) :
   ext x
   constructor
   · rintro ⟨f, hf, rfl⟩
-    have hf_norm : ‖WeakDual.toNormedDual f‖ ≤ r :=
+    have hf_norm : ‖WeakDual.toStrongDual f‖ ≤ r :=
       (mem_closedBall_zero_iff
-        (a := WeakDual.toNormedDual f) (r := r)).1 hf
+        (a := WeakDual.toStrongDual f) (r := r)).1 hf
     have hx_norm :
         ‖(InnerProductSpace.toDual 𝕜 E).symm
-          (WeakDual.toNormedDual f)‖ ≤ r := by
+          (WeakDual.toStrongDual f)‖ ≤ r := by
       simpa [(InnerProductSpace.toDual 𝕜 E).symm.norm_map]
         using hf_norm
     let y : E := weakDualToWeak (𝕜 := 𝕜) (E := E) f
@@ -219,7 +225,7 @@ private lemma weakDualToWeak_image_weakDualClosedBall (r : ℝ) :
 theorem isCompact_weakClosedBall (r : ℝ) : IsCompact (weakClosedBall (𝕜 := 𝕜) (E := E) r) := by
   have hK : IsCompact (weakDualClosedBall (𝕜 := 𝕜) (E := E) r) := by
     simpa [weakDualClosedBall] using
-      (WeakDual.isCompact_closedBall (𝕜 := 𝕜) (E := E) (x' := (0 : NormedSpace.Dual 𝕜 E)) r)
+      (WeakDual.isCompact_closedBall (𝕜 := 𝕜) (E := E) (x' := (0 : StrongDual 𝕜 E)) r)
   have himage :
       IsCompact (weakDualToWeak (𝕜 := 𝕜) (E := E) '' weakDualClosedBall (𝕜 := 𝕜) (E := E) r) :=
     hK.image (continuous_weakDualToWeak (𝕜 := 𝕜) (E := E))

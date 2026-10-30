@@ -1,6 +1,12 @@
-import Torsion.ShapeCoefficientForms
-import Torsion.ShapeMaterialBase
-import Torsion.ShapeEnergyOperatorMatrix
+module
+
+public import Torsion.ShapeCoefficientForms
+public import Torsion.ShapeMaterialBase
+public import Torsion.ShapeEnergyOperatorMatrix
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Material differentiability on the original weak Dirichlet graph

@@ -1,7 +1,14 @@
-import Mathlib.Analysis.Calculus.FDeriv.Mul
-import Mathlib.Analysis.Calculus.Deriv.Mul
-import Mathlib.Analysis.Calculus.Deriv.Comp
-import Mathlib.Analysis.Normed.Ring.Units
+module
+
+public import Mathlib.Analysis.Calculus.FDeriv.Mul
+public import Mathlib.Analysis.Calculus.Deriv.Mul
+public import Mathlib.Analysis.Calculus.Deriv.Comp
+public import Mathlib.Analysis.Normed.Ring.Units
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Differentiation of an actual invertible variational operator
@@ -32,8 +39,7 @@ theorem inverseSolution_hasDerivAt {A : ℝ → E →L[ℝ] E} {f : ℝ → E}
     rw [← hu]
     exact hasFDerivAt_ringInverse u
   have hh := (hi.comp_hasDerivAt 0 hA).clm_apply hf
-  convert hh using 1
-  simp [← hu, Ring.inverse_unit, Function.comp_apply, ContinuousLinearMap.mulLeftRight_apply, ContinuousLinearMap.mul_apply,
+  convert hh using 1 <;> simp [← hu, Ring.inverse_unit, Function.comp_apply, ContinuousLinearMap.mulLeftRight_apply, ContinuousLinearMap.mul_apply,
     map_sub, sub_eq_add_neg, add_comm]
 
 /-- Small continuous perturbations of the actual base unit remain units. -/

@@ -1,4 +1,10 @@
-import Torsion
+module
+
+public import Torsion
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! The theorem types expose remaining analytic hypotheses. The single
 shared dependency traversal below checks all project theorems without
@@ -159,12 +165,10 @@ run_cmd do
       | some idx => (`Torsion).isPrefixOf env.header.moduleNames[idx.toNat]!
       | none => false
     if ((`Torsion).isPrefixOf name || inProjectModule) && info.isTheorem then some name else none
-  -- Share the traversal's visited set across all roots.
-  let collect : Lean.CollectAxioms.M Unit := do
-    for name in names do
-      Lean.CollectAxioms.collect name
-  let (_, state) := ((collect.run env).run {})
-  for ax in state.axioms do
-    unless [(`propext), (`Classical.choice), (`Quot.sound)].contains ax do
-      throwError "Unexpected axiom {ax} in Torsion theorem dependencies"
+  -- Lean now records axiom dependencies in imported module metadata.
+  -- Use its public collector rather than the former internal traversal API.
+  for name in names do
+    for ax in (← Lean.collectAxioms name) do
+      unless [(`propext), (`Classical.choice), (`Quot.sound)].contains ax do
+        throwError "Unexpected axiom {ax} in dependencies of {name}"
   Lean.logInfo m!"Audited {names.length} project theorems: only propext, Classical.choice, Quot.sound allowed."

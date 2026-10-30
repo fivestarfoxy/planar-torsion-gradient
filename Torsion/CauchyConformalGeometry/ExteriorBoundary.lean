@@ -1,5 +1,11 @@
-import Torsion.CauchyTransformExterior
-import Torsion.CauchyConformalGeometry.MarkedGeometry
+module
+
+public import Torsion.CauchyTransformExterior
+public import Torsion.CauchyConformalGeometry.MarkedGeometry
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The exterior branches of the actual Cauchy boundary map

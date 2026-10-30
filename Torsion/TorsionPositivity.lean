@@ -1,7 +1,13 @@
-import Torsion.SobolevPositivePart
-import Torsion.SobolevSupport
-import Torsion.Sobolev
-import Torsion.BoundedDomains
+module
+
+public import Torsion.SobolevPositivePart
+public import Torsion.SobolevSupport
+public import Torsion.Sobolev
+public import Torsion.BoundedDomains
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Nonnegativity of actual weak torsion solutions

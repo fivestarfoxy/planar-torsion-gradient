@@ -1,4 +1,10 @@
-import Torsion.PhysicalCauchyHarmonicLp
+module
+
+public import Torsion.PhysicalCauchyHarmonicLp
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Constructed continuous closed-image boundary lift

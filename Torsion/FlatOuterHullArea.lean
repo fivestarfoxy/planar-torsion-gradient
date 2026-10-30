@@ -1,5 +1,11 @@
-import Torsion.SupportedConvexFlatHull
-import Torsion.ConvexOuterApproximation
+module
+
+public import Torsion.SupportedConvexFlatHull
+public import Torsion.ConvexOuterApproximation
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Quantitative area cost of the actual flat outer hull

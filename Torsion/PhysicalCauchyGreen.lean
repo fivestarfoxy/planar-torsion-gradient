@@ -1,9 +1,15 @@
-import Torsion.HalfPlaneGreen
-import Torsion.PhysicalCauchyKernel
-import Torsion.CauchyConformalGeometry.InverseBoundary
-import Torsion.CauchyConformalGeometry.Infinity
-import Torsion.HalfPlanePoisson
-import Torsion.HalfPlaneGreenInfinity
+module
+
+public import Torsion.HalfPlaneGreen
+public import Torsion.PhysicalCauchyKernel
+public import Torsion.CauchyConformalGeometry.InverseBoundary
+public import Torsion.CauchyConformalGeometry.Infinity
+public import Torsion.HalfPlanePoisson
+public import Torsion.HalfPlaneGreenInfinity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The concrete conformal logarithmic kernel

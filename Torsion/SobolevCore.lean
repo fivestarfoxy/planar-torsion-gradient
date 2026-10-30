@@ -1,6 +1,12 @@
-import Torsion.SobolevAdd
-import Torsion.SobolevScalar
-import Mathlib.MeasureTheory.Function.LpSpace.Indicator
+module
+
+public import Torsion.SobolevAdd
+public import Torsion.SobolevScalar
+public import Mathlib.MeasureTheory.Function.LpSpace.Indicator
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Smooth compact core functions and their gradients are in L²
@@ -21,7 +27,7 @@ namespace Torsion
 any differentiability hypothesis. -/
 theorem gradient_eq_zero_of_not_mem_tsupport {f : Plane → ℝ} {x : Plane}
     (hx : x ∉ tsupport f) : gradient f x = 0 := by
-  simp only [gradient, fderiv_of_not_mem_tsupport ℝ hx, map_zero]
+  simp only [gradient, fderiv_of_notMem_tsupport ℝ hx, map_zero]
 
 /-- The support of a gradient is contained in the function's topological support. -/
 theorem support_gradient_subset_tsupport (f : Plane → ℝ) :

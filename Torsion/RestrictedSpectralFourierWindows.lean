@@ -1,11 +1,18 @@
-import Mathlib.Topology.ContinuousMap.Bounded.ArzelaAscoli
-import Mathlib.Topology.ContinuousMap.Compact
-import Mathlib.Topology.ContinuousMap.Ordered
-import Mathlib.Topology.MetricSpace.Equicontinuity
-import Mathlib.MeasureTheory.Function.LpSpace.ContinuousFunctions
-import Mathlib.MeasureTheory.Function.LpSpace.Indicator
-import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
-import Mathlib.Analysis.Complex.Basic
+module
+
+public import Mathlib.Topology.ContinuousMap.Bounded.ArzelaAscoli
+public import Mathlib.Topology.ContinuousMap.Compact
+public import Mathlib.Topology.ContinuousMap.Ordered
+public import Mathlib.Topology.MetricSpace.Equicontinuity
+public import Mathlib.MeasureTheory.Function.LpSpace.ContinuousFunctions
+public import Mathlib.MeasureTheory.Function.LpSpace.Indicator
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
+public import Mathlib.Analysis.Complex.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Compact Fourier windows in the actual full-frequency L² space
@@ -51,7 +58,7 @@ theorem isCompact_closure_continuousMap_range_of_uniform_bounds
     apply BoundedContinuousFunction.arzela_ascoli (closedBall (0 : ℂ) B) (isCompact_closedBall _ _)
       (range G) ?_ heq
     rintro f x ⟨i, rfl⟩
-    simpa only [mem_closedBall, dist_zero_right] using hbound i x
+    simpa only [mem_closedBall, dist_zero_right, G, e] using! hbound i x
   have himage : e.symm '' range G = range F := by
     ext f
     simp only [mem_image, mem_range, exists_exists_eq_and]
@@ -162,7 +169,7 @@ theorem isCompact_closure_range_frequencyWindow {ι : Type*} {R : ℝ} (hR : 0 <
     · intro i x
       exact hbound i x
     · intro i
-      simpa only [mul_one] using (hLip i).comp (LipschitzWith.subtype_val (Icc (-R) R))
+      simpa only [mul_one, G, frequencyWindowRestriction, Function.comp_apply] using! (hLip i).comp (LipschitzWith.subtype_val (Icc (-R) R))
   have himage := hK.image (fourierWindowToLp_continuous R hR.le)
   apply himage.of_isClosed_subset isClosed_closure
   apply closure_minimal ?_ himage.isClosed

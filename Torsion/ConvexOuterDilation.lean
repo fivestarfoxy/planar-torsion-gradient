@@ -1,5 +1,11 @@
-import Torsion.OuterGradientBounds
-import Mathlib.Topology.MetricSpace.Thickening
+module
+
+public import Torsion.OuterGradientBounds
+public import Mathlib.Topology.MetricSpace.Thickening
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Metric outer approximation yields physical dilation sandwiches

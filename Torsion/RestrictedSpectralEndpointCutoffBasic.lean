@@ -1,7 +1,14 @@
-import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
-import Mathlib.Analysis.Calculus.Deriv.Mul
-import Mathlib.Analysis.Calculus.Deriv.Comp
-import Mathlib.Tactic
+module
+
+public import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
+public import Mathlib.Analysis.Calculus.Deriv.Mul
+public import Mathlib.Analysis.Calculus.Deriv.Comp
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! Smooth endpoint cutoffs with explicit radii and derivative. -/
 noncomputable section
@@ -86,6 +93,6 @@ theorem endpointCutoff_deriv {ψ : ℝ → ℝ} (hψ : ContDiff ℝ ∞ ψ) (e :
     ((endpointCutoffBump.contDiff : ContDiff ℝ ∞ endpointCutoffBump).differentiable (by simp) _).hasDerivAt
   have hp : HasDerivAt ψ (deriv ψ x) x := (hψ.differentiable (by simp) x).hasDerivAt
   have h := (hp.mul (hb.comp x hinner)).deriv
-  simpa only [endpointCutoff, mul_assoc] using h
+  simpa only [endpointCutoff, mul_assoc, Pi.mul_apply, Function.comp_apply] using! h
 
 end Torsion.Spectral

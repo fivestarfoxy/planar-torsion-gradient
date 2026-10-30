@@ -1,5 +1,11 @@
-import Torsion.PhysicalCauchyBoundary
-import Torsion.CauchyTransformImageFrontier
+module
+
+public import Torsion.PhysicalCauchyBoundary
+public import Torsion.CauchyTransformImageFrontier
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual continuous zero extension of the physical candidate
@@ -123,7 +129,7 @@ theorem physicalZeroExtension_eq {φ : ℝ → ℝ} {w : Plane} (hw : w ∈ cauc
     physicalZeroExtension φ w = physicalCandidate φ w := indicator_of_mem hw _
 
 theorem physicalZeroExtension_eq_zero {φ : ℝ → ℝ} {w : Plane} (hw : w ∉ cauchyImage φ) :
-    physicalZeroExtension φ w = 0 := indicator_of_not_mem hw _
+    physicalZeroExtension φ w = 0 := indicator_of_notMem hw _
 
 /-- The actual zero extension is continuous everywhere. This discharges
 the value-trace regularity needed for the direct H¹₀ truncation argument. -/

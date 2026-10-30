@@ -1,5 +1,11 @@
-import Torsion.ShapeWeakPullback
-import Torsion.ShapeCoefficients
+module
+
+public import Torsion.ShapeWeakPullback
+public import Torsion.ShapeCoefficients
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Identification of the actual weak pullback coefficient with its matrix -/
 

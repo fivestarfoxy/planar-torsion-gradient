@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralIntervalHolder
-import Torsion.CauchyTransformHeightDerivative
-import Mathlib.Topology.MetricSpace.Holder
+module
+
+public import Torsion.RestrictedSpectralIntervalHolder
+public import Torsion.CauchyTransformHeightDerivative
+public import Mathlib.Topology.MetricSpace.Holder
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Hölder regularity of the actual integrated spectral profile
@@ -58,15 +65,15 @@ theorem height_abs_sub_le {φ : ℝ → ℝ} (hφ : MemLp φ 2 volume) (x y : �
 /-- The actual integrated profile is globally Hölder with exponent one
 half, with its actual L² norm as constant. -/
 theorem height_holder_half_of_memLp {φ : ℝ → ℝ} (hφ : MemLp φ 2 volume) :
-    HolderWith ⟨Real.sqrt (∫ s : ℝ, φ s ^ 2), Real.sqrt_nonneg _⟩ (1 / 2) (height φ) := by
+    HolderWith (NNReal.mk (Real.sqrt (∫ s : ℝ, φ s ^ 2)) (Real.sqrt_nonneg _)) (1 / 2) (height φ) := by
+  let C : ℝ≥0 := NNReal.mk (Real.sqrt (∫ s : ℝ, φ s ^ 2)) (Real.sqrt_nonneg _)
+  change HolderWith C (1 / 2) (height φ)
   intro x y
   rw [edist_dist, edist_dist, ENNReal.ofReal_rpow_of_nonneg dist_nonneg (by positivity)]
-  rw [← ENNReal.ofReal_coe_nnreal]
-  simp only [NNReal.coe_mk]
-  rw [← ENNReal.ofReal_mul (Real.sqrt_nonneg _)]
+  rw [← ENNReal.ofReal_coe_nnreal (p := C), ← ENNReal.ofReal_mul C.coe_nonneg]
   apply ENNReal.ofReal_le_ofReal
   simpa only [Real.dist_eq, NNReal.coe_div, NNReal.coe_one, NNReal.coe_ofNat,
-    ← Real.sqrt_eq_rpow] using height_abs_sub_le hφ x y
+    C, NNReal.coe_mk, ← Real.sqrt_eq_rpow] using height_abs_sub_le hφ x y
 
 /-- No pointwise continuity of the datum is required for continuity of
 its integrated, zero-extended height. -/

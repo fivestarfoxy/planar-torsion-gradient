@@ -1,6 +1,13 @@
-import Torsion.FourierPlancherel
-import Torsion.FourierHilbertPairing
-import Torsion.RestrictedSpectralEnergyContinuity
+module
+
+public import Torsion.FourierPlancherel
+public import Torsion.FourierHilbertPairing
+public import Torsion.RestrictedSpectralEnergyContinuity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Coercivity of the concrete restricted Fourier form
@@ -21,7 +28,7 @@ theorem IsCore.integral_norm_sq_le {f : ℝ → ℝ} (hf : IsCore f) :
     (∫ x : ℝ, ‖f x‖) ^ 2 ≤ 2 * ∫ x : ℝ, f x ^ 2 := by
   let A : ℝ := ∫ x in Icc (-1 : ℝ) 1, ‖f x‖
   have hzero (x : ℝ) (hx : x ∉ Icc (-1 : ℝ) 1) : f x = 0 :=
-    image_eq_zero_of_nmem_tsupport (fun h => hx (Ioo_subset_Icc_self (hf.2.2 h)))
+    image_eq_zero_of_notMem_tsupport (fun h => hx (Ioo_subset_Icc_self (hf.2.2 h)))
   have hA : (∫ x : ℝ, ‖f x‖) = A := by
     symm
     exact setIntegral_eq_integral_of_forall_compl_eq_zero (fun x hx => by rw [hzero x hx]; simp)
@@ -94,7 +101,7 @@ theorem IsCore.fractional_poincare {f : ℝ → ℝ} (hf : IsCore f) :
         have h : 1 ≤ (4 * |ξ|) / Real.pi :=
           (le_div_iff₀ Real.pi_pos).mpr (by simpa using hh)
         simpa only [div_eq_mul_inv, mul_assoc, mul_left_comm, mul_comm] using h
-      simp only [B, indicator_of_not_mem hξ, zero_add, W]
+      simp only [B, indicator_of_notMem hξ, zero_add, W]
       calc
         ‖fourier f ξ‖ ^ 2 = 1 * ‖fourier f ξ‖ ^ 2 := by ring
         _ ≤ ((4 / Real.pi) * |ξ|) * ‖fourier f ξ‖ ^ 2 :=

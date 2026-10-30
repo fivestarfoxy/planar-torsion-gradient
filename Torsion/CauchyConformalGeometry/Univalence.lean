@@ -1,6 +1,12 @@
-import Torsion.CauchyConformalGeometry.ImageSeparation
-import Mathlib.Analysis.Calculus.Deriv.MeanValue
-import Mathlib.Analysis.Complex.Convex
+module
+
+public import Torsion.CauchyConformalGeometry.ImageSeparation
+public import Mathlib.Analysis.Calculus.Deriv.MeanValue
+public import Mathlib.Analysis.Complex.Convex
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Univalence from the concrete integral signs
 
@@ -31,14 +37,14 @@ theorem injOn_of_im_deriv_neg {S : Set ℂ} (hS : Convex ℝ S) {f : ℂ → ℂ
   have hqd (t : ℝ) (ht : t ∈ Icc (0 : ℝ) 1) :
       HasDerivAt q (-(deriv f (p t)).im) t := by
     have hline : HasDerivAt (fun τ : ℂ => z + τ * (w - z)) (w - z) (t : ℂ) := by
-      simpa using (hasDerivAt_const (t : ℂ) z).add ((hasDerivAt_id (t : ℂ)).mul_const (w - z))
+      simpa only [Pi.add_apply, zero_add] using! (hasDerivAt_const (t : ℂ) z).add ((hasDerivAt_id (t : ℂ)).mul_const (w - z))
     have hf := ((hd _ (hp t ht)).hasDerivAt.comp (t : ℂ) hline).sub_const (f z)
     have hg := (hf.div_const (w - z)).const_mul Complex.I
     have hg' : HasDerivAt g (Complex.I * deriv f (p t)) (t : ℂ) := by
-      convert hg using 1
+      convert! hg using 1
       dsimp [p]
       field_simp
-    convert hg'.real_of_complex using 1
+    convert! hg'.real_of_complex using 1
     simp only [Complex.mul_re, Complex.I_re, Complex.I_im, zero_mul, one_mul, zero_sub]
   have hqcont : ContinuousOn q (Icc (0 : ℝ) 1) :=
     fun t ht => (hqd t ht).continuousAt.continuousWithinAt
@@ -61,7 +67,9 @@ theorem injOn_of_im_deriv_pos {S : Set ℂ} (hS : Convex ℝ S) {f : ℂ → ℂ
   have hn : InjOn (fun z => -f z) S := injOn_of_im_deriv_neg hS
     (fun z hz => (hd z hz).neg) (by
       intro z hz
-      rw [deriv.neg, Complex.neg_im]
+      have hn : HasDerivAt (fun w => -f w) (-deriv f z) z := by
+        simpa only [Pi.neg_apply] using! (hd z hz).hasDerivAt.neg
+      rw [hn.deriv, Complex.neg_im]
       exact neg_neg_of_pos (hi z hz))
   intro z hz w hw heq
   exact hn hz hw (congrArg Neg.neg heq)
@@ -103,17 +111,17 @@ theorem cauchy_axis_im_strictAntiOn {φ : ℝ → ℝ}
       HasDerivAt q (deriv (cauchy φ) ((y : ℂ) * Complex.I)).re y := by
     have hz : (y : ℂ) * Complex.I ∈ upperHalfPlane := by simpa [upperHalfPlane] using hy
     have hline : HasDerivAt (fun τ : ℂ => τ * Complex.I) Complex.I (y : ℂ) := by
-      simpa using (hasDerivAt_id (y : ℂ)).mul_const Complex.I
+      simpa using! (hasDerivAt_id (y : ℂ)).mul_const Complex.I
     have hf := (((hasDerivAt_cauchy hφ.continuousOn hz).differentiableAt.hasDerivAt).comp
       (y : ℂ) hline).const_mul (-Complex.I)
     have hder : HasDerivAt (fun τ : ℂ => -Complex.I * cauchy φ (τ * Complex.I))
         (deriv (cauchy φ) ((y : ℂ) * Complex.I)) (y : ℂ) := by
-      convert hf using 1
+      convert! hf using 1
       calc
         deriv (cauchy φ) ((y : ℂ) * Complex.I) =
             (-Complex.I * Complex.I) * deriv (cauchy φ) ((y : ℂ) * Complex.I) := by simp
         _ = -Complex.I * (deriv (cauchy φ) ((y : ℂ) * Complex.I) * Complex.I) := by ring
-    convert hder.real_of_complex using 1
+    convert! hder.real_of_complex using 1
     funext t
     simp only [q, Complex.mul_re, Complex.neg_re, Complex.neg_im,
       Complex.I_re, Complex.I_im, neg_zero, zero_mul, neg_mul, one_mul, zero_sub, neg_neg]

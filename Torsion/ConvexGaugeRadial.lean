@@ -1,7 +1,13 @@
-import Torsion.ContinuousProfiles
-import Torsion.ConvexOuterApproximation
-import Mathlib.Analysis.Convex.Gauge
-import Mathlib.Analysis.Normed.Module.Convex
+module
+
+public import Torsion.ContinuousProfiles
+public import Torsion.ConvexOuterApproximation
+public import Mathlib.Analysis.Convex.Gauge
+public import Mathlib.Analysis.Normed.Module.Convex
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Positive radial representatives of centered convex domains

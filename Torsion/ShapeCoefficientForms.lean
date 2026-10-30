@@ -1,4 +1,10 @@
-import Torsion.ShapeCoefficientScalar
+module
+
+public import Torsion.ShapeCoefficientScalar
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Actual coefficient forms and their physical integrals -/
 noncomputable section

@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralCauchyMinimum
-import Torsion.RestrictedSpectralWeakCauchy
-import Torsion.RestrictedSpectralCauchyL1
-import Torsion.RestrictedSpectralOddKernelMinimum
+module
+
+public import Torsion.RestrictedSpectralCauchyMinimum
+public import Torsion.RestrictedSpectralWeakCauchy
+public import Torsion.RestrictedSpectralCauchyL1
+public import Torsion.RestrictedSpectralOddKernelMinimum
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Strict pointwise positivity of the actual odd spectral representative

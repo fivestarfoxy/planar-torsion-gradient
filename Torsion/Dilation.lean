@@ -1,11 +1,15 @@
-import Torsion.Definitions
-import Mathlib.Data.Complex.FiniteDimensional
-import Mathlib.Analysis.NormedSpace.Pointwise
-import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
-import Mathlib.Analysis.Calculus.FDeriv.Comp
-import Mathlib.Analysis.Calculus.FDeriv.Mul
-import Mathlib.Analysis.Calculus.FDeriv.Add
-import Mathlib.Tactic
+module
+
+public import Torsion.Definitions
+public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+public import Mathlib.Analysis.NormedSpace.Pointwise
+public import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
+public import Mathlib.Analysis.Calculus.FDeriv.Comp
+public import Mathlib.Analysis.Calculus.FDeriv.Mul
+public import Mathlib.Analysis.Calculus.FDeriv.Add
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Physical dilation of planar domains
@@ -143,13 +147,14 @@ theorem hasGradientAt_scaledValue (s : ℝ) (hs : s ≠ 0) (u : ℂ → ℝ) (z 
     (hasFDerivAt_id z).const_smul s⁻¹
   have hc := (hu.hasGradientAt.hasFDerivAt.comp z hi).const_smul (s ^ 2)
   convert hc using 1
-  ext w
-  simp only [scaledGradient, ContinuousLinearMap.smul_apply,
-    ContinuousLinearMap.comp_apply, ContinuousLinearMap.id_apply,
-    InnerProductSpace.toDual_apply, real_inner_smul_left, real_inner_smul_right,
-    smul_eq_mul]
-  field_simp [hs]
-  ring
+  · funext w
+    simp only [scaledValue, Function.comp_apply, Pi.smul_apply, smul_eq_mul]
+  · ext w
+    simp only [scaledGradient, ContinuousLinearMap.smul_apply,
+      ContinuousLinearMap.comp_apply, ContinuousLinearMap.id_apply,
+      InnerProductSpace.toDual_apply_apply, real_inner_smul_left, real_inner_smul_right,
+      smul_eq_mul]
+    field_simp [hs]
 
 /-- Pointwise gradient scaling at every differentiability point. -/
 theorem gradient_scaledValue (s : ℝ) (hs : s ≠ 0) (u : ℂ → ℝ) (z : ℂ)

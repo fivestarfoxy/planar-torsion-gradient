@@ -1,11 +1,18 @@
-import Torsion.RestrictedSpectralWeakPrimitive
-import Torsion.RestrictedSpectralHeightParity
-import Torsion.RestrictedSpectralAnalyticHeight
-import Torsion.RestrictedSpectralSignRegularity
-import Torsion.RestrictedSpectralOddPositivity
-import Mathlib.Analysis.Calculus.FDeriv.Analytic
-import Mathlib.Analysis.Distribution.AEEqOfIntegralContDiff
-import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+module
+
+public import Torsion.RestrictedSpectralWeakPrimitive
+public import Torsion.RestrictedSpectralHeightParity
+public import Torsion.RestrictedSpectralAnalyticHeight
+public import Torsion.RestrictedSpectralSignRegularity
+public import Torsion.RestrictedSpectralOddPositivity
+public import Mathlib.Analysis.Calculus.FDeriv.Analytic
+public import Mathlib.Analysis.Distribution.AEEqOfIntegralContDiff
+public import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The actual regular representative of an odd restricted eigenfunction
@@ -93,7 +100,7 @@ theorem integral_mul_deriv_eq_neg_deriv_mul_of_local_contDiff
     · have hn : x ∉ tsupport ψ := fun h => hx (hsupp h)
       have hnP : x ∉ tsupport P := fun h => hn (tsupport_mul_subset_right h)
       simp only [deriv, fderiv_of_not_mem_tsupport ℝ hnP, fderiv_of_not_mem_tsupport ℝ hn,
-        ContinuousLinearMap.zero_apply, image_eq_zero_of_nmem_tsupport hn, mul_zero, zero_mul, add_zero]
+        ContinuousLinearMap.zero_apply, image_eq_zero_of_notMem_tsupport hn, mul_zero, zero_mul, add_zero]
   rw [show (deriv P) = (fun x => deriv H x * ψ x + H x * deriv ψ x) from funext hpoint,
     integral_add hHi hHψi] at hPderiv
   linarith

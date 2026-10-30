@@ -1,6 +1,12 @@
-import Torsion.CauchyTransformImageFrontier
-import Torsion.CauchyConformalGeometry.BoundaryGeometry
-import Mathlib.Analysis.Convex.Topology
+module
+
+public import Torsion.CauchyTransformImageFrontier
+public import Torsion.CauchyConformalGeometry.BoundaryGeometry
+public import Mathlib.Analysis.Convex.Topology
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual Cauchy image has a marked flat neighborhood

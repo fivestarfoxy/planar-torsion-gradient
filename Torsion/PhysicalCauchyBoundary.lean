@@ -1,4 +1,10 @@
-import Torsion.PhysicalCauchyTorsion
+module
+
+public import Torsion.PhysicalCauchyTorsion
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Boundary and infinity limits of the actual physical Cauchy gradient

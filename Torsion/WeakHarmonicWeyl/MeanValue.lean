@@ -1,7 +1,13 @@
-import Torsion.WeakHarmonicWeyl.Classical
-import Torsion.WeakHarmonicWeyl.RadialKernel
-import Mathlib.Analysis.SpecialFunctions.PolarCoord
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic
+module
+
+public import Torsion.WeakHarmonicWeyl.Classical
+public import Torsion.WeakHarmonicWeyl.RadialKernel
+public import Mathlib.Analysis.SpecialFunctions.PolarCoord
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Radial mean-value reproduction derived from the Cauchy formula -/
 noncomputable section

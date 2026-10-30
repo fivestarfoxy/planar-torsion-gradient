@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralForm
-import Mathlib.MeasureTheory.Measure.Haar.NormedSpace
+module
+
+public import Torsion.RestrictedSpectralForm
+public import Mathlib.MeasureTheory.Measure.Haar.NormedSpace
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Plancherel for the actual compact smooth Fourier core
@@ -19,7 +26,7 @@ namespace Torsion.Spectral
 integrals in mathlib's normalization. -/
 theorem mathlib_fourier_conj (f : ℝ → ℂ) (x : ℝ) :
     𝓕 (fun ξ => star (f ξ)) x = star (𝓕⁻ f x) := by
-  rw [Real.fourierIntegral_eq', Real.fourierIntegralInv_eq', Complex.star_def,
+  rw [Real.fourier_eq', Real.fourierInv_eq', Complex.star_def,
     ← integral_conj]
   apply integral_congr_ae
   exact ae_of_all _ fun ξ => by
@@ -33,29 +40,7 @@ theorem mathlib_fourier_conj (f : ℝ → ℂ) (x : ℝ) :
 Fourier bilinear integral identity already available in mathlib 4.19. -/
 theorem SchwartzMap_integral_norm_sq_fourier (S : 𝓢(ℝ, ℂ)) :
     (∫ ξ : ℝ, ‖𝓕 S ξ‖ ^ 2) = ∫ x : ℝ, ‖S x‖ ^ 2 := by
-  let FS : 𝓢(ℝ, ℂ) := SchwartzMap.fourierTransformCLM ℂ S
-  have hflip : (innerₗ ℝ : ℝ →ₗ[ℝ] ℝ →ₗ[ℝ] ℝ).flip = innerₗ ℝ := by
-    apply LinearMap.ext
-    intro x
-    apply LinearMap.ext
-    intro y
-    exact real_inner_comm (x : ℝ) (y : ℝ)
-  have hgc : Integrable (fun ξ : ℝ => star (𝓕 S ξ)) := by
-    simpa only [Complex.conjCLE_apply, Complex.star_def] using
-      (Complex.conjCLE.toContinuousLinearMap.integrable_comp (FS.integrable (μ := volume)))
-  have h := VectorFourier.integral_bilin_fourierIntegral_eq_flip
-    (L := innerₗ ℝ) (μ := volume) (ν := volume) (ContinuousLinearMap.mul ℂ ℂ)
-    Real.continuous_fourierChar continuous_inner S.integrable hgc
-  rw [hflip] at h
-  change (∫ ξ : ℝ, 𝓕 S ξ * star (𝓕 S ξ)) =
-    ∫ x : ℝ, S x * 𝓕 (fun ξ => star (𝓕 S ξ)) x at h
-  have hinv := S.continuous.fourier_inversion S.integrable FS.integrable
-  simp only [mathlib_fourier_conj, hinv] at h
-  have hnorm (z : ℂ) : z * star z = ((‖z‖ ^ 2 : ℝ) : ℂ) := by
-    rw [← Complex.normSq_eq_norm_sq]
-    simp [Complex.star_def, Complex.mul_conj]
-  simp only [hnorm, integral_complex_ofReal] at h
-  exact Complex.ofReal_injective h
+  exact SchwartzMap.integral_norm_sq_fourier S
 
 /-- The source-normalized Fourier transform of a compact smooth real
 function has an integrable squared norm. -/
@@ -69,7 +54,10 @@ theorem integrable_norm_sq_fourier_of_core {f : ℝ → ℝ}
       (FS.memLp 2)
   have hp : 2 * Real.pi ≠ 0 := by positivity
   have hid := hi.comp_div hp
-  simpa only [fourier_eq_mathlib] using hid
+  have heq (ξ : ℝ) : fourier f ξ = FS (ξ / (2 * Real.pi)) :=
+    fourier_eq_mathlib f ξ
+  exact hid.congr (ae_of_all _ fun ξ =>
+    congrArg (fun z : ℂ => ‖z‖ ^ 2) (heq ξ).symm)
 
 /-- Parseval with exactly the Fourier convention and `2π` factor of the
 existing concrete restricted form. -/

@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralDistribution
-import Torsion.CauchyTransformImaginaryBoundary
-import Mathlib.Analysis.Fourier.FourierTransformDeriv
-import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+module
+
+public import Torsion.RestrictedSpectralDistribution
+public import Torsion.CauchyTransformImaginaryBoundary
+public import Mathlib.Analysis.Fourier.FourierTransformDeriv
+public import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Fourier differentiation and the integrated weak spectral equation
@@ -40,7 +47,7 @@ theorem MemRestrictedFormDomain.zero_exterior {φ : ℝ → ℝ}
     hneg.of_subset_closure hφ.continuousOn continuousOn_const (Iio_subset_Iic le_rfl)
       (by rw [closure_Iio])
   intro x hx
-  rcases le_or_lt 0 x with hp | hn
+  rcases le_or_gt 0 x with hp | hn
   · apply hpos'
     simpa only [mem_Ici, abs_of_nonneg hp] using hx
   · apply hneg'
@@ -62,7 +69,7 @@ theorem fourier_deriv {f : ℝ → ℝ} (hf : Integrable f)
   have hcdint : Integrable (deriv fc) := by
     rw [hdeq]
     exact Complex.ofRealCLM.integrable_comp hdf
-  have h := congrFun (Real.fourierIntegral_deriv hc hcd hcdint)
+  have h := congrFun (Real.fourier_deriv hc hcd hcdint)
     (ξ / (2 * Real.pi))
   rw [fourier_eq_mathlib, fourier_eq_mathlib]
   simp only [hdeq, smul_eq_mul] at h
@@ -72,7 +79,6 @@ theorem fourier_deriv {f : ℝ → ℝ} (hf : Integrable f)
       ((ξ / (2 * Real.pi) : ℝ) : ℂ) = (ξ : ℂ) * Complex.I := by
     push_cast
     field_simp [hpi]
-    ring
   rw [hfac]
 
 /-- The concrete height's Fourier transform is an antiderivative of the
@@ -129,7 +135,7 @@ theorem finiteEnergy_height {φ : ℝ → ℝ}
     exact mul_le_mul_of_nonneg_left (pow_le_pow_left₀ (norm_nonneg _) hle 2)
       (abs_nonneg _)
   have hall := hnear.union hfar
-  simpa only [union_compl_self, integrableOn_univ] using hall
+  simpa only [union_compl_self, integrableOn_univ, FiniteEnergy, g] using hall
 
 /-- Commutation of the concrete Fourier half-Laplacian form with taking
 the odd primitive.  The smooth test's derivative is taken on the other side
@@ -166,11 +172,11 @@ theorem integral_height_mul_deriv {φ ψ : ℝ → ℝ}
   have hd : Differentiable ℝ ψ := hψ.differentiable (by simp)
   have hdc : Continuous (deriv ψ) := hψ.continuous_deriv (by simp)
   have h := integral_mul_deriv_eq_deriv_mul_of_integrable
-    (fun x => hasDerivAt_height hφ hodd hzero x) (fun x => (hd x).hasDerivAt)
+    (fun x _ => hasDerivAt_height hφ hodd hzero x) (fun x _ => (hd x).hasDerivAt)
     ((hY.mul hdc).integrable_of_hasCompactSupport (hc.deriv.mul_left))
     (((hφ.neg).mul hψ.continuous).integrable_of_hasCompactSupport hc.mul_left)
     ((hY.mul hψ.continuous).integrable_of_hasCompactSupport hc.mul_left)
-  simpa only [Pi.mul_apply, neg_mul, integral_neg, neg_neg] using h
+  simpa only [Pi.mul_apply, Pi.neg_apply, neg_mul, integral_neg, neg_neg] using h
 
 /-- Direct spectral consequence: the distributional derivative of
 `L(height φ) - a * height φ` vanishes on the interval.  This theorem uses

@@ -1,11 +1,17 @@
-import Torsion.SobolevCutoff
-import Torsion.SobolevLattice
-import Mathlib.Geometry.Manifold.PartitionOfUnity
-import Mathlib.Geometry.Manifold.ContMDiff.NormedSpace
-import Mathlib.Data.Complex.FiniteDimensional
-import Mathlib.Analysis.Normed.Group.Bounded
-import Mathlib.Analysis.Normed.Module.FiniteDimension
-import Mathlib.Tactic
+module
+
+public import Torsion.SobolevCutoff
+public import Torsion.SobolevLattice
+public import Mathlib.Geometry.Manifold.PartitionOfUnity
+public import Mathlib.Geometry.Manifold.ContMDiff.NormedSpace
+public import Mathlib.Data.Complex.FiniteDimensional
+public import Mathlib.Analysis.Normed.Group.Bounded
+public import Mathlib.Analysis.Normed.Module.FiniteDimension
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Compact-support localization inside an arbitrary open domain

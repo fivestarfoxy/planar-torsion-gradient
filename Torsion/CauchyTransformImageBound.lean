@@ -1,6 +1,12 @@
-import Torsion.CauchyTransformBoundaryExtension
-import Torsion.CauchyQuadraticIdentity
-import Torsion.SpectralNormalization
+module
+
+public import Torsion.CauchyTransformBoundaryExtension
+public import Torsion.CauchyQuadraticIdentity
+public import Torsion.SpectralNormalization
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Boundedness of the actual Cauchy image

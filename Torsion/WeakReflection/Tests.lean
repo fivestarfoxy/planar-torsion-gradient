@@ -1,6 +1,12 @@
-import Torsion.WeakReflection.Admission
-import Torsion.WeakReflection
-import Mathlib.Analysis.Calculus.MeanValue
+module
+
+public import Torsion.WeakReflection.Admission
+public import Torsion.WeakReflection
+public import Mathlib.Analysis.Calculus.MeanValue
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! Admission of actual antisymmetric smooth tests on a flat half-domain. -/
 

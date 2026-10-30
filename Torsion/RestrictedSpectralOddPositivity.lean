@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralOddGroundSign
-import Torsion.RestrictedSpectralOddGapBounds
-import Torsion.RestrictedSpectralPositiveSets
+module
+
+public import Torsion.RestrictedSpectralOddGroundSign
+public import Torsion.RestrictedSpectralOddGapBounds
+public import Torsion.RestrictedSpectralPositiveSets
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Quantitative perturbation bounds for strict positive-half positivity
@@ -138,7 +145,7 @@ theorem oddGap_integral_perturbation_rectangle_lower_bound
         exact oddAbsGap_perturbation_lower_bound hr (hAsub hp.1) (hBsub hp.2) hne
           hδ hη ht (hAzero p.1 hp.1) (hAψ p.1 hp.1) (hBf p.2 hp.2)
           (hBψ p.2 hp.2) (by simpa using htsmall)
-      · rw [indicator_of_not_mem hp]
+      · rw [indicator_of_notMem hp]
         exact zero_le _
 
 

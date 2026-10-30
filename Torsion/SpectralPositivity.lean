@@ -1,8 +1,14 @@
-import Torsion.SpectralDefinitions
-import Mathlib.Algebra.Group.EvenFunction
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
-import Mathlib.Tactic
+module
+
+public import Torsion.SpectralDefinitions
+public import Mathlib.Algebra.Group.EvenFunction
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Positivity of the integrated spectral profile

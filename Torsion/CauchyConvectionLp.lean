@@ -1,7 +1,13 @@
-import Torsion.CompactLocalBounds
-import Torsion.CauchyFreeArcGradient
-import Torsion.CauchyConformalGeometry.FlatSegment
-import Torsion.PhysicalCauchySobolev
+module
+
+public import Torsion.CompactLocalBounds
+public import Torsion.CauchyFreeArcGradient
+public import Torsion.CauchyConformalGeometry.FlatSegment
+public import Torsion.PhysicalCauchySobolev
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Finite physical convection energy for actual compact displacements

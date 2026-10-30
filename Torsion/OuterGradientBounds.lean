@@ -1,5 +1,11 @@
-import Torsion.OuterDomainConvergence
-import Torsion.GradientBoundExhaustion
+module
+
+public import Torsion.OuterDomainConvergence
+public import Torsion.GradientBoundExhaustion
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Outer approximation and the actual interior gradient supremum

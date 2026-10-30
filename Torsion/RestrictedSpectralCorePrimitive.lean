@@ -1,9 +1,13 @@
-import Torsion.SpectralDefinitions
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
-import Mathlib.Analysis.Calculus.ContDiff.Basic
-import Mathlib.Topology.Order.Compact
-import Mathlib.Analysis.Calculus.BumpFunction.Normed
-import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
+module
+
+public import Torsion.SpectralDefinitions
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+public import Mathlib.Analysis.Calculus.ContDiff.Basic
+public import Mathlib.Topology.Order.Compact
+public import Mathlib.Analysis.Calculus.BumpFunction.Normed
+public import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
+
+@[expose] public section
 
 /-!
 # Compact primitives for zero-mean restricted tests
@@ -26,7 +30,7 @@ theorem IsCore.linear_combination {ψ ρ : ℝ → ℝ} (hψ : IsCore ψ) (hρ :
   refine ⟨(contDiff_const.mul hψ.1).add (contDiff_const.mul hρ.1),
     hψ.2.1.mul_left.add hρ.2.1.mul_left, ?_⟩
   intro x hx
-  rcases tsupport_add hx with hx | hx
+  rcases tsupport_add (fun x => c * ψ x) (fun x => d * ρ x) hx with hx | hx
   · exact hψ.2.2 (tsupport_mul_subset_right hx)
   · exact hρ.2.2 (tsupport_mul_subset_right hx)
 
@@ -85,7 +89,7 @@ theorem IsCore.exists_primitive_of_integral_eq_zero {ψ : ℝ → ℝ}
     rw [hderiv]
     exact hψ.1
   have hz (x : ℝ) (hx : x ∉ Ioo l r) : ψ x = 0 :=
-    image_eq_zero_of_nmem_tsupport (fun h => hx (hsupp h))
+    image_eq_zero_of_notMem_tsupport (fun h => hx (hsupp h))
   have hleft (x : ℝ) (hx : x ≤ l) : P x = 0 := by
     dsimp [P]
     calc

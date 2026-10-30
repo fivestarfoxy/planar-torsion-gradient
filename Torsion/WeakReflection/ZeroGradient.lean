@@ -1,6 +1,12 @@
-import Torsion.WeakHarmonicRegularity
-import Mathlib.Analysis.Calculus.MeanValue
-import Mathlib.MeasureTheory.Measure.OpenPos
+module
+
+public import Torsion.WeakHarmonicRegularity
+public import Mathlib.Analysis.Calculus.MeanValue
+public import Mathlib.MeasureTheory.Measure.OpenPos
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Local constancy from an actually vanishing weak gradient

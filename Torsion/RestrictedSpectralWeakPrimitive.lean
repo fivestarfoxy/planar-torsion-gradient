@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralOddCore
-import Torsion.RestrictedSpectralHeightRegularity
-import Torsion.RestrictedSpectralFourierContinuity
-import Torsion.RestrictedSpectralPairingContinuity
+module
+
+public import Torsion.RestrictedSpectralOddCore
+public import Torsion.RestrictedSpectralHeightRegularity
+public import Torsion.RestrictedSpectralFourierContinuity
+public import Torsion.RestrictedSpectralPairingContinuity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The concrete odd primitive without continuity of its datum
@@ -54,7 +61,7 @@ theorem integral_norm_height_sub_le {f g : ℝ → ℝ}
     by_cases hx : x ∈ Icc (-1 : ℝ) 1
     · simpa only [indicator_of_mem hx, D] using norm_height_sub_le_integral_norm hfi hgi x
     · have hx' : ¬ |x| < 1 := fun h => hx (abs_le.1 h.le)
-      simp only [height, if_neg hx', sub_self, norm_zero, indicator_of_not_mem hx, le_refl]
+      simp only [height, if_neg hx', sub_self, norm_zero, indicator_of_notMem hx, le_refl]
   have h := integral_mono hH hB hpoint
   rw [integral_indicator measurableSet_Icc, setIntegral_const,
     Real.volume_real_Icc_of_le (by norm_num : (-1 : ℝ) ≤ 1)] at h

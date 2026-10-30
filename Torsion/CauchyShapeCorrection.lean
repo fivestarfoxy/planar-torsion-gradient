@@ -1,9 +1,15 @@
-import Torsion.CauchyShapeBoundaryTrace
-import Torsion.ZeroBoundaryContinuity
-import Torsion.SignedBoundaryAdmission
-import Torsion.PhysicalCauchySobolev
-import Torsion.CauchyConvectionLp
-import Torsion.ShapeEulerianCommutator
+module
+
+public import Torsion.CauchyShapeBoundaryTrace
+public import Torsion.ZeroBoundaryContinuity
+public import Torsion.SignedBoundaryAdmission
+public import Torsion.PhysicalCauchySobolev
+public import Torsion.CauchyConvectionLp
+public import Torsion.ShapeEulerianCommutator
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # The concrete zero-boundary material correction -/
 

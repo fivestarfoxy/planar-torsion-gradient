@@ -1,6 +1,12 @@
-import Torsion.CauchyTransformPoisson
-import Mathlib.MeasureTheory.Measure.Haar.NormedSpace
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
+module
+
+public import Torsion.CauchyTransformPoisson
+public import Mathlib.MeasureTheory.Measure.Haar.NormedSpace
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Jointly continuous imaginary Cauchy boundary extension
@@ -27,6 +33,7 @@ theorem poissonDensity_continuous : Continuous poissonDensity := by
   apply continuous_const.mul
   apply Continuous.inv₀ (continuous_const.add (continuous_id.pow 2))
   intro t
+  change 1 + t ^ 2 ≠ 0
   positivity
 
 theorem poissonDensity_integrable : Integrable poissonDensity :=

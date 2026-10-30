@@ -1,8 +1,14 @@
-import Torsion.ShapeMaterialIdentification
-import Torsion.ShapeMarkedPatch
-import Torsion.MarkedFluxDifferentiation
-import Torsion.LpParameterDerivative
-import Torsion.RadialDeformation
+module
+
+public import Torsion.ShapeMaterialIdentification
+public import Torsion.ShapeMarkedPatch
+public import Torsion.MarkedFluxDifferentiation
+public import Torsion.LpParameterDerivative
+public import Torsion.RadialDeformation
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual marked torsion flux under a localized physical deformation

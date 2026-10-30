@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralReflectionOperator
-import Torsion.RestrictedSpectralEigenpairs
+module
+
+public import Torsion.RestrictedSpectralReflectionOperator
+public import Torsion.RestrictedSpectralEigenpairs
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # An actual least odd restricted eigenpair

@@ -1,7 +1,13 @@
-import Torsion.CauchyTransformBoundaryExtension
-import Torsion.SpectralHolderCalculus
-import Torsion.CauchyQuadraticIdentity
-import Torsion.SpectralBoundaryZeros
+module
+
+public import Torsion.CauchyTransformBoundaryExtension
+public import Torsion.SpectralHolderCalculus
+public import Torsion.CauchyQuadraticIdentity
+public import Torsion.SpectralBoundaryZeros
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The nonlinear spectral identities from the actual linear Hilbert equation
@@ -138,7 +144,7 @@ theorem cauchyDerivativeExtension_re_eq_boundaryVelocity {a b : ℝ} {φ : ℝ �
     (cauchyDerivativeExtension_boundary_continuous hφ hα0 hzero))
     (continuous_const.sub (continuous_const.mul
       (height_continuous (hφ.continuous hα0).continuousOn)))
-  simpa only [closure_Ioo (by norm_num : (-1 : ℝ) ≠ 1)] using hc
+  simpa only [Set.EqOn, closure_Ioo (by norm_num : (-1 : ℝ) ≠ 1)] using! hc
 
 /-- The constructed Cauchy derivative never vanishes on the closed free arc,
 including the origin and the two junctions.  This uses the actual negative

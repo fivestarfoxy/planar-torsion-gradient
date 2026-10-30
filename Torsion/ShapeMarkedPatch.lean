@@ -1,5 +1,11 @@
-import Torsion.ShapeGradient
-import Torsion.MarkedBoundaryRegularity
+module
+
+public import Torsion.ShapeGradient
+public import Torsion.MarkedBoundaryRegularity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # One fixed genuine marked patch for localized deformations
@@ -70,7 +76,7 @@ theorem deformation_image_subset_upperHalfPlane {V : Plane → Plane}
   have hfix : e (e x) = e x := by
     calc
       e (e x) = deformation V t (e x) := congrFun he (e x)
-      _ = e x := deformation_eq_of_zero (image_eq_zero_of_nmem_tsupport hnot) t
+      _ = e x := deformation_eq_of_zero (image_eq_zero_of_notMem_tsupport hnot) t
   have hxx : e x = x := e.injective hfix
   exact hn (by simpa only [hxx] using hDH hx)
 

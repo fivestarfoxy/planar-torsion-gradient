@@ -1,6 +1,12 @@
-import Torsion.MarkedBoundaryRegularity
-import Torsion.ClassicalWeakTorsion
-import Torsion.GradientBoundExhaustion
+module
+
+public import Torsion.MarkedBoundaryRegularity
+public import Torsion.ClassicalWeakTorsion
+public import Torsion.GradientBoundExhaustion
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Interior representatives and Lipschitz bounds for actual weak torsion

@@ -1,7 +1,13 @@
-import Torsion.CauchyShapeHadamard
-import Torsion.CauchyRadialHadamardDensity
-import Torsion.RadialDeformation
-import Torsion.CauchyRadialDomain
+module
+
+public import Torsion.CauchyShapeHadamard
+public import Torsion.CauchyRadialHadamardDensity
+public import Torsion.RadialDeformation
+public import Torsion.CauchyRadialDomain
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual localized radial Hadamard formula

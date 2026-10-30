@@ -1,4 +1,10 @@
-import Torsion.PhysicalCauchyHarmonicBound
+module
+
+public import Torsion.PhysicalCauchyHarmonicBound
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Finite actual value and gradient Lᵖ norms of the harmonic boundary lift

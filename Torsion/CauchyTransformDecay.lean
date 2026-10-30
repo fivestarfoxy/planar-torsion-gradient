@@ -1,6 +1,12 @@
-import Torsion.CauchyTransform
-import Mathlib.Analysis.Normed.Group.Bounded
-import Mathlib.Topology.Algebra.Order.Field
+module
+
+public import Torsion.CauchyTransform
+public import Mathlib.Analysis.Normed.Group.Bounded
+public import Mathlib.Topology.Algebra.Order.Field
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Decay of the concrete Cauchy transform

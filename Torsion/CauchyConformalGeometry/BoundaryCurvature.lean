@@ -1,5 +1,11 @@
-import Torsion.CauchyConformalGeometry.BoundaryDerivative
-import Torsion.CauchySpectralIdentity
+module
+
+public import Torsion.CauchyConformalGeometry.BoundaryDerivative
+public import Torsion.CauchySpectralIdentity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # The signed curvature of the actual free boundary
 

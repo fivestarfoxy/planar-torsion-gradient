@@ -1,6 +1,12 @@
-import Torsion.ShapeEulerianCommutator
-import Torsion.CanonicalSpectralCandidate
-import Torsion.CauchyBoundaryStationarity
+module
+
+public import Torsion.ShapeEulerianCommutator
+public import Torsion.CanonicalSpectralCandidate
+public import Torsion.CauchyBoundaryStationarity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Eulerian commutator and boundary lift data of the actual spectral torsion

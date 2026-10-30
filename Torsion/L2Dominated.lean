@@ -1,8 +1,12 @@
-import Torsion.Definitions
-import Mathlib.MeasureTheory.Function.L2Space
-import Mathlib.MeasureTheory.Function.LpSeminorm.TriangleInequality
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
-import Mathlib.Tactic
+module
+
+public import Torsion.Definitions
+public import Mathlib.MeasureTheory.Function.L2Space
+public import Mathlib.MeasureTheory.Function.LpSeminorm.TriangleInequality
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Dominated L² convergence for bounded Sobolev chain-rule coefficients
@@ -25,8 +29,9 @@ variable {X E : Type*} [MeasurableSpace X] {μ : Measure X}
 theorem memLp_bounded_coeff_smul {a : X → ℝ} {g : X → E} {p : ℝ≥0∞} {C : ℝ}
     (ha : AEStronglyMeasurable a μ) (hg : MemLp g p μ)
     (hb : ∀ᵐ x ∂μ, ‖a x‖ ≤ C) : MemLp (fun x => a x • g x) p μ := by
-  apply hg.of_le_mul (ha.smul hg.1)
+  apply hg.of_le_mul (c := C) (ha.smul hg.aestronglyMeasurable)
   filter_upwards [hb] with x hx
+  change ‖a x • g x‖ ≤ C * ‖g x‖
   rw [norm_smul]
   exact mul_le_mul_of_nonneg_right hx (norm_nonneg _)
 
@@ -52,7 +57,7 @@ theorem tendsto_eLpNorm_two_of_dominated {F : ℕ → X → E} {B : X → ℝ}
     filter_upwards [hlim] with x hx
     simpa only [norm_zero, ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true, zero_pow] using hx.norm.pow 2
   have hint : Tendsto (fun n => ∫ x, ‖F n x‖ ^ 2 ∂μ) atTop (𝓝 (0 : ℝ)) := by
-    simpa only [integral_zero] using
+    simpa only [Pi.pow_apply, integral_zero] using
       tendsto_integral_of_dominated_convergence (fun x => (B x) ^ 2)
         (fun n => (hF n).norm.pow 2) hB hdom hlimsq
   have hn (n : ℕ) : eLpNorm (F n) 2 μ =
@@ -61,7 +66,7 @@ theorem tendsto_eLpNorm_two_of_dominated {F : ℕ → X → E} {B : X → ℝ}
       MemLp.eLpNorm_eq_integral_rpow_norm (by norm_num : (2 : ℝ≥0∞) ≠ 0)
         (by norm_num : (2 : ℝ≥0∞) ≠ ∞) (hmem n)
   simp_rw [hn]
-  simpa only [Real.sqrt_zero, ENNReal.ofReal_zero] using
+  simpa only [Function.comp_def, Real.sqrt_zero, ENNReal.ofReal_zero] using
     (ENNReal.continuous_ofReal.tendsto (Real.sqrt 0)).comp
       ((Real.continuous_sqrt.tendsto 0).comp hint)
 
@@ -76,11 +81,11 @@ theorem tendsto_eLpNorm_bounded_coeff_smul {an : ℕ → X → ℝ} {a : X → �
     (hlim : ∀ᵐ x ∂μ, Tendsto (fun n => an n x) atTop (𝓝 (a x))) :
     Tendsto (fun n => eLpNorm (fun x => (an n x - a x) • g x) 2 μ) atTop (𝓝 0) := by
   have hgsq : Integrable (fun x => ‖g x‖ ^ 2) μ :=
-    (memLp_two_iff_integrable_sq_norm hg.1).1 hg
+    (memLp_two_iff_integrable_sq_norm hg.aestronglyMeasurable).1 hg
   apply tendsto_eLpNorm_two_of_dominated
     (B := fun x => (2 * |C|) * ‖g x‖)
   · intro n
-    exact ((han n).sub ha).smul hg.1
+    exact ((han n).sub ha).smul hg.aestronglyMeasurable
   · convert hgsq.const_mul ((2 * |C|) ^ 2) using 1
     funext x
     ring
@@ -114,10 +119,12 @@ theorem tendsto_eLpNorm_bounded_coeff_smul_joint
       simpa only [mul_zero] using ENNReal.Tendsto.const_mul
         (a := ENNReal.ofReal C) hglim (Or.inr ENNReal.ofReal_ne_top)
     apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hu
-      (fun _ => zero_le _)
+      (fun _ => zero_le)
     intro n
-    apply eLpNorm_le_mul_eLpNorm_of_ae_le_mul _ 2
+    refine eLpNorm_le_mul_eLpNorm_of_ae_le_mul
+      ((han n).smul ((hgn n).aestronglyMeasurable.sub hg.aestronglyMeasurable)) ?_ 2
     filter_upwards [hbn n] with x hx
+    change ‖an n x • (gn n x - g x)‖ ≤ C * ‖gn n x - g x‖
     rw [norm_smul]
     exact mul_le_mul_of_nonneg_right hx (norm_nonneg _)
   have hsecond := tendsto_eLpNorm_bounded_coeff_smul han ha hg hbn hba halim
@@ -126,7 +133,7 @@ theorem tendsto_eLpNorm_bounded_coeff_smul_joint
       eLpNorm (fun x => (an n x - a x) • g x) 2 μ) atTop (𝓝 0) := by
     simpa only [zero_add] using hfirst.add hsecond
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hsum
-    (fun _ => zero_le _)
+    (fun _ => zero_le)
   intro n
   have heq : (fun x => an n x • gn n x - a x • g x) =
       (fun x => an n x • (gn n x - g x)) + (fun x => (an n x - a x) • g x) := by
@@ -135,8 +142,7 @@ theorem tendsto_eLpNorm_bounded_coeff_smul_joint
     abel
   change eLpNorm (fun x => an n x • gn n x - a x • g x) 2 μ ≤ _
   rw [heq]
-  exact eLpNorm_add_le ((han n).smul ((hgn n).1.sub hg.1))
-    (((han n).sub ha).smul hg.1) (by norm_num)
+  exact eLpNorm_add_le (by norm_num)
 
 end Torsion
 

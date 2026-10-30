@@ -1,6 +1,12 @@
-import Torsion.SobolevComposition
-import Torsion.SmoothPositivePart
-import Torsion.L2Dominated
+module
+
+public import Torsion.SobolevComposition
+public import Torsion.SmoothPositivePart
+public import Torsion.L2Dominated
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The positive-part chain rule in the concrete Sobolev graph

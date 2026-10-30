@@ -1,6 +1,12 @@
-import Torsion.DilationSobolev
-import Torsion.Sobolev
-import Torsion.Main
+module
+
+public import Torsion.DilationSobolev
+public import Torsion.Sobolev
+public import Torsion.Main
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Scaling of actual weak torsion solutions
@@ -35,7 +41,6 @@ theorem MemH10.pullback_dilate {D : Set ℂ} {v : ℂ → ℝ} {h : ℂ → ℂ}
     simp only [scaledGradient, inv_inv, smul_smul]
     congr 1
     field_simp [hs.ne']
-    ring
   rw [hD, hvback, hhback] at hback
   exact hback
 

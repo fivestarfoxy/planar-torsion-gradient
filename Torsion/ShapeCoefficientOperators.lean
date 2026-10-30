@@ -1,6 +1,12 @@
-import Torsion.ShapeUniformCoefficients
-import Torsion.HilbertDirichlet
-import Torsion.L2Dominated
+module
+
+public import Torsion.ShapeUniformCoefficients
+public import Torsion.HilbertDirichlet
+public import Torsion.L2Dominated
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Actual coefficient forms on the original Dirichlet Hilbert graph -/
 
@@ -16,7 +22,7 @@ open HilbertDirichlet
 
 abbrev ScalarL2 := Lp ℝ 2 (volume : Measure Plane)
 
-private theorem multiplier_memLp (a : CoefficientField) (f : ScalarL2) :
+theorem multiplier_memLp (a : CoefficientField) (f : ScalarL2) :
     MemLp (fun z => a z * f z) 2 volume := by
   simpa only [smul_eq_mul] using memLp_bounded_coeff_smul a.continuous.aestronglyMeasurable
     (Lp.memLp f) (ae_of_all _ a.norm_coe_le_norm)

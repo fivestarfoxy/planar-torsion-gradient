@@ -1,8 +1,14 @@
-import Torsion.CauchyTransformPoisson
-import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
-import Mathlib.MeasureTheory.Measure.Haar.NormedSpace
-import Mathlib.MeasureTheory.Group.Integral
-import Mathlib.Analysis.Calculus.Deriv.Slope
+module
+
+public import Torsion.CauchyTransformPoisson
+public import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
+public import Mathlib.MeasureTheory.Measure.Haar.NormedSpace
+public import Mathlib.MeasureTheory.Group.Integral
+public import Mathlib.Analysis.Calculus.Deriv.Slope
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The normalized half-plane Poisson density

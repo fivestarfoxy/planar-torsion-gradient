@@ -1,4 +1,10 @@
-import Torsion.ClassicalWeakTorsion
+module
+
+public import Torsion.ClassicalWeakTorsion
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Compact-test integration by parts for actual locally smooth functions

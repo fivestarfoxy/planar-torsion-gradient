@@ -1,6 +1,12 @@
-import Torsion.CauchyImageAreaBottom
-import Torsion.CauchyImageAreaDecay
-import Torsion.CauchyImageAreaExhaustion
+module
+
+public import Torsion.CauchyImageAreaBottom
+public import Torsion.CauchyImageAreaDecay
+public import Torsion.CauchyImageAreaExhaustion
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Exact Euclidean area of the actual Cauchy image

@@ -1,4 +1,10 @@
-import Torsion.MarkedFluxFixedKernel
+module
+
+public import Torsion.MarkedFluxFixedKernel
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Gradient uniqueness from actual compact-test Dirichlet equations -/
 

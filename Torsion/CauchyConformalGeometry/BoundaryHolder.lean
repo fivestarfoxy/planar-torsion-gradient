@@ -1,4 +1,10 @@
-import Torsion.CauchyConformalGeometry.BoundaryCurvature
+module
+
+public import Torsion.CauchyConformalGeometry.BoundaryCurvature
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Hölder regularity of the actual closed free arc

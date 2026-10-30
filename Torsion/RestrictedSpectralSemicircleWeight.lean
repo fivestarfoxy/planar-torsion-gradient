@@ -1,5 +1,12 @@
-import Mathlib.Analysis.SpecialFunctions.Integrals
-import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+public import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! An actual integrable majorant for the semicircle's Gagliardo kernel. -/
 noncomputable section
@@ -65,7 +72,7 @@ theorem integrable_semicircleKernelWeight : Integrable semicircleKernelWeight :=
     exact semicircle_inv_sqrt_le_right hx.1
   have hleft : IntegrableOn g (Icc (-2 : ℝ) 0) := by
     have hi := (intervalIntegrable_iff_integrableOn_Icc_of_le (by norm_num : (0 : ℝ) ≤ 2)).mpr hright
-    have hn := (IntervalIntegrable.iff_comp_neg.mp hi).symm
+    have hn := ((IntervalIntegrable.iff_comp_neg (f := g)).mp hi).symm
     have heq : (fun x => g (-x)) = g := by funext x; simp [g]
     rw [heq, neg_zero] at hn
     exact (intervalIntegrable_iff_integrableOn_Icc_of_le (by norm_num : (-2 : ℝ) ≤ 0)).mp hn

@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralGagliardoDomain
-import Torsion.RestrictedSpectralLattice
-import Mathlib.MeasureTheory.Group.LIntegral
+module
+
+public import Torsion.RestrictedSpectralGagliardoDomain
+public import Torsion.RestrictedSpectralLattice
+public import Mathlib.MeasureTheory.Group.LIntegral
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The two-point Gagliardo kernel of the actual restricted form

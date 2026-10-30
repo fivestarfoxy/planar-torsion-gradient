@@ -1,3 +1,5 @@
+module
+
 /-
 Copyright (c) 2026 The Tau Ceti contributors. All rights reserved.
 Released under Apache 2.0 license as described in Torsion/ComplexAnalysis/LICENSE.
@@ -7,7 +9,11 @@ Adapted to Lean/mathlib 4.19 from TauCeti commit
 e6b5f42c62ab0484faf5c0e66079de65bcc138a2,
 TauCeti/Analysis/Complex/Conformal/Removability/Basic.lean.
 -/
-import Torsion.ComplexPrimitives
+public import Torsion.ComplexPrimitives
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! Continuous holomorphic functions extend across the real axis. -/
 noncomputable section
@@ -36,8 +42,8 @@ private lemma boundaryIntegral_eq_zero_off_axis
   refine ⟨hsub ?_, ?_⟩
   · rw [Complex.Rectangle, Complex.mem_reProdIm]
     refine ⟨?_, ?_⟩
-    · rw [Ioo_min_max] at hp; exact uIoo_subset_uIcc _ _ hp.1
-    · rw [Ioo_min_max] at hp; exact uIoo_subset_uIcc _ _ hp.2
+    · rw [← Icc_min_max]; exact Ioo_subset_Icc_self hp.1
+    · rw [← Icc_min_max]; exact Ioo_subset_Icc_self hp.2
   · exact fun h0 => haxis (h0 ▸ hp.2)
 
 /-- A rectangle with a horizontal edge *on* the real axis — one of its imaginary coordinates is `0`

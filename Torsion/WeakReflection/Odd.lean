@@ -1,6 +1,12 @@
-import Torsion.WeakReflection.Tests
-import Torsion.WeakHarmonicWeyl
-import Torsion.SobolevSupport
+module
+
+public import Torsion.WeakReflection.Tests
+public import Torsion.WeakHarmonicWeyl
+public import Torsion.SobolevSupport
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Odd reflection across a flat zero boundary

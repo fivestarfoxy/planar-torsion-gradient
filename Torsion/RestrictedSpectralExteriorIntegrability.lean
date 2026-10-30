@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralExteriorKernel
-import Torsion.RestrictedSpectralExteriorKernelIntegral
-import Mathlib.MeasureTheory.Integral.Prod
+module
+
+public import Torsion.RestrictedSpectralExteriorKernel
+public import Torsion.RestrictedSpectralExteriorKernelIntegral
+public import Mathlib.MeasureTheory.Integral.Prod
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Genuine L¹ integrability of the actual exterior residual
@@ -65,7 +72,7 @@ theorem integrable_exteriorResidualZero_of_endpoint_quotient {f : ℝ → ℝ}
     by_cases hy : 1 < |y|
     · rw [indicator_of_mem (show y ∈ {y : ℝ | 1 < |y|} from hy)]
       simp only [exteriorResidualZero, if_pos hy, exteriorResidual, integral_Icc_eq_integral_Ioo]
-    · rw [indicator_of_not_mem (show y ∉ {y : ℝ | 1 < |y|} from hy)]
+    · rw [indicator_of_notMem (show y ∉ {y : ℝ | 1 < |y|} from hy)]
       simp only [exteriorResidualZero, if_neg hy]
   rw [heq]
   exact (integrable_indicator_iff hE).mpr hi

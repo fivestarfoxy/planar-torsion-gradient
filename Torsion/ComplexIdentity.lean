@@ -1,7 +1,11 @@
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Algebra in the holomorphic and boundary-gradient identities
@@ -43,7 +47,6 @@ theorem quotient_identity (a b : ℝ) (A' f' : ℂ) (hf : f' ≠ 0)
   rw [hA]
   unfold holomorphicRHS physicalDerivative
   field_simp [hf]
-  ring
 
 /-- The horizontal component of the torsion gradient in Lemma 7.1. -/
 theorem boundary_gradient_horizontal (a b v φ : ℝ) :

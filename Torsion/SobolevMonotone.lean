@@ -1,6 +1,12 @@
-import Torsion.Sobolev
-import Torsion.BoundedDomains
-import Mathlib.Topology.Compactness.Compact
+module
+
+public import Torsion.Sobolev
+public import Torsion.BoundedDomains
+public import Mathlib.Topology.Compactness.Compact
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Monotonicity and compact tests in increasing open exhaustions

@@ -1,6 +1,12 @@
-import Torsion.ShapeChangeOfVariables
-import Torsion.SobolevCore
-import Torsion.ShapeGradient
+module
+
+public import Torsion.ShapeChangeOfVariables
+public import Torsion.SobolevCore
+public import Torsion.ShapeGradient
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Transport of the actual closed H¹₀ graph under smooth domain changes
@@ -28,7 +34,7 @@ theorem gradientPullback_memLp (e : Plane ≃ₜ Plane)
     ContinuousLinearMap.adjoint.continuous.comp (he.continuous_fderiv (by simp))
   have hm : AEStronglyMeasurable (gradientPullback e g) volume :=
     (continuous_fst.clm_apply continuous_snd).comp_aestronglyMeasurable
-      (hd.aestronglyMeasurable.prodMk hgc.1)
+      (hd.aestronglyMeasurable.prodMk hgc.aestronglyMeasurable)
   exact hgc.of_le_mul hm (ae_of_all _ (fun z => (gradientPullback_norm_le e g z).trans
     (mul_le_mul_of_nonneg_right (hB z) (norm_nonneg _))))
 

@@ -1,8 +1,15 @@
-import Torsion.RestrictedSpectralEnergyContinuity
-import Torsion.FourierHilbertPairing
-import Mathlib.MeasureTheory.Function.ConvergenceInMeasure
-import Mathlib.MeasureTheory.Function.LpSeminorm.CompareExp
-import Mathlib.Topology.UniformSpace.UniformConvergence
+module
+
+public import Torsion.RestrictedSpectralEnergyContinuity
+public import Torsion.FourierHilbertPairing
+public import Mathlib.MeasureTheory.Function.ConvergenceInMeasure
+public import Mathlib.MeasureTheory.Function.LpSeminorm.CompareExp
+public import Mathlib.Topology.UniformSpace.UniformConvergence
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Fourier continuity and closedness on the actual restricted support

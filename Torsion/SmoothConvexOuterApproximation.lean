@@ -1,10 +1,16 @@
-import Torsion.ConvexMollification
-import Torsion.ConvexOuterApproximation
-import Torsion.SmoothConvexLevelSets
-import Mathlib.Analysis.Convex.Gauge
-import Mathlib.Analysis.Convex.Strong
-import Mathlib.Analysis.Convex.Deriv
-import Mathlib.Analysis.InnerProductSpace.Calculus
+module
+
+public import Torsion.ConvexMollification
+public import Torsion.ConvexOuterApproximation
+public import Torsion.SmoothConvexLevelSets
+public import Mathlib.Analysis.Convex.Gauge
+public import Mathlib.Analysis.Convex.Strong
+public import Mathlib.Analysis.Convex.Deriv
+public import Mathlib.Analysis.InnerProductSpace.Calculus
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Smooth strongly convex outer approximation of concrete planar domains

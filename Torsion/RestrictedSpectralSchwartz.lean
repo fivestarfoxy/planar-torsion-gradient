@@ -1,4 +1,11 @@
-import Torsion.RestrictedSpectralSchwartzFourier
+module
+
+public import Torsion.RestrictedSpectralSchwartzFourier
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual real Schwartz test functions for the original Fourier form

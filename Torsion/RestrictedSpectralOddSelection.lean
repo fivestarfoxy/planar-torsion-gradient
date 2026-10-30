@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralOddGroundState
-import Torsion.RestrictedSpectralOddGroundSign
-import Torsion.RestrictedSpectralOddPositivity
-import Torsion.RestrictedSpectralSelection
+module
+
+public import Torsion.RestrictedSpectralOddGroundState
+public import Torsion.RestrictedSpectralOddGroundSign
+public import Torsion.RestrictedSpectralOddPositivity
+public import Torsion.RestrictedSpectralSelection
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Selection of the constructed least odd eigenpair

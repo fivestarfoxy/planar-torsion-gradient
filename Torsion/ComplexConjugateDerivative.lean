@@ -1,5 +1,11 @@
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.Calculus.Deriv.Basic
+module
+
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! Complex differentiation survives conjugation of both source and target. -/
 noncomputable section

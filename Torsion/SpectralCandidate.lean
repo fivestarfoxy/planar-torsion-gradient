@@ -1,8 +1,14 @@
-import Torsion.RestrictedSpectralHilbert
-import Torsion.CauchyConformalGeometry.Convexity
-import Torsion.CauchyImageAreaExact
-import Torsion.ProvedMain
-import Torsion.MarkedFluxLowerBound
+module
+
+public import Torsion.RestrictedSpectralHilbert
+public import Torsion.CauchyConformalGeometry.Convexity
+public import Torsion.CauchyImageAreaExact
+public import Torsion.ProvedMain
+public import Torsion.MarkedFluxLowerBound
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual convex spectral candidate and area-one lower bound

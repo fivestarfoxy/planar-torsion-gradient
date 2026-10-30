@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralCoreDirections
-import Mathlib.MeasureTheory.Measure.MeasureSpaceDef
+module
+
+public import Torsion.RestrictedSpectralCoreDirections
+public import Mathlib.MeasureTheory.Measure.MeasureSpaceDef
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual positive odd tests and compact positive-interval selection

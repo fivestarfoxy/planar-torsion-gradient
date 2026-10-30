@@ -1,6 +1,12 @@
-import Torsion.CauchyConformalGeometry.Univalence
-import Mathlib.Analysis.Calculus.InverseFunctionTheorem.Deriv
-import Mathlib.Analysis.Complex.Conformal
+module
+
+public import Torsion.CauchyConformalGeometry.Univalence
+public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.Deriv
+public import Mathlib.Analysis.Complex.Conformal
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # The actual conformal inverse on the Cauchy image
 

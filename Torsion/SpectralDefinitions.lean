@@ -1,6 +1,12 @@
-import Torsion.Definitions
-import Mathlib.Analysis.SpecialFunctions.Exp
-import Mathlib.Analysis.SpecialFunctions.Integrals
+module
+
+public import Torsion.Definitions
+public import Mathlib.Analysis.SpecialFunctions.Exp
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Restricted half-Laplacian and Cauchy construction: definitions

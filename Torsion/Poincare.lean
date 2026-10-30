@@ -1,9 +1,15 @@
-import Torsion.Definitions
-import Torsion.SobolevAdd
-import Mathlib.Analysis.FunctionalSpaces.SobolevInequality
-import Mathlib.MeasureTheory.Function.LpSeminorm.CompareExp
-import Mathlib.Data.Complex.FiniteDimensional
-import Mathlib.Tactic
+module
+
+public import Torsion.Definitions
+public import Torsion.SobolevAdd
+public import Mathlib.Analysis.FunctionalSpaces.SobolevInequality
+public import Mathlib.MeasureTheory.Function.LpSeminorm.CompareExp
+public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # A proved planar Poincaré estimate
@@ -39,7 +45,7 @@ theorem IsTest.poincare {D : ConvexDomain} {f : Plane → ℝ}
     eLpNorm f 2 volume ≤ poincareCoefficient D * eLpNorm (gradient f) 2 volume := by
   have hc : ContDiff ℝ 1 f := hf.1.of_le (by simp)
   have hfd : AEStronglyMeasurable (fderiv ℝ f) volume :=
-    (hc.continuous_fderiv le_rfl).aestronglyMeasurable
+    (hc.continuous_fderiv (by norm_num)).aestronglyMeasurable
   have hs : Function.support (fderiv ℝ f) ⊆ D.carrier :=
     (support_fderiv_subset ℝ).trans hf.2.2
   have hGN : eLpNorm f 2 volume ≤
@@ -56,17 +62,17 @@ theorem IsTest.poincare {D : ConvexDomain} {f : Plane → ℝ}
   have hrestrict (p : ℝ≥0∞) :
       eLpNorm (fderiv ℝ f) p (volume.restrict D.carrier) =
         eLpNorm (fderiv ℝ f) p volume :=
-    eLpNorm_restrict_eq_of_support_subset (f := fderiv ℝ f) hs
+    eLpNorm_restrict_eq_of_support_subset (f := fderiv ℝ f) hfd hs
   simp only [hrestrict, Measure.restrict_apply_univ] at hH
   norm_num at hH
   have hnorm : eLpNorm (fderiv ℝ f) 2 volume = eLpNorm (gradient f) 2 volume := by
-    apply eLpNorm_congr_norm_ae
+    apply eLpNorm_congr_norm_ae hfd hf.continuous_gradient.aestronglyMeasurable
     exact ae_of_all _ fun x => (norm_gradient_eq_fderiv f x).symm
   calc
     eLpNorm f 2 volume ≤ _ := hGN
     _ ≤ (eLpNormLESNormFDerivOneConst (E := Plane) volume 2 : ℝ≥0∞) *
         (eLpNorm (fderiv ℝ f) 2 volume * (volume D.carrier) ^ (1 / 2 : ℝ)) :=
-      mul_le_mul_left' hH _
+      mul_le_mul_of_nonneg_left hH zero_le
     _ = poincareCoefficient D * eLpNorm (gradient f) 2 volume := by
       rw [hnorm]
       unfold poincareCoefficient
@@ -84,19 +90,19 @@ theorem MemH10.poincare {D : ConvexDomain} {u : Plane → ℝ} {g : Plane → Pl
           (eLpNorm (fun x => gradient (f n) x - g x) 2 volume + eLpNorm g 2 volume) := by
     have hval : eLpNorm u 2 volume ≤
         eLpNorm (fun x => f n x - u x) 2 volume + eLpNorm (f n) 2 volume := by
-      have h := eLpNorm_add_le (hu.1.sub (hf n).1.continuous.aestronglyMeasurable)
-        (hf n).1.continuous.aestronglyMeasurable (by norm_num : (1 : ℝ≥0∞) ≤ 2)
+      have h := eLpNorm_add_le (f := u - f n) (g := f n) (μ := volume)
+        (by norm_num : (1 : ℝ≥0∞) ≤ 2)
       have hsum : (u - f n) + f n = u := by ext x; simp
       rw [hsum, eLpNorm_sub_comm] at h
       exact h
     have hgrad : eLpNorm (gradient (f n)) 2 volume ≤
         eLpNorm (fun x => gradient (f n) x - g x) 2 volume + eLpNorm g 2 volume := by
-      have h := eLpNorm_add_le ((hf n).continuous_gradient.aestronglyMeasurable.sub hg.1)
-        hg.1 (by norm_num : (1 : ℝ≥0∞) ≤ 2)
+      have h := eLpNorm_add_le (f := gradient (f n) - g) (g := g) (μ := volume)
+        (by norm_num : (1 : ℝ≥0∞) ≤ 2)
       have hsum : (gradient (f n) - g) + g = gradient (f n) := by ext x; simp
       rwa [hsum] at h
-    exact hval.trans (add_le_add_left
-      ((hf n).poincare.trans (mul_le_mul_left' hgrad _)) _)
+    exact hval.trans (add_le_add le_rfl
+      ((hf n).poincare.trans (mul_le_mul_of_nonneg_left hgrad zero_le)))
   have hlim := hfu.add (ENNReal.Tendsto.const_mul
     (hfg.add (tendsto_const_nhds (x := eLpNorm g 2 volume)))
     (Or.inr (poincareCoefficient_ne_top D)))
@@ -110,7 +116,7 @@ theorem exists_poincare_constant (D : ConvexDomain) :
   refine ⟨(poincareCoefficient D).toReal + 1, by positivity, ?_⟩
   intro u g hu
   apply hu.poincare.trans
-  apply mul_le_mul_right'
+  apply mul_le_mul_of_nonneg_right _ zero_le
   calc
     poincareCoefficient D = ENNReal.ofReal (poincareCoefficient D).toReal :=
       (ENNReal.ofReal_toReal (poincareCoefficient_ne_top D)).symm

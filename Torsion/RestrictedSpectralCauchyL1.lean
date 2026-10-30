@@ -1,4 +1,11 @@
-import Torsion.CauchyTransformBoundaryExtension
+module
+
+public import Torsion.CauchyTransformBoundaryExtension
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Differentiation of the actual Cauchy integral for integrable densities

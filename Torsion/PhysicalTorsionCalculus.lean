@@ -1,8 +1,14 @@
-import Torsion.WeakHarmonicRegularity
-import Torsion.ComplexIdentity
-import Mathlib.Analysis.Complex.RealDeriv
-import Mathlib.Analysis.Calculus.Deriv.Pow
-import Mathlib.Analysis.Calculus.FDeriv.Mul
+module
+
+public import Torsion.WeakHarmonicRegularity
+public import Torsion.ComplexIdentity
+public import Mathlib.Analysis.Complex.RealDeriv
+public import Mathlib.Analysis.Calculus.Deriv.Pow
+public import Mathlib.Analysis.Calculus.FDeriv.Mul
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Classical calculus of the physical torsion formula

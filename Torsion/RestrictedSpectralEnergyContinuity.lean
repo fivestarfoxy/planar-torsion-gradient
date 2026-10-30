@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralSymmetry
-import Mathlib.Analysis.SpecialFunctions.Sqrt
+module
+
+public import Torsion.RestrictedSpectralSymmetry
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Continuity of the concrete restricted form along its defining approximants
@@ -112,7 +119,7 @@ theorem integral_sq_tendsto_of_eLpNorm_sub {f : ℝ → ℝ} {v : ℕ → ℝ �
     Tendsto (fun n => ∫ x : ℝ, (v n x) ^ 2) atTop (𝓝 (∫ x : ℝ, (f x) ^ 2)) := by
   have hV : Tendsto (fun n => (hv n).toLp (v n)) atTop (𝓝 (hf.toLp f)) := by
     apply tendsto_iff_edist_tendsto_0.mpr
-    simpa only [Lp.edist_toLp_toLp] using hlim
+    simpa only [Lp.edist_toLp_toLp, Pi.sub_def] using hlim
   have hnormsq := hV.norm.pow 2
   have hE (n : ℕ) : (∫ x : ℝ, (v n x) ^ 2) = ‖(hv n).toLp (v n)‖ ^ 2 :=
     integral_sq_eq_norm_toLp_sq (hv n)

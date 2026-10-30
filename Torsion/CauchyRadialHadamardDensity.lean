@@ -1,7 +1,13 @@
-import Torsion.CauchyShapeBoundaryData
-import Torsion.CauchyRadialProfile
-import Torsion.PhysicalCauchyHarmonicMarked
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.IntegrationByParts
+module
+
+public import Torsion.CauchyShapeBoundaryData
+public import Torsion.CauchyRadialProfile
+public import Torsion.PhysicalCauchyHarmonicMarked
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.IntegrationByParts
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual oriented radial Hadamard density

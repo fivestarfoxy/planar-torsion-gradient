@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralExteriorIntegrability
-import Torsion.RestrictedSpectralSecondEndpointIntegrability
+module
+
+public import Torsion.RestrictedSpectralExteriorIntegrability
+public import Torsion.RestrictedSpectralSecondEndpointIntegrability
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! Actual L¹ exterior forcing for the constructed second eigenfunction. -/
 noncomputable section

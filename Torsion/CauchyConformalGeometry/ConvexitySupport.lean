@@ -1,5 +1,11 @@
-import Torsion.CauchyConformalGeometry.ConvexitySlope
-import Torsion.CauchyConformalGeometry.ConvexityNormals
+module
+
+public import Torsion.CauchyConformalGeometry.ConvexitySlope
+public import Torsion.CauchyConformalGeometry.ConvexityNormals
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Supporting tangent lines for the actual Cauchy boundary

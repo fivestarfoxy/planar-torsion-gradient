@@ -1,3 +1,5 @@
+module
+
 /-
 Copyright (c) 2026 The Tau Ceti contributors. All rights reserved.
 Released under Apache 2.0 license as described in Torsion/ComplexAnalysis/LICENSE.
@@ -7,8 +9,12 @@ Adapted to Lean/mathlib 4.19 from TauCeti commit
 e6b5f42c62ab0484faf5c0e66079de65bcc138a2,
 TauCeti/Analysis/Complex/Conformal/Reflection/{Basic,Principle}.lean.
 -/
-import Torsion.ComplexAxisRemovability
-import Torsion.ComplexSchwarzReflectionBasic
+public import Torsion.ComplexAxisRemovability
+public import Torsion.ComplexSchwarzReflectionBasic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 
 /-! Schwarz reflection across the real axis for continuous boundary values. -/

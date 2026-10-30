@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralParseval
-import Torsion.RestrictedSpectralBoundaryPrimitive
-import Mathlib.Data.Real.Sqrt
+module
+
+public import Torsion.RestrictedSpectralParseval
+public import Torsion.RestrictedSpectralBoundaryPrimitive
+public import Mathlib.Data.Real.Sqrt
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual Fourier interpolation between L², half energy and one derivative

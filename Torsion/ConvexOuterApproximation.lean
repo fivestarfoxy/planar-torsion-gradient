@@ -1,5 +1,11 @@
-import Torsion.ConvexOuterDilation
-import Torsion.TorsionTranslation
+module
+
+public import Torsion.ConvexOuterDilation
+public import Torsion.TorsionTranslation
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Outer approximation limits for every bounded convex planar domain

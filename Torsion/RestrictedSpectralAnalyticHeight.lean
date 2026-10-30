@@ -1,8 +1,15 @@
-import Torsion.RestrictedSpectralBoundaryRegularity
-import Torsion.ComplexUpperPrimitive
-import Torsion.ComplexSchwarzReflection
-import Torsion.ComplexODEContinuation
-import Mathlib.Analysis.SpecialFunctions.Complex.Analytic
+module
+
+public import Torsion.RestrictedSpectralBoundaryRegularity
+public import Torsion.ComplexUpperPrimitive
+public import Torsion.ComplexSchwarzReflection
+public import Torsion.ComplexODEContinuation
+public import Mathlib.Analysis.SpecialFunctions.Complex.Analytic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Interior analytic continuation of the actual spectral height

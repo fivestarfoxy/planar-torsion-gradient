@@ -1,4 +1,10 @@
-import Torsion.SupportedConvexFlatHull
+module
+
+public import Torsion.SupportedConvexFlatHull
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # A uniform quantitative flat patch for actual convex outer hulls -/
 
@@ -78,9 +84,10 @@ theorem halfBall_subset_flatOuterHull_of_point_bounds {D : Set Plane} (hD : IsOp
         Complex.ofReal_re, Complex.ofReal_im, zero_mul, mul_zero, sub_zero]
       dsimp [s]
       field_simp [hden.ne']
+      ring
     · simp only [Complex.add_im, Complex.smul_im, Complex.ofReal_im, mul_zero, add_zero]
       simpa only [smul_eq_mul, mul_zero, add_zero] using hta
-  simpa only [heq] using hcombo
+  simpa only [heq, flatOuterHull] using hcombo
 
 /-- The same quantitative patch is the exact marked flat half-ball whenever
 the original domain is supported in the upper half-plane. -/

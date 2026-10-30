@@ -1,6 +1,12 @@
-import Torsion.CauchyTransformMoments
-import Torsion.Moments
-import Mathlib.Tactic
+module
+
+public import Torsion.CauchyTransformMoments
+public import Torsion.Moments
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The concrete spectral moment identity from the holomorphic identity
@@ -69,7 +75,6 @@ theorem moment_identity_of_quadratic_identity {a b : ℝ} {φ : ℝ → ℝ}
       (b / a) * (Real.pi⁻¹ * mass φ) := by
     exact_mod_cast heq
   field_simp [ha, Real.pi_ne_zero] at hreal
-  apply mul_right_cancel₀ Real.pi_ne_zero
   nlinarith [hreal]
 
 /-- Positivity of the linear coefficient `b` follows from the concrete moment

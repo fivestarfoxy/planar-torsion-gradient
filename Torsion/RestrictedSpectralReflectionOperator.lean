@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralResolvent
-import Torsion.RestrictedSpectralSymmetry
+module
+
+public import Torsion.RestrictedSpectralResolvent
+public import Torsion.RestrictedSpectralSymmetry
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual reflection symmetry of the restricted resolvent

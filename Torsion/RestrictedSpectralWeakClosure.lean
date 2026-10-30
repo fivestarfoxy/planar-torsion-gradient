@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralGraphHilbert
-import Torsion.CompactSpectral.WeakHilbertCompact
+module
+
+public import Torsion.RestrictedSpectralGraphHilbert
+public import Torsion.CompactSpectral.WeakHilbertCompact
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Weak closure and lower semicontinuity of the actual restricted form
@@ -130,7 +137,7 @@ theorem memRestrictedFormDomain_of_bounded_energy
       change inner (𝕜 := ℝ) z (RestrictedHilbert.valueMap (p : RestrictedHilbert.space)) =
         inner (𝕜 := ℝ) z (hf.toLp f) at heq
       rw [heq, sub_self]
-    exact sub_eq_zero.mp (norm_eq_zero.mp (pow_eq_zero hz))
+    exact sub_eq_zero.mp (norm_eq_zero.mp (eq_zero_of_pow_eq_zero hz))
   have hrep : (RestrictedHilbert.valueMap (p : RestrictedHilbert.space) : ℝ → ℝ) =ᵐ[volume] f := by
     rw [hvalue]
     exact hf.coeFn_toLp

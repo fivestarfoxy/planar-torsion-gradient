@@ -1,6 +1,12 @@
-import Torsion.CauchyConformalGeometry.BoundaryJunctionHolder
-import Torsion.CauchyConformalGeometry.FlatSegment
-import Torsion.CauchyConformalGeometry.BoundaryJunctionCoverage
+module
+
+public import Torsion.CauchyConformalGeometry.BoundaryJunctionHolder
+public import Torsion.CauchyConformalGeometry.FlatSegment
+public import Torsion.CauchyConformalGeometry.BoundaryJunctionCoverage
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The joined charts parametrize the actual physical frontier

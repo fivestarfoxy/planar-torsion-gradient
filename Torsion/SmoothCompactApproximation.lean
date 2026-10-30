@@ -1,8 +1,14 @@
-import Mathlib.Analysis.Calculus.BumpFunction.SmoothApprox
-import Mathlib.Topology.UniformSpace.HeineCantor
-import Mathlib.Topology.MetricSpace.Thickening
-import Mathlib.Topology.Order.ProjIcc
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+module
+
+public import Mathlib.Analysis.Calculus.BumpFunction.SmoothApprox
+public import Mathlib.Topology.UniformSpace.HeineCantor
+public import Mathlib.Topology.MetricSpace.Thickening
+public import Mathlib.Topology.Order.ProjIcc
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Smooth uniform approximation with support inside a prescribed open set

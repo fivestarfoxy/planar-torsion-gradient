@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralWeakPrimitive
-import Torsion.CauchyTransformIntegrationByParts
-import Torsion.CauchyTransformPoisson
+module
+
+public import Torsion.RestrictedSpectralWeakPrimitive
+public import Torsion.CauchyTransformIntegrationByParts
+public import Torsion.CauchyTransformPoisson
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual Cauchy integration by parts for weak odd spectral data

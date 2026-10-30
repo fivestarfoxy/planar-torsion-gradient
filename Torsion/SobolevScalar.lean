@@ -1,6 +1,10 @@
-import Torsion.Definitions
-import Mathlib.Analysis.Calculus.ContDiff.Operations
-import Mathlib.Analysis.Calculus.FDeriv.Mul
+module
+
+public import Torsion.Definitions
+public import Mathlib.Analysis.Calculus.ContDiff.Operations
+public import Mathlib.Analysis.Calculus.FDeriv.Mul
+
+@[expose] public section
 
 /-!
 # Scalar closure of the concrete zero-boundary Sobolev graph
@@ -21,7 +25,7 @@ theorem gradient_real_const_smul {f : Plane → ℝ} (hf : Differentiable ℝ f)
     (c : ℝ) (x : Plane) :
     gradient (fun y => c • f y) x = c • gradient f x := by
   unfold gradient
-  rw [fderiv_const_smul (hf x) c]
+  rw [fderiv_fun_const_smul (hf x) c]
   exact map_smul ((InnerProductSpace.toDual ℝ Plane).symm) c (fderiv ℝ f x)
 
 /-- Multiplication by a real constant preserves the smooth compact test core. -/

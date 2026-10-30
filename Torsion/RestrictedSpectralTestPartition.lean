@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralDistribution
-import Torsion.RestrictedSpectralEndpointCutoffBasic
-import Torsion.RestrictedSpectralEndpointCutoffs
-import Torsion.RestrictedSpectralSchwartz
+module
+
+public import Torsion.RestrictedSpectralDistribution
+public import Torsion.RestrictedSpectralEndpointCutoffBasic
+public import Torsion.RestrictedSpectralEndpointCutoffs
+public import Torsion.RestrictedSpectralSchwartz
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual interior and exterior test partition away from the endpoints
@@ -33,7 +40,7 @@ theorem tsupport_interiorTestPart_subset {ψ : ℝ → ℝ} {ε : ℝ} (_hε : 0
   intro x hx
   have hxi : x ∈ Ioo (-1 : ℝ) 1 := by
     by_contra hn
-    exact hx (by simp only [interiorTestPart, indicator_of_not_mem hn])
+    exact hx (by simp only [interiorTestPart, indicator_of_notMem hn])
   have hψne : ψ x ≠ 0 := by simpa only [Function.mem_support, interiorTestPart, indicator_of_mem hxi] using hx
   have hr : ε ≤ |x - 1| := le_of_not_gt (fun h => hψne (hgap x (Or.inl h)))
   have hl : ε ≤ |x + 1| := le_of_not_gt (fun h => hψne (hgap x (Or.inr h)))
@@ -73,7 +80,7 @@ theorem exteriorTestPart_zero_of_abs_lt {ψ : ℝ → ℝ} {ε : ℝ} (_hε : 0 
     have hmem : x ∈ Ioo (-1 : ℝ) 1 := abs_lt.1 hxi
     rw [indicator_of_mem hmem, sub_self]
   · have hnot : x ∉ Ioo (-1 : ℝ) 1 := fun h => hxi (abs_lt.2 h)
-    rw [exteriorTestPart, interiorTestPart, indicator_of_not_mem hnot, sub_zero]
+    rw [exteriorTestPart, interiorTestPart, indicator_of_notMem hnot, sub_zero]
     apply hgap x
     rcases le_total 0 x with hx0 | hx0
     · left

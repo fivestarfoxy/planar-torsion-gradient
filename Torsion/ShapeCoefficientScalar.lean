@@ -1,4 +1,10 @@
-import Torsion.ShapeCoefficientOperators
+module
+
+public import Torsion.ShapeCoefficientOperators
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Scalar L² identities for bounded shape multipliers -/
 noncomputable section

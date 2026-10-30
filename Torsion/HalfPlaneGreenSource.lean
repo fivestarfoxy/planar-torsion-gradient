@@ -1,10 +1,16 @@
-import Torsion.HalfPlaneGreen
-import Torsion.SobolevCore
-import Torsion.PolarIntegrability
-import Mathlib.Analysis.SpecialFunctions.PolarCoord
-import Mathlib.Analysis.Normed.Group.Bounded
-import Mathlib.MeasureTheory.Integral.Prod
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+module
+
+public import Torsion.HalfPlaneGreen
+public import Torsion.SobolevCore
+public import Torsion.PolarIntegrability
+public import Mathlib.Analysis.SpecialFunctions.PolarCoord
+public import Mathlib.Analysis.Normed.Group.Bounded
+public import Mathlib.MeasureTheory.Integral.Prod
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Weak source normalization of the logarithmic fundamental solution

@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralGagliardo
-import Torsion.FourierParsevalApproximation
-import Torsion.RestrictedSpectralTranslation
+module
+
+public import Torsion.RestrictedSpectralGagliardo
+public import Torsion.FourierParsevalApproximation
+public import Torsion.RestrictedSpectralTranslation
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The actual Gagliardo representation on the closed restricted form domain

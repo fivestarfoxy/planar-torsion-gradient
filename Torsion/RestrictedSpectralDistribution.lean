@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralForm.Algebra
-import Mathlib.MeasureTheory.Function.LpSpace.Indicator
-import Mathlib.MeasureTheory.Measure.Haar.NormedSpace
+module
+
+public import Torsion.RestrictedSpectralForm.Algebra
+public import Mathlib.MeasureTheory.Function.LpSpace.Indicator
+public import Mathlib.MeasureTheory.Measure.Haar.NormedSpace
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Smooth-test admission for the restricted spectral weak equation
@@ -25,6 +32,7 @@ theorem SchwartzMap_integrable_abs_mul_norm_sq (S : 𝓢(ℝ, ℂ)) :
   apply (hi.const_mul C).mono'
     ((continuous_abs.mul (S.continuous.norm.pow 2)).aestronglyMeasurable)
   exact ae_of_all _ fun ξ => by
+    change ‖|ξ| * ‖S ξ‖ ^ 2‖ ≤ C * (‖ξ‖ * ‖S ξ‖)
     rw [Real.norm_of_nonneg (mul_nonneg (abs_nonneg _) (sq_nonneg _))]
     calc
       |ξ| * ‖S ξ‖ ^ 2 = (|ξ| * ‖S ξ‖) * ‖S ξ‖ := by ring
@@ -56,7 +64,7 @@ theorem IsCore.memRestrictedFormDomain {ψ : ℝ → ℝ} (hψ : IsCore ψ) :
     finiteEnergy_of_contDiff_hasCompactSupport hψ.1 hψ.2.1, ?_,
     (fun _ => ψ), (fun _ => hψ), ?_, ?_⟩
   · exact ae_of_all _ fun x hx =>
-      image_eq_zero_of_nmem_tsupport (fun h => hx (hψ.2.2 h))
+      image_eq_zero_of_notMem_tsupport (fun h => hx (hψ.2.2 h))
   · simp
   · simp [energy, fourier]
 

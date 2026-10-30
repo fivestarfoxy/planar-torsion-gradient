@@ -1,4 +1,10 @@
-import Torsion.WeakTorsionInterior
+module
+
+public import Torsion.WeakTorsionInterior
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # A smooth interior representative of every actual weak torsion solution

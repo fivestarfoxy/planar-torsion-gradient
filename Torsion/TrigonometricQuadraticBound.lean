@@ -1,4 +1,10 @@
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Bounds
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Bounds
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! A quadratic modulus estimate for the ordinary real cosine. -/
 namespace Torsion.Spectral

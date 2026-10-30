@@ -1,6 +1,13 @@
-import Torsion.ShapeDeformation
-import Mathlib.MeasureTheory.Function.Jacobian
-import Mathlib.MeasureTheory.Function.LpSeminorm.Basic
+module
+
+public import Torsion.ShapeDeformation
+public import Mathlib.MeasureTheory.Function.Jacobian
+public import Mathlib.MeasureTheory.Function.LpSeminorm.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Jacobian bounds and actual L² pullback for shape changes
@@ -83,9 +90,9 @@ theorem eLpNorm_pullback_le_of_measure_bound {E : Type*} [NormedAddCommGroup E]
     {f : Plane → E} {p : ℝ≥0∞} (hp : p ≠ ⊤) (hf : MemLp f p volume) :
     eLpNorm (f ∘ e) p volume ≤ C ^ (1 / p).toReal * eLpNorm f p volume := by
   have hm := (hf.smul_measure hC).mono_measure hmap
-  rw [← eLpNorm_map_measure hm.1 e.continuous.measurable.aemeasurable]
+  rw [← eLpNorm_map_measure hm.aestronglyMeasurable e.continuous.measurable.aemeasurable]
   have hb := eLpNorm_mono_measure (p := p) f hmap
-  rw [eLpNorm_smul_measure_of_ne_top hp] at hb
+  rw [eLpNorm_smul_measure_of_ne_top hp f C hf.aestronglyMeasurable] at hb
   exact hb
 
 /-- Consequently every positive lower Jacobian bound gives genuine global

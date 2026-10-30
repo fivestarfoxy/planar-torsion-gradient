@@ -1,8 +1,14 @@
-import Torsion.CauchyConformalGeometry.Inverse
-import Torsion.CauchyTransformImageBound
-import Mathlib.MeasureTheory.Function.Jacobian
-import Mathlib.RingTheory.Complex
-import Mathlib.MeasureTheory.Function.L2Space
+module
+
+public import Torsion.CauchyConformalGeometry.Inverse
+public import Torsion.CauchyTransformImageBound
+public import Mathlib.MeasureTheory.Function.Jacobian
+public import Mathlib.RingTheory.Complex
+public import Mathlib.MeasureTheory.Function.L2Space
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Euclidean area as the actual Cauchy Jacobian integral

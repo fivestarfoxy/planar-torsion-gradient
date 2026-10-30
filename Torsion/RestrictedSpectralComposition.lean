@@ -1,5 +1,12 @@
-import Torsion.FourierPlancherel
-import Torsion.FourierHilbertPairing
+module
+
+public import Torsion.FourierPlancherel
+public import Torsion.FourierHilbertPairing
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Squaring the actual Fourier multiplier against smooth tests

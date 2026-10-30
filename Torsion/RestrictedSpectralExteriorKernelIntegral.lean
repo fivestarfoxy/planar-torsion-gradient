@@ -1,4 +1,11 @@
-import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+module
+
+public import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! Exact exterior integral of the one-dimensional Cauchy derivative kernel. -/
 noncomputable section
@@ -14,9 +21,9 @@ private theorem right_kernel_data {s : ℝ} (hs : s < 1) :
       (1 / (y - s) ^ 2) y := by
     intro y hy
     have hne : y - s ≠ 0 := by linarith [hy.out]
-    simpa only [id_eq, neg_div, neg_neg] using (((hasDerivAt_id y).sub_const s).inv hne).neg
+    simpa only [id_eq, neg_div, neg_neg] using! (((hasDerivAt_id y).sub_const s).inv hne).neg
   have hshift : Tendsto (fun y : ℝ => y - s) atTop atTop := by
-    simpa only [sub_eq_add_neg] using tendsto_atTop_add_const_right atTop (-s) tendsto_id
+    simpa only [sub_eq_add_neg, id_eq] using tendsto_atTop_add_const_right atTop (-s) tendsto_id
   have ht : Tendsto (fun y : ℝ => -(y - s)⁻¹) atTop (nhds (0 : ℝ)) := by
     simpa using (tendsto_inv_atTop_zero.comp hshift).neg
   have hi := integrableOn_Ioi_deriv_of_nonneg' hd (fun y _ => by positivity) ht
@@ -37,8 +44,8 @@ private theorem left_kernel_data {s : ℝ} (hs : -1 < s) :
     rw [m.integrableOn_map_iff]
     simp only [Function.comp_def, neg_preimage, neg_Iic, neg_neg]
     rw [heq]
-    exact integrableOn_Ici_iff_integrableOn_Ioi.mpr hi
-  refine ⟨integrableOn_Iic_iff_integrableOn_Iio.mp hleft, ?_⟩
+    exact (integrableOn_Ici_iff_integrableOn_Ioi (by finiteness)).mpr hi
+  refine ⟨(integrableOn_Iic_iff_integrableOn_Iio (by finiteness)).mp hleft, ?_⟩
   rw [← integral_Iic_eq_integral_Iio, ← integral_comp_neg_Ioi (1 : ℝ)]
   rw [heq, hv]
   congr 1

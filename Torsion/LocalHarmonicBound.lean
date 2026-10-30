@@ -1,4 +1,10 @@
-import Torsion.WeakHarmonicWeyl
+module
+
+public import Torsion.WeakHarmonicWeyl
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Uniform local energy from a local value bound

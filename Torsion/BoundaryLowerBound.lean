@@ -1,9 +1,13 @@
-import Torsion.Definitions
-import Mathlib.MeasureTheory.Measure.OpenPos
-import Mathlib.Topology.Instances.ENNReal.Lemmas
-import Mathlib.Topology.Order.Lattice
-import Mathlib.Analysis.Calculus.Deriv.Slope
-import Mathlib.Tactic
+module
+
+public import Torsion.Definitions
+public import Mathlib.MeasureTheory.Measure.OpenPos
+public import Mathlib.Topology.Instances.ENNReal.Lemmas
+public import Mathlib.Topology.Order.Lattice
+public import Mathlib.Analysis.Calculus.Deriv.Slope
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Passing an interior essential gradient bound to a boundary limit
@@ -41,7 +45,7 @@ theorem enorm_le_eLpNorm_top_on_open {D : Set Plane} (hD : IsOpen D)
   let C := eLpNorm g ∞ (volume.restrict D)
   have hae : (fun z => max ‖g z‖ₑ C) =ᵐ[volume.restrict D] (fun _ => C) := by
     filter_upwards [enorm_ae_le_eLpNormEssSup g (volume.restrict D)] with z hz
-    exact max_eq_right hz
+    exact max_eq_right (hz.trans eLpNormEssSup_le_eLpNorm_top)
   have hcont : ContinuousOn (fun z => max ‖g z‖ₑ C) D :=
     hg.enorm.sup continuousOn_const
   have heq := Measure.eqOn_open_of_ae_eq hae hD hcont continuousOn_const

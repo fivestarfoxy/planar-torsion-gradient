@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralFourierBounds
-import Mathlib.Analysis.SpecialFunctions.Integrals
-import Torsion.TrigonometricQuadraticBound
-import Torsion.RestrictedSpectralCosineVariance
+module
+
+public import Torsion.RestrictedSpectralFourierBounds
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+public import Torsion.TrigonometricQuadraticBound
+public import Torsion.RestrictedSpectralCosineVariance
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Fourier caps for even restricted functions with zero mean

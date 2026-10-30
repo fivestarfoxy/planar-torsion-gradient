@@ -1,5 +1,11 @@
-import Torsion.PhysicalCauchyGreenWeak
-import Torsion.PhysicalCauchyHarmonicBoundary
+module
+
+public import Torsion.PhysicalCauchyGreenWeak
+public import Torsion.PhysicalCauchyHarmonicBoundary
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Zero trace of the actual Green kernel on the entire physical boundary
 

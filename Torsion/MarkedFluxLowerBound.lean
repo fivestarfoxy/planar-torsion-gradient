@@ -1,5 +1,11 @@
-import Torsion.MarkedFlux
-import Torsion.BoundaryLowerBound
+module
+
+public import Torsion.MarkedFlux
+public import Torsion.BoundaryLowerBound
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Comparing the constructed marked flux with the actual interior norm -/
 

@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralBoundaryPrimitive
-import Torsion.RestrictedSpectralWeakIntegrated
+module
+
+public import Torsion.RestrictedSpectralBoundaryPrimitive
+public import Torsion.RestrictedSpectralWeakIntegrated
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Interior differentiability of the actual height's Cauchy boundary value

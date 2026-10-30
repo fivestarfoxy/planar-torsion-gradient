@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralSecondEigenpair
-import Torsion.RestrictedSpectralRegularRepresentative
-import Torsion.RestrictedSpectralStrongMaximum
+module
+
+public import Torsion.RestrictedSpectralSecondEigenpair
+public import Torsion.RestrictedSpectralRegularRepresentative
+public import Torsion.RestrictedSpectralStrongMaximum
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # A canonical interior analytic second eigenfunction

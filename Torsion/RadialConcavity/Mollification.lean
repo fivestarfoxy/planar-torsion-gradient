@@ -1,6 +1,12 @@
-import Torsion.RadialConcavity
-import Mathlib.Analysis.Calculus.BumpFunction.Convolution
-import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+module
+
+public import Torsion.RadialConcavity
+public import Mathlib.Analysis.Calculus.BumpFunction.Convolution
+public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The continuous case of homogeneous supermodular concavity

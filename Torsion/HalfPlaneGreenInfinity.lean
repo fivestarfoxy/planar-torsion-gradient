@@ -1,5 +1,11 @@
-import Torsion.HalfPlaneGreen
-import Torsion.HalfPlanePoisson
+module
+
+public import Torsion.HalfPlaneGreen
+public import Torsion.HalfPlanePoisson
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # The normalized Green source derivative at the compactified boundary -/
 

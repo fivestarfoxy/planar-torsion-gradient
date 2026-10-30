@@ -1,7 +1,11 @@
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Bounds
-import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
-import Mathlib.MeasureTheory.Measure.Haar.NormedSpace
-import Mathlib.MeasureTheory.Measure.OpenPos
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Bounds
+public import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+public import Mathlib.MeasureTheory.Measure.Haar.NormedSpace
+public import Mathlib.MeasureTheory.Measure.OpenPos
+
+@[expose] public section
 
 /-!
 # The actual Gagliardo Fourier symbol, up to a positive normalization
@@ -75,7 +79,6 @@ theorem gagliardoSymbolKernel_scaled {ξ : ℝ} (hξ : ξ ≠ 0) (h : ℝ) :
   · simp [hh, gagliardoSymbolKernel]
   · unfold gagliardoSymbolKernel
     field_simp
-    ring
 
 theorem gagliardoSymbol_integrable (ξ : ℝ) :
     Integrable (fun h : ℝ => (2 - 2 * Real.cos (h * ξ)) / h ^ 2) := by
@@ -97,8 +100,6 @@ theorem integral_gagliardoSymbol (ξ : ℝ) :
     change ξ ^ 2 * (|ξ|⁻¹ * gagliardoSymbolConstant) = |ξ| * gagliardoSymbolConstant
     rw [← sq_abs ξ]
     field_simp
-    rw [← sq_abs ξ]
-    ring
 
 /-- The nonnegative-integral form is ready for Tonelli in the concrete
 Gagliardo/Fourier identity. -/

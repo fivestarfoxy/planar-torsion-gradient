@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralLattice
-import Torsion.RestrictedSpectralResolvent
+module
+
+public import Torsion.RestrictedSpectralLattice
+public import Torsion.RestrictedSpectralResolvent
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Order positivity of the actual restricted Fourier resolvent

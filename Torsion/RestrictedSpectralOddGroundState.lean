@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralOddMinimizer
-import Torsion.RestrictedSpectralOddLattice
-import Torsion.RestrictedSpectralOddEigenpair
+module
+
+public import Torsion.RestrictedSpectralOddMinimizer
+public import Torsion.RestrictedSpectralOddLattice
+public import Torsion.RestrictedSpectralOddEigenpair
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # A least odd eigenfunction nonnegative on the positive half line

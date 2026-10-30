@@ -1,7 +1,14 @@
-import Torsion.Definitions
-import Mathlib.Analysis.NormedSpace.HahnBanach.Separation
-import Mathlib.Analysis.InnerProductSpace.Dual
-import Mathlib.Topology.MetricSpace.HausdorffDistance
+module
+
+public import Torsion.Definitions
+public import Mathlib.Analysis.LocallyConvex.Separation
+public import Mathlib.Analysis.InnerProductSpace.Dual
+public import Mathlib.Topology.MetricSpace.HausdorffDistance
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual supporting normals and nearest boundary points
@@ -62,7 +69,7 @@ theorem ConvexDomain.exists_nearest_supported_frontier (D : ConvexDomain)
         0 < inner (𝕜 := ℝ) ((infDist x D.carrierᶜ)⁻¹ • (x - p)) (z - p) := by
   let d := infDist x D.carrierᶜ
   have hd : 0 < d :=
-    (D.isOpen.isClosed_compl.not_mem_iff_infDist_pos D.compl_nonempty).mp
+    (D.isOpen.isClosed_compl.notMem_iff_infDist_pos D.compl_nonempty).mp
       (by simpa only [mem_compl_iff, not_not] using hx)
   obtain ⟨p, hp, hdist⟩ := D.isOpen.isClosed_compl.exists_infDist_eq_dist D.compl_nonempty x
   have hnorm : ‖x - p‖ = d := by simpa only [dist_eq_norm] using hdist.symm
@@ -148,6 +155,6 @@ theorem ConvexDomain.exists_uniform_support_inball (D : ConvexDomain) :
   refine ⟨a, h, ‖a‖ + R, hh, add_nonneg (norm_nonneg _) hRnonneg, ha, hball, ?_⟩
   intro p hp n hn hs
   refine ⟨support_height_ge_of_ball hh hball hn (fun z hz => (hs z hz).le), ?_⟩
-  exact (norm_sub_le a p).trans (add_le_add_left (hR p (frontier_subset_closure hp)) _)
+  exact (norm_sub_le a p).trans (add_le_add (le_refl ‖a‖) (hR p (frontier_subset_closure hp)))
 
 end Torsion

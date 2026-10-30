@@ -1,6 +1,12 @@
-import Torsion.Definitions
-import Mathlib.Analysis.Calculus.BumpFunction.Convolution
-import Mathlib.Analysis.Convex.Function
+module
+
+public import Torsion.Definitions
+public import Mathlib.Analysis.Calculus.BumpFunction.Convolution
+public import Mathlib.Analysis.Convex.Function
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Smooth convex approximation by actual normalized bump convolution

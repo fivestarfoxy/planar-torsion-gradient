@@ -1,7 +1,13 @@
-import Torsion.DomainComparison
-import Torsion.DilationWeak
-import Torsion.BoundaryLowerBound
-import Torsion.RadialFluxConcavity.Transfer
+module
+
+public import Torsion.DomainComparison
+public import Torsion.DilationWeak
+public import Torsion.BoundaryLowerBound
+public import Torsion.RadialFluxConcavity.Transfer
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Marked flux laws from the actual weak PDE

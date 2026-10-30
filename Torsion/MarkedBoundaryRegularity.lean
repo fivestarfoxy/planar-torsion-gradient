@@ -1,7 +1,13 @@
-import Torsion.WeakReflection.Poisson
-import Torsion.WeakHarmonicWeyl.Representative
-import Torsion.MarkedFluxComparison
-import Torsion.HilbertDirichlet
+module
+
+public import Torsion.WeakReflection.Poisson
+public import Torsion.WeakHarmonicWeyl.Representative
+public import Torsion.MarkedFluxComparison
+public import Torsion.HilbertDirichlet
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Passing actual reflected representatives to the marked boundary

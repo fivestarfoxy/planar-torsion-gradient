@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralSymmetry
-import Mathlib.Analysis.SpecialFunctions.Integrals
+module
+
+public import Torsion.RestrictedSpectralSymmetry
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # An explicit odd polynomial trial and its exact ordinary energies
@@ -25,7 +32,8 @@ theorem oddTrialPolynomial_hasDerivAt (x : ℝ) :
     HasDerivAt oddTrialPolynomial (1 - (9 / 2 : ℝ) * x ^ 2 + (5 / 2 : ℝ) * x ^ 4) x := by
   convert ((hasDerivAt_id x).mul ((hasDerivAt_const x 1).sub (hasDerivAt_pow 2 x))).mul
     ((hasDerivAt_const x 1).sub ((hasDerivAt_pow 2 x).div_const 2)) using 1
-  all_goals dsimp only [oddTrialPolynomial, id_eq]
+  all_goals (try funext y)
+  all_goals (try dsimp only [oddTrialPolynomial, id_eq, Pi.sub_apply, Pi.mul_apply, Pi.add_apply])
   all_goals ring
 
 theorem oddTrialPolynomial_contDiff : ContDiff ℝ ∞ oddTrialPolynomial := by
@@ -42,7 +50,7 @@ theorem oddTrial_odd : Function.Odd oddTrial := by
       intro h
       apply hx
       exact ⟨by linarith [h.2], by linarith [h.1]⟩
-    simp only [oddTrial, indicator_of_not_mem hx, indicator_of_not_mem hnx, neg_zero]
+    simp only [oddTrial, indicator_of_notMem hx, indicator_of_notMem hnx, neg_zero]
 
 theorem oddTrial_eq_max (x : ℝ) :
     oddTrial x = x * max (1 - x ^ 2) 0 * (1 - x ^ 2 / 2) := by
@@ -53,7 +61,7 @@ theorem oddTrial_eq_max (x : ℝ) :
   · have hs : 1 ≤ x ^ 2 := by
       have ha : 1 ≤ |x| := le_of_not_ge fun h => hx (abs_le.1 h)
       nlinarith [sq_abs x]
-    simp only [oddTrial, indicator_of_not_mem hx,
+    simp only [oddTrial, indicator_of_notMem hx,
       max_eq_right (by linarith : 1 - x ^ 2 ≤ 0), mul_zero, zero_mul]
 
 theorem oddTrial_continuous : Continuous oddTrial := by
@@ -66,7 +74,7 @@ theorem oddTrial_hasCompactSupport : HasCompactSupport oddTrial := by
   apply HasCompactSupport.of_support_subset_isCompact (K := Icc (-1 : ℝ) 1) isCompact_Icc
   intro x hx
   by_contra hn
-  exact hx (by simp only [oddTrial, indicator_of_not_mem hn])
+  exact hx (by simp only [oddTrial, indicator_of_notMem hn])
 
 theorem oddTrial_memLp : MemLp oddTrial 2 volume :=
   oddTrial_continuous.memLp_of_hasCompactSupport oddTrial_hasCompactSupport
@@ -103,7 +111,8 @@ theorem oddTrial_integral_sq : (∫ x : ℝ, oddTrial x ^ 2) = 124 / 1155 := by
       ((hasDerivAt_pow 5 x).const_mul (3 / 5 : ℝ))).add
       ((hasDerivAt_pow 7 x).const_mul (13 / 28 : ℝ))).sub
       ((hasDerivAt_pow 9 x).div_const 6)).add ((hasDerivAt_pow 11 x).div_const 44) using 1
-    all_goals dsimp only [A, oddTrialPolynomial]
+    all_goals (try funext y)
+    all_goals (try dsimp only [A, oddTrialPolynomial, Pi.sub_apply, Pi.mul_apply, Pi.add_apply])
     all_goals ring
   rw [intervalIntegral.integral_eq_sub_of_hasDerivAt
     (fun x _ => hdA x) ((oddTrialPolynomial_contDiff.continuous.pow 2).intervalIntegrable _ _)]
@@ -125,7 +134,8 @@ theorem oddTrialDerivative_integral_sq : (∫ x : ℝ, oddTrialDerivative x ^ 2)
       ((hasDerivAt_pow 5 x).const_mul (101 / 20 : ℝ))).sub
       ((hasDerivAt_pow 7 x).const_mul (45 / 14 : ℝ))).add
       ((hasDerivAt_pow 9 x).const_mul (25 / 36 : ℝ))) using 1
-    all_goals dsimp only [A]
+    all_goals (try funext y)
+    all_goals (try dsimp only [A, id_eq, Pi.sub_apply, Pi.mul_apply, Pi.add_apply])
     all_goals ring
   rw [intervalIntegral.integral_eq_sub_of_hasDerivAt (fun x _ => hdA x)
     (by apply Continuous.intervalIntegrable; fun_prop)]

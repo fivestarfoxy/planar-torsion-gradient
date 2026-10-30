@@ -1,4 +1,10 @@
-import Torsion.CauchyShapeHadamard
+module
+
+public import Torsion.CauchyShapeHadamard
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # The oriented physical boundary density in the Hadamard formula -/
 

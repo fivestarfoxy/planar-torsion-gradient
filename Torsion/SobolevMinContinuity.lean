@@ -1,5 +1,11 @@
-import Torsion.SobolevLatticeContinuity
-import Torsion.SobolevLattice
+module
+
+public import Torsion.SobolevLatticeContinuity
+public import Torsion.SobolevLattice
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Strong H¹ continuity of minimum and maximum

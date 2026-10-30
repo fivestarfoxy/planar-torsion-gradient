@@ -1,7 +1,14 @@
-import Mathlib.Analysis.Convex.Deriv
-import Mathlib.Data.Real.Sqrt
-import Mathlib.Topology.Order.Compact
-import Mathlib.Tactic
+module
+
+public import Mathlib.Analysis.Convex.Deriv
+public import Mathlib.Data.Real.Sqrt
+public import Mathlib.Topology.Order.Compact
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Concrete secant and endpoint bounds for concave interval profiles
@@ -129,7 +136,7 @@ theorem concaveOn_Icc_of_concaveOn_Ioo_of_continuousOn
     apply hc.comp ((continuous_const.mul continuous_fst).add
       (continuous_const.mul continuous_snd)).continuousOn
     intro p hp
-    simpa only [smul_eq_mul] using (convex_Icc a b) hp.1 hp.2 hc0 hd0 hcd
+    simpa only [smul_eq_mul, Pi.add_apply, Pi.mul_apply] using (convex_Icc a b) hp.1 hp.2 hc0 hd0 hcd
   have hJ : ∀ p ∈ Ioo a b ×ˢ Ioo a b,
       c * f p.1 + d * f p.2 ≤ f (c * p.1 + d * p.2) := by
     intro p hp

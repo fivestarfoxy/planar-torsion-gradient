@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralPrimitive
-import Torsion.RestrictedSpectralCorePrimitive
+module
+
+public import Torsion.RestrictedSpectralPrimitive
+public import Torsion.RestrictedSpectralCorePrimitive
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The actual integrated restricted Fourier equation

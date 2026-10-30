@@ -1,7 +1,13 @@
-import Torsion.Definitions
-import Mathlib.Analysis.Convex.Deriv
-import Mathlib.Analysis.Convex.Strict
-import Mathlib.Analysis.Calculus.Deriv.AffineMap
+module
+
+public import Torsion.Definitions
+public import Mathlib.Analysis.Convex.Deriv
+public import Mathlib.Analysis.Convex.Strict
+public import Mathlib.Analysis.Calculus.Deriv.AffineMap
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Regular convex levels and strict convexity of sublevel closures

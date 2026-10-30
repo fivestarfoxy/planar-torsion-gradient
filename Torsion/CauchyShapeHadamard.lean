@@ -1,8 +1,14 @@
-import Torsion.CauchyShapeCorrection
-import Torsion.PhysicalCauchyWeakTorsion
-import Torsion.ShapeMaterialEulerian
-import Torsion.ShapeMarkedFluxDerivative
-import Torsion.WeakDirichletGradientUniqueness
+module
+
+public import Torsion.CauchyShapeCorrection
+public import Torsion.PhysicalCauchyWeakTorsion
+public import Torsion.ShapeMaterialEulerian
+public import Torsion.ShapeMarkedFluxDerivative
+public import Torsion.WeakDirichletGradientUniqueness
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual localized Hadamard derivative of the Cauchy-domain marked flux

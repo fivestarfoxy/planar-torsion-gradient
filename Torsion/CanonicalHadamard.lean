@@ -1,5 +1,11 @@
-import Torsion.CauchyRadialHadamard
-import Torsion.CanonicalRadialCalibration
+module
+
+public import Torsion.CauchyRadialHadamard
+public import Torsion.CanonicalRadialCalibration
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Localized Hadamard formula and the actual canonical radial calibration

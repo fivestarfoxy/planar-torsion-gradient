@@ -1,6 +1,12 @@
-import Torsion.SobolevIsometry
-import Torsion.GradientBoundExhaustion
-import Torsion.SobolevUniqueness
+module
+
+public import Torsion.SobolevIsometry
+public import Torsion.GradientBoundExhaustion
+public import Torsion.SobolevUniqueness
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Orthogonal covariance of the actual weak torsion problem

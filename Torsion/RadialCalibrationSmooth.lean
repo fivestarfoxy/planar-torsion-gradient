@@ -1,5 +1,11 @@
-import Torsion.RadialCalibrationCutoff
-import Torsion.SmoothCompactApproximation
+module
+
+public import Torsion.RadialCalibrationCutoff
+public import Torsion.SmoothCompactApproximation
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Radial calibration from smooth localized shape derivatives

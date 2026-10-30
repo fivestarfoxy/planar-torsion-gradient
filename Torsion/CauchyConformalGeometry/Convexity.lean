@@ -1,5 +1,11 @@
-import Torsion.CauchyConformalGeometry.ConvexitySupport
-import Torsion.CauchyConformalGeometry.ConvexityCriterion
+module
+
+public import Torsion.CauchyConformalGeometry.ConvexitySupport
+public import Torsion.CauchyConformalGeometry.ConvexityCriterion
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Convexity of the actual Cauchy image

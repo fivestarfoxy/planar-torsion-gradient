@@ -1,6 +1,12 @@
-import Torsion.SobolevAdd
-import Torsion.SobolevScalar
-import Mathlib.MeasureTheory.Function.L2Space
+module
+
+public import Torsion.SobolevAdd
+public import Torsion.SobolevScalar
+public import Mathlib.MeasureTheory.Function.L2Space
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Concrete Sobolev closure and uniqueness of the weak torsion gradient
@@ -54,7 +60,7 @@ theorem integrable_real_inner_of_memLp_two
     {f g : X → E} (hf : MemLp f 2 μ) (hg : MemLp g 2 μ) :
     Integrable (fun x => inner (𝕜 := ℝ) (f x) (g x)) μ := by
   apply (hf.norm.integrable_mul hg.norm).mono'
-  · exact hf.1.inner hg.1
+  · exact hf.aestronglyMeasurable.inner hg.aestronglyMeasurable
   · exact Eventually.of_forall (fun x => norm_inner_le_norm (f x) (g x))
 
 /-- Weak torsion solutions have identical weak gradients almost everywhere
@@ -84,7 +90,7 @@ theorem IsWeakTorsion.gradient_ae_eq {D : Set Plane}
   have hnormenergy : (∫ x in D, ‖g x - h x‖ ^ 2) = 0 := by
     simpa only [real_inner_self_eq_norm_sq] using henergy
   have hnormint : Integrable (fun x => ‖g x - h x‖ ^ 2) (volume.restrict D) :=
-    (memLp_two_iff_integrable_sq_norm hdm.1).mp hdm
+    (memLp_two_iff_integrable_sq_norm hdm.aestronglyMeasurable).mp hdm
   have hae := (integral_eq_zero_iff_of_nonneg
     (fun x => sq_nonneg ‖g x - h x‖) hnormint).mp hnormenergy
   filter_upwards [hae] with x hx

@@ -1,6 +1,12 @@
-import Torsion.Sobolev
-import Torsion.SobolevSupport
-import Torsion.Poincare
+module
+
+public import Torsion.Sobolev
+public import Torsion.SobolevSupport
+public import Torsion.Poincare
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-! # Uniqueness of the concrete weak Dirichlet torsion problem
 
@@ -41,12 +47,12 @@ theorem IsWeakTorsion.value_ae_eq {D : ConvexDomain}
     filter_upwards [hgrad] with x hx
     simp only [hx, sub_self, Pi.zero_apply]
   have hgradnorm : eLpNorm (fun x => g x - h x) 2 volume = 0 :=
-    (eLpNorm_eq_zero_iff htest.2.1.1 (by norm_num)).mpr hdiffgrad
+    (eLpNorm_eq_zero_iff (by norm_num)).mpr hdiffgrad
   have hvaluenorm : eLpNorm (fun x => u x - v x) 2 volume = 0 := by
     apply le_antisymm
     · simpa only [hgradnorm, mul_zero] using htest.poincare
-    · exact zero_le _
-  have hdiffvalue := (eLpNorm_eq_zero_iff htest.1.1 (by norm_num)).mp hvaluenorm
+    · exact zero_le
+  have hdiffvalue := (eLpNorm_eq_zero_iff (by norm_num)).mp hvaluenorm
   filter_upwards [hdiffvalue] with x hx
   exact sub_eq_zero.mp hx
 

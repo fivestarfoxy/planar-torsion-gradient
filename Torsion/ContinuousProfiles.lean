@@ -1,10 +1,16 @@
-import Torsion.Definitions
-import Torsion.RadialGeometry
-import Torsion.RadialStability
-import Mathlib.MeasureTheory.Function.L2Space
-import Mathlib.MeasureTheory.Function.LpSpace.ContinuousFunctions
-import Mathlib.Topology.ContinuousMap.Ordered
-import Mathlib.MeasureTheory.Measure.OpenPos
+module
+
+public import Torsion.Definitions
+public import Torsion.RadialGeometry
+public import Torsion.RadialStability
+public import Mathlib.MeasureTheory.Function.L2Space
+public import Mathlib.MeasureTheory.Function.LpSpace.ContinuousFunctions
+public import Mathlib.Topology.ContinuousMap.Ordered
+public import Mathlib.MeasureTheory.Measure.OpenPos
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Continuous radial profiles and the concrete L² space
@@ -70,7 +76,8 @@ theorem embed_injective : Function.Injective embed := by
   have haee : (fun θ : ℝ => extend R θ) =ᵐ[volume.restrict (Icc 0 Real.pi)]
       (fun θ : ℝ => extend S θ) := by
     apply (ae_restrict_iff_subtype measurableSet_Icc).2
-    simpa only [angleMeasure, extend_coe] using hae
+    filter_upwards [hae] with θ hθ
+    simpa only [extend_coe] using hθ
   have hclosed := Measure.eqOn_Icc_of_ae_eq volume (ne_of_lt Real.pi_pos) haee
     (extend R).continuous.continuousOn (extend S).continuous.continuousOn
   ext θ

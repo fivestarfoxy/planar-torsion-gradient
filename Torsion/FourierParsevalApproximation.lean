@@ -1,4 +1,10 @@
-import Torsion.RestrictedSpectralParseval
+module
+
+public import Torsion.RestrictedSpectralParseval
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Parseval through arbitrary compact smooth approximants

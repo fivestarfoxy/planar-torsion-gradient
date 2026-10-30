@@ -1,4 +1,11 @@
-import Torsion.RestrictedSpectralOddGagliardo
+module
+
+public import Torsion.RestrictedSpectralOddGagliardo
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The exact positive-quadrant gap in odd absolute folding

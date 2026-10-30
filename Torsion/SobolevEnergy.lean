@@ -1,6 +1,12 @@
-import Torsion.SobolevPositivePart
-import Torsion.BoundedDomains
-import Mathlib.MeasureTheory.Function.L2Space
+module
+
+public import Torsion.SobolevPositivePart
+public import Torsion.BoundedDomains
+public import Mathlib.MeasureTheory.Function.L2Space
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Vanishing truncation energy forces actual Sobolev comparison

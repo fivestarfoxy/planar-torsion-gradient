@@ -1,6 +1,12 @@
-import Torsion.CauchyTransform
-import Torsion.CauchyTransformHeightDerivative
-import Mathlib.Analysis.Complex.RealDeriv
+module
+
+public import Torsion.CauchyTransform
+public import Torsion.CauchyTransformHeightDerivative
+public import Mathlib.Analysis.Complex.RealDeriv
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Integration by parts for the concrete Cauchy transform
@@ -46,7 +52,7 @@ theorem cauchy_integrationByParts_of_hasDerivAt {f fp : ℝ → ℝ}
     have hn := (hd s).ofReal_comp
     have hden' := (hasDerivAt_const s z).sub (Complex.ofRealCLM.hasDerivAt (x := s))
     have h := hn.div hden' (denominator_ne_zero hz s)
-    convert h using 1
+    convert! h using 1
     dsimp [g, gp]
     field_simp [denominator_ne_zero hz s]
     ring
@@ -82,13 +88,13 @@ theorem cauchy_height_integrationByParts {φ : ℝ → ℝ}
   have hkY : Continuous (fun s : ℝ => (height φ s : ℂ) / (z - (s : ℂ)) ^ 2) :=
     hYc.div (hden.pow 2) (fun s => pow_ne_zero 2 (denominator_ne_zero hz s))
   have hgp : Continuous gp := by
-    simpa only [gp, neg_div] using hkφ.neg.add hkY
+    simpa only [gp, neg_div, Pi.add_apply, Pi.neg_apply] using! hkφ.neg.add hkY
   have hderiv : ∀ s : ℝ, HasDerivAt g (gp s) s := by
     intro s
     have hn := (hasDerivAt_height hφ hodd hzero s).ofReal_comp
     have hd := (hasDerivAt_const s z).sub (Complex.ofRealCLM.hasDerivAt (x := s))
     have h := hn.div hd (denominator_ne_zero hz s)
-    convert h using 1
+    convert! h using 1
     dsimp [g, gp]
     push_cast
     field_simp [denominator_ne_zero hz s]
@@ -100,8 +106,13 @@ theorem cauchy_height_integrationByParts {φ : ℝ → ℝ}
   simp only [g, hY₁, hYm, Complex.ofReal_zero, zero_div, sub_self] at hi
   have hieq : -(∫ s in (-1 : ℝ)..1, (φ s : ℂ) / (z - (s : ℂ))) +
       (∫ s in (-1 : ℝ)..1, (height φ s : ℂ) / (z - (s : ℂ)) ^ 2) = 0 := by
-    simpa only [gp, neg_div, intervalIntegral.integral_add
-      (hkφ.neg.intervalIntegrable (-1) 1) (hkY.intervalIntegrable (-1) 1), intervalIntegral.integral_neg] using hi
+    have hn : IntervalIntegrable (fun s : ℝ => -((φ s : ℂ) / (z - (s : ℂ))))
+        volume (-1) 1 := by
+      simpa only [Pi.neg_apply] using! hkφ.neg.intervalIntegrable (-1) 1
+    have hs := intervalIntegral.integral_add hn (hkY.intervalIntegrable (-1) 1)
+    simp only [gp, neg_div] at hi
+    rw [hs, intervalIntegral.integral_neg] at hi
+    exact hi
   rw [integral_Icc_eq_integral_Ioc, integral_Icc_eq_integral_Ioc,
     ← intervalIntegral.integral_of_le (show (-1 : ℝ) ≤ 1 by norm_num),
     ← intervalIntegral.integral_of_le (show (-1 : ℝ) ≤ 1 by norm_num)]
@@ -134,8 +145,9 @@ theorem deriv_auxiliary_eq_product_integral {φ : ℝ → ℝ}
     ring
   have hi := cauchy_integrationByParts_of_hasDerivAt (hY.pow 2)
     (continuous_const.mul (hY.mul hφ)) hd
-    (by rw [height_zero_of_one_le_abs φ (by norm_num)]; norm_num)
-    (by rw [height_zero_of_one_le_abs φ (by norm_num)]; norm_num) hz
+    (by change (height φ (-1)) ^ 2 = 0; rw [height_zero_of_one_le_abs φ (by norm_num)]; norm_num)
+    (by change (height φ 1) ^ 2 = 0; rw [height_zero_of_one_le_abs φ (by norm_num)]; norm_num) hz
+  simp only [Pi.pow_apply, Pi.mul_apply] at hi
   rw [deriv_auxiliary_eq hφ.continuousOn hz, hi]
   push_cast
   simp only [mul_div_assoc, integral_const_mul, mul_inv_rev]

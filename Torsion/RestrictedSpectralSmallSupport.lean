@@ -1,6 +1,13 @@
-import Torsion.RestrictedSpectralParseval
-import Torsion.RestrictedSpectralIntervalHolder
-import Torsion.RestrictedSpectralPositivity
+module
+
+public import Torsion.RestrictedSpectralParseval
+public import Torsion.RestrictedSpectralIntervalHolder
+public import Torsion.RestrictedSpectralPositivity
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Small-support coercivity and the actual weak maximum principle
@@ -60,7 +67,7 @@ theorem MemRestrictedFormDomain.energy_ge_of_support_interval
     · simp only [B, indicator_of_mem hξ]
       exact (hpointF ξ).trans (le_add_of_nonneg_right (by dsimp only [W]; positivity))
     · have hξabs : δ ≤ |ξ| := le_of_not_ge (fun h => hξ (abs_le.1 h))
-      simp only [B, indicator_of_not_mem hξ, zero_add, W]
+      simp only [B, indicator_of_notMem hξ, zero_add, W]
       have hfac : 1 ≤ (1 / δ) * |ξ| := by
         rw [one_div_mul_eq_div, le_div_iff₀ hδ]
         simpa only [one_mul] using hξabs

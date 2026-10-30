@@ -1,9 +1,15 @@
-import Torsion.SobolevGraph
-import Torsion.BoundedDomains
-import Torsion.Sobolev
-import Mathlib.Analysis.Calculus.LineDeriv.IntegrationByParts
-import Mathlib.Analysis.Distribution.AEEqOfIntegralContDiff
-import Mathlib.Data.Complex.FiniteDimensional
+module
+
+public import Torsion.SobolevGraph
+public import Torsion.BoundedDomains
+public import Torsion.Sobolev
+public import Mathlib.Analysis.Calculus.LineDeriv.IntegrationByParts
+public import Mathlib.Analysis.Distribution.AEEqOfIntegralContDiff
+public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Identification of the actual distributional weak gradient
@@ -38,7 +44,8 @@ private theorem memLp_directional {D : Set Plane} {ψ : Plane → ℝ}
   apply ((innerSL ℝ v).comp_memLp' (hψ.memLp_gradient (p := 2))).ae_eq
   apply ae_of_all
   intro x
-  simp [Function.comp_apply, fderiv_apply_eq_inner_gradient, real_inner_comm]
+  simp only [Function.comp_apply, innerSL_apply_apply, fderiv_apply_eq_inner_gradient,
+    real_inner_comm]
 
 private theorem memLp_testVector {D : Set Plane} {ψ : Plane → ℝ}
     (hψ : IsTest D ψ) (v : Plane) : MemLp (fun x => ψ x • v) 2 volume :=
@@ -87,12 +94,14 @@ private theorem smooth_integration_by_parts {D : Set Plane} {f ψ : Plane → �
     ((memLp_directional hf v).integrable_mul (hψ.memLp_value (p := 2)))
     ((hf.memLp_value (p := 2)).integrable_mul (memLp_directional hψ v))
     ((hf.memLp_value (p := 2)).integrable_mul (hψ.memLp_value (p := 2)))
-    (hf.1.differentiable (by simp)) (hψ.1.differentiable (by simp))
+    (fun x _ => hf.1.differentiable (by simp) x)
+    (fun x _ => hψ.1.differentiable (by simp) x)
   simpa only [fderiv_apply_eq_inner_gradient] using h
 
 /-- The continuous defect vanishes on the entire concrete graph closure. -/
 private theorem graph_in_defect_kernel {D : Set Plane} {ψ : Plane → ℝ}
-    (hψ : IsTest univ ψ) (v : Plane) : H10Graph D ≤ LinearMap.ker (defect hψ v) := by
+    (hψ : IsTest univ ψ) (v : Plane) :
+    H10Graph D ≤ LinearMap.ker (defect hψ v).toLinearMap := by
   apply (testGraphSubmodule D).topologicalClosure_minimal
   · rintro p ⟨f, hf, rfl⟩
     change defect hψ v hf.graph = 0
@@ -203,7 +212,7 @@ theorem IsWeakTorsion.global_smooth_test_equation {D : Set Plane}
   have hright : (∫ x in D, ψ x) = ∫ x, ψ x := by
     apply setIntegral_eq_integral_of_forall_compl_eq_zero
     intro x hx
-    exact image_eq_zero_of_nmem_tsupport (fun h => hx (hψ.2.2 h))
+    exact image_eq_zero_of_notMem_tsupport (fun h => hx (hψ.2.2 h))
   rwa [hleft, hright] at heq
 
 /-- A concrete weak harmonic pair on an open region, stated using compact

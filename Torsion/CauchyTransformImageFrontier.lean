@@ -1,5 +1,11 @@
-import Torsion.CauchyTransformImageBound
-import Torsion.CauchyConformalGeometry.Inverse
+module
+
+public import Torsion.CauchyTransformImageBound
+public import Torsion.CauchyConformalGeometry.Inverse
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual frontier of the Cauchy image

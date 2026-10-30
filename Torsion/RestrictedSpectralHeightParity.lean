@@ -1,5 +1,12 @@
-import Torsion.SpectralPositivity
-import Mathlib.Analysis.Calculus.Deriv.Shift
+module
+
+public import Torsion.SpectralPositivity
+public import Mathlib.Analysis.Calculus.Deriv.Shift
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Parity of the actual height derivative

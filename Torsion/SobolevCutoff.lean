@@ -1,9 +1,15 @@
-import Torsion.SobolevCore
-import Torsion.Sobolev
-import Torsion.BoundedDomains
-import Mathlib.Analysis.Calculus.FDeriv.Mul
-import Mathlib.MeasureTheory.Function.LpSeminorm.CompareExp
-import Mathlib.Tactic
+module
+
+public import Torsion.SobolevCore
+public import Torsion.Sobolev
+public import Torsion.BoundedDomains
+public import Mathlib.Analysis.Calculus.FDeriv.Mul
+public import Mathlib.MeasureTheory.Function.LpSeminorm.CompareExp
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Multiplication by smooth compact cutoffs in the actual Sobolev closure
@@ -21,7 +27,7 @@ theorem gradient_mul_of_differentiable {f k : Plane → ℝ}
     (hf : Differentiable ℝ f) (hk : Differentiable ℝ k) (x : Plane) :
     gradient (fun y => f y * k y) x = f x • gradient k x + k x • gradient f x := by
   unfold gradient
-  rw [fderiv_mul (hf x) (hk x)]
+  rw [fderiv_fun_mul (hf x) (hk x)]
   simp only [map_add, map_smul]
 
 /-- A smooth test can localize another smooth function, even if its original
@@ -38,10 +44,13 @@ private theorem tendsto_eLpNorm_fixed_smul_zero
     (ha : MemLp a ∞ volume) (hf : ∀ n, AEStronglyMeasurable (f n) volume)
     (hlim : Tendsto (fun n => eLpNorm (f n) 2 volume) atTop (𝓝 0)) :
     Tendsto (fun n => eLpNorm (fun x => a x • f n x) 2 volume) atTop (𝓝 0) := by
-  have hbound (n : ℕ) := eLpNorm_smul_le_eLpNorm_top_mul_eLpNorm 2 (hf n) a
+  have hbound (n : ℕ) : eLpNorm (fun x => a x • f n x) 2 volume ≤
+      eLpNorm a ∞ volume * eLpNorm (f n) 2 volume := by
+    simpa only [Pi.smul_def'] using
+      eLpNorm_smul_le_eLpNorm_top_mul_eLpNorm (f := f n) (φ := a) 2 ha.aestronglyMeasurable
   have hlim' := ENNReal.Tendsto.const_mul hlim (Or.inr ha.eLpNorm_ne_top)
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds
-    (by simpa using hlim') (fun _ => zero_le _) hbound
+    (by simpa using hlim') (fun _ => zero_le) hbound
 
 private theorem tendsto_eLpNorm_smul_fixed_zero
     {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
@@ -49,10 +58,13 @@ private theorem tendsto_eLpNorm_smul_fixed_zero
     (hg : MemLp g ∞ volume) (ha : ∀ n, AEStronglyMeasurable (a n) volume)
     (hlim : Tendsto (fun n => eLpNorm (a n) 2 volume) atTop (𝓝 0)) :
     Tendsto (fun n => eLpNorm (fun x => a n x • g x) 2 volume) atTop (𝓝 0) := by
-  have hbound (n : ℕ) := eLpNorm_smul_le_eLpNorm_mul_eLpNorm_top 2 g (ha n)
+  have hbound (n : ℕ) : eLpNorm (fun x => a n x • g x) 2 volume ≤
+      eLpNorm (a n) 2 volume * eLpNorm g ∞ volume := by
+    simpa only [Pi.smul_def'] using
+      eLpNorm_smul_le_eLpNorm_mul_eLpNorm_top (f := g) (φ := a n) 2 hg.aestronglyMeasurable
   have hlim' := ENNReal.Tendsto.mul_const hlim (Or.inr hg.eLpNorm_ne_top)
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds
-    (by simpa using hlim') (fun _ => zero_le _) hbound
+    (by simpa using hlim') (fun _ => zero_le) hbound
 
 /-- The product-rule graph of a compact cutoff times an H¹₀ function belongs
 to the cutoff domain's H¹₀ closure. -/
@@ -68,29 +80,33 @@ theorem MemH10.mul_test_inter {D E : Set Plane} {u : Plane → ℝ} {g : Plane �
     exact ⟨ht.1, ht.2.1, subset_inter
       (tsupport_mul_subset_right.trans (hf n).2.2) ht.2.2⟩
   refine ⟨?_, ?_, (fun n x => η x * f n x), htest, ?_, ?_⟩
-  · simpa only [Pi.smul_apply, smul_eq_mul] using hu.smul hηm
-  · exact (hg.smul hηm).add (hηg.smul hu)
+  · simpa only [Pi.smul_def', Pi.mul_def, smul_eq_mul] using hηm.smul hu
+  · exact (hηm.smul hg).add (hu.smul hηg)
   · have h := tendsto_eLpNorm_fixed_smul_zero hηm
-      (fun n => (hf n).1.continuous.aestronglyMeasurable.sub hu.1) hfu
+      (fun n => (hf n).1.continuous.aestronglyMeasurable.sub hu.aestronglyMeasurable) hfu
     convert h using 1
     funext n
     congr 1
     ext x
-    simp only [smul_eq_mul, Pi.sub_apply]
+    simp only [smul_eq_mul, Pi.smul_apply, Pi.sub_apply]
     ring
   · have hA := tendsto_eLpNorm_fixed_smul_zero hηm
-      (fun n => (hf n).continuous_gradient.aestronglyMeasurable.sub hg.1) hfg
+      (fun n => (hf n).continuous_gradient.aestronglyMeasurable.sub hg.aestronglyMeasurable) hfg
     have hB := tendsto_eLpNorm_smul_fixed_zero hηg
-      (fun n => (hf n).1.continuous.aestronglyMeasurable.sub hu.1) hfu
-    have hbound (n : ℕ) := eLpNorm_add_le
-      (hηm.1.smul ((hf n).continuous_gradient.aestronglyMeasurable.sub hg.1))
-      (((hf n).1.continuous.aestronglyMeasurable.sub hu.1).smul hηg.1)
-      (by norm_num : (1 : ℝ≥0∞) ≤ 2)
+      (fun n => (hf n).1.continuous.aestronglyMeasurable.sub hu.aestronglyMeasurable) hfu
+    have hbound (n : ℕ) : eLpNorm
+        (fun x => η x • (gradient (f n) x - g x) + (f n x - u x) • gradient η x) 2 volume ≤
+        eLpNorm (fun x => η x • (gradient (f n) x - g x)) 2 volume +
+        eLpNorm (fun x => (f n x - u x) • gradient η x) 2 volume := by
+      simpa only [Pi.add_def] using eLpNorm_add_le
+        (f := fun x => η x • (gradient (f n) x - g x))
+        (g := fun x => (f n x - u x) • gradient η x) (μ := volume)
+        (by norm_num : (1 : ℝ≥0∞) ≤ 2)
     have hlim : Tendsto (fun n => eLpNorm
         (fun x => η x • (gradient (f n) x - g x) + (f n x - u x) • gradient η x)
         2 volume) atTop (𝓝 0) := by
       apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds
-        (by simpa using hA.add hB) (fun _ => zero_le _) hbound
+        (by simpa using hA.add hB) (fun _ => zero_le) hbound
     convert hlim using 1
     funext n
     congr 1

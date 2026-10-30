@@ -1,7 +1,13 @@
-import Torsion.MarkedTorsionTaylor
-import Torsion.CanonicalSupportingFlux
-import Torsion.WeakTorsionRepresentative
-import Torsion.SupportedConvexFlatHull
+module
+
+public import Torsion.MarkedTorsionTaylor
+public import Torsion.CanonicalSupportingFlux
+public import Torsion.WeakTorsionRepresentative
+public import Torsion.SupportedConvexFlatHull
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual pointwise comparison with the calibrated marked outer domain

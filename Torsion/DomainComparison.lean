@@ -1,8 +1,14 @@
-import Torsion.SobolevIdeal
-import Torsion.SobolevIntersection
-import Torsion.SobolevEnergy
-import Torsion.TorsionPositivity
-import Torsion.DirichletGalerkin
+module
+
+public import Torsion.SobolevIdeal
+public import Torsion.SobolevIntersection
+public import Torsion.SobolevEnergy
+public import Torsion.TorsionPositivity
+public import Torsion.DirichletGalerkin
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Actual domain comparison for the weak torsion problem

@@ -1,394 +1,400 @@
-import Torsion.BoundaryLowerBound
-import Torsion.BoundedDomains
-import Torsion.Calibration
-import Torsion.CauchyConformalGeometry.BoundaryCurvature
-import Torsion.CauchyConformalGeometry.BoundaryDerivative
-import Torsion.CauchyConformalGeometry.BoundaryGeometry
-import Torsion.CauchyConformalGeometry.ImageSeparation
-import Torsion.CauchyConformalGeometry.Inverse
-import Torsion.CauchyConformalGeometry.Univalence
-import Torsion.CauchyConformalGeometry
-import Torsion.CauchyQuadraticIdentity
-import Torsion.CauchySpectralIdentity
-import Torsion.CauchyTransform
-import Torsion.CauchyTransformBoundaryDerivative
-import Torsion.CauchyTransformBoundaryExtension
-import Torsion.CauchyTransformDecay
-import Torsion.CauchyTransformHeightDerivative
-import Torsion.CauchyTransformImageBound
-import Torsion.CauchyTransformImageFrontier
-import Torsion.CauchyTransformImaginaryBoundary
-import Torsion.CauchyTransformIntegrationByParts
-import Torsion.CauchyTransformMoments
-import Torsion.CauchyTransformPoisson
-import Torsion.CauchyTransformRealBoundary
-import Torsion.CauchyTransformUniqueness
-import Torsion.ClassicalWeakTorsion
-import Torsion.Comparison
-import Torsion.ComplexIdentity
-import Torsion.ContinuousProfiles
-import Torsion.Curvature
-import Torsion.CurvatureFromConcavity
-import Torsion.Definitions
-import Torsion.Dilation
-import Torsion.DilationSobolev
-import Torsion.DilationWeak
-import Torsion.DirichletExhaustion
-import Torsion.DirichletGalerkin
-import Torsion.DomainComparison
-import Torsion.Hessian
-import Torsion.HilbertDirichlet
-import Torsion.L2Dominated
-import Torsion.Main
-import Torsion.MarkedBoundaryRegularity
-import Torsion.MarkedFlux
-import Torsion.MarkedFluxComparison
-import Torsion.MarkedFluxExhaustion
-import Torsion.MarkedFluxLowerBound
-import Torsion.Moments
-import Torsion.PhysicalCauchyBoundary
-import Torsion.PhysicalCauchyPositivity
-import Torsion.PhysicalCauchySobolev
-import Torsion.PhysicalCauchyTorsion
-import Torsion.PhysicalCauchyWeakTorsion
-import Torsion.PhysicalCauchyZeroExtension
-import Torsion.PhysicalTorsionCalculus
-import Torsion.Poincare
-import Torsion.ProvedMain
-import Torsion.RadialConcavity.Mollification
-import Torsion.RadialConcavity
-import Torsion.RadialFluxConcavity.Transfer
-import Torsion.RadialFluxConcavity
-import Torsion.RadialGeometry
-import Torsion.RadialStability
-import Torsion.RestrictedSpectralDistribution
-import Torsion.RestrictedSpectralForm.Algebra
-import Torsion.RestrictedSpectralForm
-import Torsion.SmoothPositivePart
-import Torsion.Sobolev
-import Torsion.SobolevAdd
-import Torsion.SobolevBoundaryAdmission
-import Torsion.SobolevComposition
-import Torsion.SobolevCore
-import Torsion.SobolevCutoff
-import Torsion.SobolevEnergy
-import Torsion.SobolevExhaustion
-import Torsion.SobolevGraph
-import Torsion.SobolevIdeal
-import Torsion.SobolevIntersection
-import Torsion.SobolevLattice
-import Torsion.SobolevLatticeContinuity
-import Torsion.SobolevLocalization
-import Torsion.SobolevMinContinuity
-import Torsion.SobolevMonotone
-import Torsion.SobolevPositivePart
-import Torsion.SobolevScalar
-import Torsion.SobolevSupport
-import Torsion.SobolevUniqueness
-import Torsion.SpectralBoundaryZeros
-import Torsion.SpectralDefinitions
-import Torsion.SpectralHolderCalculus
-import Torsion.SpectralMain
-import Torsion.SpectralMomentIdentity
-import Torsion.SpectralNormalization
-import Torsion.SpectralPositivity
-import Torsion.SpectralScaling
-import Torsion.Stability
-import Torsion.TorsionPositivity
-import Torsion.WeakGradient
-import Torsion.WeakHarmonicRegularity
-import Torsion.WeakHarmonicWeyl.Associativity
-import Torsion.WeakHarmonicWeyl.Classical
-import Torsion.WeakHarmonicWeyl.ConvolutionEstimates
-import Torsion.WeakHarmonicWeyl.MeanValue
-import Torsion.WeakHarmonicWeyl.RadialKernel
-import Torsion.WeakHarmonicWeyl.Representative
-import Torsion.WeakHarmonicWeyl.RepresentativeGradient
-import Torsion.WeakHarmonicWeyl
-import Torsion.WeakReflection.Admission
-import Torsion.WeakReflection.Odd
-import Torsion.WeakReflection.Poisson
-import Torsion.WeakReflection.Tests
-import Torsion.WeakReflection.Translation
-import Torsion.WeakReflection.ZeroGradient
-import Torsion.WeakReflection
-import Torsion.CauchyConformalGeometry.BoundaryHolder
-import Torsion.CauchyConformalGeometry.CompactifiedBoundary
-import Torsion.CauchyConformalGeometry.ExteriorBoundary
-import Torsion.CauchyConformalGeometry.FlatSegment
-import Torsion.CauchyConformalGeometry.Infinity
-import Torsion.CauchyConformalGeometry.MarkedGeometry
-import Torsion.CauchyTransformExterior
-import Torsion.PhysicalCauchyKernel
-import Torsion.PhysicalCauchyMarkedFlux
-import Torsion.RestrictedSpectralCorePrimitive
-import Torsion.RestrictedSpectralIntegrated
-import Torsion.RestrictedSpectralPrimitive
-import Torsion.RestrictedSpectralSymmetry
-import Torsion.CauchyBoundaryStationarity
-import Torsion.CauchyConformalGeometry.BoundaryJunctionCoverage
-import Torsion.CauchyConformalGeometry.BoundaryJunctionGeometry
-import Torsion.CauchyConformalGeometry.BoundaryJunctionHolder
-import Torsion.CauchyConformalGeometry.CompactifiedClosure
-import Torsion.CauchyConformalGeometry.Convexity
-import Torsion.CauchyConformalGeometry.ConvexityCriterion
-import Torsion.CauchyConformalGeometry.ConvexityNormals
-import Torsion.CauchyConformalGeometry.ConvexitySlope
-import Torsion.CauchyConformalGeometry.ConvexitySupport
-import Torsion.CauchyConformalGeometry.InverseBoundary
-import Torsion.CauchyImageArea
-import Torsion.CauchyImageAreaBottom
-import Torsion.CauchyImageAreaBoundary
-import Torsion.CauchyImageAreaDecay
-import Torsion.CauchyImageAreaExact
-import Torsion.CauchyImageAreaExhaustion
-import Torsion.CauchyRadialDomain
-import Torsion.CauchyRadialGeometry
-import Torsion.CauchyRadialProfile
-import Torsion.CauchyTracePairingLimit
-import Torsion.FourierHilbertHeight
-import Torsion.FourierHilbertKernel
-import Torsion.FourierHilbertPairing
-import Torsion.FourierPlancherel
-import Torsion.RestrictedSpectralEnergyContinuity
-import Torsion.RestrictedSpectralHilbert
-import Torsion.RestrictedSpectralPoincare
-import Torsion.SpectralCandidate
-import Torsion.CompactSpectral.PositiveEigenpair
-import Torsion.CompactSpectral.RayleighCompact
-import Torsion.CompactSpectral.SecondAfterFirst
-import Torsion.CompactSpectral.TwoEigenpairs
-import Torsion.CompactSpectral.WeakHilbertCompact
-import Torsion.CompactSpectral
-import Torsion.ComplexAxisRemovability
-import Torsion.ComplexConjugateDerivative
-import Torsion.ComplexODEContinuation
-import Torsion.ComplexPrimitives
-import Torsion.ComplexSchwarzReflection
-import Torsion.ComplexSchwarzReflectionBasic
-import Torsion.ComplexUpperPrimitive
-import Torsion.FourierParsevalApproximation
-import Torsion.RestrictedSpectralAnalyticHeight
-import Torsion.RestrictedSpectralBoundaryPrimitive
-import Torsion.RestrictedSpectralBoundaryRegularity
-import Torsion.RestrictedSpectralCompactness
-import Torsion.RestrictedSpectralCoreDirections
-import Torsion.RestrictedSpectralCosineVariance
-import Torsion.RestrictedSpectralEigenpairs
-import Torsion.RestrictedSpectralEvenFourierBounds
-import Torsion.RestrictedSpectralEvenGap
-import Torsion.RestrictedSpectralFourierBounds
-import Torsion.RestrictedSpectralFourierContinuity
-import Torsion.RestrictedSpectralFourierWindows
-import Torsion.RestrictedSpectralGagliardo
-import Torsion.RestrictedSpectralGagliardoDomain
-import Torsion.RestrictedSpectralGagliardoKernel
-import Torsion.RestrictedSpectralGagliardoSymbol
-import Torsion.RestrictedSpectralGraph
-import Torsion.RestrictedSpectralGraphHilbert
-import Torsion.RestrictedSpectralGroundSign
-import Torsion.RestrictedSpectralGroundState
-import Torsion.RestrictedSpectralHeightParity
-import Torsion.RestrictedSpectralHeightRegularity
-import Torsion.RestrictedSpectralInterpolation
-import Torsion.RestrictedSpectralIntervalHolder
-import Torsion.RestrictedSpectralLattice
-import Torsion.RestrictedSpectralLatticeApprox
-import Torsion.RestrictedSpectralMinMax
-import Torsion.RestrictedSpectralMinimizer
-import Torsion.RestrictedSpectralOddCore
-import Torsion.RestrictedSpectralOddEigenpair
-import Torsion.RestrictedSpectralOddFold
-import Torsion.RestrictedSpectralOddFoldApproximation
-import Torsion.RestrictedSpectralOddFoldCore
-import Torsion.RestrictedSpectralOddGagliardo
-import Torsion.RestrictedSpectralOddGap
-import Torsion.RestrictedSpectralOddGapBounds
-import Torsion.RestrictedSpectralOddGroundSign
-import Torsion.RestrictedSpectralOddGroundState
-import Torsion.RestrictedSpectralOddLattice
-import Torsion.RestrictedSpectralOddMinimizer
-import Torsion.RestrictedSpectralOddPositivity
-import Torsion.RestrictedSpectralOddSelection
-import Torsion.RestrictedSpectralOddStrictMarkov
-import Torsion.RestrictedSpectralPairingContinuity
-import Torsion.RestrictedSpectralParseval
-import Torsion.RestrictedSpectralPolynomialTrial
-import Torsion.RestrictedSpectralPolynomialTrialApprox
-import Torsion.RestrictedSpectralPositiveSets
-import Torsion.RestrictedSpectralPositiveTest
-import Torsion.RestrictedSpectralPositivity
-import Torsion.RestrictedSpectralReflectionOperator
-import Torsion.RestrictedSpectralRegularRepresentative
-import Torsion.RestrictedSpectralResolvent
-import Torsion.RestrictedSpectralSecondEigenpair
-import Torsion.RestrictedSpectralSecondIdentification
-import Torsion.RestrictedSpectralSecondParity
-import Torsion.RestrictedSpectralSelection
-import Torsion.RestrictedSpectralStrictMarkov
-import Torsion.RestrictedSpectralTranslation
-import Torsion.RestrictedSpectralWeakClosure
-import Torsion.RestrictedSpectralWeakIntegrated
-import Torsion.RestrictedSpectralWeakPrimitive
-import Torsion.TrigonometricQuadraticBound
-import Torsion.RestrictedSpectralSecondProfile
-import Torsion.RestrictedSpectralCauchyL1
-import Torsion.RestrictedSpectralCauchyMinimum
-import Torsion.RestrictedSpectralCauchySecondDerivative
-import Torsion.RestrictedSpectralOddKernelMinimum
-import Torsion.RestrictedSpectralQuadraticZero
-import Torsion.RestrictedSpectralSignRegularity
-import Torsion.RestrictedSpectralStrongMaximum
-import Torsion.RestrictedSpectralWeakCauchy
-import Torsion.RestrictedSpectralBarrierComparison
-import Torsion.RestrictedSpectralCompactSmoothInterpolation
-import Torsion.RestrictedSpectralComposition
-import Torsion.RestrictedSpectralConcaveHolder
-import Torsion.RestrictedSpectralConcavity
-import Torsion.RestrictedSpectralConcavityBounds
-import Torsion.RestrictedSpectralConcavityComposition
-import Torsion.RestrictedSpectralConcavitySign
-import Torsion.RestrictedSpectralEndpointComparison
-import Torsion.RestrictedSpectralEndpointCutoffBasic
-import Torsion.RestrictedSpectralEndpointCutoffs
-import Torsion.RestrictedSpectralEndpointIntegrability
-import Torsion.RestrictedSpectralExteriorEnergy
-import Torsion.RestrictedSpectralExteriorIntegrability
-import Torsion.RestrictedSpectralExteriorKernel
-import Torsion.RestrictedSpectralExteriorKernelIntegral
-import Torsion.RestrictedSpectralExteriorTest
-import Torsion.RestrictedSpectralFourierIdentification
-import Torsion.RestrictedSpectralGagliardoAdmission
-import Torsion.RestrictedSpectralGlobalEquation
-import Torsion.RestrictedSpectralSchwartz
-import Torsion.RestrictedSpectralSchwartzFourier
-import Torsion.RestrictedSpectralSecondConcavity
-import Torsion.RestrictedSpectralSecondEndpoint
-import Torsion.RestrictedSpectralSecondEndpointIntegrability
-import Torsion.RestrictedSpectralSecondExteriorIntegrability
-import Torsion.RestrictedSpectralSecondHolder
-import Torsion.RestrictedSpectralSemicircle
-import Torsion.RestrictedSpectralSemicircleAdmission
-import Torsion.RestrictedSpectralSemicircleComplex
-import Torsion.RestrictedSpectralSemicircleKernel
-import Torsion.RestrictedSpectralSemicircleWeak
-import Torsion.RestrictedSpectralSemicircleWeight
-import Torsion.RestrictedSpectralSmallSupport
-import Torsion.RestrictedSpectralTestPartition
-import Torsion.RestrictedSpectralWeakEnergyLimit
-import Torsion.CanonicalRadialCalibration
-import Torsion.CanonicalSpectralCandidate
-import Torsion.ConvexOuterDilation
-import Torsion.GradientBoundExhaustion
-import Torsion.HalfPlaneGreen
-import Torsion.HalfPlaneGreenInfinity
-import Torsion.HalfPlaneGreenSource
-import Torsion.HalfPlanePoisson
-import Torsion.OuterDomainConvergence
-import Torsion.OuterGradientBounds
-import Torsion.PhysicalCauchyGreen
-import Torsion.RadialCalibrationCutoff
-import Torsion.RadialCalibrationSmooth
-import Torsion.SmoothCompactApproximation
-import Torsion.ConvexOuterApproximation
-import Torsion.HalfPlaneGreenSourceTranslation
-import Torsion.TorsionTranslation
-import Torsion.PolarIntegrability
-import Torsion.CanonicalSmoothReduction
-import Torsion.ClassicalWeakLaplacian
-import Torsion.ConformalGreenRegularPart
-import Torsion.ConvexMollification
-import Torsion.GreenRegularPart
-import Torsion.PhysicalCauchyGreenNormal
-import Torsion.PhysicalCauchyGreenWeak
-import Torsion.PhysicalCauchyHarmonicBoundary
-import Torsion.PhysicalCauchyHarmonicLift
-import Torsion.PhysicalCauchyHarmonicMarked
-import Torsion.PhysicalCauchyPoisson
-import Torsion.PositiveLocalInverse
-import Torsion.ShapeChangeOfVariables
-import Torsion.ShapeCoefficients
-import Torsion.ShapeDeformation
-import Torsion.ShapeEnergyOperatorMatrix
-import Torsion.ShapeForcing
-import Torsion.ShapeGradient
-import Torsion.ShapeSobolevDeformation
-import Torsion.ShapeSobolevTransport
-import Torsion.ShapeUniformCoefficients
-import Torsion.ShapeWeakPullback
-import Torsion.SlabTorsionBarrier
-import Torsion.SmoothConvexLevelSets
-import Torsion.SmoothConvexOuterApproximation
-import Torsion.SmoothConvexReduction
-import Torsion.PhysicalCauchyGreenBoundary
+module
 
-import Torsion.CanonicalHadamard
-import Torsion.CauchyConvectionLp
-import Torsion.CauchyFreeArcGradient
-import Torsion.CauchyFreeArcInverse
-import Torsion.CauchyRadialHadamard
-import Torsion.CauchyRadialHadamardDensity
-import Torsion.CauchyShapeBoundaryData
-import Torsion.CauchyShapeBoundaryTrace
-import Torsion.CauchyShapeCorrection
-import Torsion.CauchyShapeHadamard
-import Torsion.CompactLocalBounds
-import Torsion.FixedKernelContinuity
-import Torsion.HarmonicBoundaryUniqueness
-import Torsion.LpParameterDerivative
-import Torsion.MarkedFluxDifferentiation
-import Torsion.MarkedFluxFixedKernel
-import Torsion.PhysicalCauchyHarmonicBound
-import Torsion.PhysicalCauchyHarmonicClosure
-import Torsion.PhysicalCauchyHarmonicDerivative
-import Torsion.PhysicalCauchyHarmonicLp
-import Torsion.PhysicalCauchyHarmonicWeak
-import Torsion.RadialDeformation
-import Torsion.RadialDeformationCollar
-import Torsion.RadialDeformationField
-import Torsion.RadialDeformationImage
-import Torsion.ShapeCauchyEulerian
-import Torsion.ShapeCoefficientForms
-import Torsion.ShapeEulerianCommutator
-import Torsion.ShapeMarkedFluxDerivative
-import Torsion.ShapeMarkedPatch
-import Torsion.ShapeMaterialBase
-import Torsion.ShapeMaterialEulerian
-import Torsion.ShapeMaterialIdentification
-import Torsion.ShapeMaterialInverse
-import Torsion.ShapeMaterialSolution
-import Torsion.SignedBoundaryAdmission
-import Torsion.SmoothZeroLevel
-import Torsion.WeakDirichletGradientUniqueness
-import Torsion.ZeroBoundaryContinuity
-import Torsion.ShapeCoefficientOperators
-import Torsion.ShapeCoefficientScalar
-import Torsion.ShapeMaterialGeneric
-import Torsion.CauchyHadamardBoundaryIntegral
+public import Torsion.BoundaryLowerBound
+public import Torsion.BoundedDomains
+public import Torsion.Calibration
+public import Torsion.CauchyConformalGeometry.BoundaryCurvature
+public import Torsion.CauchyConformalGeometry.BoundaryDerivative
+public import Torsion.CauchyConformalGeometry.BoundaryGeometry
+public import Torsion.CauchyConformalGeometry.ImageSeparation
+public import Torsion.CauchyConformalGeometry.Inverse
+public import Torsion.CauchyConformalGeometry.Univalence
+public import Torsion.CauchyConformalGeometry
+public import Torsion.CauchyQuadraticIdentity
+public import Torsion.CauchySpectralIdentity
+public import Torsion.CauchyTransform
+public import Torsion.CauchyTransformBoundaryDerivative
+public import Torsion.CauchyTransformBoundaryExtension
+public import Torsion.CauchyTransformDecay
+public import Torsion.CauchyTransformHeightDerivative
+public import Torsion.CauchyTransformImageBound
+public import Torsion.CauchyTransformImageFrontier
+public import Torsion.CauchyTransformImaginaryBoundary
+public import Torsion.CauchyTransformIntegrationByParts
+public import Torsion.CauchyTransformMoments
+public import Torsion.CauchyTransformPoisson
+public import Torsion.CauchyTransformRealBoundary
+public import Torsion.CauchyTransformUniqueness
+public import Torsion.ClassicalWeakTorsion
+public import Torsion.Comparison
+public import Torsion.ComplexIdentity
+public import Torsion.ContinuousProfiles
+public import Torsion.Curvature
+public import Torsion.CurvatureFromConcavity
+public import Torsion.Definitions
+public import Torsion.Dilation
+public import Torsion.DilationSobolev
+public import Torsion.DilationWeak
+public import Torsion.DirichletExhaustion
+public import Torsion.DirichletGalerkin
+public import Torsion.DomainComparison
+public import Torsion.Hessian
+public import Torsion.HilbertDirichlet
+public import Torsion.L2Dominated
+public import Torsion.Main
+public import Torsion.MarkedBoundaryRegularity
+public import Torsion.MarkedFlux
+public import Torsion.MarkedFluxComparison
+public import Torsion.MarkedFluxExhaustion
+public import Torsion.MarkedFluxLowerBound
+public import Torsion.Moments
+public import Torsion.PhysicalCauchyBoundary
+public import Torsion.PhysicalCauchyPositivity
+public import Torsion.PhysicalCauchySobolev
+public import Torsion.PhysicalCauchyTorsion
+public import Torsion.PhysicalCauchyWeakTorsion
+public import Torsion.PhysicalCauchyZeroExtension
+public import Torsion.PhysicalTorsionCalculus
+public import Torsion.Poincare
+public import Torsion.ProvedMain
+public import Torsion.RadialConcavity.Mollification
+public import Torsion.RadialConcavity
+public import Torsion.RadialFluxConcavity.Transfer
+public import Torsion.RadialFluxConcavity
+public import Torsion.RadialGeometry
+public import Torsion.RadialStability
+public import Torsion.RestrictedSpectralDistribution
+public import Torsion.RestrictedSpectralForm.Algebra
+public import Torsion.RestrictedSpectralForm
+public import Torsion.SmoothPositivePart
+public import Torsion.Sobolev
+public import Torsion.SobolevAdd
+public import Torsion.SobolevBoundaryAdmission
+public import Torsion.SobolevComposition
+public import Torsion.SobolevCore
+public import Torsion.SobolevCutoff
+public import Torsion.SobolevEnergy
+public import Torsion.SobolevExhaustion
+public import Torsion.SobolevGraph
+public import Torsion.SobolevIdeal
+public import Torsion.SobolevIntersection
+public import Torsion.SobolevLattice
+public import Torsion.SobolevLatticeContinuity
+public import Torsion.SobolevLocalization
+public import Torsion.SobolevMinContinuity
+public import Torsion.SobolevMonotone
+public import Torsion.SobolevPositivePart
+public import Torsion.SobolevScalar
+public import Torsion.SobolevSupport
+public import Torsion.SobolevUniqueness
+public import Torsion.SpectralBoundaryZeros
+public import Torsion.SpectralDefinitions
+public import Torsion.SpectralHolderCalculus
+public import Torsion.SpectralMain
+public import Torsion.SpectralMomentIdentity
+public import Torsion.SpectralNormalization
+public import Torsion.SpectralPositivity
+public import Torsion.SpectralScaling
+public import Torsion.Stability
+public import Torsion.TorsionPositivity
+public import Torsion.WeakGradient
+public import Torsion.WeakHarmonicRegularity
+public import Torsion.WeakHarmonicWeyl.Associativity
+public import Torsion.WeakHarmonicWeyl.Classical
+public import Torsion.WeakHarmonicWeyl.ConvolutionEstimates
+public import Torsion.WeakHarmonicWeyl.MeanValue
+public import Torsion.WeakHarmonicWeyl.RadialKernel
+public import Torsion.WeakHarmonicWeyl.Representative
+public import Torsion.WeakHarmonicWeyl.RepresentativeGradient
+public import Torsion.WeakHarmonicWeyl
+public import Torsion.WeakReflection.Admission
+public import Torsion.WeakReflection.Odd
+public import Torsion.WeakReflection.Poisson
+public import Torsion.WeakReflection.Tests
+public import Torsion.WeakReflection.Translation
+public import Torsion.WeakReflection.ZeroGradient
+public import Torsion.WeakReflection
+public import Torsion.CauchyConformalGeometry.BoundaryHolder
+public import Torsion.CauchyConformalGeometry.CompactifiedBoundary
+public import Torsion.CauchyConformalGeometry.ExteriorBoundary
+public import Torsion.CauchyConformalGeometry.FlatSegment
+public import Torsion.CauchyConformalGeometry.Infinity
+public import Torsion.CauchyConformalGeometry.MarkedGeometry
+public import Torsion.CauchyTransformExterior
+public import Torsion.PhysicalCauchyKernel
+public import Torsion.PhysicalCauchyMarkedFlux
+public import Torsion.RestrictedSpectralCorePrimitive
+public import Torsion.RestrictedSpectralIntegrated
+public import Torsion.RestrictedSpectralPrimitive
+public import Torsion.RestrictedSpectralSymmetry
+public import Torsion.CauchyBoundaryStationarity
+public import Torsion.CauchyConformalGeometry.BoundaryJunctionCoverage
+public import Torsion.CauchyConformalGeometry.BoundaryJunctionGeometry
+public import Torsion.CauchyConformalGeometry.BoundaryJunctionHolder
+public import Torsion.CauchyConformalGeometry.CompactifiedClosure
+public import Torsion.CauchyConformalGeometry.Convexity
+public import Torsion.CauchyConformalGeometry.ConvexityCriterion
+public import Torsion.CauchyConformalGeometry.ConvexityNormals
+public import Torsion.CauchyConformalGeometry.ConvexitySlope
+public import Torsion.CauchyConformalGeometry.ConvexitySupport
+public import Torsion.CauchyConformalGeometry.InverseBoundary
+public import Torsion.CauchyImageArea
+public import Torsion.CauchyImageAreaBottom
+public import Torsion.CauchyImageAreaBoundary
+public import Torsion.CauchyImageAreaDecay
+public import Torsion.CauchyImageAreaExact
+public import Torsion.CauchyImageAreaExhaustion
+public import Torsion.CauchyRadialDomain
+public import Torsion.CauchyRadialGeometry
+public import Torsion.CauchyRadialProfile
+public import Torsion.CauchyTracePairingLimit
+public import Torsion.FourierHilbertHeight
+public import Torsion.FourierHilbertKernel
+public import Torsion.FourierHilbertPairing
+public import Torsion.FourierPlancherel
+public import Torsion.RestrictedSpectralEnergyContinuity
+public import Torsion.RestrictedSpectralHilbert
+public import Torsion.RestrictedSpectralPoincare
+public import Torsion.SpectralCandidate
+public import Torsion.CompactSpectral.PositiveEigenpair
+public import Torsion.CompactSpectral.RayleighCompact
+public import Torsion.CompactSpectral.SecondAfterFirst
+public import Torsion.CompactSpectral.TwoEigenpairs
+public import Torsion.CompactSpectral.WeakHilbertCompact
+public import Torsion.CompactSpectral
+public import Torsion.ComplexAxisRemovability
+public import Torsion.ComplexConjugateDerivative
+public import Torsion.ComplexODEContinuation
+public import Torsion.ComplexPrimitives
+public import Torsion.ComplexSchwarzReflection
+public import Torsion.ComplexSchwarzReflectionBasic
+public import Torsion.ComplexUpperPrimitive
+public import Torsion.FourierParsevalApproximation
+public import Torsion.RestrictedSpectralAnalyticHeight
+public import Torsion.RestrictedSpectralBoundaryPrimitive
+public import Torsion.RestrictedSpectralBoundaryRegularity
+public import Torsion.RestrictedSpectralCompactness
+public import Torsion.RestrictedSpectralCoreDirections
+public import Torsion.RestrictedSpectralCosineVariance
+public import Torsion.RestrictedSpectralEigenpairs
+public import Torsion.RestrictedSpectralEvenFourierBounds
+public import Torsion.RestrictedSpectralEvenGap
+public import Torsion.RestrictedSpectralFourierBounds
+public import Torsion.RestrictedSpectralFourierContinuity
+public import Torsion.RestrictedSpectralFourierWindows
+public import Torsion.RestrictedSpectralGagliardo
+public import Torsion.RestrictedSpectralGagliardoDomain
+public import Torsion.RestrictedSpectralGagliardoKernel
+public import Torsion.RestrictedSpectralGagliardoSymbol
+public import Torsion.RestrictedSpectralGraph
+public import Torsion.RestrictedSpectralGraphHilbert
+public import Torsion.RestrictedSpectralGroundSign
+public import Torsion.RestrictedSpectralGroundState
+public import Torsion.RestrictedSpectralHeightParity
+public import Torsion.RestrictedSpectralHeightRegularity
+public import Torsion.RestrictedSpectralInterpolation
+public import Torsion.RestrictedSpectralIntervalHolder
+public import Torsion.RestrictedSpectralLattice
+public import Torsion.RestrictedSpectralLatticeApprox
+public import Torsion.RestrictedSpectralMinMax
+public import Torsion.RestrictedSpectralMinimizer
+public import Torsion.RestrictedSpectralOddCore
+public import Torsion.RestrictedSpectralOddEigenpair
+public import Torsion.RestrictedSpectralOddFold
+public import Torsion.RestrictedSpectralOddFoldApproximation
+public import Torsion.RestrictedSpectralOddFoldCore
+public import Torsion.RestrictedSpectralOddGagliardo
+public import Torsion.RestrictedSpectralOddGap
+public import Torsion.RestrictedSpectralOddGapBounds
+public import Torsion.RestrictedSpectralOddGroundSign
+public import Torsion.RestrictedSpectralOddGroundState
+public import Torsion.RestrictedSpectralOddLattice
+public import Torsion.RestrictedSpectralOddMinimizer
+public import Torsion.RestrictedSpectralOddPositivity
+public import Torsion.RestrictedSpectralOddSelection
+public import Torsion.RestrictedSpectralOddStrictMarkov
+public import Torsion.RestrictedSpectralPairingContinuity
+public import Torsion.RestrictedSpectralParseval
+public import Torsion.RestrictedSpectralPolynomialTrial
+public import Torsion.RestrictedSpectralPolynomialTrialApprox
+public import Torsion.RestrictedSpectralPositiveSets
+public import Torsion.RestrictedSpectralPositiveTest
+public import Torsion.RestrictedSpectralPositivity
+public import Torsion.RestrictedSpectralReflectionOperator
+public import Torsion.RestrictedSpectralRegularRepresentative
+public import Torsion.RestrictedSpectralResolvent
+public import Torsion.RestrictedSpectralSecondEigenpair
+public import Torsion.RestrictedSpectralSecondIdentification
+public import Torsion.RestrictedSpectralSecondParity
+public import Torsion.RestrictedSpectralSelection
+public import Torsion.RestrictedSpectralStrictMarkov
+public import Torsion.RestrictedSpectralTranslation
+public import Torsion.RestrictedSpectralWeakClosure
+public import Torsion.RestrictedSpectralWeakIntegrated
+public import Torsion.RestrictedSpectralWeakPrimitive
+public import Torsion.TrigonometricQuadraticBound
+public import Torsion.RestrictedSpectralSecondProfile
+public import Torsion.RestrictedSpectralCauchyL1
+public import Torsion.RestrictedSpectralCauchyMinimum
+public import Torsion.RestrictedSpectralCauchySecondDerivative
+public import Torsion.RestrictedSpectralOddKernelMinimum
+public import Torsion.RestrictedSpectralQuadraticZero
+public import Torsion.RestrictedSpectralSignRegularity
+public import Torsion.RestrictedSpectralStrongMaximum
+public import Torsion.RestrictedSpectralWeakCauchy
+public import Torsion.RestrictedSpectralBarrierComparison
+public import Torsion.RestrictedSpectralCompactSmoothInterpolation
+public import Torsion.RestrictedSpectralComposition
+public import Torsion.RestrictedSpectralConcaveHolder
+public import Torsion.RestrictedSpectralConcavity
+public import Torsion.RestrictedSpectralConcavityBounds
+public import Torsion.RestrictedSpectralConcavityComposition
+public import Torsion.RestrictedSpectralConcavitySign
+public import Torsion.RestrictedSpectralEndpointComparison
+public import Torsion.RestrictedSpectralEndpointCutoffBasic
+public import Torsion.RestrictedSpectralEndpointCutoffs
+public import Torsion.RestrictedSpectralEndpointIntegrability
+public import Torsion.RestrictedSpectralExteriorEnergy
+public import Torsion.RestrictedSpectralExteriorIntegrability
+public import Torsion.RestrictedSpectralExteriorKernel
+public import Torsion.RestrictedSpectralExteriorKernelIntegral
+public import Torsion.RestrictedSpectralExteriorTest
+public import Torsion.RestrictedSpectralFourierIdentification
+public import Torsion.RestrictedSpectralGagliardoAdmission
+public import Torsion.RestrictedSpectralGlobalEquation
+public import Torsion.RestrictedSpectralSchwartz
+public import Torsion.RestrictedSpectralSchwartzFourier
+public import Torsion.RestrictedSpectralSecondConcavity
+public import Torsion.RestrictedSpectralSecondEndpoint
+public import Torsion.RestrictedSpectralSecondEndpointIntegrability
+public import Torsion.RestrictedSpectralSecondExteriorIntegrability
+public import Torsion.RestrictedSpectralSecondHolder
+public import Torsion.RestrictedSpectralSemicircle
+public import Torsion.RestrictedSpectralSemicircleAdmission
+public import Torsion.RestrictedSpectralSemicircleComplex
+public import Torsion.RestrictedSpectralSemicircleKernel
+public import Torsion.RestrictedSpectralSemicircleWeak
+public import Torsion.RestrictedSpectralSemicircleWeight
+public import Torsion.RestrictedSpectralSmallSupport
+public import Torsion.RestrictedSpectralTestPartition
+public import Torsion.RestrictedSpectralWeakEnergyLimit
+public import Torsion.CanonicalRadialCalibration
+public import Torsion.CanonicalSpectralCandidate
+public import Torsion.ConvexOuterDilation
+public import Torsion.GradientBoundExhaustion
+public import Torsion.HalfPlaneGreen
+public import Torsion.HalfPlaneGreenInfinity
+public import Torsion.HalfPlaneGreenSource
+public import Torsion.HalfPlanePoisson
+public import Torsion.OuterDomainConvergence
+public import Torsion.OuterGradientBounds
+public import Torsion.PhysicalCauchyGreen
+public import Torsion.RadialCalibrationCutoff
+public import Torsion.RadialCalibrationSmooth
+public import Torsion.SmoothCompactApproximation
+public import Torsion.ConvexOuterApproximation
+public import Torsion.HalfPlaneGreenSourceTranslation
+public import Torsion.TorsionTranslation
+public import Torsion.PolarIntegrability
+public import Torsion.CanonicalSmoothReduction
+public import Torsion.ClassicalWeakLaplacian
+public import Torsion.ConformalGreenRegularPart
+public import Torsion.ConvexMollification
+public import Torsion.GreenRegularPart
+public import Torsion.PhysicalCauchyGreenNormal
+public import Torsion.PhysicalCauchyGreenWeak
+public import Torsion.PhysicalCauchyHarmonicBoundary
+public import Torsion.PhysicalCauchyHarmonicLift
+public import Torsion.PhysicalCauchyHarmonicMarked
+public import Torsion.PhysicalCauchyPoisson
+public import Torsion.PositiveLocalInverse
+public import Torsion.ShapeChangeOfVariables
+public import Torsion.ShapeCoefficients
+public import Torsion.ShapeDeformation
+public import Torsion.ShapeEnergyOperatorMatrix
+public import Torsion.ShapeForcing
+public import Torsion.ShapeGradient
+public import Torsion.ShapeSobolevDeformation
+public import Torsion.ShapeSobolevTransport
+public import Torsion.ShapeUniformCoefficients
+public import Torsion.ShapeWeakPullback
+public import Torsion.SlabTorsionBarrier
+public import Torsion.SmoothConvexLevelSets
+public import Torsion.SmoothConvexOuterApproximation
+public import Torsion.SmoothConvexReduction
+public import Torsion.PhysicalCauchyGreenBoundary
 
-import Torsion.BoundaryCollarGradient
-import Torsion.CanonicalOptimization
-import Torsion.CanonicalSupportingFlux
-import Torsion.CanonicalUniversal
-import Torsion.ConvexGaugeRadial
-import Torsion.ConvexSupportingPoint
-import Torsion.ConvexSupportingRadial
-import Torsion.ConvexTorsionContinuity
-import Torsion.ConvolutionDerivativeBounds
-import Torsion.FlatOuterHullArea
-import Torsion.HarmonicNormalTaylor
-import Torsion.LocalHarmonicBound
-import Torsion.MarkedHullCollarComparison
-import Torsion.MarkedTorsionTaylor
-import Torsion.NormalFrame
-import Torsion.NormalFrameFlatPatch
-import Torsion.RealTaylorBound
-import Torsion.SobolevIsometry
-import Torsion.SupportedConvexFlatHull
-import Torsion.SupportedConvexFlatHullUniform
-import Torsion.SupportingSublevelRay
-import Torsion.TorsionIsometry
-import Torsion.UniformSupportedCollar
-import Torsion.WeakTorsionInterior
-import Torsion.WeakTorsionRepresentative
-import Torsion.WeakTranslationLipschitz
+public import Torsion.CanonicalHadamard
+public import Torsion.CauchyConvectionLp
+public import Torsion.CauchyFreeArcGradient
+public import Torsion.CauchyFreeArcInverse
+public import Torsion.CauchyRadialHadamard
+public import Torsion.CauchyRadialHadamardDensity
+public import Torsion.CauchyShapeBoundaryData
+public import Torsion.CauchyShapeBoundaryTrace
+public import Torsion.CauchyShapeCorrection
+public import Torsion.CauchyShapeHadamard
+public import Torsion.CompactLocalBounds
+public import Torsion.FixedKernelContinuity
+public import Torsion.HarmonicBoundaryUniqueness
+public import Torsion.LpParameterDerivative
+public import Torsion.MarkedFluxDifferentiation
+public import Torsion.MarkedFluxFixedKernel
+public import Torsion.PhysicalCauchyHarmonicBound
+public import Torsion.PhysicalCauchyHarmonicClosure
+public import Torsion.PhysicalCauchyHarmonicDerivative
+public import Torsion.PhysicalCauchyHarmonicLp
+public import Torsion.PhysicalCauchyHarmonicWeak
+public import Torsion.RadialDeformation
+public import Torsion.RadialDeformationCollar
+public import Torsion.RadialDeformationField
+public import Torsion.RadialDeformationImage
+public import Torsion.ShapeCauchyEulerian
+public import Torsion.ShapeCoefficientForms
+public import Torsion.ShapeEulerianCommutator
+public import Torsion.ShapeMarkedFluxDerivative
+public import Torsion.ShapeMarkedPatch
+public import Torsion.ShapeMaterialBase
+public import Torsion.ShapeMaterialEulerian
+public import Torsion.ShapeMaterialIdentification
+public import Torsion.ShapeMaterialInverse
+public import Torsion.ShapeMaterialSolution
+public import Torsion.SignedBoundaryAdmission
+public import Torsion.SmoothZeroLevel
+public import Torsion.WeakDirichletGradientUniqueness
+public import Torsion.ZeroBoundaryContinuity
+public import Torsion.ShapeCoefficientOperators
+public import Torsion.ShapeCoefficientScalar
+public import Torsion.ShapeMaterialGeneric
+public import Torsion.CauchyHadamardBoundaryIntegral
+
+public import Torsion.BoundaryCollarGradient
+public import Torsion.CanonicalOptimization
+public import Torsion.CanonicalSupportingFlux
+public import Torsion.CanonicalUniversal
+public import Torsion.ConvexGaugeRadial
+public import Torsion.ConvexSupportingPoint
+public import Torsion.ConvexSupportingRadial
+public import Torsion.ConvexTorsionContinuity
+public import Torsion.ConvolutionDerivativeBounds
+public import Torsion.FlatOuterHullArea
+public import Torsion.HarmonicNormalTaylor
+public import Torsion.LocalHarmonicBound
+public import Torsion.MarkedHullCollarComparison
+public import Torsion.MarkedTorsionTaylor
+public import Torsion.NormalFrame
+public import Torsion.NormalFrameFlatPatch
+public import Torsion.RealTaylorBound
+public import Torsion.SobolevIsometry
+public import Torsion.SupportedConvexFlatHull
+public import Torsion.SupportedConvexFlatHullUniform
+public import Torsion.SupportingSublevelRay
+public import Torsion.TorsionIsometry
+public import Torsion.UniformSupportedCollar
+public import Torsion.WeakTorsionInterior
+public import Torsion.WeakTorsionRepresentative
+public import Torsion.WeakTranslationLipschitz
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false

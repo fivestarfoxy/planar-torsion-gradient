@@ -1,8 +1,14 @@
-import Torsion.ContinuousProfiles
-import Torsion.CauchyRadialGeometry
-import Torsion.CauchyConformalGeometry.BoundaryGeometry
-import Mathlib.Topology.Homeomorph.Lemmas
-import Mathlib.Topology.Order.IntermediateValue
+module
+
+public import Torsion.ContinuousProfiles
+public import Torsion.CauchyRadialGeometry
+public import Torsion.CauchyConformalGeometry.BoundaryGeometry
+public import Mathlib.Topology.Homeomorph.Lemmas
+public import Mathlib.Topology.Order.IntermediateValue
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The actual angular parametrization and continuous radial profile

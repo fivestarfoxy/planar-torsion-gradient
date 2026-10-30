@@ -1,6 +1,12 @@
-import Torsion.CauchyImageAreaBoundary
-import Mathlib.MeasureTheory.Measure.Lebesgue.Complex
-import Mathlib.MeasureTheory.Integral.Prod
+module
+
+public import Torsion.CauchyImageAreaBoundary
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Complex
+public import Mathlib.MeasureTheory.Integral.Prod
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Rectangle exhaustion of the actual Cauchy Jacobian energy

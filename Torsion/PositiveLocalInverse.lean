@@ -1,6 +1,13 @@
-import Mathlib.Analysis.Calculus.InverseFunctionTheorem.Deriv
-import Mathlib.Analysis.Calculus.Deriv.Slope
-import Mathlib.Tactic
+module
+
+public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.Deriv
+public import Mathlib.Analysis.Calculus.Deriv.Slope
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Positive local reparameterization at a regular boundary point
@@ -39,6 +46,7 @@ theorem exists_positive_local_inverse {f : ℝ → ℝ} {c : ℝ}
   have hpositive : ∀ᶠ t : ℝ in 𝓝[>] 0, τ t ∈ Ioi 0 := by
     filter_upwards [self_mem_nhdsWithin, hslope_pos] with t ht hp
     have htpos : 0 < t := ht
+    change 0 < τ t
     simpa only [zero_mul] using (lt_div_iff₀ htpos).mp hp
   have hright : ∀ᶠ y in 𝓝 0, f (τ y) = y := by
     simpa only [hf0] using (hf.hasStrictFDerivAt_equiv hc.ne').eventually_right_inverse

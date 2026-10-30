@@ -1,4 +1,11 @@
-import Torsion.RestrictedSpectralOddGap
+module
+
+public import Torsion.RestrictedSpectralOddGap
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Quantitative odd-fold gap on compact positive rectangles

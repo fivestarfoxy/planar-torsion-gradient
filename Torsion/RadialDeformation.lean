@@ -1,5 +1,11 @@
-import Torsion.RadialDeformationImage
-import Torsion.RadialFluxConcavity.Transfer
+module
+
+public import Torsion.RadialDeformationImage
+public import Torsion.RadialFluxConcavity.Transfer
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Constructed localized radial shape deformations

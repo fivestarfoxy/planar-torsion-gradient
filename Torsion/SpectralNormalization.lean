@@ -1,6 +1,12 @@
-import Torsion.SpectralScaling
-import Mathlib.Data.Real.Sqrt
-import Mathlib.Tactic.Ring
+module
+
+public import Torsion.SpectralScaling
+public import Mathlib.Data.Real.Sqrt
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Normalization invariance of the concrete spectral construction

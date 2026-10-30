@@ -1,7 +1,14 @@
-import Torsion.RestrictedSpectralSemicircle
-import Torsion.RestrictedSpectralSemicircleWeight
-import Torsion.RestrictedSpectralSemicircleKernel
-import Torsion.RestrictedSpectralGagliardoKernel
+module
+
+public import Torsion.RestrictedSpectralSemicircle
+public import Torsion.RestrictedSpectralSemicircleWeight
+public import Torsion.RestrictedSpectralSemicircleKernel
+public import Torsion.RestrictedSpectralGagliardoKernel
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual restricted form admission of the semicircle barrier
@@ -44,9 +51,9 @@ private theorem semicircleKernelWeight_kernel_bound {x y : ℝ}
 
 private theorem ae_not_semicircle_endpoint : ∀ᵐ x : ℝ ∂volume, 1 - x ^ 2 ≠ 0 := by
   have h₁ : ∀ᵐ x : ℝ ∂volume, x ≠ 1 := by
-    simpa only [mem_singleton_iff] using (Set.countable_singleton (1 : ℝ)).ae_not_mem volume
+    simpa only [mem_singleton_iff] using (Set.countable_singleton (1 : ℝ)).ae_notMem volume
   have h₂ : ∀ᵐ x : ℝ ∂volume, x ≠ -1 := by
-    simpa only [mem_singleton_iff] using (Set.countable_singleton (-1 : ℝ)).ae_not_mem volume
+    simpa only [mem_singleton_iff] using (Set.countable_singleton (-1 : ℝ)).ae_notMem volume
   filter_upwards [h₁, h₂] with x hx₁ hx₂
   intro h
   have : x = 1 ∨ x = -1 := by

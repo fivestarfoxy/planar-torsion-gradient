@@ -1,7 +1,13 @@
-import Torsion.Definitions
-import Torsion.Moments
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Ring
+module
+
+public import Torsion.Definitions
+public import Torsion.Moments
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Conditional exact value and attainment
@@ -87,7 +93,7 @@ theorem conditional_exact_value (T : DirichletTheory) (d : Moments)
   have hlower : ENNReal.ofReal d.sharpConstant ≤ T.G D := by
     change ENNReal.ofReal d.sharpConstant ≤ T.G (S.domain s hs C.domain)
     rw [S.gradient_eq, ← hscalar, ENNReal.ofReal_mul hs.le]
-    exact mul_le_mul_left' C.marked_lower _
+    exact mul_le_mul_right C.marked_lower _
   have hupper : T.G D ≤ ENNReal.ofReal d.sharpConstant := by
     have h := conditional_universal_bound T d C D
     simpa only [harea, Real.sqrt_one, mul_one] using h

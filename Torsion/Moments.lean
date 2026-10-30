@@ -1,8 +1,12 @@
-import Mathlib.Data.Real.Sqrt
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Data.Real.Sqrt
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Exact moment algebra for the spectral construction
@@ -80,7 +84,6 @@ theorem flux_eq : d.flux = d.N / (2 * d.M) := by
 theorem euler : d.flux = 2 * d.stationarity * d.area := by
   unfold flux stationarity area
   field_simp [ne_of_gt d.a_pos, ne_of_gt d.M_pos]
-  ring
 
 /-- The exact square of the normalized flux in the proof of Theorem 1.1. -/
 theorem normalized_flux_sq : d.flux ^ 2 / d.area =
@@ -91,7 +94,6 @@ theorem normalized_flux_sq : d.flux ^ 2 / d.area =
   rw [hN]
   unfold flux area
   field_simp [ne_of_gt d.a_pos, ne_of_gt d.b_pos, ne_of_gt d.M_pos]
-  ring
 
 /-- The area-normalized flux equals the candidate sharp constant. -/
 theorem normalized_flux_eq : d.flux / Real.sqrt d.area = d.sharpConstant := by
@@ -152,7 +154,6 @@ theorem rescale_sharpConstant (t : ℝ) (ht : 0 < t) :
   congr 1
   simp only [rescale]
   field_simp [ne_of_gt ht, ne_of_gt d.a_pos, ne_of_gt d.M_pos]
-  ring
 
 /-- The scale used to normalize the area compensates for eigenfunction normalization. -/
 theorem rescale_normalizing_factor (t : ℝ) (ht : 0 < t) :

@@ -1,5 +1,12 @@
-import Torsion.RestrictedSpectralSemicircle
-import Torsion.RestrictedSpectralSemicircleWeight
+module
+
+public import Torsion.RestrictedSpectralSemicircle
+public import Torsion.RestrictedSpectralSemicircleWeight
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Integrability of the actual endpoint quotient
@@ -19,8 +26,8 @@ theorem integrableOn_abs_div_one_sub_abs_of_semicircle_bound {φ : ℝ → ℝ} 
     (hbound : ∀ x ∈ Ioo (-1 : ℝ) 1, |φ x| ≤ C * semicircleBarrier x) :
     IntegrableOn (fun x => |φ x| / (1 - |x|)) (Ioo (-1 : ℝ) 1) := by
   have hm : AEStronglyMeasurable (fun x : ℝ => |φ x| / (1 - |x|)) volume := by
-    simpa only [Real.norm_eq_abs, div_eq_mul_inv] using hφ.norm.mul
-      ((continuous_const.sub continuous_abs).measurable.inv.aestronglyMeasurable)
+    simpa only [Real.norm_eq_abs, Pi.div_apply] using hφ.norm.div
+      (continuous_const.sub continuous_abs).aestronglyMeasurable
   apply ((integrable_semicircleKernelWeight.const_mul (2 * C)).integrableOn).mono' hm.restrict
   filter_upwards [ae_restrict_mem measurableSet_Ioo] with x hx
   have hxabs : |x| < 1 := abs_lt.mpr hx
