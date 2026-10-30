@@ -1,5 +1,5 @@
 import Lean
-import Challenge
+import SubmissionStatement
 import Torsion.CanonicalOptimization
 
 namespace TorsionSubmission

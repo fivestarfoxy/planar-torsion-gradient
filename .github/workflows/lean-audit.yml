@@ -44,5 +44,4 @@ jobs:
       - name: Check the concrete submission statement and proof
         shell: bash
         run: |
-          lake env lean -o .lake/build/lib/lean/Challenge.olean Challenge.lean
-          lake env lean Solution.lean
+          lake build SubmissionStatement Challenge Solution

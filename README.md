@@ -24,14 +24,18 @@ lake env lean Audit.lean
 - `Torsion.DirichletTheory.G_le_second_spectral_bound`: universal bound for arbitrary convex competitors (`Torsion/CanonicalUniversal.lean`).
 - `Torsion.Spectral.second_localized_hadamard`: localized marked Hadamard formula (`Torsion/CanonicalHadamard.lean`).
 
-`Challenge.lean` defines a concrete aggregate claim using the original objects. `Solution.lean` proves that claim from the unconditional development and audits its own axiom dependencies. CI checks these additive entry points after building and auditing the original library. They are preparation for external comparison, not a claim of a Comparator pass.
+`SubmissionStatement.lean` defines a concrete aggregate claim using the original objects. `Challenge.lean` states it with the single deliberate reference placeholder used by Comparator. `Solution.lean` imports the statement definitions, never the reference theorem, and proves the same claim from the unconditional development while auditing its own axiom dependencies. CI checks these additive entry points after building and auditing the original library. The reference placeholder is outside the proof development. No Comparator pass is claimed.
 
 ## Scope and provenance
 
 The manuscript's classical uniqueness classification is outside the existing Lean final theorem. General deficit identities are formalized with their explicit premises; no separate concrete theorem of full gradient-functional shape stability is claimed. Floating-point illustrations are not proof inputs.
 
-The original mathematical sources, toolchain, dependency manifest, and audit are preserved. The supplied original README is retained in [docs/UPSTREAM_V8_README.md](docs/UPSTREAM_V8_README.md), and historical logs remain in `validation/`. Earlier comments about conditional interfaces are superseded by the final canonical constructions; inspect their actual definitions and theorem statements.
+The original mathematical sources, toolchain, dependency manifest, and audit are preserved. Lake configuration adds only the three submission-module targets, with the original default target unchanged; its original configuration is retained in `docs/UPSTREAM_V8_LAKEFILE.toml`. The supplied original README is retained in [docs/UPSTREAM_V8_README.md](docs/UPSTREAM_V8_README.md), and historical logs remain in `validation/`. Earlier comments about conditional interfaces are superseded by the final canonical constructions; inspect their actual definitions and theorem statements.
 
 Source archive v8 SHA-256: `1059841c96aef5d29d8187e53cdf3e69129ee9e3b4bd1ca2d46aab5972185e33`.
 
 [Principia project](https://principia-math.com/projects/bba012475f16aba858c09b39c012a93d). See [docs/PRINCIPIA_CI_SETUP.md](docs/PRINCIPIA_CI_SETUP.md) for the build/audit workflow and remaining comparator compatibility work. The existing Lean 4.19 baseline has not been silently upgraded to the newer template toolchain.
+
+## License
+
+The repository uses the Apache License 2.0 supplied by the Principia template. Reused components retain their source notices and licenses. The cited manuscript has its own separate rights.

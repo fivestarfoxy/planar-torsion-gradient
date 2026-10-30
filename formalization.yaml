@@ -1,0 +1,141 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+# Candidate metadata: use project.license only with a matching root LICENSE.
+version: "v0.4"
+
+project:
+  name: "The optimal planar torsion gradient"
+  description: >-
+    A substantive Lean development of the sharp torsion-gradient bound for
+    nonempty bounded open convex planar domains, its exact spectral constant,
+    and attainment by the area-normalized second-eigenfunction Cauchy image.
+  authors:
+    - "Caden Young"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Caden Young"
+
+# This repository contains the substantive proof development, not a thin
+# wrapper around a separate repository; repository is therefore omitted.
+
+classification:
+  arxiv: ["math.AP", "math.OC"]
+  msc2020: ["49Q10", "35J25", "35R11"]
+
+sources:
+  - title: "An exact spectral construction for the optimal planar torsion gradient"
+    authors:
+      - "Caden Young"
+    type: "unpublished manuscript"
+    location: "Theorem 1.1; Sections 2-5; Appendix A"
+    relationship: "formalizes"
+    note: >-
+      Manuscript dated 30 October 2026, not peer-reviewed. The formalized core
+      is the sharp inequality, exact spectral value, and attainment. The
+      manuscript's uniqueness theorem and the concrete marked-flux deficit
+      corollary have the qualifications recorded under status and fidelity.
+      The manuscript discloses AI assistance.
+    license: "unknown"
+
+related_formalizations: []
+
+status:
+  scope: >-
+    The core result applies to the original nonempty bounded open convex
+    planar class, with zero-Dirichlet weak torsion, ordinary planar Lebesgue
+    area, and the interior essential supremum of the genuine weak gradient.
+    Torsion.second_exact_value proves the exact area-one supremum and
+    attainment by the specified normalized Cauchy image without mathematical
+    proof parameters. The universal inequality is proved in
+    Torsion.DirichletTheory.G_le_second_spectral_bound. Uniqueness of all
+    maximizing domains is outside the current Lean final theorem. General
+    Hilbert-space radial deficit identities have explicit calibration and
+    Euler premises; the source has no separate declaration of the paper's
+    concrete marked-flux corollary verbatim. Full gradient-functional
+    stability, perimeter normalization, and higher-dimensional extensions
+    are not claimed. The recorded v8 baseline reports 392 mathematical
+    modules, 52713 lines, and an audit of 3587 theorem declarations. These
+    are prior records, not a fresh review or new Comparator pass. At metadata
+    preparation the ordinary GitHub build and audit are pending. No current
+    Principia Comparator verification has passed. The original Lean 4.19.0
+    pin is below the current Principia preflight minimum; Comparator
+    integration requires a validated compatible path.
+  # Counts describe the recorded proof development and exclude only the
+  # intentional reference-theorem placeholder in Challenge.lean.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+
+automation:
+  methods:
+    - method: "agent"
+      models: []
+      framework: "ChatGPT"
+      tool_setup: >-
+        Human-directed ChatGPT assistance in mathematical development,
+        manuscript preparation, numerical checks, Lean formalization, and
+        repository packaging. The development uses Lean and mathlib.
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "not tracked"
+        hardware: "not fully recorded"
+      prompting_notes: >-
+        Iterative instructions to formalize the torsion-gradient result,
+        preserve the existing source, discharge remaining analytic inputs,
+        and check the theorem statements and axiom dependencies.
+  spend_usd: "not tracked"
+  notes: >-
+    AI assistance is disclosed. Exact historical model identifiers and a
+    complete usage ledger were not recorded, so the empty models list does
+    not mean no AI was used. Repository and metadata preparation do not
+    themselves establish mathematical correctness or Comparator success.
+
+fidelity:
+  divergences: >-
+    The formalized core matches the sharp-bound, exact-value, and attainment
+    scope of Theorem 1.1. The shorter manuscript uses existing spectral and
+    boundary-attainment results; the formal development constructs its
+    required inputs independently. The manuscript's Theorem 1.2 uniqueness
+    classification is not included in the current final Lean theorem.
+    Its concrete marked-flux deficit corollary is an application of the
+    proved calibration to general formal identities, not a separate concrete
+    source declaration. Floating-point numerical illustrations are not
+    certified decimal enclosures and are not used as premises of the core.
+
+review:
+  status: "agent-reviewed scope; prior build/audit recorded; current CI pending"
+  reviewers: []
+  notes: >-
+    ChatGPT performed source-level checks of the final theorem types, key
+    definitions, import dependencies, and documented verification scope.
+    The supplied records report a previous successful Lean build and axiom
+    audit allowing only propext, Classical.choice, and Quot.sound. Metadata
+    preparation did not rerun that build. The current ordinary GitHub CI and
+    additive submission wrapper remain to be checked. No independent expert
+    peer review, author verification of every proof, or Comparator pass is
+    claimed.
+
+alignment:
+  namespace: "Torsion"
+  statements:
+    - source: "Theorem 1.1: sharp inequality on every admissible convex domain"
+      lean: "Torsion.DirichletTheory.G_le_second_spectral_bound"
+      module: "Torsion.CanonicalUniversal"
+      status: "proved in the recorded v8 development; current CI pending"
+      note: "Uses the actual weak-gradient norm and original convex-domain class."
+    - source: "Theorem 1.1: exact optimal constant and normalized-image attainment"
+      lean: "Torsion.second_exact_value"
+      module: "Torsion.CanonicalOptimization"
+      status: "proved in the recorded v8 development; current CI pending"
+      note: "No mathematical proof parameters remain in this final theorem."
+    - source: "Combined submission claim for Theorem 1.1"
+      lean: "TorsionSubmission.solution"
+      module: "Solution"
+      status: "additive wrapper; ordinary CI pending; not Comparator-verified"
+      note: >-
+        Combines the universal bound, exact cStar, and area-one normalized
+        Cauchy-image attainment. Challenge contains only its
+        deliberate reference proof placeholder; Claim remains a concrete
+        definition, not a permitted definition hole.
+
+acknowledgements: >-
+  Lean, mathlib and their contributors; ChatGPT assistance as described above.

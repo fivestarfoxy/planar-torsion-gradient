@@ -1,36 +1,22 @@
-# Candidate CI and external claim
+# Principia statement/proof interface
 
-These are additive candidate files for the **root of the extracted `torsion-lean` Lake project**. They do not replace or modify any original mathematical source, toolchain, dependency manifest, or audit file. They have not been compiled locally: this workspace has neither Lean nor the cached dependencies installed.
+This repository supplies the statement/proof wrappers and metadata below. The original mathematical sources and toolchain pins are unchanged. No Comparator job or pass is supplied.
 
-`Challenge.lean` defines `TorsionSubmission.Claim` using the original definitions. It states:
+`SubmissionStatement.lean` preserves the existing concrete `TorsionSubmission.Claim` definition. `Challenge.lean` imports it and advertises the same `TorsionSubmission.solution : Claim` as `Solution.lean` in a separate environment. Its one deliberate `sorry` is a reference placeholder, not part of the proof development; it must never be imported by `Solution.lean` or the original theorem audit. Both same-named theorems must not be imported into one environment. The proved `Solution.lean` imports `Lean`, `SubmissionStatement`, and `Torsion.CanonicalOptimization`, and retains its own recursive axiom check.
 
-1. The sharp bound on the genuine interior weak-gradient essential supremum for every original nonempty bounded open convex planar domain.
-2. The exact area-one supremum in terms of the actual second restricted eigenpair.
-3. Attainment by a domain whose carrier is exactly the area-normalized Cauchy image, with area one and the required gradient value.
+`definition_names` is deliberately empty. The official Comparator documentation defines this field as a list of definition **holes** whose bodies may differ; it is not an exact-body comparison list. The proposition `Claim` must remain fixed. Comparator's ordinary check of declarations appearing in theorem statements is the relevant comparison for this concrete definition.
 
-It imports the constructed second profile and the base definitions, without importing the final universal-bound or optimization modules. There is no assumption of the claim itself and no placeholder proof. `Solution.lean` proves this claim from `Torsion.DirichletTheory.G_le_second_spectral_bound` and `Torsion.second_exact_value`, then checks the proof's complete axiom dependencies against the existing three-axiom allowlist. The source definitions—not a renamed or weakened substitute—determine the statement.
+`formalization.yaml` follows the recovered official v0.4 template and schema. It credits Caden Young, identifies the unpublished manuscript, discloses ChatGPT assistance without inventing exact historical model names, and distinguishes the recorded v8 audit from pending ordinary CI and absent Comparator verification. Repository metadata for a thin external wrapper is omitted because this repository contains the substantive development.
 
-The workflow checks the pinned Lean/mathlib versions, uses the official Lean action to build the original library, runs the unchanged `Audit.lean`, and elaborates both candidate files. `Challenge.olean` is placed in Lake's existing module search path so `Solution.lean` can import it without changing `lakefile.toml`. The original audit covers project theorems; the added audit covers the new submission theorem.
+Integration status:
 
-## Principia integration still required
+- The root `LICENSE` supplies the template's Apache-2.0 terms; the manuscript's separate source license is unknown here.
+- Keep verification status current after the ordinary GitHub build/audit completes. Compilation of the proof wrapper does not constitute a Comparator pass.
+- Resolve the Lean compatibility blocker. Original Lean 4.19.0 is below Principia's observed preflight minimum of 4.28; the current official template additionally targets Lean 4.35.0-rc2 or later and uses its bundled Comparator/module-visibility setup. A validated toolchain port is required by the current Principia preflight.
+- Register additive Lake libraries for `SubmissionStatement`, `Challenge`, and `Solution`, leaving the original `Torsion` default target intact. The ordinary CI can then use `lake build SubmissionStatement Challenge Solution` for the wrappers and the unchanged `lake env lean Audit.lean` for the original development. Such a build is ordinary Lean verification and does not constitute a Comparator pass.
 
-This is a standard GitHub Lean build/audit workflow. Its success alone must not be reported as a Principia comparator pass. No comparator job or comparator result is fabricated here.
+Official references used:
 
-The recovered public `PrincipiaMathOrg/PrincipiaTemplate` documentation requires Lean **4.35.0-rc2 or later**, module headers and public visibility in all Lean files, and its bundled Lake comparator. This project's original verified baseline is **Lean 4.19.0**. The current wrapper and ordinary CI deliberately retain that baseline; they have not been compiled or comparator-checked. They do not make the project ready for the modern comparator.
-
-Current Principia integration therefore needs either a separately validated port of the original development and template-shaped wrapper, or an officially supported verifier compatible with the pinned legacy toolchain. Do not silently change the toolchain or report the existing historical audit as validation of a port. The additive wrapper shape can be adapted once a compatible comparison path is established, while preserving the explicit mathematical claim and original development. Uniqueness and full gradient-functional stability remain outside this claim.
-
-The checkout and Lean action revisions are pinned to the immutable commits used
-by PrincipiaMathOrg/PrincipiaTemplate at tree
-`da848aff2c509e82aae4426a82f50dc525928013`. The original Lean and mathlib pins
-remain unchanged. The action settings follow the official documentation:
-https://github.com/leanprover/lean-action/blob/main/README.md.
-
-## Repository creation blocker
-
-Principia confirmed the GitHub connection to `fivestarfoxy`, but its automatic
-repository creation was refused because `PrincipiaMathOrg` restricts OAuth app
-access. The user subsequently created the dedicated public repository
-`fivestarfoxy/planar-torsion-gradient` directly in GitHub. This snapshot is
-prepared for that repository; the unrelated private repository was left unchanged.
-This does not by itself resolve the comparator/toolchain compatibility above.
+- https://github.com/PrincipiaMathOrg/PrincipiaTemplate
+- https://github.com/mathlib-initiative/formalization.yaml/blob/main/schema/v0.4.schema.json
+- https://github.com/leanprover/comparator/blob/master/README.md

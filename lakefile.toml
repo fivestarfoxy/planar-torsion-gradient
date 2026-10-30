@@ -9,3 +9,12 @@ rev = "v4.19.0"
 
 [[lean_lib]]
 name = "Torsion"
+
+[[lean_lib]]
+name = "SubmissionStatement"
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"
