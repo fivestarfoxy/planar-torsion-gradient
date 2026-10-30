@@ -35,7 +35,7 @@ theorem hasGradientAt_quadraticIm (z : Plane) :
     change w.im ^ 2 / 2 = (1 / 2 : ℝ) * (w.im * w.im)
     ring
   · ext v
-    simp [InnerProductSpace.toDual_apply, Complex.inner, Complex.mul_re]
+    simp [InnerProductSpace.toDual_apply_apply, Complex.inner, Complex.mul_re]
     ring
 
 theorem gradient_quadraticIm (z : Plane) :
@@ -63,12 +63,15 @@ theorem IsTest.quadraticIm_pairing {D : Set Plane} {ψ : Plane → ℝ}
   have h3 : Integrable (fun z => z.im * ψ z) volume :=
     (Complex.continuous_im.mul hψ.1.continuous).integrable_of_hasCompactSupport hψ.2.1.mul_left
   have heq := integral_mul_fderiv_eq_neg_fderiv_mul_of_integrable h1 h2 h3
-    Complex.imCLM.differentiable (hψ.1.differentiable (by simp))
+    (fun x _ => Complex.imCLM.differentiable x)
+    (fun x _ => hψ.1.differentiable (by simp) x)
   simp only [hd, one_mul, fderiv_apply_eq_inner_gradient] at heq
   convert heq using 1
   apply integral_congr_ae
   exact ae_of_all _ fun z => by
-    simp [Complex.inner, Complex.mul_re, mul_comm]
+    change inner (𝕜 := ℝ) ((z.im : ℂ) * Complex.I) (gradient ψ z) =
+      z.im * inner (𝕜 := ℝ) (gradient ψ z) Complex.I
+    rw [← Complex.real_smul, real_inner_smul_left, real_inner_comm]
 
 /-- The torsion solution at a flat marked patch admits an actual compact
 quadratic correction whose odd extension is weakly harmonic on a full ball.

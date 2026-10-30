@@ -80,7 +80,7 @@ theorem HasTorsionFlux.of_odd_smoothRepresentative
   have hflux := HasTorsionFlux.of_localRepresentative hu hr
     hU.continuous.continuousOn hUAE hU0 (hU.differentiable (by simp) 0)
   have hgrad : gradient U 0 = gradient v 0 := by
-    change (InnerProductSpace.toDual ℝ Plane).symm (fderiv ℝ (fun z => v z - quadraticIm z) 0) = _
+    change (InnerProductSpace.toDual ℝ Plane).symm (fderiv ℝ (v - quadraticIm) 0) = _
     rw [fderiv_sub (hv.differentiable (by simp) 0)
       (quadraticIm_contDiff.differentiable (by simp) 0), map_sub]
     change gradient v 0 - gradient quadraticIm 0 = gradient v 0
@@ -125,6 +125,7 @@ theorem IsMarked.exists_smooth_torsion_representative {D : Set Plane}
   have hV : ContDiff ℝ ∞ V := hv.sub quadraticIm_contDiff
   have hVG (z : Plane) : gradient V z = gradient v z - gradient quadraticIm z := by
     unfold gradient
+    change (InnerProductSpace.toDual ℝ Plane).symm (fderiv ℝ (v - quadraticIm) z) = _
     rw [fderiv_sub (hv.differentiable (by simp) z)
       (quadraticIm_contDiff.differentiable (by simp) z), map_sub]
   have hAEsmall := ae_restrict_of_ae_restrict_of_subset

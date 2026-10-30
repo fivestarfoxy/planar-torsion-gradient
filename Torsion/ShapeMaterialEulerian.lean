@@ -7,6 +7,7 @@ public import Torsion.SobolevUniqueness
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! # The actual material derivative gives a localized Eulerian harmonic pair -/
 

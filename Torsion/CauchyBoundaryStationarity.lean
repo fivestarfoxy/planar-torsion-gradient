@@ -260,7 +260,6 @@ theorem signed_stationarity_physicalCandidate_kernel_boundary_tendsto
   have hM := (mass_pos (hφ.continuous hα0).continuousOn hpos).ne'
   convert h using 1
   field_simp [ha.ne', hn, hM]
-  ring
 
 
 /-- The actual physical torsion gradient has the genuine inward-normal

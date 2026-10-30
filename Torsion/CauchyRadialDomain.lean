@@ -71,6 +71,7 @@ theorem IsMarked.ray_mem_iff_lt_frontier_radius {D : Set Plane}
     have hden : 0 < r - s := sub_pos.2 hsr
     have hsum : (r - R) / (r - s) + (R - s) / (r - s) = 1 := by
       field_simp
+      ring
     have hcomb := hc hsmem hmem
       (div_nonneg (sub_nonneg.2 hRr) hden.le)
       (div_nonneg (sub_nonneg.2 hsR.le) hden.le) hsum
@@ -82,6 +83,7 @@ theorem IsMarked.ray_mem_iff_lt_frontier_radius {D : Set Plane}
     have hden : 0 < R - s := sub_pos.2 hsR
     have hsum : (R - r) / (R - s) + (r - s) / (R - s) = 1 := by
       field_simp
+      ring
     have hcomb := hc.combo_interior_closure_mem_interior
       (show (s : ℂ) * e ∈ interior D from hD.1.interior_eq.symm ▸ hsmem)
       (frontier_subset_closure hp)
@@ -111,7 +113,7 @@ theorem IsMarked.radialDomain_eq_of_frontier_radii {D : Set Plane}
     let θ : ContinuousProfiles.Angle := ⟨w.arg, Ioo_subset_Icc_self harg⟩
     let e : Plane := Complex.exp (((θ : ℝ) : ℂ) * Complex.I)
     have he : 0 < e.im := by
-      simpa [e, Complex.exp_mul_I, θ] using
+      simpa [e, Complex.exp_mul_I, θ, Complex.sin_ofReal_re] using
         Real.sin_pos_of_pos_of_lt_pi harg.1 harg.2
     have hn : ‖e‖ = 1 := by dsimp [e]; exact Complex.norm_exp_ofReal_mul_I _
     have hp : ((R θ : ℝ) : ℂ) * e ∈ frontier D := hfront θ harg.1 harg.2

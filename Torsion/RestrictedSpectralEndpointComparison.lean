@@ -29,8 +29,8 @@ theorem IsRestrictedEigenfunction.exists_semicircle_bound_of_weak_barrier
     ∃ C : ℝ, 0 < C ∧ ∀ x : ℝ, |φ x| ≤ C * semicircleBarrier x := by
   have ha : 0 < a := hEig.eigenvalue_pos
   have hlim : Tendsto (fun t : ℝ => a * semicircleBarrier t) (𝓝 1) (𝓝 0) := by
-    simpa only [semicircleBarrier, one_pow, sub_self, max_self, Real.sqrt_zero, mul_zero] using
-      (continuous_const.mul semicircleBarrier_continuous).tendsto (1 : ℝ)
+    simpa only [semicircleBarrier, one_pow, sub_self, max_self, Real.sqrt_zero, mul_zero] using!
+      (semicircleBarrier_continuous.tendsto (1 : ℝ)).const_mul a
   obtain ⟨ε, hε, hεbound⟩ := Metric.eventually_nhds_iff.mp
     (hlim.eventually (eventually_lt_nhds (by norm_num : (0 : ℝ) < 1)))
   let δ : ℝ := min (ε / 2) (min (1 / 2) (Real.pi / (8 * a)))
@@ -117,7 +117,7 @@ theorem continuous_of_semicircle_bound {φ : ℝ → ℝ} {C : ℝ}
     apply tendsto_iff_norm_sub_tendsto_zero.mpr
     simp only [sub_zero, Real.norm_eq_abs]
     apply squeeze_zero (fun t => abs_nonneg _) hbound
-    simpa only [semicircleBarrier_zero_exterior x hx1, mul_zero] using
-      (continuous_const.mul semicircleBarrier_continuous).tendsto x
+    simpa only [semicircleBarrier_zero_exterior x hx1, mul_zero] using!
+      (semicircleBarrier_continuous.tendsto x).const_mul C
 
 end Torsion.Spectral

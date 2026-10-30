@@ -38,7 +38,7 @@ theorem leastOddEigenvalue_eq_secondEigenvalue_of_lt_even_gap
   rw [hself] at hminimum
   have hmass : 0 < ∫ x : ℝ, restrictedOddPart secondEigenfunctionL2 x ^ 2 := by
     simpa only [← pow_two] using heig.square_integral_pos
-  exact le_antisymm ((mul_le_mul_right hmass).mp hminimum) secondEigenvalue_le_leastOddEigenvalue
+  exact le_antisymm ((mul_le_mul_iff_of_pos_right hmass).mp hminimum) secondEigenvalue_le_leastOddEigenvalue
 
 /-- Every genuine second eigenfunction belongs to the same one-dimensional
 L² eigenspace as the selected odd, nonnegative-half eigenfunction, once the

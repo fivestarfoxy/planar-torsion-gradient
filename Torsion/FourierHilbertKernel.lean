@@ -146,7 +146,13 @@ theorem integral_dampedSignMultiplier_phase {y : ℝ} (hy : 0 < y) (t : ℝ) :
   dsimp [p, q] at *
   field_simp [hpne, hqne, hden]
   ring_nf
-  simp [Complex.I_sq]
-  ring
+  have hpne' : Complex.I * (t : ℂ) + (y : ℂ) ≠ 0 := by
+    simpa only [add_comm, mul_comm] using hpne
+  have hqne' : Complex.I * (t : ℂ) - (y : ℂ) ≠ 0 := by
+    simpa only [sub_eq_add_neg, add_comm, mul_comm] using hqne
+  field_simp [hpne', hqne']
+  ring_nf
+  all_goals try simp [Complex.I_sq]
+  all_goals ring
 
 end Torsion.Spectral

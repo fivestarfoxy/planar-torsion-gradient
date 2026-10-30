@@ -58,7 +58,7 @@ theorem complexSourceFourier_eq_integral (S : ℝ → ℂ) (ξ : ℝ) :
   exact ae_of_all _ fun x => by
     dsimp only
     have hp : (2 * Real.pi : ℝ) ≠ 0 := by positivity
-    have h : -2 * Real.pi * x * (ξ / (2 * Real.pi)) = -(x * ξ) := by field_simp; ring
+    have h : -2 * Real.pi * x * (ξ / (2 * Real.pi)) = -(x * ξ) := by field_simp
     simp only [h, Complex.ofReal_neg, smul_eq_mul]
 
 theorem complexSourceFourier_ofReal (f : ℝ → ℝ) :
@@ -174,7 +174,7 @@ theorem integral_fourier_schwartz_pairing {f : ℝ → ℝ}
       rfl
     _ = ((2 * Real.pi : ℝ) : ℂ) * ∫ ξ : ℝ,
         𝓕 (fun x => (f x : ℂ)) ξ * star (𝓕 SC ξ) := by
-      simpa only [smul_eq_mul, abs_of_pos hp] using
+      simpa only [smul_eq_mul, Complex.real_smul, abs_of_pos hp] using!
         Measure.integral_comp_div (fun ξ : ℝ =>
           𝓕 (fun x => (f x : ℂ)) ξ * star (𝓕 SC ξ)) (2 * Real.pi)
     _ = _ := by
@@ -210,10 +210,10 @@ theorem integral_fourier_complexSchwartz_pairing {f : ℝ → ℝ}
   have hp : 0 < 2 * Real.pi := by positivity
   calc
     _ = ∫ ξ : ℝ, 𝓕 (fun x => (f x : ℂ)) (ξ / (2 * Real.pi)) *
-        star (𝓕 S (ξ / (2 * Real.pi))) := by simp only [fourier_eq_mathlib, complexSourceFourier]
+        star (𝓕 S (ξ / (2 * Real.pi))) := by simp only [fourier_eq_mathlib, complexSourceFourier, SchwartzMap.fourier_coe]
     _ = ((2 * Real.pi : ℝ) : ℂ) * ∫ ξ : ℝ,
         𝓕 (fun x => (f x : ℂ)) ξ * star (𝓕 S ξ) := by
-      simpa only [smul_eq_mul, abs_of_pos hp] using
+      simpa only [smul_eq_mul, Complex.real_smul, abs_of_pos hp] using!
         Measure.integral_comp_div (fun ξ : ℝ =>
           𝓕 (fun x => (f x : ℂ)) ξ * star (𝓕 S ξ)) (2 * Real.pi)
     _ = _ := by rw [integral_mathlib_fourier_mul_star_schwartz hf S]
@@ -236,13 +236,13 @@ theorem complex_schwartz_equation_of_real {f q : ℝ → ℝ}
   rw [hweak SR] at hr
   rw [hweak SI] at hi
   have hqr : Integrable (fun x : ℝ => q x * SR x) := by
-    have h := hq.bdd_mul' SR.continuous.aestronglyMeasurable
+    have h := hq.bdd_mul SR.continuous.aestronglyMeasurable
       (ae_of_all _ fun x => SchwartzMap.norm_le_seminorm ℝ SR x)
-    simpa only [mul_comm] using h
+    simpa only [mul_comm] using! h
   have hqi : Integrable (fun x : ℝ => q x * SI x) := by
-    have h := hq.bdd_mul' SI.continuous.aestronglyMeasurable
+    have h := hq.bdd_mul SI.continuous.aestronglyMeasurable
       (ae_of_all _ fun x => SchwartzMap.norm_le_seminorm ℝ SI x)
-    simpa only [mul_comm] using h
+    simpa only [mul_comm] using! h
   have hspace : (∫ x : ℝ, (q x : ℂ) * star (S x)) =
       ((∫ x : ℝ, q x * SR x : ℝ) : ℂ) -
         Complex.I * ((∫ x : ℝ, q x * SI x : ℝ) : ℂ) := by

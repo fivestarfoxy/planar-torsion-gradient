@@ -49,7 +49,9 @@ theorem truncation_contDiff (n : ℕ) : ContDiff ℝ ∞ (truncation n) :=
 
 theorem truncation_hasDerivAt (n : ℕ) (t : ℝ) :
     HasDerivAt (truncation n) (coefficient n t) t := by
-  simpa only [truncation, coefficient, mul_one] using
+  change HasDerivAt (fun s => SmoothPositivePart.approx n (s - threshold n))
+    (SmoothPositivePart.slope n (t - threshold n)) t
+  simpa only [Function.comp_def, id_eq, mul_one] using
     (SmoothPositivePart.approx_hasDerivAt n (t - threshold n)).comp t
       ((hasDerivAt_id t).sub_const (threshold n))
 
@@ -154,15 +156,15 @@ theorem memH10_of_positive_zero_extension {D : Set Plane}
         hdiff.hasGradientAt.hasFDerivAt
       have hg : HasGradientAt (f n) (coefficient n (u x) • gradient u x) x := by
         apply hasGradientAt_iff_hasFDerivAt.mpr
-        simpa only [map_smul, RCLike.conj_to_real] using hd
+        simpa only [f, Function.comp_def, map_smul, RCLike.conj_to_real] using hd
       rw [hg.gradient, hgrad x hx]
     · have hnot : x ∉ tsupport (f n) := fun h => hx ((hf n).2.2 h)
       rw [gradient_eq_zero_of_not_mem_tsupport hnot, hgzero x hx, smul_zero]
   refine ⟨huLp, hgLp, f, hf, ?_, ?_⟩
   · apply tendsto_eLpNorm_two_of_dominated (B := fun x => 2 * ‖u x‖)
     · intro n
-      exact ((hf n).1.continuous.aestronglyMeasurable.sub huLp.1)
-    · convert ((memLp_two_iff_integrable_sq_norm huLp.1).mp huLp).const_mul (4 : ℝ) using 1
+      exact ((hf n).1.continuous.aestronglyMeasurable.sub huLp.aestronglyMeasurable)
+    · convert ((memLp_two_iff_integrable_sq_norm huLp.aestronglyMeasurable).mp huLp).const_mul (4 : ℝ) using 1
       funext x
       ring
     · intro n
@@ -176,8 +178,8 @@ theorem memH10_of_positive_zero_extension {D : Set Plane}
         simpa only [sub_self] using (truncation_tendsto (hu0 x)).sub_const (u x)
   · apply tendsto_eLpNorm_two_of_dominated (B := fun x => 2 * ‖g x‖)
     · intro n
-      exact (hf n).continuous_gradient.aestronglyMeasurable.sub hgLp.1
-    · convert ((memLp_two_iff_integrable_sq_norm hgLp.1).mp hgLp).const_mul (4 : ℝ) using 1
+      exact (hf n).continuous_gradient.aestronglyMeasurable.sub hgLp.aestronglyMeasurable
+    · convert ((memLp_two_iff_integrable_sq_norm hgLp.aestronglyMeasurable).mp hgLp).const_mul (4 : ℝ) using 1
       funext x
       ring
     · intro n

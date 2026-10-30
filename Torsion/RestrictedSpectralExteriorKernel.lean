@@ -61,7 +61,7 @@ theorem MemRestrictedFormDomain.integrable_div_sq_exterior {f : ℝ → ℝ}
     Integrable (fun s : ℝ => f s / (y - s) ^ 2) := by
   have hδ : 0 < |y| - 1 := by linarith
   have hm : AEStronglyMeasurable (fun s : ℝ => f s / (y - s) ^ 2) volume := by
-    simpa only [div_eq_mul_inv] using hf.integrable.aestronglyMeasurable.mul
+    simpa only [div_eq_mul_inv, Pi.mul_apply, Pi.inv_apply, Pi.pow_apply, Pi.sub_apply, id_eq] using! hf.integrable.aestronglyMeasurable.mul
       (((continuous_const.sub continuous_id).pow 2).measurable.inv.aestronglyMeasurable)
   apply (hf.integrable.norm.div_const ((|y| - 1) ^ 2)).mono' hm
   filter_upwards [hf.2.2.1] with s hs

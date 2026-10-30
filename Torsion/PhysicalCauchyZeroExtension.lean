@@ -34,7 +34,7 @@ theorem physicalParameterExtension_continuous {φ : ℝ → ℝ}
     Continuous (physicalParameterExtension φ) := by
   have hY := height_continuous hφ
   have hP := poissonExtension_continuous hY (fun s hs => height_zero_of_one_le_abs φ hs)
-  have hP2 := poissonExtension_continuous (hY.pow 2)
+  have hP2 := poissonExtension_continuous (f := fun s => height φ s ^ 2) (hY.pow 2)
     (fun s hs => by rw [height_zero_of_one_le_abs φ hs]; norm_num)
   exact ((hP.pow 2).neg.div_const 2).add (hP2.div_const 2)
 
@@ -87,7 +87,7 @@ theorem physicalParameterExtension_superlevel_isCompact {φ : ℝ → ℝ}
     have hraw : Tendsto (fun z : Plane => -((cauchy φ z).im) ^ 2 / 2 + (auxiliary φ z).im)
         (cobounded Plane) (𝓝 0) := by
       simpa only [Complex.zero_im, zero_pow (by norm_num : 2 ≠ 0), neg_zero,
-        zero_div, zero_add] using ((hF.pow 2).neg.div_const (2 : ℝ)).add hA
+        zero_div, zero_add, Function.comp_apply] using! ((hF.pow 2).neg.div_const (2 : ℝ)).add hA
     have hgood : ∀ᶠ z : Plane in cobounded Plane,
         ‖-((cauchy φ z).im) ^ 2 / 2 + (auxiliary φ z).im‖ < ε := by
       simpa only [Metric.mem_ball, dist_zero_right] using
@@ -99,8 +99,10 @@ theorem physicalParameterExtension_superlevel_isCompact {φ : ℝ → ℝ}
     have hznonneg : 0 ≤ z.im := by
       simpa [upperHalfPlane, Complex.closure_setOf_lt_im] using hz.1
     by_cases hzh : 0 < z.im
-    · simpa only [physicalParameterExtension_eq_raw hφ hzh, mem_preimage,
-        mem_Ici, not_lt] using hz.2
+    · change ¬ ‖-((cauchy φ z).im) ^ 2 / 2 + (auxiliary φ z).im‖ < ε
+      apply not_lt_of_ge
+      have hlevel : ε ≤ ‖physicalParameterExtension φ z‖ := hz.2
+      rwa [physicalParameterExtension_eq_raw hφ hzh] at hlevel
     · have hzi : z.im = 0 := le_antisymm (not_lt.mp hzh) hznonneg
       have hzeq : z = (z.re : Plane) := by apply Complex.ext <;> simp [hzi]
       have hlevel : ε ≤ ‖physicalParameterExtension φ z‖ := hz.2

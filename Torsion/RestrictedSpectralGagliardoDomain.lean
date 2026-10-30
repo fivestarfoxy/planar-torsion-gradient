@@ -36,7 +36,7 @@ theorem tendsto_eLpNorm_translate_sub_error {p : ℝ≥0∞} (hp : 1 ≤ p)
   have hLt : MemLp (fun x => f (x + h)) p volume := hf.comp_measurePreserving hmp
   have hvLt (n : ℕ) : MemLp (fun x => v n (x + h)) p volume := (hv n).comp_measurePreserving hmp
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds
-    (by simpa using hval.add hval) (fun _ => zero_le _)
+    (by simpa using hval.add hval) (fun _ => bot_le)
   intro n
   dsimp only
   have heq : (fun x => (v n (x + h) - v n x) - (f (x + h) - f x)) =
@@ -45,14 +45,14 @@ theorem tendsto_eLpNorm_translate_sub_error {p : ℝ≥0∞} (hp : 1 ≤ p)
   calc
     _ ≤ eLpNorm (fun x => v n (x + h) - f (x + h)) p volume +
         eLpNorm (fun x => -(v n x - f x)) p volume :=
-      eLpNorm_add_le ((hvLt n).1.sub hLt.1) (((hv n).1.sub hf.1).neg) hp
+      eLpNorm_add_le hp
     _ = _ := by
       rw [show eLpNorm (fun x => v n (x + h) - f (x + h)) p volume =
           eLpNorm (fun x => v n x - f x) p volume from
             eLpNorm_comp_add_right (fun x => v n x - f x) h p]
       rw [show eLpNorm (fun x => -(v n x - f x)) p volume =
           eLpNorm (fun x => v n x - f x) p volume from by
-            simpa only [Pi.neg_apply] using eLpNorm_neg (fun x => v n x - f x) p volume]
+            simpa only [Pi.neg_apply] using! eLpNorm_neg (fun x => v n x - f x) p volume]
 
 /-- Exact translated Parseval for a genuine restricted form member. Its
 translated density need not have restricted support: both actual L¹ and L²
@@ -72,8 +72,7 @@ theorem MemRestrictedFormDomain.integral_sq_translate_sub {f : ℝ → ℝ}
   have hdiffcore (n : ℕ) : ContDiff ℝ ∞ (fun x => v n (x + h) - v n x) ∧
       HasCompactSupport (fun x => v n (x + h) - v n x) := by
     refine ⟨((hv n).1.comp (contDiff_id.add contDiff_const)).sub (hv n).1, ?_⟩
-    exact ((hv n).2.1.comp_homeomorph (Homeomorph.addRight h)).comp₂_left
-      (hv n).2.1 (sub_self (0 : ℝ))
+    exact ((hv n).2.1.comp_homeomorph (Homeomorph.addRight h)).sub (hv n).2.1
   have hparseval := (fourier_parseval_of_compactSmooth_approximation hdiffL hdiffI hdiffcore
     (tendsto_eLpNorm_translate_sub_error (by norm_num : (1 : ℝ≥0∞) ≤ 2) hf.1 hvL hval h)
     (tendsto_eLpNorm_translate_sub_error (by norm_num : (1 : ℝ≥0∞) ≤ 1)
@@ -97,9 +96,9 @@ theorem MemRestrictedFormDomain.integrable_sq_translate_quotient {f : ℝ → �
     (hf : MemRestrictedFormDomain f) (h : ℝ) :
     Integrable (fun x : ℝ => (f (x + h) - f x) ^ 2 / h ^ 2) := by
   have hdiff := (hf.1.comp_measurePreserving (measurePreserving_add_right volume h)).sub hf.1
-  have hs := (memLp_two_iff_integrable_sq_norm hdiff.1).1 hdiff
+  have hs := (memLp_two_iff_integrable_sq_norm hdiff.aestronglyMeasurable).1 hdiff
   have hi : Integrable (fun x : ℝ => (f (x + h) - f x) ^ 2) := by
-    simpa only [Real.norm_eq_abs, sq_abs] using hs
+    simpa only [Real.norm_eq_abs, sq_abs, Pi.sub_apply, Function.comp_apply] using! hs
   exact hi.div_const _
 
 /-- The bounded cosine multiplier is integrable against the genuine
@@ -108,7 +107,7 @@ theorem MemRestrictedFormDomain.integrable_fourier_translate_quotient {f : ℝ �
     (hf : MemRestrictedFormDomain f) (h : ℝ) :
     Integrable (fun ξ : ℝ => ((2 - 2 * Real.cos (h * ξ)) / h ^ 2) * ‖fourier f ξ‖ ^ 2) := by
   have hF := fourier_continuous hf.integrable
-  have hi := (memLp_two_iff_integrable_sq_norm hf.fourier_parseval.1.1).1 hf.fourier_parseval.1
+  have hi := (memLp_two_iff_integrable_sq_norm hf.fourier_parseval.1.aestronglyMeasurable).1 hf.fourier_parseval.1
   have hm : AEStronglyMeasurable
       (fun ξ : ℝ => ((2 - 2 * Real.cos (h * ξ)) / h ^ 2) * ‖fourier f ξ‖ ^ 2) volume := by
     apply Continuous.aestronglyMeasurable
@@ -164,11 +163,7 @@ theorem MemRestrictedFormDomain.gagliardoEnergy {f : ℝ → ℝ}
   have hm : Measurable (fun p : ℝ × ℝ =>
       ENNReal.ofReal ((2 - 2 * Real.cos (p.1 * p.2)) / p.1 ^ 2) *
         ENNReal.ofReal (‖fourier f p.2‖ ^ 2)) := by
-    apply Measurable.mul
-    · apply Measurable.ennreal_ofReal
-      fun_prop
-    · apply Measurable.ennreal_ofReal
-      exact ((hF.comp continuous_snd).norm.pow 2).measurable
+    fun_prop
   rw [lintegral_lintegral_swap hm.aemeasurable]
   have hsymbol (ξ : ℝ) :
       (∫⁻ h : ℝ, ENNReal.ofReal ((2 - 2 * Real.cos (h * ξ)) / h ^ 2) * ENNReal.ofReal (‖fourier f ξ‖ ^ 2)) =

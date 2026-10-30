@@ -115,7 +115,7 @@ theorem IsTest.upperHalfPlane_indicator_of_bound {D : Set Plane} {ψ : Plane →
           · exact mul_nonneg hC hz.le
         rw [hBz, min_eq_left hψle, min_eq_left hnegψle]
         exact max_zero_sub_max_neg_zero_eq_self _
-    · rw [indicator_of_not_mem (show z ∉ upperHalfPlane from hz)]
+    · rw [indicator_of_notMem (show z ∉ upperHalfPlane from hz)]
       have hbz : b z ≤ 0 := mul_nonpos_of_nonneg_of_nonpos
         (mul_nonneg hC (mul_self_nonneg _)) (le_of_not_gt hz)
       simp [B, max_eq_right hbz, le_max_right]
@@ -127,18 +127,18 @@ theorem IsTest.upperHalfPlane_indicator_of_bound {D : Set Plane} {ψ : Plane →
     · rw [indicator_of_mem hzU]
       apply hz
       rw [hvalue, indicator_of_mem hzU]
-    · rw [indicator_of_not_mem hzU]
+    · rw [indicator_of_notMem hzU]
       apply hz0
-      rw [hvalue, indicator_of_not_mem hzU]
+      rw [hvalue, indicator_of_notMem hzU]
   have hw' : MemH10 univ (upperHalfPlane.indicator ψ)
       (upperHalfPlane.indicator (gradient ψ)) :=
     hw.congr (ae_of_all _ fun z => congrFun hvalue z) hgrad
   apply hw'.upperHalfPlane_of_compact_support hψ.2.1
   · exact ae_of_all _ fun z hz => by
       by_cases hzU : z ∈ upperHalfPlane
-      · rw [indicator_of_mem hzU, image_eq_zero_of_nmem_tsupport hz]
-      · exact indicator_of_not_mem hzU _
-  · exact ae_of_all _ fun z hz => indicator_of_not_mem (by
+      · rw [indicator_of_mem hzU, image_eq_zero_of_notMem_tsupport hz]
+      · exact indicator_of_notMem hzU _
+  · exact ae_of_all _ fun z hz => indicator_of_notMem (by
       change ¬ 0 < z.im
       linarith) _
 

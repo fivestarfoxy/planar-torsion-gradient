@@ -106,6 +106,6 @@ theorem IsWeakTorsion.tendsto_eLpNorm_gradient_of_outer_dilation
     rw [tendsto_iff_dist_tendsto_zero]
     simpa only [dist_eq_norm] using hn
   have hed := tendsto_iff_edist_tendsto_0.mp hdist
-  simpa only [H, G, Lp.edist_toLp_toLp] using hed
+  simpa only [H, G, Lp.edist_toLp_toLp, Pi.sub_def] using! hed
 
 end Torsion

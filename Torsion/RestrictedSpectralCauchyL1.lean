@@ -33,8 +33,8 @@ theorem hasDerivAt_cauchy_integral_of_integrable {f : ℝ → ℂ}
       continuous_const.sub Complex.continuous_ofReal
     change AEStronglyMeasurable (fun s : ℝ => f s / (w - (s : ℂ)))
       (volume.restrict (Icc (-1 : ℝ) 1))
-    simpa only [div_eq_mul_inv] using
-      hf.aestronglyMeasurable.mul hk.measurable.inv.aestronglyMeasurable
+    exact (hf.aestronglyMeasurable.div₀ hk.aestronglyMeasurable).congr
+      (ae_of_all _ fun s => by simp only [Pi.div_apply])
   have hint : Integrable (F z) (volume.restrict (Icc (-1 : ℝ) 1)) := by
     apply (hf.norm.div_const (z.im / 2)).mono' (hmeas z)
     exact ae_of_all _ fun s => by
@@ -45,8 +45,8 @@ theorem hasDerivAt_cauchy_integral_of_integrable {f : ℝ → ℂ}
   have hmeas' : AEStronglyMeasurable (F' z) (volume.restrict (Icc (-1 : ℝ) 1)) := by
     have hk : Continuous (fun s : ℝ => (z - (s : ℂ)) ^ 2) :=
       (continuous_const.sub Complex.continuous_ofReal).pow 2
-    simpa only [F', div_eq_mul_inv] using
-      hf.aestronglyMeasurable.neg.mul hk.measurable.inv.aestronglyMeasurable
+    exact (hf.aestronglyMeasurable.neg.div₀ hk.aestronglyMeasurable).congr
+      (ae_of_all _ fun s => by simp only [F', Pi.div_apply, Pi.neg_apply])
   have hbound : ∀ᵐ s : ℝ ∂volume.restrict (Icc (-1 : ℝ) 1),
       ∀ w ∈ ball z (z.im / 2), ‖F' w s‖ ≤ bound s := by
     filter_upwards with s w hw
@@ -70,10 +70,10 @@ theorem hasDerivAt_cauchy_integral_of_integrable {f : ℝ → ℂ}
       have hi := congrArg Complex.im h
       simp only [Complex.sub_im, Complex.ofReal_im, sub_zero, Complex.zero_im] at hi
       linarith
-    simpa [F, F'] using
+    simpa [F, F', Pi.div_def] using!
       (hasDerivAt_const w (f s)).div ((hasDerivAt_id w).sub_const (s : ℂ)) hne
   exact (hasDerivAt_integral_of_dominated_loc_of_deriv_le
-    hε (Eventually.of_forall hmeas) hint hmeas' hbound hintbound hdiff).2
+    (ball_mem_nhds z hε) (Eventually.of_forall hmeas) hint hmeas' hbound hintbound hdiff).2
 
 theorem hasDerivAt_realCauchy_of_integrable {f : ℝ → ℝ}
     (hf : IntegrableOn f (Icc (-1 : ℝ) 1)) {z : ℂ} (hz : 0 < z.im) :
@@ -81,7 +81,7 @@ theorem hasDerivAt_realCauchy_of_integrable {f : ℝ → ℝ}
       ((Real.pi : ℂ)⁻¹ * ∫ s in Icc (-1 : ℝ) 1, (f s : ℂ) / (z - (s : ℂ)) ^ 2) z := by
   have hfc : IntegrableOn (fun s => (f s : ℂ)) (Icc (-1 : ℝ) 1) :=
     Complex.ofRealCLM.integrable_comp hf
-  simpa only [realCauchy, neg_div, integral_neg, neg_mul_neg] using
+  simpa only [realCauchy, neg_div, integral_neg, neg_mul_neg] using!
     (hasDerivAt_cauchy_integral_of_integrable hfc hz).const_mul (-((Real.pi : ℂ)⁻¹))
 
 end Torsion.Spectral

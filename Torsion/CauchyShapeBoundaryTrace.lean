@@ -75,7 +75,7 @@ theorem negative_convection_boundary_tendsto
       have him : (cauchyExtension φ (t : Plane)).im = 0 := by
         simp [cauchyExtension_ofReal, height_zero_of_one_le_abs φ habs]
       have hVz : V (cauchyExtension φ (t : Plane)) = 0 := by
-        apply image_eq_zero_of_nmem_tsupport
+        apply image_eq_zero_of_notMem_tsupport
         intro hm
         have hlt : 0 < (cauchyExtension φ (t : Plane)).im := hVU hm
         simp [him] at hlt
@@ -100,7 +100,7 @@ theorem convection_add_harmonicLift_boundary_tendsto
       (𝓝[cauchyImage φ] p) (𝓝 0) := by
   obtain ⟨hg, hgc, hgs⟩ := hEig.shapeBoundaryData_smooth_compact hφ hα0 hα1 hodd hzero hV hVU
   have hgzero (s : ℝ) (hs : 1 ≤ |s|) : shapeBoundaryData a φ V s = 0 := by
-    apply image_eq_zero_of_nmem_tsupport
+    apply image_eq_zero_of_notMem_tsupport
     intro h
     have hmem := hgs h
     have habs : |s| < 1 := abs_lt.mpr hmem
@@ -115,7 +115,7 @@ theorem convection_add_harmonicLift_boundary_tendsto
   · have hp0 : p = 0 := hp
     subst p
     have hV0 : V 0 = 0 := by
-      apply image_eq_zero_of_nmem_tsupport
+      apply image_eq_zero_of_notMem_tsupport
       intro h
       have hlt : 0 < (0 : Plane).im := hVU h
       simpa using hlt

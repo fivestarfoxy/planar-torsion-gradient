@@ -78,7 +78,6 @@ theorem IsCore.energy_sq_le_integral_sq_mul_integral_deriv_sq {f : ℝ → ℝ}
       mul_le_mul_of_nonneg_left hCS (sq_nonneg _)
     _ = (∫ x : ℝ, f x ^ 2) * (∫ x : ℝ, (_root_.deriv f x) ^ 2) := by
       field_simp [Real.pi_ne_zero]
-      ring
 
 /-- Square-root form of the same actual Fourier interpolation estimate. -/
 theorem IsCore.energy_le_sqrt_integral_sq_mul_integral_deriv_sq {f : ℝ → ℝ}

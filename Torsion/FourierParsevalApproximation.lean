@@ -48,16 +48,16 @@ theorem compactSmoothFourierL2_norm_sub {f g : ℝ → ℝ}
       ‖compactSmoothFourierL2 f hf hfc - compactSmoothFourierL2 g hg hgc‖ ^ 2 := by
     have h := integral_norm_sq_eq_norm_toLp_sq
       ((compactSmooth_fourier_memLp hf hfc).sub (compactSmooth_fourier_memLp hg hgc))
-    simpa only [MemLp.toLp_sub, compactSmoothFourierL2, Pi.sub_apply] using h
+    simpa only [MemLp.toLp_sub, compactSmoothFourierL2, Pi.sub_apply] using! h
   have hval : (∫ x : ℝ, (f x - g x) ^ 2) =
       ‖(hf.continuous.memLp_of_hasCompactSupport hfc : MemLp f 2 volume).toLp f -
         (hg.continuous.memLp_of_hasCompactSupport hgc : MemLp g 2 volume).toLp g‖ ^ 2 := by
     have h := integral_sq_eq_norm_toLp_sq
       ((hf.continuous.memLp_of_hasCompactSupport hfc : MemLp f 2 volume).sub
         (hg.continuous.memLp_of_hasCompactSupport hgc))
-    simpa only [MemLp.toLp_sub, Pi.sub_apply] using h
+    simpa only [MemLp.toLp_sub, Pi.sub_apply] using! h
   have hsubc : HasCompactSupport (fun x => f x - g x) := by
-    simpa only [sub_eq_add_neg] using
+    simpa only [sub_eq_add_neg, Pi.add_def, Function.comp_def] using!
       hfc.add (hgc.comp_left (g := fun t : ℝ => -t) (by simp))
   have hp := integral_norm_sq_fourier_of_core (hf.sub hg) hsubc
   rw [fourier_sub (hf.continuous.integrable_of_hasCompactSupport hfc)
@@ -85,7 +85,7 @@ theorem fourier_parseval_of_compactSmooth_approximation {f : ℝ → ℝ} {v : �
   let F : ℕ → Lp ℂ 2 (volume : Measure ℝ) := fun n => compactSmoothFourierL2 (v n) (hv n).1 (hv n).2
   have hV : Tendsto V atTop (𝓝 (hf.toLp f)) := by
     apply tendsto_iff_edist_tendsto_0.mpr
-    simpa only [V, Lp.edist_toLp_toLp] using hval
+    simpa only [V, Lp.edist_toLp_toLp, Pi.sub_def] using hval
   obtain ⟨B, hB0, hB, hBlim⟩ := cauchySeq_iff_le_tendsto_0.mp hV.cauchySeq
   have hFcauchy : CauchySeq F := by
     apply cauchySeq_iff_le_tendsto_0.mpr
@@ -95,7 +95,8 @@ theorem fourier_parseval_of_compactSmooth_approximation {f : ℝ → ℝ} {v : �
       change dist (compactSmoothFourierL2 (v n) (hv n).1 (hv n).2)
         (compactSmoothFourierL2 (v m) (hv m).1 (hv m).2) ≤ _
       rw [dist_eq_norm, compactSmoothFourierL2_norm_sub]
-      exact mul_le_mul_of_nonneg_left (hB n m N hn hm) (Real.sqrt_nonneg _)
+      exact mul_le_mul_of_nonneg_left
+        (by simpa only [dist_eq_norm, V] using hB n m N hn hm) (Real.sqrt_nonneg _)
     · simpa only [mul_zero] using hBlim.const_mul (Real.sqrt (2 * Real.pi))
   obtain ⟨H, hH⟩ := cauchySeq_tendsto_of_complete hFcauchy
   have hHae : (H : ℝ → ℂ) =ᵐ[volume] fourier f :=

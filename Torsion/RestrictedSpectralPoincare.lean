@@ -169,6 +169,6 @@ theorem IsRestrictedEigenfunction.eigenvalue_ge_pi_div_eight
     funext x
     ring
   rw [hsq] at h
-  exact (mul_le_mul_right hs).mp h
+  exact (mul_le_mul_iff_of_pos_right hs).mp h
 
 end Torsion.Spectral

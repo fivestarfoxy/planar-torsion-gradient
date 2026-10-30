@@ -44,7 +44,7 @@ theorem cauchyAreaField_bottom_re_integral {a b : ℝ} {φ : ℝ → ℝ} {C α 
   have hY : Continuous (height φ) := height_continuous (hφ.continuous hα0).continuousOn
   have hYi : Integrable (height φ) := height_integrable (hφ.continuous hα0).continuousOn
   have hYsq : Integrable (fun x => (height φ x) ^ 2) :=
-    (hY.pow 2).integrable_of_hasCompactSupport ((height_hasCompactSupport φ).comp_left (g := fun t : ℝ => t ^ 2) (by norm_num))
+    (hY.fun_pow 2).integrable_of_hasCompactSupport ((height_hasCompactSupport φ).comp_left (g := fun t : ℝ => t ^ 2) (by norm_num))
   have hzout (x : ℝ) (hx : x ∉ Icc (-1 : ℝ) 1) : height φ x = 0 := by
     apply height_zero_of_one_le_abs φ
     apply (lt_of_not_ge _).le

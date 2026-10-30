@@ -93,7 +93,7 @@ theorem isCore_zero_spectralGraph : isCore_zero.spectralGraph = 0 := by
   · apply Lp.ext
     filter_upwards [isCore_zero.memLp_value.coeFn_toLp, Lp.coeFn_zero ℝ 2 (volume : Measure ℝ)]
       with x hx hz
-    simpa only [IsCore.spectralGraph] using hx.trans hz.symm
+    simpa only [IsCore.spectralGraph] using! hx.trans hz.symm
   · apply Lp.ext
     filter_upwards [halfDerivative_ae (fun _ : ℝ => 0)
       isCore_zero.integrable_value isCore_zero.finiteEnergy] with ξ hξ
@@ -129,7 +129,7 @@ theorem MemRestrictedFormDomain.mem_restrictedFormGraph {f : ℝ → ℝ}
   refine ⟨fun n => (hv n).spectralGraph, (fun n => ⟨v n, hv n, rfl⟩), ?_⟩
   apply Tendsto.prodMk_nhds
   · apply tendsto_iff_edist_tendsto_0.mpr
-    simpa only [IsCore.spectralGraph, Lp.edist_toLp_toLp] using hL
+    simpa only [IsCore.spectralGraph, Lp.edist_toLp_toLp, Pi.sub_def] using! hL
   · let V : ℕ → Lp ℂ 2 (volume : Measure ℝ) :=
       fun n => halfDerivative (v n) (hv n).integrable_value (hv n).finiteEnergy
     let F : Lp ℂ 2 (volume : Measure ℝ) := halfDerivative f hf.integrable hf.2.1
@@ -169,7 +169,7 @@ theorem restrictedFormGraph_coordinates (p : restrictedFormGraph) :
     have hl : Tendsto (fun n => (hv n).memLp_value.toLp (v n)) atTop
         (𝓝 ((Lp.memLp p.1.1).toLp f)) := by
       simpa only [f, IsCore.spectralGraph, Lp.toLp_coeFn] using hlim.fst_nhds
-    simpa only [Lp.edist_toLp_toLp] using tendsto_iff_edist_tendsto_0.mp hl
+    simpa only [Lp.edist_toLp_toLp, Pi.sub_def] using! tendsto_iff_edist_tendsto_0.mp hl
   have hFreq : Tendsto F atTop (𝓝 p.1.2) := hlim.snd_nhds
   obtain ⟨hfi, hfzero, hfe, hFae⟩ := restricted_fourier_graph_limit
     (fun n => (hv n).memLp_value) (Lp.memLp p.1.1)

@@ -9,6 +9,7 @@ public import Torsion.RadialDeformation
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual marked torsion flux under a localized physical deformation

@@ -25,9 +25,9 @@ open scoped Topology ENNReal ContDiff
 
 namespace Torsion.Spectral
 
-private def trialFactor (x : ℝ) : ℝ := x * (1 - x ^ 2 / 2)
-private def trialFactorDerivative (x : ℝ) : ℝ := 1 - (3 / 2 : ℝ) * x ^ 2
-private def trialDerivativePolynomial (x : ℝ) : ℝ :=
+def trialFactor (x : ℝ) : ℝ := x * (1 - x ^ 2 / 2)
+def trialFactorDerivative (x : ℝ) : ℝ := 1 - (3 / 2 : ℝ) * x ^ 2
+def trialDerivativePolynomial (x : ℝ) : ℝ :=
   1 - (9 / 2 : ℝ) * x ^ 2 + (5 / 2 : ℝ) * x ^ 4
 
 /-- Explicit original-core approximants of the polynomial trial. -/
@@ -38,13 +38,14 @@ private theorem trialFactor_hasDerivAt (x : ℝ) :
     HasDerivAt trialFactor (trialFactorDerivative x) x := by
   convert (hasDerivAt_id x).mul
     ((hasDerivAt_const x 1).sub ((hasDerivAt_pow 2 x).div_const 2)) using 1
-  dsimp only [trialFactor, trialFactorDerivative, id_eq]
-  ring
+  all_goals (try funext t)
+  all_goals (try dsimp only [trialFactor, trialFactorDerivative, id_eq, Pi.sub_apply, Pi.mul_apply])
+  all_goals ring
 
 private theorem trialDistance_hasDerivAt (x : ℝ) :
     HasDerivAt (fun t : ℝ => 1 - t ^ 2) (-2 * x) x := by
   convert (hasDerivAt_const x 1).sub (hasDerivAt_pow 2 x) using 1
-  ring
+  all_goals first | rfl | ring
 
 theorem oddTrialCore_contDiff (n : ℕ) : ContDiff ℝ ∞ (oddTrialCore n) := by
   have hr : ContDiff ℝ ∞ trialFactor :=
@@ -79,8 +80,7 @@ theorem oddTrialCore_deriv (n : ℕ) (x : ℝ) :
     ((BoundaryAdmission.truncation_hasDerivAt n (1 - x ^ 2)).comp x
       (trialDistance_hasDerivAt x))
   convert h.deriv using 1
-  dsimp only [oddTrialCore, Function.comp_def]
-  ring
+  all_goals first | rfl | (dsimp only [oddTrialCore, Function.comp_def, Pi.mul_apply]; ring)
 
 private theorem oddTrialCore_zero_off (n : ℕ) (x : ℝ)
     (hx : x ∉ Icc (-1 : ℝ) 1) : oddTrialCore n x = 0 :=
@@ -117,14 +117,14 @@ theorem oddTrialCore_tendsto_value :
   apply Torsion.tendsto_eLpNorm_two_of_dominated
     (B := (Icc (-1 : ℝ) 1).indicator b)
   · intro n
-    exact (oddTrialCore_contDiff n).continuous.aestronglyMeasurable.sub oddTrial_memLp.1
+    exact (oddTrialCore_contDiff n).continuous.aestronglyMeasurable.sub oddTrial_memLp.aestronglyMeasurable
   · exact integrable_indicator_sq_of_continuous hb
   · intro n
     exact ae_of_all _ fun x => by
       by_cases hx : x ∈ Icc (-1 : ℝ) 1
       · rw [indicator_of_mem hx]
         apply (norm_sub_le _ _).trans
-        apply add_le_add_right
+        apply add_le_add (b := ‖trialFactor x‖) _ le_rfl
         rw [oddTrialCore, norm_mul]
         exact (mul_le_mul_of_nonneg_left (truncation_norm_le_one_on_interval n hx)
           (norm_nonneg _)).trans_eq (mul_one _)
@@ -156,7 +156,7 @@ theorem oddTrialCore_tendsto_deriv :
     (B := (Icc (-1 : ℝ) 1).indicator b)
   · intro n
     exact ((oddTrialCore_contDiff n).continuous_deriv (by simp)).aestronglyMeasurable.sub
-      oddTrialDerivative_memLp.1
+      oddTrialDerivative_memLp.aestronglyMeasurable
   · exact integrable_indicator_sq_of_continuous hb
   · intro n
     exact ae_of_all _ fun x => by
@@ -181,7 +181,7 @@ theorem oddTrialCore_tendsto_deriv :
               nlinarith
         have hD : oddTrialDerivative x = trialDerivativePolynomial x := by
           simp only [oddTrialDerivative, indicator_of_mem hx, trialDerivativePolynomial]
-        exact (norm_sub_le _ _).trans (by rw [hD]; exact add_le_add_right hderiv _)
+        exact (norm_sub_le _ _).trans (by rw [hD]; exact add_le_add hderiv le_rfl)
       · rw [oddTrialCore_deriv_zero_off n x hx]
         simp [oddTrialDerivative, hx]
   · have hleft : ∀ᵐ x : ℝ ∂volume, x ≠ -1 := by
@@ -202,7 +202,7 @@ theorem oddTrialCore_tendsto_deriv :
           oddTrialDerivative x := by
         simp only [oddTrialDerivative, indicator_of_mem hx, trialFactorDerivative, trialFactor]
         ring
-      simpa only [← oddTrialCore_deriv, hval, sub_self] using hlim.sub_const (oddTrialDerivative x)
+      simpa only [← oddTrialCore_deriv, hval, sub_self] using! hlim.sub_const (oddTrialDerivative x)
     · simp only [oddTrialCore_deriv_zero_off _ _ hx, oddTrialDerivative,
         indicator_of_notMem hx, sub_self]
       exact tendsto_const_nhds

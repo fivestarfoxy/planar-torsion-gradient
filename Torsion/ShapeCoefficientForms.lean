@@ -5,6 +5,7 @@ public import Torsion.ShapeCoefficientScalar
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! # Actual coefficient forms and their physical integrals -/
 noncomputable section

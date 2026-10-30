@@ -52,8 +52,7 @@ private theorem hasGradientAt_im_div {B : Plane → Plane} {d w : Plane} (M : �
   apply hasGradientAt_iff_hasFDerivAt.mpr
   have h := (hasGradientAt_iff_hasFDerivAt.mp
     (PhysicalTorsion.hasGradientAt_im_of_hasDerivAt hB)).mul_const M⁻¹
-  convert h using 1
-  simp only [map_smul]
+  convert! h using 1 <;> simp only [map_smul]
 
 /-- Differentiation through the actual conformal inverse gives the physical
 kernel gradient; the reciprocal is justified by proved univalence. -/
@@ -144,7 +143,7 @@ theorem gradient_physicalMarkedKernel_cauchy_boundary_tendsto
   apply h.congr'
   filter_upwards [self_mem_nhdsWithin] with z hz
   rw [gradient_physicalMarkedKernel_cauchy (hφ.continuous hα0) hodd hzero hpos hz]
-  simp only [Function.comp_apply,
+  simp only [Function.comp_apply, Pi.inv_apply,
     cauchyDerivativeExtension_eq (hφ.continuous hα0) hodd hzero hz]
 
 /-- The norm of the boundary kernel gradient is the reciprocal boundary
@@ -189,6 +188,5 @@ theorem gradient_product_physicalCandidate_kernel_boundary_tendsto
     ha hφ hα0 hα1 hodd hzero hpos hlinear hx)
   convert h using 1
   field_simp [hM, hD, ha.ne']
-  ring
 
 end Torsion.Spectral

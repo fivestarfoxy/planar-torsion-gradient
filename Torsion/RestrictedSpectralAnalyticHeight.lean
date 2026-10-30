@@ -58,8 +58,9 @@ theorem IsRestrictedEigenfunction.exists_height_Cauchy_extension_of_odd
     have hFIm : (F (t : ℂ)).im = Y t := by simp [F, realCauchyExtension_ofReal]
     rw [hFIm] at hPim
     convert ((hb t ht).add (hPim.const_mul a)).sub ((hasDerivAt_id t).const_mul b) using 1
-    dsimp only [D, Y]
-    ring
+    all_goals (try funext u)
+    all_goals (try dsimp only [D, Y, Pi.add_apply, Pi.sub_apply, id_eq])
+    all_goals ring
   have hDconst (t : ℝ) (ht : t ∈ Ioo (-1 : ℝ) 1) : D t = D 0 :=
     isOpen_Ioo.is_const_of_deriv_eq_zero (convex_Ioo (-1 : ℝ) 1).isPreconnected
       (fun t ht => (hDd t ht).differentiableAt.differentiableWithinAt)

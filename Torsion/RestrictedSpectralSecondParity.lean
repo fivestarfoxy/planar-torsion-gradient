@@ -64,6 +64,7 @@ theorem IsRestrictedEigenfunction.eq_oddPart_ae_of_even_mean_zero_gap
         integral_add he.1.integrable (hu.1.integrable.const_mul c), integral_const_mul]
       dsimp only [c]
       field_simp [humass]
+      ring
     have hmass : (∫ x : ℝ, g x ^ 2) =
         (∫ x : ℝ, e x ^ 2) + c ^ 2 * (∫ x : ℝ, u x ^ 2) := by
       rw [show g = fun x => e x + c * u x from rfl,

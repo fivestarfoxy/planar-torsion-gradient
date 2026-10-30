@@ -63,9 +63,10 @@ theorem tendsto_eLpNorm_positive_cut_of_ae
   have hfirst : Tendsto (fun n => eLpNorm
       (fun x => if 0 < uₙ n x then gₙ n x - g x else 0) 2 volume) atTop (𝓝 0) := by
     apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hgrad
-      (fun _ => zero_le _)
+      (fun _ => zero_le)
     intro n
     apply eLpNorm_mono
+      (aestronglyMeasurable_positive_cut (hun n) ((hgn n).aestronglyMeasurable.sub hg.aestronglyMeasurable))
     intro x
     split_ifs <;> simp
   have hsecond : Tendsto (fun n => eLpNorm
@@ -73,9 +74,9 @@ theorem tendsto_eLpNorm_positive_cut_of_ae
       2 volume) atTop (𝓝 0) := by
     apply tendsto_eLpNorm_two_of_dominated (B := fun x => 2 * ‖g x‖)
     · intro n
-      exact (aestronglyMeasurable_positive_cut (hun n) hg.1).sub
-        (aestronglyMeasurable_positive_cut hu hg.1)
-    · have hsq := (memLp_two_iff_integrable_sq_norm hg.1).mp hg
+      exact (aestronglyMeasurable_positive_cut (hun n) hg.aestronglyMeasurable).sub
+        (aestronglyMeasurable_positive_cut hu hg.aestronglyMeasurable)
+    · have hsq := (memLp_two_iff_integrable_sq_norm hg.aestronglyMeasurable).mp hg
       simpa only [mul_pow] using hsq.const_mul ((2 : ℝ) ^ 2)
     · intro n
       apply Eventually.of_forall
@@ -90,7 +91,7 @@ theorem tendsto_eLpNorm_positive_cut_of_ae
         (if 0 < u x then g x else 0)) 2 volume) atTop (𝓝 0) := by
     simpa only [zero_add] using hfirst.add hsecond
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hsum
-    (fun _ => zero_le _)
+    (fun _ => zero_le)
   intro n
   have heq : (fun x => (if 0 < uₙ n x then gₙ n x else 0) -
         (if 0 < u x then g x else 0)) =
@@ -101,10 +102,7 @@ theorem tendsto_eLpNorm_positive_cut_of_ae
     split_ifs <;> abel
   dsimp only
   rw [heq]
-  exact eLpNorm_add_le
-    (aestronglyMeasurable_positive_cut (hun n) ((hgn n).1.sub hg.1))
-    ((aestronglyMeasurable_positive_cut (hun n) hg.1).sub
-      (aestronglyMeasurable_positive_cut hu hg.1)) (by norm_num)
+  exact eLpNorm_add_le (by norm_num)
 
 /-- The positive part is strongly continuous in the actual H¹ graph.
 Every subsequence has an a.e.-convergent further subsequence in the value
@@ -125,12 +123,13 @@ theorem MemH10.tendsto_eLpNorm_pos_part
   · apply Filter.tendsto_of_subseq_tendsto
     intro ν hν
     have hmeasure := tendstoInMeasure_of_tendsto_eLpNorm
+      (f := fun n => uₙ (ν n)) (g := u) (μ := volume)
       (by norm_num : (2 : ℝ≥0∞) ≠ 0)
-      (fun n => (hun (ν n)).1.1) hu.1.1 (hval.comp hν)
+      (by simpa only [Pi.sub_def, Function.comp_def] using hval.comp hν)
     obtain ⟨κ, hκ, hκae⟩ := hmeasure.exists_seq_tendsto_ae
     refine ⟨κ, ?_⟩
     exact tendsto_eLpNorm_positive_cut_of_ae
-      (fun n => (hun (ν (κ n))).1.1) hu.1.1
+      (fun n => (hun (ν (κ n))).1.aestronglyMeasurable) hu.1.aestronglyMeasurable
       (fun n => (hun (ν (κ n))).2.1) hu.2.1 hκae hu.gradient_ae_zero_on_zero
       ((hgrad.comp hν).comp hκ.tendsto_atTop)
 

@@ -82,7 +82,7 @@ theorem IsRestrictedEigenfunction.cauchyConvection_memLp
   have hD := cauchyImage_isOpen hc hodd hzero hpos
   have hDb := cauchy_image_isBounded hc hodd hzero
   letI : IsFiniteMeasure (volume.restrict (cauchyImage φ)) :=
-    ⟨by simpa only [Measure.restrict_apply_univ] using hDb.measure_lt_top⟩
+    ⟨by simpa only [Measure.restrict_apply_univ, cauchyImage] using hDb.measure_lt_top⟩
   have hG := contDiffOn_gradient_of_isOpen (physicalCandidate_contDiffOn hc hodd hzero hpos) hD
   have hconv := hV.contDiffOn.inner ℝ hG
   obtain ⟨B, _, hB⟩ := hEig.cauchyConvection_exists_bound ha hφ hα0 hα1 hodd hzero hpos hlinear
@@ -110,7 +110,7 @@ theorem IsRestrictedEigenfunction.cauchyConvection_gradient_memLp
   have hD := cauchyImage_isOpen hc hodd hzero hpos
   have hDb := cauchy_image_isBounded hc hodd hzero
   letI : IsFiniteMeasure (volume.restrict (cauchyImage φ)) :=
-    ⟨by simpa only [Measure.restrict_apply_univ] using hDb.measure_lt_top⟩
+    ⟨by simpa only [Measure.restrict_apply_univ, cauchyImage] using hDb.measure_lt_top⟩
   have hG := contDiffOn_gradient_of_isOpen (physicalCandidate_contDiffOn hc hodd hzero hpos) hD
   have hconv := hV.contDiffOn.inner ℝ hG
   have hgrad := contDiffOn_gradient_of_isOpen hconv hD

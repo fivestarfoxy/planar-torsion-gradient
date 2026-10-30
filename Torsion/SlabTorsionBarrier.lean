@@ -38,9 +38,9 @@ theorem slabTorsionBarrier_hasGradientAt (a b : ℝ) (z : Plane) :
   apply hasGradientAt_iff_hasFDerivAt.mpr
   have hi := Complex.imCLM.hasFDerivAt (x := z)
   have h := ((hi.sub_const a).mul (hi.const_sub b)).mul_const (2⁻¹ : ℝ)
-  convert h using 1
+  convert! h using 1
   ext v
-  simp only [InnerProductSpace.toDual_apply, real_inner_smul_left]
+  simp only [InnerProductSpace.toDual_apply_apply, real_inner_smul_left]
   simp [Complex.inner, Complex.mul_re,
     ContinuousLinearMap.add_apply, ContinuousLinearMap.sub_apply,
     ContinuousLinearMap.smul_apply]

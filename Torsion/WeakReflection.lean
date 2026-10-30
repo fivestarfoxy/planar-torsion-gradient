@@ -72,9 +72,11 @@ theorem hasGradientAt_reflectedValue {u : Plane → ℝ} {z : Plane}
   apply hasGradientAt_iff_hasFDerivAt.mpr
   have hd := hu.hasGradientAt.hasFDerivAt.comp z Complex.conjCLE.hasFDerivAt
   convert hd using 1
+  · funext v
+    simp only [reflectedValue, Function.comp_apply, Complex.conjCLE_apply]
   ext v
   simp only [reflectedGradient, ContinuousLinearMap.comp_apply,
-    InnerProductSpace.toDual_apply, Complex.conjCLE_apply]
+    InnerProductSpace.toDual_apply_apply, Complex.conjCLE_apply]
   exact real_inner_conjugate_left _ _
 
 theorem gradient_reflectedValue {u : Plane → ℝ} {z : Plane}
@@ -119,7 +121,12 @@ theorem MemH10.reflectedValue {D : Set Plane} {u : Plane → ℝ} {g : Plane →
       calc
         eLpNorm (fun x => star (gradient (f n) (star x) - g (star x))) 2 volume =
             eLpNorm (fun x => gradient (f n) (star x) - g (star x)) 2 volume := by
-          apply eLpNorm_congr_norm_ae
+          have hm : AEStronglyMeasurable
+              (fun x => gradient (f n) (star x) - g (star x)) volume := by
+            simpa only [Function.comp_def, Pi.sub_apply] using
+              ((hf n).continuous_gradient.aestronglyMeasurable.sub hmg.aestronglyMeasurable).comp_measurePreserving
+                measurePreserving_conjugation
+          apply eLpNorm_congr_norm_ae (Complex.continuous_conj.comp_aestronglyMeasurable hm) hm
           exact ae_of_all _ fun x => norm_star _
         _ = _ := eLpNorm_comp_conjugation (fun x => gradient (f n) x - g x) 2
     simpa only [hnorm] using hg

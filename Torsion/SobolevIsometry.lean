@@ -33,15 +33,24 @@ theorem eLpNorm_isometryGradient (e : Plane ≃ₗᵢ[ℝ] Plane)
     (g : Plane → Plane) (p : ℝ≥0∞) :
     eLpNorm (isometryGradient e g) p volume = eLpNorm g p volume := by
   calc
-    _ = eLpNorm (fun z => g (e z)) p volume :=
-      eLpNorm_congr_norm_ae (ae_of_all _ (fun z => e.symm.norm_map (g (e z))))
+    _ = eLpNorm (fun z => g (e z)) p volume := by
+      by_cases h : AEStronglyMeasurable (fun z => g (e z)) volume
+      · exact eLpNorm_congr_norm_ae
+          (e.symm.continuous.comp_aestronglyMeasurable h) h
+          (ae_of_all _ (fun z => e.symm.norm_map (g (e z))))
+      · have hn : ¬ AEStronglyMeasurable (isometryGradient e g) volume := by
+          intro hm
+          apply h
+          simpa only [isometryGradient, Function.comp_apply, e.apply_symm_apply] using
+            e.continuous.comp_aestronglyMeasurable hm
+        rw [eLpNorm_of_not_aestronglyMeasurable hn, eLpNorm_of_not_aestronglyMeasurable h]
     _ = _ := eLpNorm_isometry_comp e g p
 
 theorem memLp_isometryGradient {g : Plane → Plane} {p : ℝ≥0∞}
     (hg : MemLp g p volume) (e : Plane ≃ₗᵢ[ℝ] Plane) :
     MemLp (isometryGradient e g) p volume := by
   have hcomp := hg.comp_measurePreserving e.measurePreserving
-  exact hcomp.of_le (e.symm.continuous.comp_aestronglyMeasurable hcomp.1)
+  exact hcomp.of_le (e.symm.continuous.comp_aestronglyMeasurable hcomp.aestronglyMeasurable)
     (ae_of_all _ (fun z => (e.symm.norm_map _).le))
 
 /-- The actual classical gradient transforms by the inverse orthogonal map. -/
@@ -53,6 +62,8 @@ theorem gradient_isometry_comp {u : Plane → ℝ} (e : Plane ≃ₗᵢ[ℝ] Pla
   apply HasGradientAt.gradient
   apply hasGradientAt_iff_hasFDerivAt.mpr
   convert hd using 1
+  · funext v
+    simp only [Function.comp_apply]
   ext v
   change inner (𝕜 := ℝ) (e.symm (gradient u (e z))) v =
     inner (𝕜 := ℝ) (gradient u (e z)) (e v)

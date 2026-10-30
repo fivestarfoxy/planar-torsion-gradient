@@ -293,7 +293,7 @@ theorem integral_cutoffProfile_tendsto {R₀ R γ : ℝ → ℝ}
       measurableSet_Ioo) hb
   · intro n
     filter_upwards [ae_restrict_mem measurableSet_Ioo] with θ hθ
-    rw [Real.norm_eq_abs, abs_mul]
+    rw [Real.norm_eq_abs, Pi.mul_apply, abs_mul]
     apply mul_le_mul_of_nonneg_left _ (abs_nonneg _)
     have hχ₀ := endpointCutoff_nonneg n θ
     have hχ₁ := endpointCutoff_le_one n θ

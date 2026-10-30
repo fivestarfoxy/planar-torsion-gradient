@@ -34,7 +34,7 @@ theorem MemH10.upperHalfPlane_of_compact_support
     hK.inter_right (isClosed_le continuous_const Complex.continuous_im)
   let a : ℕ → Plane := fun n => ((1 / ((n : ℝ) + 1) : ℝ) : ℂ) * Complex.I
   have ha : Tendsto a atTop (𝓝 0) := by
-    simpa only [Complex.ofReal_zero, zero_mul] using
+    simpa only [a, Function.comp_def, Complex.ofReal_zero, zero_mul] using
       ((Complex.continuous_ofReal.tendsto 0).comp
         tendsto_one_div_add_atTop_nhds_zero_nat).mul_const Complex.I
   have hseq (n : ℕ) : MemH10 upperHalfPlane

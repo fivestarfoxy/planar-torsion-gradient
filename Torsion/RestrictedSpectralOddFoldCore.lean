@@ -101,6 +101,6 @@ theorem energy_oddFoldAbsApprox_le {f : ℝ → ℝ}
   rw [gagliardoEnergy_of_core hcore.1 hcore.2.1, gagliardoEnergy_of_core hf.1 hf.2.1] at hG
   have hreal := (ENNReal.ofReal_le_ofReal_iff
     (mul_nonneg gagliardoSymbolConstant_pos.le (energy_nonneg f))).1 hG
-  exact (mul_le_mul_iff_left₀ gagliardoSymbolConstant_pos).1 hreal
+  exact (mul_le_mul_iff_of_pos_left gagliardoSymbolConstant_pos).1 hreal
 
 end Torsion.Spectral

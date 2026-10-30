@@ -112,7 +112,7 @@ theorem torsionFlux_cauchy_deformation_hasDerivAt
     HasDerivAt (fun t : ℝ => torsionFlux (Shape.deformation V t '' cauchyImage φ))
       ((∫ s in Icc (-1 : ℝ) 1, shapeBoundaryData a φ V s) / mass φ) 0 := by
   have hVzero : V =ᶠ[𝓝 (0 : Plane)] (fun _ => 0) := by
-    apply not_mem_tsupport_iff_eventuallyEq.mp
+    apply notMem_tsupport_iff_eventuallyEq.mp
     intro h
     have hi : 0 < (0 : Plane).im := hVU h
     simp at hi

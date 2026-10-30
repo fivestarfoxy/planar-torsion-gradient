@@ -169,8 +169,8 @@ theorem cauchyJoinedTangent_holder {a b : ℝ} {φ : ℝ → ℝ} {C α : ℝ≥
   refine ⟨K, ?_⟩
   have h := hK.holderWith.comp
     ((LipschitzWith.projIcc (show (-1 : ℝ) ≤ 1 by norm_num)).holderWith)
-  simpa only [NNReal.one_rpow, mul_one, Function.comp_def, Set.restrict,
-    cauchyJoinedTangent] using h
+  simpa only [NNReal.one_rpow, mul_one, Function.comp_def, Set.domRestrict,
+    cauchyJoinedTangent] using! h
 
 /-- Genuine C¹ regularity of the physical chart through both joins. -/
 theorem cauchyJoinedBoundary_contDiff_one {φ : ℝ → ℝ} {C α : ℝ≥0}

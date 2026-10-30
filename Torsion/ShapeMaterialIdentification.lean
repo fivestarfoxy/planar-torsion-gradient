@@ -5,6 +5,7 @@ public import Torsion.ShapeMaterialSolution
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! # Identification with genuine deformed-domain weak torsion -/
 

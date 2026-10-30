@@ -146,7 +146,7 @@ theorem oddGap_integral_perturbation_rectangle_lower_bound
           hδ hη ht (hAzero p.1 hp.1) (hAψ p.1 hp.1) (hBf p.2 hp.2)
           (hBψ p.2 hp.2) (by simpa using htsmall)
       · rw [indicator_of_notMem hp]
-        exact zero_le _
+        exact bot_le
 
 
 /-- A genuine linear lower bound cannot be dominated by a quadratic
@@ -183,9 +183,9 @@ theorem IsRestrictedEigenfunction.zero_or_positive_rectangle_null
     (hBf : ∀ x ∈ B, η ≤ f x) (hBψ : ∀ x ∈ B, |ψ x| ≤ 1) :
     volume A = 0 ∨ volume B = 0 := by
   by_contra hab
-  push_neg at hab
-  have hAfinite : volume A ≠ ∞ := (lt_of_le_of_lt (measure_mono hAsub) (measure_Icc_lt_top)).ne
-  have hBfinite : volume B ≠ ∞ := (lt_of_le_of_lt (measure_mono hBsub) (measure_Icc_lt_top)).ne
+  push Not at hab
+  have hAfinite : volume A ≠ (∞ : ℝ≥0∞) := (lt_of_le_of_lt (measure_mono hAsub) (measure_Icc_lt_top)).ne
+  have hBfinite : volume B ≠ (∞ : ℝ≥0∞) := (lt_of_le_of_lt (measure_mono hBsub) (measure_Icc_lt_top)).ne
   have hAm : 0 < (volume A).toReal := ENNReal.toReal_pos hab.1 hAfinite
   have hBm : 0 < (volume B).toReal := ENNReal.toReal_pos hab.2 hBfinite
   have hAne : A.Nonempty := Set.nonempty_iff_ne_empty.2 (by
@@ -202,7 +202,7 @@ theorem IsRestrictedEigenfunction.zero_or_positive_rectangle_null
     have hlow := oddGap_integral_perturbation_rectangle_lower_bound hA hB hr hAsub hBsub
       hδ hη ht hAzero hAψ hBf hBψ htsmall
     have hup := hf.oddGap_integral_perturbation_le hodd hlower hψ hψodd hm hψm t
-    have htotal := (mul_le_mul_left' hlow (2 : ℝ≥0∞)).trans hup
+    have htotal := (mul_le_mul_right hlow (2 : ℝ≥0∞)).trans hup
     have hreal := ENNReal.toReal_mono ENNReal.ofReal_ne_top htotal
     have hrhs : 0 ≤ gagliardoSymbolConstant * t ^ 2 *
         (energy ψ ψ - a * ∫ x : ℝ, ψ x ^ 2) := by
@@ -251,7 +251,7 @@ theorem IsRestrictedEigenfunction.pos_ae_of_odd_rayleigh_lower_bound_of_measurab
     exact hnull.elim hZc hPc
   have hnotzero : ∀ᵐ x : ℝ ∂volume, ¬ x ∈ Z := by
     rw [ae_iff]
-    simpa only [not_not] using hZzero
+    simpa only [not_not, Set.ofPred_mem_eq] using hZzero
   have hnonnegI : 0 ≤ᵐ[volume.restrict (Ioo (0 : ℝ) 1)] f :=
     ae_restrict_of_ae_restrict_of_subset (fun _ hx => hx.1) hnonneg
   filter_upwards [ae_restrict_of_ae hnotzero, hnonnegI,
@@ -268,10 +268,10 @@ theorem IsRestrictedEigenfunction.pos_ae_of_odd_rayleigh_lower_bound
       a * (∫ x : ℝ, v x ^ 2) ≤ energy v v)
     (hnonneg : 0 ≤ᵐ[volume.restrict (Ioi (0 : ℝ))] f) :
     ∀ᵐ x : ℝ ∂volume.restrict (Ioo (0 : ℝ) 1), 0 < f x := by
-  let m := hf.1.1.1.mk f
+  let m := hf.1.1.aestronglyMeasurable.mk f
   let g : ℝ → ℝ := fun x => (m x - m (-x)) / 2
-  have hm : Measurable m := hf.1.1.1.stronglyMeasurable_mk.measurable
-  have hfm : f =ᵐ[volume] m := hf.1.1.1.ae_eq_mk
+  have hm : Measurable m := hf.1.1.aestronglyMeasurable.stronglyMeasurable_mk.measurable
+  have hfm : f =ᵐ[volume] m := hf.1.1.aestronglyMeasurable.ae_eq_mk
   have hreflection := (Measure.measurePreserving_neg (volume : Measure ℝ)).quasiMeasurePreserving.ae hfm
   have hfg : f =ᵐ[volume] g := by
     filter_upwards [hfm, hreflection] with x hx hnx

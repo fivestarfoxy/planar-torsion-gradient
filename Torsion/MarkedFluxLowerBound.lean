@@ -18,8 +18,8 @@ namespace Torsion
 theorem origin_mem_closure_halfBall {r : ℝ} (hr : 0 < r) :
     (0 : Plane) ∈ closure (upperHalfPlane ∩ Metric.ball 0 r) := by
   have ht : Tendsto (fun t : ℝ => (t : ℂ) * Complex.I) (𝓝[>] 0) (𝓝 (0 : Plane)) := by
-    simpa using ((Complex.continuous_ofReal.mul continuous_const).tendsto (0 : ℝ)).mono_left
-      nhdsWithin_le_nhds
+    have hc : Continuous (fun t : ℝ => (t : ℂ) * Complex.I) := by fun_prop
+    simpa using (hc.tendsto (0 : ℝ)).mono_left nhdsWithin_le_nhds
   exact mem_closure_of_tendsto ht (eventually_vertical_mem_halfBall hr)
 
 /-- The local smooth representative supplied by marked regularity yields

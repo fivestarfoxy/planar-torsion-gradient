@@ -35,8 +35,8 @@ private theorem radial_hasDerivAt {ψ : Plane → ℝ} (hψ : Differentiable ℝ
       (inner (𝕜 := ℝ) (gradient ψ ((r : Plane) * direction θ)) (direction θ)) r := by
   convert (hasGradientAt_iff_hasFDerivAt.mp
     (hψ ((r : Plane) * direction θ)).hasGradientAt).comp_hasDerivAt r
-      (Complex.ofRealCLM.hasDerivAt.mul_const (direction θ)) using 1
-  simp [InnerProductSpace.toDual_apply]
+      (Complex.ofRealCLM.hasDerivAt.mul_const (direction θ)) using 1 <;>
+  simp [InnerProductSpace.toDual_apply_apply, Function.comp_def]
 
 private theorem fundamental_polar_pairing {r θ : ℝ} (hr : 0 < r) (v : Plane) :
     r * inner (𝕜 := ℝ)
@@ -54,7 +54,6 @@ private theorem fundamental_polar_pairing {r θ : ℝ} (hr : 0 < r) (v : Plane) 
     all_goals field_simp [hr.ne'] <;> simp [← Complex.ofReal_pow] <;> ring
   rw [hi, real_inner_smul_left, real_inner_smul_left, real_inner_comm v]
   field_simp
-  ring
 
 private def radialPairing (ψ : Plane → ℝ) (p : ℝ × ℝ) : ℝ :=
   inner (𝕜 := ℝ) (gradient ψ ((p.1 : Plane) * direction p.2)) (direction p.2)
@@ -109,12 +108,12 @@ theorem fundamental_weak_source {D : Set Plane} {ψ : Plane → ℝ} (hψ : IsTe
       (Ioo (-Real.pi) Real.pi ×ˢ Ioc (0 : ℝ) R) := by
     have h := hKI
     simp only [IntegrableOn, S, Measure.volume_eq_prod, ← Measure.prod_restrict] at h
-    simpa only [IntegrableOn, Measure.volume_eq_prod, ← Measure.prod_restrict] using h.swap
+    simpa only [IntegrableOn, Measure.volume_eq_prod, ← Measure.prod_restrict] using! h.swap
   have hinter : (∫ p in S, radialPairing ψ p) =
       ∫ θ in Ioo (-Real.pi) Real.pi, ∫ r in Ioc (0 : ℝ) R, radialPairing ψ (r,θ) := by
     change (∫ p in Ioc (0 : ℝ) R ×ˢ Ioo (-Real.pi) Real.pi, radialPairing ψ p) = _
     rw [Measure.volume_eq_prod, ← setIntegral_prod_swap,
-      setIntegral_prod _ (by simpa only [Measure.volume_eq_prod] using hKIswap)]
+      setIntegral_prod _ (by simpa only [Measure.volume_eq_prod, Function.comp_def] using! hKIswap)]
     rfl
   rw [← Complex.integral_comp_polarCoord_symm]
   calc
@@ -135,8 +134,8 @@ theorem fundamental_weak_source {D : Set Plane} {ψ : Plane → ℝ} (hψ : IsTe
       intro θ _
       exact radialPairing_integral (hψ.1.differentiable (by simp)) hψ.continuous_gradient hR.le hzero θ
     _ = ψ 0 := by
-      simp only [setIntegral_const, Real.volume_Ioo, sub_neg_eq_add, smul_eq_mul,
-        ENNReal.toReal_ofReal (by positivity : 0 ≤ Real.pi + Real.pi)]
+      simp only [setIntegral_const, Real.volume_real_Ioo_of_le
+        (show -Real.pi ≤ Real.pi by linarith [Real.pi_pos]), sub_neg_eq_add, smul_eq_mul]
       field_simp
       ring
 

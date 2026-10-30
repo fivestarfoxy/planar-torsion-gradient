@@ -37,7 +37,7 @@ theorem MemH10.pos_part_smul {D : Set Plane} {u : Plane → ℝ} {g : Plane → 
       (fun x => (if 0 < u x then (1 : ℝ) else 0) • g x) := by
   have han (n : ℕ) :
       AEStronglyMeasurable (fun x => SmoothPositivePart.slope n (u x)) volume :=
-    (SmoothPositivePart.slope_contDiff n).continuous.comp_aestronglyMeasurable hu.1.1
+    (SmoothPositivePart.slope_contDiff n).continuous.comp_aestronglyMeasurable hu.1.aestronglyMeasurable
   have halim : ∀ᵐ x ∂volume,
       Tendsto (fun n => SmoothPositivePart.slope n (u x)) atTop
         (𝓝 (if 0 < u x then (1 : ℝ) else 0)) :=
@@ -60,9 +60,9 @@ theorem MemH10.pos_part_smul {D : Set Plane} {u : Plane → ℝ} {g : Plane → 
     apply tendsto_eLpNorm_two_of_dominated (B := fun x => 2 * ‖u x‖)
     · intro n
       exact ((SmoothPositivePart.approx_contDiff n).continuous.comp_aestronglyMeasurable
-        hu.1.1).sub hu.1.pos_part.1
+        hu.1.aestronglyMeasurable).sub hu.1.pos_part.aestronglyMeasurable
     · have hsq : Integrable (fun x => ‖u x‖ ^ 2) volume :=
-        (memLp_two_iff_integrable_sq_norm hu.1.1).mp hu.1
+        (memLp_two_iff_integrable_sq_norm hu.1.aestronglyMeasurable).mp hu.1
       simpa only [mul_pow] using hsq.const_mul ((2 : ℝ) ^ 2)
     · intro n
       apply Eventually.of_forall

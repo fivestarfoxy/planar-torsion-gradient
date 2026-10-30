@@ -53,13 +53,15 @@ theorem eLpNorm_top_le_of_tendsto_two
     (hbound : ∀ n, eLpNorm (gₙ n) ∞ volume ≤ C n) :
     eLpNorm g ∞ volume ≤ c := by
   have hm := tendstoInMeasure_of_tendsto_eLpNorm
-    (by norm_num : (2 : ℝ≥0∞) ≠ 0) hgn hg hconv
+    (by norm_num : (2 : ℝ≥0∞) ≠ 0)
+    (by simpa only [Pi.sub_def] using hconv)
   obtain ⟨κ, hκ, hae⟩ := hm.exists_seq_tendsto_ae
   have hall : ∀ᵐ x ∂volume, ∀ n, ‖gₙ n x‖ₑ ≤ C n := by
     apply ae_all_iff.mpr
     intro n
     filter_upwards [enorm_ae_le_eLpNormEssSup (gₙ n) volume] with x hx
-    exact hx.trans (hbound n)
+    exact hx.trans (by simpa only [eLpNorm_exponent_top (hgn n)] using hbound n)
+  rw [eLpNorm_exponent_top hg]
   apply eLpNormEssSup_le_of_ae_enorm_bound
   filter_upwards [hae, hall] with x hx hb
   exact le_of_tendsto_of_tendsto
@@ -78,7 +80,7 @@ theorem IsWeakTorsion.gradient_bound_of_exhaustion
     (hbound : ∀ n, eLpNorm (gₙ n) ∞ (volume.restrict (D n)) ≤ C n) :
     eLpNorm g ∞ (volume.restrict (⋃ n, D n)) ≤ c := by
   rw [← hu.1.eLpNorm_gradient_eq_restrict (isOpen_iUnion hopen).measurableSet]
-  apply eLpNorm_top_le_of_tendsto_two (fun n => (hun n).1.2.1.1) hu.1.2.1.1
+  apply eLpNorm_top_le_of_tendsto_two (fun n => (hun n).1.2.1.aestronglyMeasurable) hu.1.2.1.aestronglyMeasurable
     (hu.tendsto_eLpNorm_gradient_of_exhaustion hmono hopen hun) hC
   intro n
   rw [(hun n).1.eLpNorm_gradient_eq_restrict (hopen n).measurableSet]

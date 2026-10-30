@@ -58,11 +58,11 @@ theorem fourierCoreL2_norm_sub {f g : ℝ → ℝ} (hf : IsCore f) (hg : IsCore 
   have hfreq : (∫ ξ : ℝ, ‖fourier f ξ - fourier g ξ‖ ^ 2) =
       ‖fourierCoreL2 f hf - fourierCoreL2 g hg‖ ^ 2 := by
     have h := integral_norm_sq_eq_norm_toLp_sq (hf.fourier_memLp.sub hg.fourier_memLp)
-    simpa only [MemLp.toLp_sub, fourierCoreL2, Pi.sub_apply] using h
+    simpa only [MemLp.toLp_sub, fourierCoreL2, Pi.sub_apply] using! h
   have hval : (∫ x : ℝ, (f x - g x) ^ 2) =
       ‖hf.memRestrictedFormDomain.1.toLp f - hg.memRestrictedFormDomain.1.toLp g‖ ^ 2 := by
     have h := integral_sq_eq_norm_toLp_sq (hf.memRestrictedFormDomain.1.sub hg.memRestrictedFormDomain.1)
-    simpa only [MemLp.toLp_sub, Pi.sub_apply] using h
+    simpa only [MemLp.toLp_sub, Pi.sub_apply] using! h
   have hparseval := integral_norm_sq_fourier_of_core hsub.1 hsub.2.1
   rw [fourier_sub hf.memRestrictedFormDomain.integrable hg.memRestrictedFormDomain.integrable] at hparseval
   simp only [Pi.sub_apply] at hparseval
@@ -83,7 +83,7 @@ theorem fourier_parseval_of_core_approximation {f : ℝ → ℝ} {v : ℕ → �
   let F : ℕ → Lp ℂ 2 (volume : Measure ℝ) := fun n => fourierCoreL2 (v n) (hv n)
   have hV : Tendsto V atTop (𝓝 (hf.toLp f)) := by
     apply tendsto_iff_edist_tendsto_0.mpr
-    simpa only [V, Lp.edist_toLp_toLp] using hval
+    simpa only [V, Lp.edist_toLp_toLp, Pi.sub_def] using hval
   obtain ⟨B, hB0, hB, hBlim⟩ := cauchySeq_iff_le_tendsto_0.mp hV.cauchySeq
   have hFcauchy : CauchySeq F := by
     apply cauchySeq_iff_le_tendsto_0.mpr
@@ -92,7 +92,8 @@ theorem fourier_parseval_of_core_approximation {f : ℝ → ℝ} {v : ℕ → �
     · intro n m N hn hm
       change dist (fourierCoreL2 (v n) (hv n)) (fourierCoreL2 (v m) (hv m)) ≤ _
       rw [dist_eq_norm, fourierCoreL2_norm_sub]
-      exact mul_le_mul_of_nonneg_left (hB n m N hn hm) (Real.sqrt_nonneg _)
+      apply mul_le_mul_of_nonneg_left ?_ (Real.sqrt_nonneg _)
+      simpa only [V, dist_eq_norm] using! hB n m N hn hm
     · simpa only [mul_zero] using hBlim.const_mul (Real.sqrt (2 * Real.pi))
   obtain ⟨H, hH⟩ := cauchySeq_tendsto_of_complete hFcauchy
   have hHae : (H : ℝ → ℂ) =ᵐ[volume] fourier f :=

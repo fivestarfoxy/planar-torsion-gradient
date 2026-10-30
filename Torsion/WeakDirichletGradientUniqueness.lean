@@ -38,7 +38,7 @@ theorem MemH10.gradient_ae_eq_of_smooth_test_equation
   have hnormenergy : (∫ z, ‖g z - h z‖ ^ 2) = 0 := by
     simpa only [real_inner_self_eq_norm_sq] using henergy
   have hnormint : Integrable (fun z => ‖g z - h z‖ ^ 2) volume :=
-    (memLp_two_iff_integrable_sq_norm hdiff.2.1.1).mp hdiff.2.1
+    (memLp_two_iff_integrable_sq_norm hdiff.2.1.aestronglyMeasurable).mp hdiff.2.1
   have hae := (integral_eq_zero_iff_of_nonneg
     (fun z => sq_nonneg ‖g z - h z‖) hnormint).mp hnormenergy
   filter_upwards [hae] with z hz

@@ -27,7 +27,7 @@ namespace Torsion.Spectral.RestrictedHilbert
 
 /-- The actual closed odd subspace of real L². -/
 def oddSpace : Submodule ℝ ValueL2 :=
-  LinearMap.ker (reflection + ContinuousLinearMap.id ℝ ValueL2)
+  LinearMap.ker (reflection + ContinuousLinearMap.id ℝ ValueL2).toLinearMap
 
 theorem isClosed_oddSpace : IsClosed (oddSpace : Set ValueL2) :=
   ContinuousLinearMap.isClosed_ker (reflection + ContinuousLinearMap.id ℝ ValueL2)

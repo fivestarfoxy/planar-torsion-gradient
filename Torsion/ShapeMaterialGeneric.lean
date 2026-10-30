@@ -6,6 +6,7 @@ public import Mathlib.Analysis.InnerProductSpace.Dual
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Hilbert-space differentiation of Riesz data

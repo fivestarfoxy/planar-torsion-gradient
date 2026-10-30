@@ -31,7 +31,7 @@ theorem ContDiffOn.gradient_ae_zero_on_zero {D : Set Plane} (hD : IsOpen D)
     obtain ⟨η, hη, hone⟩ := exists_test_eq_one_near_compact hD
       (isCompact_singleton : IsCompact {(x : Plane)}) (singleton_subset_iff.mpr x.2)
     refine ⟨η, hη, ?_⟩
-    simpa only [nhdsSet_singleton] using hone
+    simpa only [nhdsSet_singleton, Filter.EventuallyEq] using hone
   choose η hη hone using hlocal
   let W (x : D) : Set Plane := D ∩ interior {y | η x y = 1}
   have hWopen (x : D) : IsOpen (W x) := hD.inter isOpen_interior

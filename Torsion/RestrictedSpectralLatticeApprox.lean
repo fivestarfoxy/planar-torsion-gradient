@@ -41,7 +41,9 @@ theorem spectralAbsApprox_hasDerivAt (n : ℕ) (t : ℝ) :
       (SmoothPositivePart.slope n t - SmoothPositivePart.slope n (-t)) t := by
   convert (SmoothPositivePart.approx_hasDerivAt n t).add
     ((SmoothPositivePart.approx_hasDerivAt n (-t)).comp t (hasDerivAt_neg t)) using 1
-  ring
+  · funext x
+    rfl
+  · ring
 
 theorem spectralAbsApprox_lipschitz (n : ℕ) : LipschitzWith 1 (spectralAbsApprox n) := by
   apply lipschitzWith_of_nnnorm_deriv_le
@@ -91,10 +93,10 @@ theorem tendsto_eLpNorm_spectralAbsApprox {f : ℝ → ℝ} (hf : MemLp f 2 volu
       atTop (𝓝 0) := by
   apply Torsion.tendsto_eLpNorm_two_of_dominated (B := fun x => 2 * ‖f x‖)
   · intro n
-    exact ((spectralAbsApprox_contDiff n).continuous.comp_aestronglyMeasurable hf.1).sub
-      (by simpa only [Real.norm_eq_abs] using hf.1.norm)
+    exact ((spectralAbsApprox_contDiff n).continuous.comp_aestronglyMeasurable hf.aestronglyMeasurable).sub
+      (by simpa only [Real.norm_eq_abs] using hf.aestronglyMeasurable.norm)
   · have hsq : Integrable (fun x => ‖f x‖ ^ 2) :=
-      (memLp_two_iff_integrable_sq_norm hf.1).1 hf
+      (memLp_two_iff_integrable_sq_norm hf.aestronglyMeasurable).1 hf
     simpa only [mul_pow] using hsq.const_mul ((2 : ℝ) ^ 2)
   · intro n
     exact ae_of_all _ fun x => by
@@ -114,16 +116,18 @@ theorem tendsto_eLpNorm_spectralAbsApprox_joint {f : ℝ → ℝ} {v : ℕ → �
       atTop (𝓝 0) := by
   have hfirst : Tendsto (fun n => eLpNorm
       (fun x => spectralAbsApprox n (v n x) - spectralAbsApprox n (f x)) 2 volume) atTop (𝓝 0) := by
-    apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hval (fun _ => zero_le _)
+    apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hval (fun _ => bot_le)
     intro n
     apply eLpNorm_mono_ae
+      (((spectralAbsApprox_contDiff n).continuous.comp_aestronglyMeasurable (hv n)).sub
+        ((spectralAbsApprox_contDiff n).continuous.comp_aestronglyMeasurable hf.aestronglyMeasurable))
     exact ae_of_all _ fun x => by
-      simpa only [NNReal.coe_one, one_mul] using
+      simpa only [Pi.sub_apply, NNReal.coe_one, one_mul] using
         (spectralAbsApprox_lipschitz n).norm_sub_le (v n x) (f x)
   have hsecond := tendsto_eLpNorm_spectralAbsApprox hf
   have hsum := hfirst.add hsecond
   simp only [zero_add] at hsum
-  apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hsum (fun _ => zero_le _)
+  apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hsum (fun _ => bot_le)
   intro n
   have heq : (fun x => spectralAbsApprox n (v n x) - |f x|) =
       (fun x => spectralAbsApprox n (v n x) - spectralAbsApprox n (f x)) +
@@ -133,12 +137,7 @@ theorem tendsto_eLpNorm_spectralAbsApprox_joint {f : ℝ → ℝ} {v : ℕ → �
     ring
   dsimp only
   rw [heq]
-  apply eLpNorm_add_le
-  · exact ((spectralAbsApprox_contDiff n).continuous.comp_aestronglyMeasurable (hv n)).sub
-      ((spectralAbsApprox_contDiff n).continuous.comp_aestronglyMeasurable hf.1)
-  · exact ((spectralAbsApprox_contDiff n).continuous.comp_aestronglyMeasurable hf.1).sub
-      (by simpa only [Real.norm_eq_abs] using hf.1.norm)
-  · norm_num
+  exact eLpNorm_add_le (by norm_num)
 
 /-- Every original form member has actual restricted-core approximations
 to its absolute value, with asymptotically no larger Fourier energy. This

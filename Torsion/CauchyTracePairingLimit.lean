@@ -48,7 +48,7 @@ theorem realCauchy_pairing_tendsto_boundary {f ψ : ℝ → ℝ} {C α : ℝ≥0
   have hI : Continuous (fun y : ℝ => ∫ x in Icc (-1 : ℝ) 1, g y x) :=
     continuous_parametric_integral_of_continuous hg isCompact_Icc
   have hzψ (x : ℝ) (hx : x ∉ Icc (-1 : ℝ) 1) : ψ x = 0 :=
-    image_eq_zero_of_nmem_tsupport (fun h => hx (Ioo_subset_Icc_self (hψ.2.2 h)))
+    image_eq_zero_of_notMem_tsupport (fun h => hx (Ioo_subset_Icc_self (hψ.2.2 h)))
   have hR (x : ℝ) (hx : x ∈ Icc (-1 : ℝ) 1) : 1 + |x| ≤ 3 := by
     have ha : |x| ≤ 1 := abs_le.mpr hx
     linarith

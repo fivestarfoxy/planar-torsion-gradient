@@ -91,7 +91,7 @@ theorem semicircleBarrier_gagliardoKernel_integrable :
   exact semicircleKernelWeight_kernel_bound hp₁ hp₂
 
 /-- The genuine nonnegative difference energy of the semicircle is finite. -/
-theorem semicircleBarrier_gagliardoEnergy_ne_top : gagliardoEnergy semicircleBarrier ≠ ∞ := by
+theorem semicircleBarrier_gagliardoEnergy_ne_top : gagliardoEnergy semicircleBarrier ≠ (⊤ : ℝ≥0∞) := by
   rw [gagliardoEnergy_eq_double semicircleBarrier_continuous.measurable]
   rw [← lintegral_prod _ (measurable_gagliardoKernel
     semicircleBarrier_continuous.measurable).aemeasurable]

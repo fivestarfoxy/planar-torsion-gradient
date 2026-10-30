@@ -59,7 +59,7 @@ theorem eLpNorm_one_le_two_of_zero_exterior {f : ℝ → ℝ}
     (hzero : ∀ᵐ x : ℝ, x ∉ Ioo (-1 : ℝ) 1 → f x = 0) :
     eLpNorm f 1 volume ≤ eLpNorm f 2 volume * (2 : ℝ≥0∞) ^ (1 - 1 / (2 : ℝ)) := by
   have h := eLpNorm_le_eLpNorm_mul_rpow_measure_univ (μ := volume.restrict (Ioo (-1 : ℝ) 1))
-    (p := 1) (q := 2) (by norm_num) (hf.restrict _).1
+    (p := 1) (q := 2) (by norm_num) (hf.restrict _).aestronglyMeasurable
   rw [← eLpNorm_eq_restrict_of_zero_exterior hzero 1,
     ← eLpNorm_eq_restrict_of_zero_exterior hzero 2] at h
   simpa only [ENNReal.toReal_one, ENNReal.toReal_ofNat, div_one, Measure.restrict_apply_univ,
@@ -79,7 +79,7 @@ theorem tendsto_eLpNorm_one_of_two_zero_exterior
   have hupper := ENNReal.Tendsto.mul_const hlim (Or.inr hconst)
   simp only [zero_mul] at hupper
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hupper
-    (fun _ => zero_le _)
+    (fun _ => bot_le)
   intro n
   apply eLpNorm_one_le_two_of_zero_exterior ((hv n).sub hf)
   filter_upwards [hvzero n, hfzero] with x hx hy hout
@@ -93,8 +93,9 @@ theorem zero_exterior_of_tendsto_eLpNorm_two
     (hvzero : ∀ n, ∀ᵐ x : ℝ, x ∉ Ioo (-1 : ℝ) 1 → v n x = 0)
     (hlim : Tendsto (fun n => eLpNorm (fun x => v n x - f x) 2 volume) atTop (𝓝 0)) :
     ∀ᵐ x : ℝ, x ∉ Ioo (-1 : ℝ) 1 → f x = 0 := by
-  have hmeasure := tendstoInMeasure_of_tendsto_eLpNorm (by norm_num : (2 : ℝ≥0∞) ≠ 0)
-    (fun n => (hv n).1) hf.1 hlim
+  have hlim' : Tendsto (fun n => eLpNorm (v n - f) 2 volume) atTop (𝓝 0) := by
+    simpa only [Pi.sub_def] using hlim
+  have hmeasure := tendstoInMeasure_of_tendsto_eLpNorm (by norm_num : (2 : ℝ≥0∞) ≠ 0) hlim' 
   obtain ⟨ns, _, hns⟩ := hmeasure.exists_seq_tendsto_ae
   filter_upwards [hns, ae_all_iff.2 hvzero] with x hx hzero hout
   have heq : (fun n => v (ns n) x) = fun _ => (0 : ℝ) :=
@@ -125,8 +126,10 @@ theorem tendstoUniformly_fourier_of_tendsto_eLpNorm_one
     have htoReal := (ENNReal.continuousAt_toReal (by simp : (0 : ℝ≥0∞) ≠ ⊤)).tendsto.comp hlim
     have heq (n : ℕ) : (∫ x : ℝ, ‖v n x - f x‖) =
         (eLpNorm (fun x => v n x - f x) 1 volume).toReal := by
-      simpa only [eLpNorm_one_eq_lintegral_enorm, Pi.sub_apply] using
-        integral_norm_eq_lintegral_enorm ((hv n).aestronglyMeasurable.sub hf.aestronglyMeasurable)
+      have hm : AEStronglyMeasurable (fun x => v n x - f x) volume :=
+        (hv n).aestronglyMeasurable.sub hf.aestronglyMeasurable
+      rw [eLpNorm_one_eq_lintegral_enorm hm]
+      exact integral_norm_eq_lintegral_enorm hm
     simp_rw [heq]
     exact htoReal
   apply Metric.tendstoUniformly_iff.2
@@ -149,8 +152,10 @@ theorem tendstoUniformly_fourier_of_tendsto_eLpNorm_two
     have htoReal := (ENNReal.continuousAt_toReal (by simp : (0 : ℝ≥0∞) ≠ ⊤)).tendsto.comp hL1
     have heq (n : ℕ) : (∫ x : ℝ, ‖v n x - f x‖) =
         (eLpNorm (fun x => v n x - f x) 1 volume).toReal := by
-      simpa only [eLpNorm_one_eq_lintegral_enorm, Pi.sub_apply] using
-        integral_norm_eq_lintegral_enorm ((hv n).1.sub hf.1)
+      have hm : AEStronglyMeasurable (fun x => v n x - f x) volume :=
+        (hv n).aestronglyMeasurable.sub hf.aestronglyMeasurable
+      rw [eLpNorm_one_eq_lintegral_enorm hm]
+      exact integral_norm_eq_lintegral_enorm hm
     simp_rw [heq]
     exact htoReal
   apply Metric.tendstoUniformly_iff.2

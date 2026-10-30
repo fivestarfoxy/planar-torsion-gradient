@@ -57,6 +57,5 @@ theorem energy_sq_le_integral_sq_mul_integral_deriv_sq_of_compactSmooth {f : ℝ
       mul_le_mul_of_nonneg_left hCS (sq_nonneg _)
     _ = _ := by
       field_simp [Real.pi_ne_zero]
-      ring
 
 end Torsion.Spectral

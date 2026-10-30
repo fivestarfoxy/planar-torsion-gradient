@@ -194,7 +194,7 @@ theorem exists_cauchyJoinedBoundary_embedded_frontier_chart
   have hm : 0 < m := lt_min hep.2.2.1 (neg_pos.2 hep.2.2.2)
   let δ : ℝ := m / (2 * b)
   have hδ : 0 < δ := div_pos hm (by positivity)
-  have hprod : b * δ = m / 2 := by dsimp [δ]; field_simp; ring
+  have hprod : b * δ = m / 2 := by dsimp [δ]; field_simp
   have hleft : b * δ < (cauchyExtension φ (-1 : ℂ)).re := by
     rw [hprod]
     exact (half_lt_self hm).trans_le (min_le_left _ _)

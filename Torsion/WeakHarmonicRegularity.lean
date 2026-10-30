@@ -91,6 +91,7 @@ theorem mollify_hasGradientAt {u κ : Plane → ℝ} {g : Plane → Plane}
     (hu.locallyIntegrable (by norm_num)) (hκ.of_le (by simp)) x
   apply hasGradientAt_iff_hasFDerivAt.mpr
   convert hderiv using 1
+  · rfl
   ext v
   rw [convolution_precompR_apply (ContinuousLinearMap.mul ℝ ℝ)
     (hu.locallyIntegrable (by norm_num)) (hc.fderiv ℝ) (hκ.continuous_fderiv (by simp))]
@@ -159,7 +160,7 @@ theorem divergence_mollifyGradient {g : Plane → Plane} {κ : Plane → ℝ}
   rw [hre, him, ← integral_add hire hiim]
   apply integral_congr_ae
   exact ae_of_all _ fun t => by
-    simp [fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re]
+    simp [fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re, mul_comm, -inner_gradient_left]
 
 private theorem gradient_translated {κ : Plane → ℝ} (hκ : Differentiable ℝ κ)
     (x y : Plane) : gradient (fun t => κ (x - t)) y = -gradient κ (x - y) := by

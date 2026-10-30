@@ -80,10 +80,10 @@ theorem hasDerivAt_cauchy_integral_exterior {f : ℝ → ℂ}
     filter_upwards [ae_restrict_mem measurableSet_Icc] with s hs w hw
     have hne : w - (s : ℂ) ≠ 0 :=
       norm_pos_iff.1 (hε.trans_le (exterior_norm_sub_lower hw hs))
-    simpa [F, F'] using
+    simpa [F, F'] using!
       (hasDerivAt_const w (f s)).div ((hasDerivAt_id w).sub_const (s : ℂ)) hne
   exact (hasDerivAt_integral_of_dominated_loc_of_deriv_le
-    hε hmeas hint hmeas' hbound hintbound hdiff).2
+    (ball_mem_nhds z hε) hmeas hint hmeas' hbound hintbound hdiff).2
 
 /-- Holomorphy of the actual Cauchy map across either exterior real ray. -/
 theorem hasDerivAt_cauchy_exterior {φ : ℝ → ℝ}
@@ -93,7 +93,7 @@ theorem hasDerivAt_cauchy_exterior {φ : ℝ → ℝ}
         ∫ s in Icc (-1 : ℝ) 1, (height φ s : ℂ) / (z - (s : ℂ)) ^ 2) z := by
   have hc : ContinuousOn (fun s : ℝ => (height φ s : ℂ)) (Icc (-1 : ℝ) 1) :=
     (Complex.continuous_ofReal.comp (height_continuous hφ)).continuousOn
-  simpa only [cauchy, neg_div, integral_neg, neg_mul_neg] using
+  simpa only [cauchy, neg_div, integral_neg, neg_mul_neg] using!
     (hasDerivAt_cauchy_integral_exterior hc hz).const_mul (-((Real.pi : ℂ)⁻¹))
 
 /-- The proved extension agrees with the original integral on the exterior

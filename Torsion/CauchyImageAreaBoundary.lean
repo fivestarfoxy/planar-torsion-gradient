@@ -62,7 +62,8 @@ theorem cauchyAreaField_hasFDerivAt {φ : ℝ → ℝ}
       (fun w => ((cauchy φ w).im : ℂ) * deriv (cauchy φ) w)
       (cauchyAreaFieldDerivative φ z) z := by
     simpa only [cauchyAreaFieldDerivative, cauchyExtension_eq hφ.continuousOn hz,
-      cauchyDerivativeExtension_eq hφ hodd hzero hz] using h
+      cauchyDerivativeExtension_eq hφ hodd hzero hz, Function.comp_def,
+      Complex.ofRealCLM_apply, Complex.imCLM_apply, Pi.mul_def] using! h
   apply hcorrect.congr_of_eventuallyEq
   filter_upwards [(isOpen_lt continuous_const Complex.continuous_im).mem_nhds hz] with w hw
   simp only [cauchyAreaField, cauchyExtension_eq hφ.continuousOn hw,
@@ -134,7 +135,7 @@ theorem cauchyAreaField_rectangle_identity {φ : ℝ → ℝ} {C α : ℝ≥0}
       have hy : z ∈ upperHalfPlane := by
         simpa only [upperHalfPlane, mem_setOf_eq] using
           (show z.im ∈ Ioo (0 : ℝ) R from by
-            simpa only [min_eq_left hR,
+            simpa only [Set.mem_preimage, min_eq_left hR,
               max_eq_right hR] using hz.2).1
       exact cauchyAreaField_hasFDerivAt (hφ.continuous hα0) hodd hzero hy)
     (by

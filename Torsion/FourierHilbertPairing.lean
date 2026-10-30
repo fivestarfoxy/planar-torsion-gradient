@@ -34,7 +34,7 @@ theorem integral_fourier_phase_pairing {h k : ℝ → ℂ}
   have hi : Integrable (fun p : ℝ × ℝ => h p.1 *
       (Complex.exp (((r * p.2 * p.1 : ℝ) : ℂ) * Complex.I) * k p.2)) := by
     apply (hh.norm.mul_prod hk.norm).mono'
-    · exact hh.1.fst.mul (hp.aestronglyMeasurable.mul hk.1.snd)
+    · exact hh.1.comp_fst.mul (hp.aestronglyMeasurable.mul hk.1.comp_snd)
     · exact ae_of_all _ fun p => by simp [norm_mul, Complex.norm_exp]
   calc
     _ = ∫ ξ : ℝ, ∫ x : ℝ, h ξ *
@@ -177,7 +177,6 @@ theorem damped_hilbert_fourier_pairing {f g : ℝ → ℝ} {y : ℝ}
           (-2 * (x - s) / ((x - s) ^ 2 + y ^ 2)) =
           -(x - s) / (Real.pi * ((x - s) ^ 2 + y ^ 2)) := by
         field_simp [Real.pi_ne_zero, hd]
-        ring
       rw [mul_left_comm, ← Complex.ofReal_mul, hk]
 
 /-- The actual full-line conjugate-Poisson kernel is the real part of the

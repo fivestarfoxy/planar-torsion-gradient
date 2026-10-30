@@ -121,12 +121,12 @@ theorem shapeCorrection_memH10
   · intro w hw
     exact (((hs w hw).contDiffAt (hD.mem_nhds hw)).congr_of_eventuallyEq (heq hw)).contDiffWithinAt
   · intro w hw
-    exact indicator_of_not_mem hw _
+    exact indicator_of_notMem hw _
   · intro w hw
     rw [shapeCorrectionZeroGradient, indicator_of_mem hw]
     exact (heq hw).gradient_eq.symm
   · intro w hw
-    exact indicator_of_not_mem hw _
+    exact indicator_of_notMem hw _
   · apply (memLp_indicator_iff_restrict hD.measurableSet).mpr
     exact (hEig.cauchyConvection_memLp ha hφ hα0 hα1 hodd hzero hpos hlinear hV hVc hVU).add
       (physicalHarmonicLift_memLp hc hodd hzero hpos hg hgc hgs)
@@ -196,7 +196,7 @@ theorem shapeCorrection_hasMarkedFlux
   have hflux := physicalHarmonicLift_hasMarkedFlux (hφ.continuous hα0) hodd hzero hpos
     hg.continuous.continuousOn
   have hVzero : V =ᶠ[𝓝 (0 : Plane)] 0 := by
-    apply not_mem_tsupport_iff_eventuallyEq.mp
+    apply notMem_tsupport_iff_eventuallyEq.mp
     intro h
     have hlt : 0 < (0 : Plane).im := hVU h
     simp at hlt
@@ -237,7 +237,7 @@ theorem shapeCorrection_weakHarmonic_on_fixed_patch
   have hdiv (z : Plane) : Shape.divergence V z * ψ z = 0 := by
     by_cases hzB : z ∈ Metric.ball (0 : Plane) (4 * r)
     · simp [Shape.divergence, hz z hzB]
-    · rw [image_eq_zero_of_nmem_tsupport (fun h => hzB (hψ.2.2 h).2), mul_zero]
+    · rw [image_eq_zero_of_notMem_tsupport (fun h => hzB (hψ.2.2 h).2), mul_zero]
   have henergy (z : Plane) : inner (𝕜 := ℝ)
       (Shape.energyVariationOperator V z (gradient (physicalCandidate φ) z)) (gradient ψ z) = 0 := by
     by_cases hzB : z ∈ Metric.ball (0 : Plane) (4 * r)

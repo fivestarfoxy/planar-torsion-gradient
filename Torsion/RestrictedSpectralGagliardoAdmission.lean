@@ -69,7 +69,7 @@ theorem memRestrictedFormDomain_of_nonnegative_gagliardo
     {f : ℝ → ℝ} (hc : Continuous f)
     (hs : ContDiffOn ℝ ∞ f (Ioo (-1 : ℝ) 1))
     (hz : ∀ x ∉ Ioo (-1 : ℝ) 1, f x = 0)
-    (hpos : ∀ x, 0 ≤ f x) (hG : gagliardoEnergy f ≠ ∞) :
+    (hpos : ∀ x, 0 ≤ f x) (hG : gagliardoEnergy f ≠ (∞ : ℝ≥0∞)) :
     MemRestrictedFormDomain f ∧
       energy f f ≤ (gagliardoEnergy f).toReal / gagliardoSymbolConstant := by
   let v : ℕ → ℝ → ℝ := fun n x => BoundaryAdmission.truncation n (f x)
@@ -82,7 +82,7 @@ theorem memRestrictedFormDomain_of_nonnegative_gagliardo
   have hL : Tendsto (fun n => eLpNorm (fun x => v n x - f x) 2 volume) atTop (𝓝 0) := by
     apply Torsion.tendsto_eLpNorm_two_of_dominated (B := fun x => 2 * ‖f x‖)
     · intro n
-      exact (hv n).1.continuous.aestronglyMeasurable.sub hf.1
+      exact (hv n).1.continuous.aestronglyMeasurable.sub hf.aestronglyMeasurable
     · convert hf.integrable_sq.const_mul (4 : ℝ) using 1
       funext x
       rw [Real.norm_eq_abs, mul_pow, sq_abs]

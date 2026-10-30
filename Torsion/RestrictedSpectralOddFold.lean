@@ -56,12 +56,19 @@ theorem oddFoldComp_measurable {Φ f : ℝ → ℝ} (hΦ : Measurable Φ) (hf : 
     Measurable (oddFoldComp Φ f) := by
   exact Measurable.ite measurableSet_Ici (hΦ.comp hf) (hΦ.comp hf).neg
 
+/-- A continuous scalar transformation preserves almost-everywhere strong
+measurability after attaching the measurable spatial sign. -/
+theorem oddFoldComp_aestronglyMeasurable {Φ f : ℝ → ℝ}
+    (hΦ : Continuous Φ) (hf : AEStronglyMeasurable f volume) :
+    AEStronglyMeasurable (oddFoldComp Φ f) volume := by
+  have hm := hΦ.comp_aestronglyMeasurable hf
+  apply (AEStronglyMeasurable.piecewise (s := Ici (0 : ℝ)) measurableSet_Ici hm.restrict hm.neg.restrict).congr
+  exact ae_of_all _ fun x => by
+    by_cases hx : 0 ≤ x <;> simp [oddFoldComp, Set.piecewise, hx]
+
 theorem oddFoldAbs_memLp {f : ℝ → ℝ} (hf : MemLp f 2 volume) : MemLp (oddFoldAbs f) 2 volume := by
-  have hm : AEStronglyMeasurable (oddFoldAbs f) volume := by
-    have hnorm : AEStronglyMeasurable (fun x => |f x|) volume := by
-      simpa only [Real.norm_eq_abs] using hf.1.norm
-    simpa only [oddFoldAbs, oddFoldComp, Set.piecewise, mem_Ici] using
-      AEStronglyMeasurable.piecewise measurableSet_Ici hnorm.restrict hnorm.neg.restrict
+  have hm : AEStronglyMeasurable (oddFoldAbs f) volume :=
+    oddFoldComp_aestronglyMeasurable continuous_abs hf.aestronglyMeasurable
   exact hf.of_le hm (ae_of_all _ fun x => (oddFoldAbs_norm f x).le)
 
 /-- A positive shrinking value cutoff. -/
@@ -109,7 +116,8 @@ theorem oddFoldAbsApprox_hasDerivAt (n : ℕ) (t : ℝ) :
     simpa only [Function.comp_def, mul_neg_one] using
       (SmoothPositivePart.approx_hasDerivAt n (-t - oddFoldEpsilon n)).comp t
         ((hasDerivAt_neg t).sub_const (oddFoldEpsilon n))
-  simpa only [oddFoldAbsApprox, sub_eq_add_neg] using h1.add h2
+  convert h1.add h2 using 1
+  all_goals first | rfl | (funext x; rfl) | ring
 
 theorem oddFoldAbsApprox_lipschitz (n : ℕ) : LipschitzWith 1 (oddFoldAbsApprox n) := by
   apply lipschitzWith_of_nnnorm_deriv_le

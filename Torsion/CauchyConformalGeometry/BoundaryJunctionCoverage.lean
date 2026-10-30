@@ -57,6 +57,7 @@ theorem cauchyJoinedBoundary_frontier_near_right_subset {a b δ : ℝ}
     dsimp [t]
     have halg : b * (1 + (s - R) / b - 1) = s - R := by
       field_simp
+      ring
     rw [halg, ← Complex.ofReal_add]
     congr 1
     ring
@@ -99,6 +100,7 @@ theorem cauchyJoinedBoundary_frontier_near_left_subset {a b δ : ℝ}
     dsimp [t]
     have halg : b * (-1 + (s - L) / b + 1) = s - L := by
       field_simp
+      ring
     rw [halg, ← Complex.ofReal_add]
     congr 1
     ring

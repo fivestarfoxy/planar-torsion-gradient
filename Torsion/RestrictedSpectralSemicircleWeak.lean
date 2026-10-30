@@ -58,13 +58,13 @@ theorem realCauchyExtension_semicircle :
     have h := (cauchy_integral_tendsto_zero
       (Complex.continuous_ofReal.comp semicircleBarrier_continuous).continuousOn hn).const_mul
         (-((Real.pi : ℂ)⁻¹))
-    simpa only [realCauchy, mul_zero] using h
+    simpa only [realCauchy, mul_zero, Function.comp_apply] using! h
   have hVlim : Tendsto (fun n => realCauchyExtension semicircleBarrier (zseq n)) atTop (𝓝 0) := by
     apply hC.congr'
     filter_upwards [hseq] with n hn
     exact (realCauchyExtension_eq semicircleBarrier_continuous semicircleBarrier_zero_exterior hn).symm
   have hU : Tendsto (fun n => semicircleComplex (zseq n)) atTop (𝓝 0) := by
-    simpa only [zseq, Complex.ofReal_natCast] using
+    simpa only [zseq, Complex.ofReal_natCast, Function.comp_apply] using!
       semicircleComplex_tendsto_imaginary_ray.comp
         (tendsto_natCast_atTop_atTop : Tendsto (fun n : ℕ => (n : ℝ)) atTop atTop)
   have hlim : Tendsto (fun n => H (zseq n)) atTop (𝓝 0) := by
@@ -109,8 +109,8 @@ theorem semicircleBarrier_core_equation (ψ : ℝ → ℝ) (hψ : IsCore ψ) :
   have hi3 : Integrable (fun x : ℝ => (-x) * ψ x) :=
     (continuous_id.neg.mul hψ.1.continuous).integrable_of_hasCompactSupport hψ.2.1.mul_left
   have h := integral_mul_deriv_eq_deriv_mul_of_integrable
-    (fun x : ℝ => (hasDerivAt_id x).neg) (fun x => (hdψ x).hasDerivAt) hi1 hi2 hi3
-  simpa only [Pi.mul_apply, neg_one_mul, integral_neg, neg_neg] using h
+    (fun x : ℝ => fun _ => (hasDerivAt_id x).neg) (fun x => fun _ => (hdψ x).hasDerivAt) hi1 hi2 hi3
+  simpa only [Pi.mul_apply, Pi.neg_apply, id_eq, neg_one_mul, integral_neg, neg_neg] using! h
 
 theorem semicircleBarrier_weak_equation (ψ : ℝ → ℝ) (hψ : MemRestrictedFormDomain ψ) :
     energy semicircleBarrier ψ = ∫ x : ℝ, ψ x := by
@@ -149,7 +149,7 @@ theorem semicircleBarrier_weak_equation (ψ : ℝ → ℝ) (hψ : MemRestrictedF
   have hIntegral : Tendsto (fun n => ∫ x : ℝ, v n x) atTop (𝓝 (∫ x : ℝ, ψ x)) := by
     have hr := Complex.continuous_re.continuousAt.tendsto.comp hFourier
     simpa only [fourier, mul_zero, zero_mul, Complex.ofReal_zero, neg_zero, Complex.exp_zero,
-      one_mul, integral_complex_ofReal, Complex.ofReal_re, Function.comp_apply] using hr
+      one_mul, integral_complex_ofReal, Complex.ofReal_re, Function.comp_apply] using! hr
   exact tendsto_nhds_unique
     (henergy.congr' (Eventually.of_forall fun n => semicircleBarrier_core_equation (v n) (hv n)))
     hIntegral

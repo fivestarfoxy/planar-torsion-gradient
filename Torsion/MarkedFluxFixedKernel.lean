@@ -72,8 +72,11 @@ private theorem markedFlux_of_smooth {v : Plane → ℝ} (hv : ContDiff ℝ ∞ 
   have hdv : HasFDerivAt v (fderiv ℝ v 0) ((0 : ℂ) * Complex.I) := by
     simpa using (hv.differentiable (by simp) 0).hasFDerivAt
   have hd : HasDerivAt (fun t : ℝ => v ((t : ℂ) * Complex.I)) (gradient v 0).im 0 := by
-    convert hdv.comp_hasDerivAt 0 hline using 1
-    simp [fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re]
+    have heq : fderiv ℝ v 0 Complex.I = (gradient v 0).im := by
+      simp only [fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re,
+        Complex.conj_re, Complex.conj_im, Complex.I_re, Complex.I_im,
+        mul_zero, zero_mul, mul_one, one_mul, zero_sub, sub_zero, neg_neg]
+    simpa only [heq, Function.comp_apply] using! hdv.comp_hasDerivAt 0 hline
   exact hasMarkedFlux_of_normal_derivative hv0 hd
 
 /-- Every actual weakly harmonic zero-trace half-ball pair with its continuous

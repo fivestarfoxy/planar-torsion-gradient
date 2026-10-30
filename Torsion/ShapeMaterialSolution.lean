@@ -7,6 +7,7 @@ public import Torsion.ShapeEnergyOperatorMatrix
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Material differentiability on the original weak Dirichlet graph
@@ -104,7 +105,7 @@ theorem materialSolution_eventually_variational (D : Set Plane) (hD : Measurable
     (materialOperator_zero_isUnit D hb hV hVc) (f := materialSource D hD hb hV hVc)
   filter_upwards [heq] with t ht q
   have hi := congrArg (fun p : space D => inner (𝕜 := ℝ) p q) ht
-  simpa only [materialOperator, rieszFormMap_apply_inner, materialSource,
+  simpa only [materialSolution, materialOperator, rieszFormMap_apply_inner, materialSource,
     rieszSourceMap_apply_inner] using hi
 
 /-- At the base parameter the constructed graph vector is an actual weak

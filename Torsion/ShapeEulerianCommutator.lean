@@ -8,6 +8,7 @@ public import Torsion.ShapeForcing
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The actual local Eulerian shape commutator
@@ -92,7 +93,8 @@ theorem divergence_smooth_test_pairing {V : Plane → Plane} (hV : ContDiff ℝ 
     have hi₃ : Integrable (fun x => C (V x) * ψ x) :=
       (hC.continuous.mul hψ.1.continuous).integrable_of_hasCompactSupport hψ.2.1.mul_left
     simpa only [hd] using integral_mul_fderiv_eq_neg_fderiv_mul_of_integrable
-      hi₁ hi₂ hi₃ (hC.differentiable (by simp)) (hψ.1.differentiable (by simp))
+      hi₁ hi₂ hi₃ (fun x _ => (hC.differentiable (by simp)) x)
+      (fun x _ => (hψ.1.differentiable (by simp)) x)
   have h₁ := hcoord (1 : Plane) Complex.reCLM
   have h₂ := hcoord Complex.I Complex.imCLM
   change (∫ x, (V x).re * fderiv ℝ ψ x 1) =
@@ -111,7 +113,8 @@ theorem divergence_smooth_test_pairing {V : Plane → Plane} (hV : ContDiff ℝ 
   have hp (x : Plane) : inner (𝕜 := ℝ) (V x) (gradient ψ x) =
       (V x).re * fderiv ℝ ψ x (1 : Plane) +
         (V x).im * fderiv ℝ ψ x Complex.I := by
-    simp [fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re]
+    simp [fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re,
+      -inner_gradient_left, -inner_gradient_right]
     ring
   have hi₁ : Integrable (fun x => ((fderiv ℝ V x) 1).re * ψ x) := hi 1 Complex.reCLM
   have hi₂ : Integrable (fun x => ((fderiv ℝ V x) Complex.I).im * ψ x) := hi Complex.I Complex.imCLM
@@ -185,7 +188,7 @@ theorem eulerian_commutator_smooth_test {D : Set Plane} {V : Plane → Plane}
       funext x
       by_cases hx : x ∈ tsupport ψ
       · rw [hlap x hx, neg_one_mul]
-      · simp [f, gradient_eq_zero_of_not_mem_tsupport hx]
+      · simp only [f, gradient_eq_zero_of_not_mem_tsupport hx, inner_zero_right, mul_zero, neg_zero]
     rw [heq, integral_neg, neg_neg]
   have hdivS := divergence_smooth_test_pairing hV hS
   have hdivψ := divergence_smooth_test_pairing hV hψ

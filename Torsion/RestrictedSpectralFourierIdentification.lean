@@ -33,10 +33,10 @@ theorem fourier_eq_abs_mul_of_schwartz_equation {f q : ℝ → ℝ}
     apply ae_eq_zero_of_integral_contDiff_smul_eq_zero hDc.locallyIntegrable
     intro η hη hcη
     let T := compactSmoothSchwartz hη hcη
-    let S := (SchwartzMap.fourierTransformCLE ℂ).symm T
+    let S : 𝓢(ℝ, ℂ) := 𝓕⁻ T
     have hFS (ξ : ℝ) : complexSourceFourier S ξ = (η (ξ / P) : ℂ) := by
       exact congrArg (fun W : 𝓢(ℝ, ℂ) => W (ξ / P))
-        ((SchwartzMap.fourierTransformCLE ℂ).apply_symm_apply T)
+        (FourierTransform.fourier_fourierInv_eq (F := 𝓢(ℝ, ℂ)) T)
     have hw := complex_schwartz_equation_of_real hf hq hweak S
     have hqpair := integral_fourier_complexSchwartz_pairing hq S
     have hif := integrable_weighted_complexSchwartz_pairing hf S 1
@@ -64,7 +64,7 @@ theorem fourier_eq_abs_mul_of_schwartz_equation {f q : ℝ → ℝ}
     rw [hleft] at hscale
     have hId : (∫ t : ℝ, D t * (η t : ℂ)) = 0 := by
       have hscale' : (0 : ℂ) = (P : ℂ) * ∫ t : ℝ, D t * (η t : ℂ) := by
-        simpa only [smul_eq_mul, abs_of_pos hP] using hscale
+        simpa only [smul_eq_mul, Complex.real_smul, abs_of_pos hP] using! hscale
       exact (mul_eq_zero.mp hscale'.symm).resolve_left (Complex.ofReal_ne_zero.mpr hP.ne')
     convert hId using 1
     congr 1

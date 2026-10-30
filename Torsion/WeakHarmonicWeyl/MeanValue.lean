@@ -138,7 +138,7 @@ theorem holomorphic_radialKernel_reproduce {F : ℂ → ℂ} {c : ℂ} {r : ℝ}
     (by rw [radialKernel_support hr]; exact Metric.ball_subset_closedBall)
     hcomp
   rw [radialKernel_integral hr, one_smul] at heq
-  simp only [Function.comp_apply, id_eq, sub_zero] at heq
+  simp only [Function.comp_apply, Pi.sub_apply, id_eq, sub_zero] at heq
   change (∫ t, radialKernel r (c - t) • F t) = F c
   calc
     _ = ∫ z, radialKernel r z • F (c - z) := by

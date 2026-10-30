@@ -173,10 +173,10 @@ theorem energy_oddFoldAbs_eq_imp_sign {f : ℝ → ℝ}
     (hf : MemRestrictedFormDomain f) (hodd : Function.Odd f)
     (heq : energy (oddFoldAbs f) (oddFoldAbs f) = energy f f) :
     0 ≤ᵐ[volume.restrict (Ioi (0 : ℝ))] f ∨ f ≤ᵐ[volume.restrict (Ioi (0 : ℝ))] 0 := by
-  let m := hf.1.1.mk f
+  let m := hf.1.aestronglyMeasurable.mk f
   let g : ℝ → ℝ := fun x => (m x - m (-x)) / 2
-  have hm : Measurable m := hf.1.1.stronglyMeasurable_mk.measurable
-  have hfm : f =ᵐ[volume] m := hf.1.1.ae_eq_mk
+  have hm : Measurable m := hf.1.aestronglyMeasurable.stronglyMeasurable_mk.measurable
+  have hfm : f =ᵐ[volume] m := hf.1.aestronglyMeasurable.ae_eq_mk
   have hreflection := (Measure.measurePreserving_neg (volume : Measure ℝ)).quasiMeasurePreserving.ae hfm
   have hfg : f =ᵐ[volume] g := by
     filter_upwards [hfm, hreflection] with x hx hnx

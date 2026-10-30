@@ -181,7 +181,6 @@ theorem exists_endpointCutoff_energy_bound {ψ : ℝ → ℝ} (hψ : ContDiff �
       (4 * (D + A * K) ^ 2 * endpointCutoffScale n) = B ^ 2 := by
     dsimp only [B]
     field_simp [(endpointCutoffScale_pos n).ne']
-    ring
   rw [hid] at hprod
   have hE := energy_sq_le_integral_sq_mul_integral_deriv_sq_of_compactSmooth
     (endpointCutoff_contDiff hψ e n) (endpointCutoff_hasCompactSupport ψ e n)
@@ -205,7 +204,7 @@ theorem endpointCutoff_eventually_eq_zero (ψ : ℝ → ℝ) (e : ℝ) {x : ℝ}
     ∀ᶠ n : ℕ in atTop, endpointCutoff ψ e n x = 0 := by
   have hlim : Tendsto (fun n : ℕ => 2 / endpointCutoffScale n) atTop (𝓝 0) := by
     simpa only [endpointCutoffScale, div_eq_mul_inv, one_mul, mul_zero] using
-      tendsto_one_div_add_atTop_nhds_zero_nat.const_mul 2
+      (tendsto_one_div_add_atTop_nhds_zero_nat (𝕜 := ℝ)).const_mul (2 : ℝ)
   have hd : 0 < |x - e| := abs_pos.mpr (sub_ne_zero.mpr hx)
   filter_upwards [hlim.eventually (eventually_lt_nhds hd)] with n hn
   exact endpointCutoff_eq_zero ψ e n hn.le

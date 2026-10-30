@@ -170,10 +170,10 @@ theorem totallyBounded_restricted_value_family {ι : Type*}
   rw [fourier_sub (hf i).integrable (hf j).integrable] at hP
   simp only [Pi.sub_apply] at hP
   have hfreq : (∫ ξ : ℝ, ‖fourier (f i) ξ - fourier (f j) ξ‖ ^ 2) = ‖F i - F j‖ ^ 2 := by
-    simpa only [MemLp.toLp_sub, Pi.sub_apply, F] using
+    simpa only [MemLp.toLp_sub, Pi.sub_apply, F] using!
       integral_norm_sq_eq_norm_toLp_sq ((hf i).fourier_parseval.1.sub (hf j).fourier_parseval.1)
   have hval : (∫ x : ℝ, (f i x - f j x) ^ 2) = ‖V i - V j‖ ^ 2 := by
-    simpa only [MemLp.toLp_sub, Pi.sub_apply, V] using
+    simpa only [MemLp.toLp_sub, Pi.sub_apply, V] using!
       integral_sq_eq_norm_toLp_sq ((hf i).1.sub (hf j).1)
   rw [hfreq, hval] at hP
   rw [dist_eq_norm, dist_eq_norm]
@@ -198,8 +198,8 @@ theorem valueMap_isCompactOperator : IsCompactOperator (valueMap : space → Val
     have hv : ‖valueMap p.1‖ ≤ ‖p.1‖ := by
       have hh := norm_sq p.1
       nlinarith [sq_nonneg ‖halfMap p.1‖, norm_nonneg (valueMap p.1), norm_nonneg p.1]
-    simpa only [f, Lp.toLp_coeFn] using hv.trans (hp p)
-  let C : ℝ≥0 := ⟨1 / (2 * Real.pi), by positivity⟩
+    simpa only [f, Lp.toLp_coeFn] using! hv.trans (hp p)
+  let C : ℝ≥0 := NNReal.mk (1 / (2 * Real.pi)) (by positivity)
   have hC (p : I) : Torsion.Spectral.energy (f p) (f p) ≤ (C : ℝ) := by
     have hh := (half_norm_le p.1).trans (hp p)
     have hh2 : ‖halfMap p.1‖ ^ 2 ≤ 1 := by nlinarith [norm_nonneg (halfMap p.1)]
@@ -207,7 +207,7 @@ theorem valueMap_isCompactOperator : IsCompactOperator (valueMap : space → Val
         (1 / (2 * Real.pi)) * ‖halfMap p.1‖ ^ 2 := by
       rw [← energy_eq_original p.1 p.1, energy_apply, real_inner_self_eq_norm_sq]
     rw [he]
-    simpa only [C, mul_one] using mul_le_mul_of_nonneg_left hh2
+    simpa only [C, NNReal.coe_mk, mul_one] using! mul_le_mul_of_nonneg_left hh2
       (show (0 : ℝ) ≤ 1 / (2 * Real.pi) by positivity)
   have hTB := totallyBounded_restricted_value_family f hf 1 C hM hC
   have hRange : range (fun p : I => (hf p).1.toLp (f p)) =
@@ -221,7 +221,7 @@ theorem valueMap_isCompactOperator : IsCompactOperator (valueMap : space → Val
       refine ⟨⟨p, hp⟩, ?_⟩
       simp only [f, Lp.toLp_coeFn]
   rw [hRange] at hTB
-  exact isCompact_of_totallyBounded_isClosed hTB.closure isClosed_closure
+  exact hTB.closure.isCompact_of_isClosed isClosed_closure
 
 end RestrictedHilbert
 end Torsion.Spectral

@@ -89,12 +89,10 @@ theorem shapeBoundaryData_radial_density {V : Plane → Plane} {f : ℝ → ℝ}
   have hV' : V (cauchyExtension φ (t : Plane)) =
       (f (Θ t) / ‖cauchyExtension φ (t : Plane)‖) • cauchyExtension φ (t : Plane) := by
     rw [hV]
-    conv_rhs => rw [← Complex.norm_mul_exp_arg_mul_I (cauchyExtension φ (t : Plane))]
     simp only [Complex.real_smul, Complex.ofReal_div]
+    have hP := Complex.norm_mul_exp_arg_mul_I (cauchyExtension φ (t : Plane))
     field_simp [hne]
-    simpa only [mul_assoc, mul_comm, mul_left_comm] using
-      congrArg (fun w : Plane => (f (Θ t) : Plane) * w)
-        (Complex.norm_mul_exp_arg_mul_I (cauchyExtension φ (t : Plane)))
+    linear_combination (f (Θ t) : Plane) * hP
   have hdiv : Complex.I * cauchyDerivativeExtension φ (t : Plane) / ((2 * a : ℝ) : Plane) =
       ((2 * a)⁻¹ : ℝ) • (Complex.I * cauchyDerivativeExtension φ (t : Plane)) := by
     simp only [Complex.real_smul, Complex.ofReal_inv, div_eq_mul_inv]
@@ -104,7 +102,6 @@ theorem shapeBoundaryData_radial_density {V : Plane → Plane} {f : ℝ → ℝ}
   dsimp only
   rw [hsupport]
   field_simp [hne, ha.ne']
-  ring
 
 omit ha hlinear hc hd in
 theorem cauchy_boundary_argument_jacobian_continuousOn : ContinuousOn Q (Icc (-1 : ℝ) 1) := by

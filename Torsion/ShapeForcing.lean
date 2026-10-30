@@ -8,6 +8,7 @@ public import Mathlib.MeasureTheory.Integral.IntegrableOn
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual fixed-domain forcing and its shape derivative

@@ -50,7 +50,7 @@ theorem contDiff_mul_of_tsupport_subset {H ψ : ℝ → ℝ} {U : Set ℝ}
   by_cases hx : x ∈ U
   · exact (hH.contDiffAt (hU.mem_nhds hx)).mul hψ.contDiffAt
   · have hn : x ∉ tsupport ψ := fun h => hx (hsupp h)
-    have hz : ψ =ᶠ[𝓝 x] 0 := not_mem_tsupport_iff_eventuallyEq.1 hn
+    have hz : ψ =ᶠ[𝓝 x] 0 := notMem_tsupport_iff_eventuallyEq.1 hn
     apply (contDiffAt_const (c := (0 : ℝ))).congr_of_eventuallyEq
     filter_upwards [hz] with y hy
     simp only [Pi.zero_apply] at hy
@@ -66,7 +66,7 @@ theorem continuous_mul_of_tsupport_subset {H ψ : ℝ → ℝ} {U : Set ℝ}
   by_cases hx : x ∈ U
   · exact (hH.continuousAt (hU.mem_nhds hx)).mul hψ.continuousAt
   · have hn : x ∉ tsupport ψ := fun h => hx (hsupp h)
-    have hz : ψ =ᶠ[𝓝 x] 0 := not_mem_tsupport_iff_eventuallyEq.1 hn
+    have hz : ψ =ᶠ[𝓝 x] 0 := notMem_tsupport_iff_eventuallyEq.1 hn
     apply (show ContinuousAt (fun _ : ℝ => (0 : ℝ)) x from continuousAt_const).congr_of_eventuallyEq
     filter_upwards [hz] with y hy
     simp only [Pi.zero_apply] at hy
@@ -99,7 +99,7 @@ theorem integral_mul_deriv_eq_neg_deriv_mul_of_local_contDiff
         (hψ.differentiable (by simp) x)
     · have hn : x ∉ tsupport ψ := fun h => hx (hsupp h)
       have hnP : x ∉ tsupport P := fun h => hn (tsupport_mul_subset_right h)
-      simp only [deriv, fderiv_of_not_mem_tsupport ℝ hnP, fderiv_of_not_mem_tsupport ℝ hn,
+      simp only [deriv, fderiv_of_notMem_tsupport ℝ hnP, fderiv_of_notMem_tsupport ℝ hn,
         ContinuousLinearMap.zero_apply, image_eq_zero_of_notMem_tsupport hn, mul_zero, zero_mul, add_zero]
   rw [show (deriv P) = (fun x => deriv H x * ψ x + H x * deriv ψ x) from funext hpoint,
     integral_add hHi hHψi] at hPderiv

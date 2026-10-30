@@ -65,7 +65,9 @@ theorem classical_laplacian_smooth_test_equation {D : Set Plane} {u ψ : Plane �
       f₁ x * fderiv ℝ ψ x (1 : Plane) + f₂ x * fderiv ℝ ψ x Complex.I := by
     by_cases hx : x ∈ tsupport ψ
     · have hy := (hηone hx).self_of_nhds
-      simp [f₁, f₂, G, hy, fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re]
+      simp only [f₁, f₂, G, hy, one_mul, fderiv_apply_eq_inner_gradient, Complex.inner,
+        Complex.mul_re, Complex.conj_re, Complex.conj_im, Complex.one_re, Complex.one_im,
+        Complex.I_re, Complex.I_im, mul_one, mul_zero, sub_zero, zero_sub, neg_neg]
       ring
     · simp [fderiv_apply_eq_inner_gradient, gradient_eq_zero_of_not_mem_tsupport hx]
   have hrightPoint (x : Plane) :
@@ -75,7 +77,7 @@ theorem classical_laplacian_smooth_test_equation {D : Set Plane} {u ψ : Plane �
     · rw [hlocal₁ hx, hlocal₂ hx]
       change _ = ((fderiv ℝ G x 1).re + (fderiv ℝ G x Complex.I).im) * ψ x
       ring
-    · simp [image_eq_zero_of_nmem_tsupport hx]
+    · simp [image_eq_zero_of_notMem_tsupport hx]
   have hL₁ : Integrable (fun x => f₁ x * fderiv ℝ ψ x (1 : Plane)) :=
     (hf₁.1.continuous.mul (continuous_directional hψ.1 1)).integrable_of_hasCompactSupport
       hf₁.2.1.mul_right
@@ -134,7 +136,7 @@ theorem classical_harmonic_smooth_test_equation {D : Set Plane} {u ψ : Plane �
   have heq (x : Plane) : WeakHarmonicRegularity.planarLaplacian u x * ψ x = 0 := by
     by_cases hx : x ∈ D
     · rw [hlap x hx, zero_mul]
-    · rw [image_eq_zero_of_nmem_tsupport (fun h => hx (hψ.2.2 h)), mul_zero]
+    · rw [image_eq_zero_of_notMem_tsupport (fun h => hx (hψ.2.2 h)), mul_zero]
   simp_rw [heq]
   simp
 

@@ -70,7 +70,7 @@ theorem green_source_infinity_div_t_tendsto (z : Plane) :
     rw [heq, Complex.ofReal_inv]
     field_simp [htC]
     ring_nf
-    simp [Complex.I_sq]
+    simp [Complex.I_sq, mul_inv_cancel₀ htC]
   · intro h
     apply hm
     have heq := sub_eq_zero.mp h
@@ -79,6 +79,6 @@ theorem green_source_infinity_div_t_tendsto (z : Plane) :
       Complex.ofReal_inv]
     field_simp [htC]
     ring_nf
-    simp [Complex.I_sq]
+    simp [Complex.I_sq, mul_inv_cancel₀ htC]
 
 end Torsion.HalfPlane

@@ -7,6 +7,7 @@ public import Torsion.ShapeGradient
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Transport of the actual closed H¹₀ graph under smooth domain changes
@@ -55,7 +56,7 @@ theorem tendsto_eLpNorm_pullback_zero (e : Plane ≃ₜ Plane)
       eLpNorm (F n) 2 volume) atTop (𝓝 0) := by
     simpa only [mul_zero] using ENNReal.Tendsto.const_mul hlim (Or.inr hc)
   exact tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds ht
-    (fun _ => zero_le _) hb
+    (fun _ => zero_le) hb
 
 /-- The concrete zero-boundary H¹ graph pulls back under an actual smooth
 homeomorphism with finite volume distortion and bounded differential.
@@ -73,7 +74,7 @@ theorem MemH10_pullback {D : Set Plane} {u : Plane → ℝ} {g : Plane → Plane
     (fun n => f n ∘ e), (fun n => test_pullback e he (hf n)), ?_, ?_⟩
   · have hv := tendsto_eLpNorm_pullback_zero e hC hmap
       (F := fun n z => f n z - u z) (fun n => (hf n).memLp_value.sub hmu) hval
-    simpa only [Function.comp_apply] using hv
+    convert hv using 1 <;> rfl
   · let H : ℕ → Plane → Plane := fun n z => gradient (f n) z - g z
     have hH (n : ℕ) : MemLp (H n) 2 volume := (hf n).memLp_gradient.sub hmg
     have hl : Tendsto (fun n => eLpNorm (H n ∘ e) 2 volume) atTop (𝓝 0) :=
@@ -83,17 +84,19 @@ theorem MemH10_pullback {D : Set Plane} {u : Plane → ℝ} {g : Plane → Plane
       simpa only [mul_zero] using ENNReal.Tendsto.const_mul hl (Or.inr ENNReal.ofReal_ne_top)
     have hb (n : ℕ) : eLpNorm (fun z => gradient (f n ∘ e) z - gradientPullback e g z)
         2 volume ≤ ENNReal.ofReal B * eLpNorm (H n ∘ e) 2 volume := by
-      apply eLpNorm_le_mul_eLpNorm_of_ae_le_mul _ 2
-      filter_upwards [] with z
-      rw [gradient_comp ((he.differentiable (by simp)) z)
-        (((hf n).1.differentiable (by simp)) (e z))]
-      have heq : gradientPullback e (gradient (f n)) z - gradientPullback e g z =
-          gradientPullback e (H n) z := by
-        simp only [gradientPullback, H, map_sub]
-      rw [heq]
-      exact (gradientPullback_norm_le e (H n) z).trans
-        (mul_le_mul_of_nonneg_right (hB z) (norm_nonneg _))
+      refine eLpNorm_le_mul_eLpNorm_of_ae_le_mul ?_ ?_ 2
+      · exact ((test_pullback e he (hf n)).memLp_gradient.sub
+          (gradientPullback_memLp e he hC hmap hB hmg)).aestronglyMeasurable
+      · filter_upwards [] with z
+        rw [gradient_comp ((he.differentiable (by simp)) z)
+          (((hf n).1.differentiable (by simp)) (e z))]
+        have heq : gradientPullback e (gradient (f n)) z - gradientPullback e g z =
+            gradientPullback e (H n) z := by
+          simp only [gradientPullback, H, map_sub]
+        rw [heq]
+        exact (gradientPullback_norm_le e (H n) z).trans
+          (mul_le_mul_of_nonneg_right (hB z) (norm_nonneg _))
     exact tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hcoeff
-      (fun _ => zero_le _) hb
+      (fun _ => zero_le) hb
 
 end Torsion.Shape

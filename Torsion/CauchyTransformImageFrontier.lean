@@ -110,7 +110,7 @@ private theorem cauchy_vertical_extension_tendsto {φ : ℝ → ℝ}
   obtain ⟨CY, hY⟩ := height_exists_holder (α := 1) hφ hodd hzero le_rfl
   have hlim : Tendsto (cauchy φ) (𝓝[upperHalfPlane] (x : ℂ))
       (𝓝 (cauchyExtension φ (x : ℂ))) := by
-    simpa only [cauchyExtension_ofReal] using realCauchy_boundary_tendsto hY (by norm_num)
+    simpa only [cauchyExtension_ofReal, cauchy, realCauchy] using! realCauchy_boundary_tendsto hY (by norm_num)
       (fun s hs => height_zero_of_one_le_abs φ hs) x
   exact hlim.comp (tendsto_nhdsWithin_of_tendsto_nhds_of_eventually_within _
     (verticalPath_tendsto x) (verticalPath_mem x))

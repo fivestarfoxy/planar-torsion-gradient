@@ -26,7 +26,7 @@ namespace Torsion
 private theorem gradient_sub_of_differentiable {f h : Plane → ℝ}
     (hf : Differentiable ℝ f) (hh : Differentiable ℝ h) (x : Plane) :
     gradient (fun z => f z - h z) x = gradient f x - gradient h x := by
-  simp only [gradient, fderiv_sub (hf x) (hh x), map_sub]
+  simp only [gradient, fderiv_fun_sub (hf x) (hh x), map_sub]
 
 private theorem reflected_gradient_test_integral {g : Plane → Plane}
     (ψ : Plane → ℝ) :
@@ -69,8 +69,8 @@ theorem IsWeakHarmonicOn.odd_reflection {u : Plane → ℝ} {g : Plane → Plane
     apply hmask.localize_compact_inter Metric.isOpen_ball hρ.2.1 hρ.2.2
     exact ae_of_all _ fun z hz => by
       by_cases hzU : z ∈ upperHalfPlane
-      · rw [indicator_of_mem hzU, image_eq_zero_of_nmem_tsupport hz]
-      · exact indicator_of_not_mem hzU _
+      · rw [indicator_of_mem hzU, image_eq_zero_of_notMem_tsupport hz]
+      · exact indicator_of_notMem hzU _
   have heq := hw.sobolev_test_equation hu.2.1 hmaskLocal
   have hgOff : ∀ᵐ z ∂volume, z ∉ upperHalfPlane → g z = 0 :=
     (ae_restrict_iff' (isOpen_lt continuous_const Complex.continuous_im).measurableSet.compl).mp
@@ -81,7 +81,7 @@ theorem IsWeakHarmonicOn.odd_reflection {u : Plane → ℝ} {g : Plane → Plane
     filter_upwards [hgOff] with z hz
     by_cases hzU : z ∈ upperHalfPlane
     · rw [indicator_of_mem hzU]
-    · simp [indicator_of_not_mem hzU, hz hzU]
+    · simp [indicator_of_notMem hzU, hz hzU]
   have hgrad (z : Plane) : gradient ρ z =
       gradient ψ z - reflectedGradient (gradient ψ) z := by
     rw [gradient_sub_of_differentiable (hψ.1.differentiable (by simp))

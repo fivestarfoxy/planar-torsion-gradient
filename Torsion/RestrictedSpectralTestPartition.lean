@@ -68,7 +68,7 @@ theorem interiorTestPart_isCore {ψ : ℝ → ℝ} {ε : ℝ}
     exact indicator_of_mem hy ψ
   · have hn : x ∉ tsupport (interiorTestPart ψ) := fun h => hx (hinside h)
     exact (contDiffAt_const (c := (0 : ℝ))).congr_of_eventuallyEq
-      (not_mem_tsupport_iff_eventuallyEq.1 hn)
+      (notMem_tsupport_iff_eventuallyEq.1 hn)
 
 /-- The exterior part actually vanishes on a larger interval containing
 the entire closed source interval. -/

@@ -7,6 +7,7 @@ public import Torsion.ShapeMaterialGeneric
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! # The genuine base Dirichlet operator for material differentiation -/
 set_option maxHeartbeats 200000

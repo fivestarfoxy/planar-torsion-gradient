@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Analysis.Real.Pi.Bounds
 public import Torsion.RestrictedSpectralParseval
 public import Torsion.RestrictedSpectralEvenFourierBounds
 public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
@@ -147,7 +148,7 @@ private theorem energy_ge_of_even_fourier_bounds {f : ℝ → ℝ}
   let W : ℝ → ℝ := fun ξ => |ξ| * Ψ ξ
   have hM : 0 ≤ M := integral_nonneg fun x => sq_nonneg _
   have hΨ : Integrable Ψ :=
-    (memLp_two_iff_integrable_sq_norm hf.fourier_parseval.1.1).mp hf.fourier_parseval.1
+    (memLp_two_iff_integrable_sq_norm hf.fourier_parseval.1.aestronglyMeasurable).mp hf.fourier_parseval.1
   have hW : Integrable W := hf.2.1
   have hpoint (ξ : ℝ) : (9 / 2 : ℝ) * Ψ ξ ≤
       W ξ + evenGapWeight ξ * M := by

@@ -25,8 +25,11 @@ private theorem markedFlux_of_smooth {v : Plane → ℝ} (hv : ContDiff ℝ ∞ 
   have hdv : HasFDerivAt v (fderiv ℝ v 0) ((0 : ℂ) * Complex.I) := by
     simpa using (hv.differentiable (by simp) 0).hasFDerivAt
   have hd : HasDerivAt (fun t : ℝ => v ((t : ℂ) * Complex.I)) (gradient v 0).im 0 := by
-    convert hdv.comp_hasDerivAt 0 hline using 1
-    simp [fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re]
+    have heq : fderiv ℝ v 0 Complex.I = (gradient v 0).im := by
+      simp only [fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re,
+        Complex.conj_re, Complex.conj_im, Complex.I_re, Complex.I_im,
+        mul_zero, zero_mul, mul_one, one_mul, zero_sub, sub_zero, neg_neg]
+    simpa only [heq, Function.comp_apply] using! hdv.comp_hasDerivAt 0 hline
   exact hasMarkedFlux_of_normal_derivative hv0 hd
 
 /-- For an actual weakly harmonic zero-trace half-ball pair, the inward flux
@@ -153,14 +156,17 @@ theorem torsionFlux_tendsto_of_exhaustion {D : ℕ → Set Plane}
     calc
       _ = eLpNorm (fun z => k n (star z)) 2 volume := by
         apply eLpNorm_congr_norm_ae
-        exact ae_of_all _ fun z => norm_star _
+          (memLp_reflectedGradient (hk n)).aestronglyMeasurable
+          ((hk n).comp_measurePreserving measurePreserving_conjugation).aestronglyMeasurable
+        exact ae_of_all _ fun z => norm_star (k n (star z))
       _ = _ := eLpNorm_comp_conjugation (k n) 2
   have hlimH : Tendsto (fun n => eLpNorm (H n) 2 volume) atTop (𝓝 0) := by
     have hbound (n : ℕ) : eLpNorm (H n) 2 volume ≤
         eLpNorm (k n) 2 volume + eLpNorm (k n) 2 volume := by
       have hb := eLpNorm_sub_le (f := k n) (g := reflectedGradient (k n)) (μ := volume)
         (by norm_num : (1 : ℝ≥0∞) ≤ 2)
-      simpa only [H, hnormRef] using hb
+      change eLpNorm (k n - reflectedGradient (k n)) 2 volume ≤ _
+      simpa only [hnormRef] using hb
     apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds
       (by simpa using hlim.add hlim) (fun _ => zero_le) hbound
   have hsmooth := mollifyGradient_tendsto_zero_of_eLpNorm hH
@@ -172,6 +178,6 @@ theorem torsionFlux_tendsto_of_exhaustion {D : ℕ → Set Plane}
       (mollifyGradient (H n) (radialKernel r) 0).im :=
     torsion_flux_difference_kernel (hun n) hu (hmarked n).2.2.1 hUnion.2.2.1
       (hBD n) hBU hr (hsn n) hs (hcn n) hc (hfn n) hf
-  simpa only [Complex.zero_im, heq] using him
+  simpa only [Complex.zero_im, heq, Function.comp_apply] using! him
 
 end Torsion

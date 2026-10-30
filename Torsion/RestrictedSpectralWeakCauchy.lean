@@ -36,7 +36,7 @@ private theorem complex_pairing_tendsto_of_integral_norm_sub
       Integrable (fun x => k x * (g x : ℂ)) := by
     have hgc : Integrable (fun x : ℝ => (g x : ℂ)) (volume : Measure ℝ) :=
       Complex.ofRealCLM.integrable_comp hg
-    exact hgc.bdd_mul hk.aestronglyMeasurable ⟨C, hC⟩
+    exact hgc.bdd_mul hk.aestronglyMeasurable (ae_of_all _ hC)
   have hbound (n : ℕ) :
       ‖(∫ x in Icc (-1 : ℝ) 1, k x * (v n x : ℂ)) -
         ∫ x in Icc (-1 : ℝ) 1, k x * (f x : ℂ)‖ ≤
@@ -120,7 +120,7 @@ theorem MemRestrictedFormDomain.hasDerivAt_cauchy {φ : ℝ → ℝ}
         ∫ s in Icc (-1 : ℝ) 1, (height φ s : ℂ) / (z - (s : ℂ)) ^ 2) z := by
   have hc : ContinuousOn (fun s : ℝ => (height φ s : ℂ)) (Icc (-1 : ℝ) 1) :=
     (Complex.continuous_ofReal.comp hφ.height_continuous).continuousOn
-  simpa only [cauchy, neg_div, integral_neg, neg_mul_neg] using
+  simpa only [cauchy, neg_div, integral_neg, neg_mul_neg] using!
     (hasDerivAt_cauchy_integral hc hz).const_mul (-((Real.pi : ℂ)⁻¹))
 
 /-- The decisive actual weak-data Cauchy identity, with the sign and

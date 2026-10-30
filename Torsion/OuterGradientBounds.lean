@@ -55,8 +55,8 @@ theorem DirichletTheory.G_le_of_outer_dilation (T : DirichletTheory)
   rw [DirichletTheory.G, ← (T.solution D).weakEquation.1.eLpNorm_gradient_eq_restrict
     D.isOpen.measurableSet]
   apply eLpNorm_top_le_of_tendsto_two
-    (fun n => (T.solution (E n)).weakEquation.1.2.1.1)
-    (T.solution D).weakEquation.1.2.1.1
+    (fun n => (T.solution (E n)).weakEquation.1.2.1.aestronglyMeasurable)
+    (T.solution D).weakEquation.1.2.1.aestronglyMeasurable
     ((T.solution D).weakEquation.tendsto_eLpNorm_gradient_of_outer_dilation
       (fun n => (T.solution (E n)).weakEquation) D.isOpen (fun n => (E n).isOpen)
       s hs hslim hDE hEsD) hC

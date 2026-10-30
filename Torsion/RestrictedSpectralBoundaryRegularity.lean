@@ -113,8 +113,8 @@ theorem IsRestrictedEigenfunction.height_Cauchy_boundary_hasDerivAt
       (∫ x : ℝ, (realCauchyBoundaryRe (height φ) x - P x) * deriv ψ x) = 0 := by
     have hRpair := energy_eq_realCauchyBoundary_deriv_pairing hYH hα hYzero
       (hEig.1.finiteEnergy_height hodd) hψ
-    have hPpair := integral_mul_deriv_eq_deriv_mul_of_integrable hdP
-      (fun x => (hψ.1.differentiable (by simp) x).hasDerivAt)
+    have hPpair := integral_mul_deriv_eq_deriv_mul_of_integrable (fun x _ => hdP x)
+      (fun x _ => (hψ.1.differentiable (by simp) x).hasDerivAt)
       ((hPc.mul hψ.deriv.1.continuous).integrable_of_hasCompactSupport hψ.deriv.2.1.mul_left)
       ((hgc.mul hψ.1.continuous).integrable_of_hasCompactSupport hψ.2.1.mul_left)
       ((hPc.mul hψ.1.continuous).integrable_of_hasCompactSupport hψ.2.1.mul_left)

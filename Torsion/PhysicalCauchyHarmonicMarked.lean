@@ -51,7 +51,7 @@ theorem realCauchyAtInfinity_hasDerivAt_zero {g : ℝ → ℝ}
     HasDerivAt (realCauchyAtInfinity g)
       ((Real.pi : Plane)⁻¹ * ((∫ s in Icc (-1 : ℝ) 1, g s : ℝ) : Plane)) 0 := by
   have hnorm : Tendsto (fun w : Plane => ‖-w⁻¹‖) (𝓝[≠] 0) atTop := by
-    simpa only [norm_neg] using (NormedField.tendsto_norm_inv_nhdsNE_zero_atTop (α := Plane))
+    simpa only [norm_neg] using (tendsto_norm_inv_nhdsNE_zero_atTop (α := Plane))
   have hm := (realCauchy_first_moment hg hnorm).neg
   apply hasDerivAt_iff_tendsto_slope_zero.2
   have heq : (fun w : Plane => w⁻¹ • (realCauchyAtInfinity g (0 + w) - realCauchyAtInfinity g 0))

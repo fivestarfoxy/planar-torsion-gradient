@@ -35,7 +35,7 @@ theorem IsTest.mul_contDiffOn {D : Set Plane} {η f : Plane → ℝ}
   · exact hη.1.contDiffAt.mul ((hf x hx).contDiffAt (hD.mem_nhds hx))
   · have hnot : x ∉ tsupport η := fun h => hx (hη.2.2 h)
     apply (contDiffAt_const (c := (0 : ℝ))).congr_of_eventuallyEq
-    have heq : η =ᶠ[𝓝 x] 0 := not_mem_tsupport_iff_eventuallyEq.mp hnot
+    have heq : η =ᶠ[𝓝 x] 0 := notMem_tsupport_iff_eventuallyEq.mp hnot
     filter_upwards [heq] with y hy
     simp [hy]
 
@@ -92,7 +92,9 @@ theorem classical_poisson_smooth_test_equation {D : Set Plane} {u ψ : Plane →
       f₁ x * fderiv ℝ ψ x (1 : Plane) + f₂ x * fderiv ℝ ψ x Complex.I := by
     by_cases hx : x ∈ tsupport ψ
     · have hy := (hηone hx).self_of_nhds
-      simp [f₁, f₂, G, hy, fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re]
+      simp only [f₁, f₂, G, hy, one_mul, fderiv_apply_eq_inner_gradient, Complex.inner,
+        Complex.mul_re, Complex.conj_re, Complex.conj_im, Complex.one_re, Complex.one_im,
+        Complex.I_re, Complex.I_im, mul_one, mul_zero, sub_zero, zero_sub, neg_neg]
       ring
     · simp [fderiv_apply_eq_inner_gradient, gradient_eq_zero_of_not_mem_tsupport hx]
   have hrightPoint (x : Plane) :
@@ -104,7 +106,7 @@ theorem classical_poisson_smooth_test_equation {D : Set Plane} {u ψ : Plane →
       calc
         _ = (fderiv ℝ f₁ x (1 : Plane) + fderiv ℝ f₂ x Complex.I) * ψ x := by ring
         _ = -ψ x := by rw [hh]; ring
-    · simp [image_eq_zero_of_nmem_tsupport hx]
+    · simp [image_eq_zero_of_notMem_tsupport hx]
   have hL₁ : Integrable (fun x => f₁ x * fderiv ℝ ψ x (1 : Plane)) :=
     (hf₁.1.continuous.mul (continuous_directional hψ.1 1)).integrable_of_hasCompactSupport
       hf₁.2.1.mul_right

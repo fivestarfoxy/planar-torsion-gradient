@@ -9,6 +9,7 @@ public import Torsion.DirichletGalerkin
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual domain comparison for the weak torsion problem
@@ -111,7 +112,9 @@ theorem IsWeakTorsion.supermodular {D₀ D₁ : Set Plane}
   have hLp : hw.2.1.toLp (fun x => g₀ x + g₁ x - gU x - gJ x) =
       hu₀.1.2.1.toLp g₀ + hu₁.1.2.1.toLp g₁ - huU.1.2.1.toLp gU - huJ.1.2.1.toLp gJ := by
     change (((hu₀.1.2.1.add hu₁.1.2.1).sub huU.1.2.1).sub huJ.1.2.1).toLp _ = _
-    rw [MemLp.toLp_sub, MemLp.toLp_sub, MemLp.toLp_add]
+    rw [MemLp.toLp_sub ((hu₀.1.2.1.add hu₁.1.2.1).sub huU.1.2.1) huJ.1.2.1,
+      MemLp.toLp_sub (hu₀.1.2.1.add hu₁.1.2.1) huU.1.2.1,
+      MemLp.toLp_add hu₀.1.2.1 hu₁.1.2.1]
   have henergy : (∫ x, inner (𝕜 := ℝ) (g₀ x + g₁ x - gU x - gJ x)
       (if 0 < u₀ x + u₁ x - uU x - uJ x then
         g₀ x + g₁ x - gU x - gJ x else 0)) = 0 := by

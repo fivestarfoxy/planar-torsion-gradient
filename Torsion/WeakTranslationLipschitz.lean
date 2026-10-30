@@ -77,7 +77,7 @@ theorem nonpos_of_compact_test_harmonic {D : Set Plane}
       hd.hasGradientAt.hasFDerivAt
     apply HasGradientAt.gradient
     apply hasGradientAt_iff_hasFDerivAt.mpr
-    simpa only [map_smul, RCLike.conj_to_real] using h
+    simpa only [Function.comp_def, map_smul, RCLike.conj_to_real] using h
   have hzero (n : ℕ) : (fun x => BoundaryAdmission.truncation n (u x)) = 0 := by
     let ψ : Plane → ℝ := fun x => BoundaryAdmission.truncation n (u x)
     have hp : IsTest D ψ := htest n
@@ -141,7 +141,7 @@ theorem IsWeakTorsion.translated_sub_le_of_exterior_bound
     have hd0 := ((hs (x-a) hx.1).contDiffAt (hD.mem_nhds hx.1)).differentiableAt (by simp)
     change gradient (fun y => Torsion.translatedValue a U y - U y - c) x = _
     unfold gradient
-    rw [fderiv_sub_const, fderiv_sub hdT hd, map_sub]
+    rw [fderiv_sub_const, fderiv_fun_sub hdT hd, map_sub]
     exact congrArg₂ (fun v z : Plane => v - z) (gradient_translatedValue hd0) rfl
   have hga : ∀ᵐ x ∂volume, x ∈ D → g x = gradient U x :=
     (ae_restrict_iff' hD.measurableSet).mp hgrad

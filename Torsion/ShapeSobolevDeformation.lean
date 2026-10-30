@@ -6,6 +6,7 @@ public import Torsion.ShapeCoefficients
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Actual compact deformations transport the concrete weak Dirichlet graph
@@ -29,8 +30,8 @@ theorem deformation_fderiv_norm_le {V : Plane → Plane} {K : ℝ≥0}
   calc
     _ ≤ ‖ContinuousLinearMap.id ℝ Plane‖ + ‖t • fderiv ℝ V z‖ := norm_add_le _ _
     _ = 1 + |t| * ‖fderiv ℝ V z‖ := by rw [ContinuousLinearMap.norm_id, norm_smul, Real.norm_eq_abs]
-    _ ≤ _ := add_le_add_left
-      (mul_le_mul_of_nonneg_left (norm_fderiv_le_of_lipschitz ℝ hK) (abs_nonneg t)) 1
+    _ ≤ _ := add_le_add (le_refl 1)
+      (mul_le_mul_of_nonneg_left (norm_fderiv_le_of_lipschitz ℝ hK) (abs_nonneg t))
 
 /-- Actual H¹₀ transport for every smooth compact vector field. In one common
 parameter neighborhood the concrete deformed-domain weak graph pulls back

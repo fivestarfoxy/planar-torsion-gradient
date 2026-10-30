@@ -38,7 +38,7 @@ private theorem smoothApprox_gradient_eq_zero_of_small
   by_cases htR : t ∈ Metric.ball c R
   · simp only [ht htR, smul_zero, Pi.zero_apply]
   · have hκ : mollifier n (x - t) = 0 := by
-      apply image_eq_zero_of_nmem_tsupport
+      apply image_eq_zero_of_notMem_tsupport
       rw [mollifier, (shrinkingBump n).tsupport_normed_eq]
       intro hmem
       have hxt : ‖x - t‖ ≤ (shrinkingBump n).rOut := by

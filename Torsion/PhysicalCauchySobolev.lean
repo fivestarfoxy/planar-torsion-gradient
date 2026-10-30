@@ -125,7 +125,7 @@ theorem physicalCandidate_gradient_exists_norm_bound
     unfold ComplexIdentity.physicalDerivative
     apply (norm_sub_le _ _).trans
     simp only [norm_div, Complex.norm_real, Real.norm_eq_abs, abs_div]
-    exact add_le_add_left (div_le_div_of_nonneg_right hDraw (abs_nonneg _)) _
+    exact add_le_add le_rfl (div_le_div_of_nonneg_right hDraw (abs_nonneg (2 * a)))
   rw [gradient_physicalCandidate_cauchy ha hφ hα0 hα1 hodd hzero hpos hlinear hz]
   calc
     _ ≤ ‖Complex.I * star (ComplexIdentity.physicalDerivative a b
@@ -166,7 +166,7 @@ theorem physicalZeroGradient_memLp {a b : ℝ} {φ : ℝ → ℝ} {C α : ℝ≥
   have hD := cauchyImage_isOpen hcont hodd hzero hpos
   have hb := cauchy_image_isBounded hcont hodd hzero
   haveI : IsFiniteMeasure (volume.restrict (cauchyImage φ)) :=
-    ⟨by simpa only [Measure.restrict_apply_univ] using hb.measure_lt_top⟩
+    ⟨by simpa only [Measure.restrict_apply_univ, cauchyImage] using hb.measure_lt_top⟩
   rw [physicalZeroGradient, memLp_indicator_iff_restrict hD.measurableSet]
   obtain ⟨B, _, hB⟩ := physicalCandidate_gradient_exists_norm_bound
     ha hφ hα0 hα1 hodd hzero hpos hlinear

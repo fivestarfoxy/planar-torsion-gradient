@@ -58,7 +58,7 @@ theorem area_cauchyImage_eq_moments {a b : ℝ} {φ : ℝ → ℝ} {C α : ℝ�
     have h := ((h0.sub ((Complex.continuous_re.tendsto 0).comp hT)).add
       ((Complex.continuous_re.tendsto (Complex.I * 0)).comp (hP.const_mul Complex.I))).sub
       ((Complex.continuous_re.tendsto (Complex.I * 0)).comp (hL.const_mul Complex.I))
-    simpa only [mul_zero, Complex.zero_re, sub_zero, add_zero] using h
+    simpa only [mul_zero, Complex.zero_re, sub_zero, add_zero, Function.comp_apply] using! h
   have heq (n : ℕ) : b * mass φ - a * squareMass φ - (T n).re +
       (Complex.I * P n).re - (Complex.I * L n).re = -E n := by
     have hn : 1 ≤ R n := by dsimp [R]; linarith [Nat.cast_nonneg (α := ℝ) n]

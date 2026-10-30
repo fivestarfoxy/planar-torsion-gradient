@@ -85,7 +85,7 @@ theorem cauchy_deriv_sq_integrableOn {φ : ℝ → ℝ}
     (fun z hz => (hasDerivAt_cauchy hφ.continuousOn hz).differentiableAt.hasDerivAt.complexToReal_fderiv.hasFDerivWithinAt)
     (cauchy_injOn_upperHalfPlane hφ hodd hzero hpos) (fun _ : ℂ => (1 : ℝ))
   have hfinite : IntegrableOn (fun _ : ℂ => (1 : ℝ)) (cauchy φ '' upperHalfPlane) :=
-    integrableOn_const.2 (.inr (volume_cauchy_image_lt_top hφ hodd hzero))
+    integrableOn_const (volume_cauchy_image_lt_top hφ hodd hzero).ne
   simpa only [complex_mul_real_det, abs_sq, smul_eq_mul, mul_one]
     using hjac.mp hfinite
 

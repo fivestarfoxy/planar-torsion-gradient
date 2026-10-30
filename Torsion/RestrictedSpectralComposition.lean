@@ -34,7 +34,8 @@ theorem integral_mathlib_fourier_mul_star_schwartz {f : ℝ → ℝ}
   let FS : 𝓢(ℝ, ℂ) := SchwartzMap.fourierTransformCLM ℂ S
   have hfc := Complex.ofRealCLM.integrable_comp hf
   have hgc : Integrable (fun ξ : ℝ => star (𝓕 S ξ)) := by
-    simpa only [Complex.conjCLE_apply, Complex.star_def] using
+    change Integrable (fun ξ : ℝ => star (FS ξ))
+    simpa only [Complex.conjCLE_apply, Complex.star_def] using!
       (Complex.conjCLE.toContinuousLinearMap.integrable_comp (FS.integrable (μ := volume)))
   have h := VectorFourier.integral_bilin_fourierIntegral_eq_flip
     (L := innerₗ ℝ) (μ := volume) (ν := volume) (ContinuousLinearMap.mul ℂ ℂ)
@@ -48,8 +49,10 @@ theorem integral_mathlib_fourier_mul_star_schwartz {f : ℝ → ℝ}
   rw [hflip] at h
   change (∫ ξ : ℝ, 𝓕 (fun x => (f x : ℂ)) ξ * star (𝓕 S ξ)) =
     ∫ x : ℝ, (f x : ℂ) * 𝓕 (fun ξ => star (𝓕 S ξ)) x at h
-  simpa only [mathlib_fourier_conj,
-    S.continuous.fourier_inversion S.integrable FS.integrable] using h
+  have hinv : 𝓕⁻ (fun ξ : ℝ => 𝓕 S ξ) = (S : ℝ → ℂ) := by
+    simpa only [SchwartzMap.fourier_coe] using!
+      (S.continuous.fourierInv_fourier_eq S.integrable (FS.integrable (μ := volume)))
+  simpa only [mathlib_fourier_conj, hinv] using h
 
 /-- Every polynomially weighted absolute Fourier moment of a compact
 smooth test is integrable in the original normalization. -/
@@ -84,7 +87,7 @@ theorem integral_fourier_pairing_of_compactSmooth {f ψ : ℝ → ℝ}
         rfl
       _ = ((2 * Real.pi : ℝ) : ℂ) * ∫ ξ : ℝ,
           𝓕 (fun x => (f x : ℂ)) ξ * star (𝓕 S ξ) := by
-        simpa only [smul_eq_mul, abs_of_pos hp] using
+        simpa only [smul_eq_mul, Complex.real_smul, abs_of_pos hp] using!
           Measure.integral_comp_div (fun ξ : ℝ =>
             𝓕 (fun x => (f x : ℂ)) ξ * star (𝓕 S ξ)) (2 * Real.pi)
       _ = _ := by
@@ -153,6 +156,5 @@ theorem energy_eq_neg_integral_second_deriv_of_fourier_mul_abs
     (∫ ξ : ℝ, |ξ| * (fourier q ξ * star (fourier ψ ξ)).re) = _
   rw [hJ]
   field_simp
-  ring
 
 end Torsion.Spectral

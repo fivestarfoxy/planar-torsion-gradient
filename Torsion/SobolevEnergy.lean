@@ -51,15 +51,15 @@ theorem MemH10.value_ae_zero_of_gradient_ae_zero {D : Set Plane}
   obtain ⟨K, hK, hp⟩ := exists_poincare_constant_of_bounded hbounded
   have hineq := hp u g hu
   rw [eLpNorm_eq_zero_of_ae_zero hgzero, mul_zero] at hineq
-  have hz : eLpNorm u 2 volume = 0 := le_antisymm hineq (zero_le _)
-  exact (eLpNorm_eq_zero_iff hu.1.1 (by norm_num)).mp hz
+  have hz : eLpNorm u 2 volume = 0 := le_antisymm hineq zero_le
+  exact (eLpNorm_eq_zero_iff (by norm_num)).mp hz
 
 /-- Zero Dirichlet energy forces the actual L² weak gradient to vanish. -/
 theorem MemH10.gradient_ae_zero_of_energy_eq_zero {D : Set Plane}
     {u : Plane → ℝ} {g : Plane → Plane} (hu : MemH10 D u g)
     (henergy : (∫ x, ‖g x‖ ^ 2) = 0) : g =ᵐ[volume] 0 := by
   have hint : Integrable (fun x => ‖g x‖ ^ 2) volume :=
-    (memLp_two_iff_integrable_sq_norm hu.2.1.1).mp hu.2.1
+    (memLp_two_iff_integrable_sq_norm hu.2.1.aestronglyMeasurable).mp hu.2.1
   have hz := (integral_eq_zero_iff_of_nonneg (fun x => sq_nonneg ‖g x‖) hint).mp henergy
   filter_upwards [hz] with x hx
   exact norm_eq_zero.mp (sq_eq_zero_iff.mp hx)

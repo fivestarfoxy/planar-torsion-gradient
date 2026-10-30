@@ -40,7 +40,7 @@ theorem cauchyAtInfinity_hasDerivAt_zero {φ : ℝ → ℝ}
     (hφ : ContinuousOn φ (Icc (0 : ℝ) 1)) :
     HasDerivAt (cauchyAtInfinity φ) ((Real.pi : ℂ)⁻¹ * (mass φ : ℂ)) 0 := by
   have hnorm : Tendsto (fun w : ℂ => ‖-w⁻¹‖) (𝓝[≠] 0) atTop := by
-    simpa only [norm_neg] using (NormedField.tendsto_norm_inv_nhdsNE_zero_atTop (α := ℂ))
+    simpa only [norm_neg] using (tendsto_norm_inv_nhdsNE_zero_atTop (α := ℂ))
   have hm := (cauchy_first_moment hφ hnorm).neg
   apply hasDerivAt_iff_tendsto_slope_zero.2
   have heq : (fun w : ℂ => w⁻¹ • (cauchyAtInfinity φ (0 + w) - cauchyAtInfinity φ 0))
@@ -90,7 +90,7 @@ theorem cauchyAtInfinity_hasStrictDerivAt_zero {φ : ℝ → ℝ}
     (hφ : ContinuousOn φ (Icc (0 : ℝ) 1)) :
     HasStrictDerivAt (cauchyAtInfinity φ) ((Real.pi : ℂ)⁻¹ * (mass φ : ℂ)) 0 := by
   have h := (cauchyAtInfinity_analyticOnNhd_ball hφ 0 (mem_ball_self (by norm_num : (0 : ℝ) < 1))).hasStrictFDerivAt.hasStrictDerivAt
-  simpa only [fderiv_deriv, (cauchyAtInfinity_hasDerivAt_zero hφ).deriv] using h
+  simpa only [fderiv_apply_one_eq_deriv, (cauchyAtInfinity_hasDerivAt_zero hφ).deriv] using h
 
 /-- The compactified map is conformal at the marked point. -/
 theorem cauchyAtInfinity_conformalAt_zero {φ : ℝ → ℝ}

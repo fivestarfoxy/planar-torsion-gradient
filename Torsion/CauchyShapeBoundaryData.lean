@@ -75,7 +75,7 @@ private theorem shapeBoundaryData_eventually_zero {a : ℝ} {φ : ℝ → ℝ}
     have hpos : 0 < (cauchyExtension φ (t : Plane)).im := hVU h
     simpa only [hy, lt_self_iff_false] using hpos
   have hVzero : V =ᶠ[𝓝 (cauchyExtension φ (t : Plane))] 0 :=
-    not_mem_tsupport_iff_eventuallyEq.mp hn
+    notMem_tsupport_iff_eventuallyEq.mp hn
   have hF := (cauchy_boundary_contDiff_one hφ hα0 hα1 hodd hzero).continuous.tendsto t
   filter_upwards [hF.eventually hVzero] with s hs
   simp [shapeBoundaryData, hs]
@@ -94,7 +94,7 @@ theorem IsRestrictedEigenfunction.shapeBoundaryData_smooth_compact
   have hsupp : tsupport (shapeBoundaryData a φ V) ⊆ Ioo (-1 : ℝ) 1 := by
     intro t ht
     by_contra hn
-    exact (not_mem_tsupport_iff_eventuallyEq.mpr
+    exact (notMem_tsupport_iff_eventuallyEq.mpr
       (shapeBoundaryData_eventually_zero hφ hα0 hα1 hodd hzero hVU hn)) ht
   refine ⟨contDiff_iff_contDiffAt.mpr (fun t => ?_), ?_, hsupp⟩
   · by_cases ht : t ∈ Ioo (-1 : ℝ) 1

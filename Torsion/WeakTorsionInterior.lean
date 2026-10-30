@@ -84,7 +84,7 @@ theorem IsWeakTorsion.exists_smooth_interior_representative
   have hV : ContDiff ℝ ∞ V := hv.sub hp.1
   have hVG (y : Plane) : gradient V y = gradient v y - gradient p y := by
     unfold gradient
-    rw [fderiv_sub (hv.differentiable (by simp) y)
+    rw [fderiv_fun_sub (hv.differentiable (by simp) y)
       (hp.1.differentiable (by simp) y), map_sub]
   refine ⟨s / 2, V, half_pos hs, hV, ?_, ?_, ?_⟩
   · apply (Metric.ball_subset_ball ?_).trans hRD
@@ -142,6 +142,7 @@ theorem IsWeakTorsion.eLpNorm_gradient_le_of_lipschitzOn
     {L : ℝ≥0} (hU : LipschitzOnWith L U D)
     (hrep : u =ᵐ[volume.restrict D] U) :
     eLpNorm g ∞ (volume.restrict D) ≤ (L : ℝ≥0∞) := by
+  rw [eLpNorm_exponent_top hu.1.2.1.aestronglyMeasurable.restrict]
   apply eLpNormEssSup_le_of_ae_enorm_bound
   filter_upwards [hu.gradient_ae_bound_of_lipschitzOn hD hb hU hrep] with x hx
   exact_mod_cast hx

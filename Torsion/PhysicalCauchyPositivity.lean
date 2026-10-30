@@ -46,7 +46,7 @@ theorem poissonExtension_variance {f : ℝ → ℝ}
         (f (z.re + z.im * t) - poissonExtension f z) ^ 2 := by
   let m := poissonExtension f z
   have hi := poissonExtension_integrand_integrable hf hzero z
-  have hi2 := poissonExtension_integrand_integrable (hf.pow 2)
+  have hi2 := poissonExtension_integrand_integrable (f := fun s => f s ^ 2) (hf.pow 2)
     (fun s hs => by rw [hzero s hs]; norm_num) z
   have hc := poissonDensity_integrable.const_mul (m ^ 2)
   have hpoint (t : ℝ) : poissonDensity t * (f (z.re + z.im * t) - m) ^ 2 =
@@ -79,7 +79,7 @@ theorem poissonExtension_variance_integrable {f : ℝ → ℝ}
       (f (z.re + z.im * t) - poissonExtension f z) ^ 2) := by
   let m := poissonExtension f z
   have hi := poissonExtension_integrand_integrable hf hzero z
-  have hi2 := poissonExtension_integrand_integrable (hf.pow 2)
+  have hi2 := poissonExtension_integrand_integrable (f := fun s => f s ^ 2) (hf.pow 2)
     (fun s hs => by rw [hzero s hs]; norm_num) z
   apply ((hi2.sub (hi.const_mul (2 * m))).add
     (poissonDensity_integrable.const_mul (m ^ 2))).congr
@@ -99,7 +99,7 @@ theorem auxiliary_im_eq_half_poissonExtension {φ : ℝ → ℝ}
     simp only [mul_inv_rev]
     ring
   rw [heq]
-  have hi := realCauchy_im_eq_poissonExtension ((height_continuous hφ).pow 2)
+  have hi := realCauchy_im_eq_poissonExtension (f := fun s => height φ s ^ 2) ((height_continuous hφ).pow 2)
     (fun s hs => by rw [height_zero_of_one_le_abs φ hs]; norm_num) hz
   simp only [Complex.mul_im]
   norm_num

@@ -36,7 +36,7 @@ theorem tendsto_eLpNorm_add_pair
       eLpNorm (fun x => gₙ n x - g x) 2 μ) atTop (𝓝 0) := by
     simpa only [add_zero] using hflim.add hglim
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hsum
-    (fun _ => zero_le _)
+    (fun _ => zero_le)
   intro n
   dsimp only
   have heq : (fun x => (fₙ n x + gₙ n x) - (f x + g x)) =
@@ -45,7 +45,7 @@ theorem tendsto_eLpNorm_add_pair
     simp only [Pi.add_apply]
     abel
   rw [heq]
-  exact eLpNorm_add_le ((hfn n).1.sub hf.1) ((hgn n).1.sub hg.1) (by norm_num)
+  exact eLpNorm_add_le (by norm_num)
 
 /-- Subtraction preserves simultaneous strong L² limits of two sequences. -/
 theorem tendsto_eLpNorm_sub_pair
@@ -61,7 +61,7 @@ theorem tendsto_eLpNorm_sub_pair
       eLpNorm (fun x => gₙ n x - g x) 2 μ) atTop (𝓝 0) := by
     simpa only [add_zero] using hflim.add hglim
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hsum
-    (fun _ => zero_le _)
+    (fun _ => zero_le)
   intro n
   dsimp only
   have heq : (fun x => (fₙ n x - gₙ n x) - (f x - g x)) =
@@ -70,7 +70,7 @@ theorem tendsto_eLpNorm_sub_pair
     simp only [Pi.sub_apply]
     abel
   rw [heq]
-  exact eLpNorm_sub_le ((hfn n).1.sub hf.1) ((hgn n).1.sub hg.1) (by norm_num)
+  exact eLpNorm_sub_le (by norm_num)
 
 private theorem min_value_repr (u v : ℝ) : u - max (u - v) 0 = min u v := by
   by_cases huv : u ≤ v

@@ -39,7 +39,8 @@ theorem norm_integral_smul_le_L2
         (hb.norm.toLp (fun x => ‖b x‖))| := le_abs_self _
     _ ≤ ‖ha.norm.toLp (fun x => ‖a x‖)‖ * ‖hb.norm.toLp (fun x => ‖b x‖)‖ :=
       abs_real_inner_le_norm _ _
-    _ = _ := by simp only [Lp.norm_toLp, eLpNorm_norm]
+    _ = _ := by simp only [Lp.norm_toLp,
+      eLpNorm_norm a ha.aestronglyMeasurable, eLpNorm_norm b hb.aestronglyMeasurable]
 
 /-- Every point of a fixed-kernel convolution is bounded by the same product
 of L² norms, independently of the point of evaluation. -/
@@ -52,7 +53,7 @@ theorem norm_mollifyGradient_le_L2 {g : Plane → Plane} {κ : Plane → ℝ}
   have hnorm : ‖hA.toLp (fun t : Plane => κ (x - t))‖ = ‖hκ.toLp κ‖ := by
     rw [Lp.norm_toLp, Lp.norm_toLp]
     congr 1
-    exact eLpNorm_comp_measurePreserving hκ.1 hmp
+    exact eLpNorm_comp_measurePreserving hκ.aestronglyMeasurable hmp
   change ‖∫ t, κ (x - t) • g t‖ ≤ _
   simpa only [hnorm] using norm_integral_smul_le_L2 hA hg
 
@@ -66,7 +67,7 @@ theorem mollifyGradient_tendsto_zero_of_eLpNorm
   apply tendsto_zero_iff_norm_tendsto_zero.mpr
   have hreal : Tendsto (fun n => ‖(hg n).toLp (g n)‖) atTop (𝓝 0) := by
     simp only [Lp.norm_toLp]
-    simpa only [ENNReal.toReal_zero] using
+    simpa only [Function.comp_def, ENNReal.toReal_zero] using
       (ENNReal.continuousAt_toReal (by simp : (0 : ℝ≥0∞) ≠ ⊤)).tendsto.comp hlim
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds
     (by simpa using hreal.const_mul ‖hκ.toLp κ‖)

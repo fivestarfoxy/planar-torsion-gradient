@@ -71,7 +71,7 @@ theorem norm_sub_frequencyWindow_nat_tendsto (u : Lp ℂ 2 (volume : Measure ℝ
     simp only [Pi.sub_apply] at hsub
     simp only [hsub, hcut, e]
   have ht : Tendsto (fun N : ℕ => ‖u - frequencyWindow (N : ℝ) u‖ ^ 2)
-      atTop (𝓝 0) := by simpa only [hnorm, integral_zero] using hsq
+      atTop (𝓝 0) := by simpa only [hnorm, integral_zero, Pi.pow_apply] using! hsq
   simpa only [Function.comp_def, Real.sqrt_sq_eq_abs, abs_norm, Real.sqrt_zero] using
     (Real.continuous_sqrt.tendsto 0).comp ht
 
@@ -93,7 +93,7 @@ theorem norm_frequencyWindow_halfDerivative_sq_le {f : ℝ → ℝ}
     by_cases hI : ξ ∈ Icc (-R) R <;> simp [hI, hF]
   rw [integral_congr_ae hval, integral_indicator measurableSet_Icc]
   have hFint : Integrable (fun ξ : ℝ => ‖weightedFourier f ξ‖ ^ 2) := by
-    simpa only [weightedFourier_norm_sq] using he
+    simpa only [weightedFourier_norm_sq, FiniteEnergy] using he
   have hb : (∫ ξ in Icc (-R) R, ‖weightedFourier f ξ‖ ^ 2) ≤
       ∫ _ξ in Icc (-R) R, R * (∫ x : ℝ, ‖f x‖) ^ 2 := by
     apply setIntegral_mono_on hFint.integrableOn
@@ -178,13 +178,12 @@ theorem energy_tendsto_zero_of_integral_norm_tendsto_zero_of_bounded_energy
           |inner (𝕜 := ℝ) F (frequencyWindow (N : ℝ) (W n))| := abs_add_le _ _
       _ ≤ ‖F - frequencyWindow (N : ℝ) F‖ * M +
           |inner (𝕜 := ℝ) F (frequencyWindow (N : ℝ) (W n))| := by
-        apply add_le_add_right
-        exact (abs_real_inner_le_norm _ _).trans
-          (mul_le_mul_of_nonneg_left (hW n) (norm_nonneg _))
+        exact add_le_add ((abs_real_inner_le_norm _ _).trans
+          (mul_le_mul_of_nonneg_left (hW n) (norm_nonneg _))) le_rfl
       _ < ε := by
         have htail : ‖F - frequencyWindow (N : ℝ) F‖ * M < ε / 2 := by
           have h := mul_lt_mul_of_pos_right hN (show 0 < M + 1 by positivity)
-          have hc : ε / (2 * (M + 1)) * (M + 1) = ε / 2 := by field_simp; ring
+          have hc : ε / (2 * (M + 1)) * (M + 1) = ε / 2 := by field_simp
           rw [hc] at h
           nlinarith [norm_nonneg (F - frequencyWindow (N : ℝ) F)]
         linarith

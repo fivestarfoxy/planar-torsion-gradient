@@ -43,7 +43,10 @@ theorem gradient_translatedValue {u : Plane → ℝ} {a z : Plane}
   have hd := hu.hasGradientAt.hasFDerivAt.comp z hi
   apply HasGradientAt.gradient
   apply hasGradientAt_iff_hasFDerivAt.mpr
-  simpa [translatedValue] using hd
+  convert hd using 1
+  · funext x
+    rfl
+  · simp only [translatedValue, ContinuousLinearMap.comp_id]
 
 theorem IsTest.translatedValue {D : Set Plane} {f : Plane → ℝ}
     (hf : IsTest D f) (a : Plane) :
@@ -93,7 +96,7 @@ theorem tendsto_eLpNorm_translatedValue_sub {E : Type*} [NormedAddCommGroup E]
         (hu.toLp u))) :=
     tendsto_const_nhds.compMeasurePreservingLp ((hmaps.tendsto 0).comp ha)
       (fun n => measurePreserving_sub_const (a n))
-      (measurePreserving_sub_const 0) (by norm_num : (2 : ℝ≥0∞) ≠ ∞)
+      (measurePreserving_sub_const 0) (by norm_num : (2 : ℝ≥0∞) ≠ (∞ : ℝ≥0∞))
   have hzero : Lp.compMeasurePreserving (maps 0)
       (measurePreserving_sub_const 0) (hu.toLp u) = hu.toLp u := by
     apply Lp.ext
@@ -110,7 +113,7 @@ theorem tendsto_eLpNorm_translatedValue_sub {E : Type*} [NormedAddCommGroup E]
       (measurePreserving_sub_const (a n)).quasiMeasurePreserving.ae hu.coeFn_toLp,
       (memLp_translatedValue hu (a n)).coeFn_toLp] with x hx hy hz
     exact hx.trans (hy.trans hz.symm)
-  simpa only [heq, Lp.edist_toLp_toLp] using
+  simpa only [heq, Lp.edist_toLp_toLp, Pi.sub_def] using
     (tendsto_iff_edist_tendsto_0.mp hlim)
 
 end Torsion

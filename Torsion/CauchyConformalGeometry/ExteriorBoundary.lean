@@ -70,7 +70,7 @@ theorem cauchy_boundary_re_strictMonoOn_Ici {φ : ℝ → ℝ} {C α : ℝ≥0}
     (Complex.continuous_re.comp
       (cauchy_boundary_contDiff_one hφ hα0 hα1 hodd hzero).continuous).continuousOn
   intro x hx
-  have hx1 : 1 < x := by simpa only [interior_Ici] using hx
+  have hx1 : 1 < x := by simpa only [interior_Ici, mem_Ioi] using hx
   have hd := Complex.reCLM.hasFDerivAt.comp_hasDerivAt x
     (cauchy_boundary_hasDerivAt hφ hα0 hα1 hodd hzero x)
   change 0 < deriv (fun x : ℝ => (cauchyExtension φ (x : ℂ)).re) x
@@ -90,7 +90,7 @@ theorem cauchy_boundary_re_strictMonoOn_Iic {φ : ℝ → ℝ} {C α : ℝ≥0}
     (Complex.continuous_re.comp
       (cauchy_boundary_contDiff_one hφ hα0 hα1 hodd hzero).continuous).continuousOn
   intro x hx
-  have hx1 : x < -1 := by simpa only [interior_Iic] using hx
+  have hx1 : x < -1 := by simpa only [interior_Iic, mem_Iio] using hx
   have hd := Complex.reCLM.hasFDerivAt.comp_hasDerivAt x
     (cauchy_boundary_hasDerivAt hφ hα0 hα1 hodd hzero x)
   change 0 < deriv (fun x : ℝ => (cauchyExtension φ (x : ℂ)).re) x

@@ -6,6 +6,7 @@ public import Torsion.ShapeCoefficients
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! # Identification of the actual weak pullback coefficient with its matrix -/
 

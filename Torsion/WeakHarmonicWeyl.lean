@@ -38,7 +38,7 @@ theorem IsWeakHarmonicOn.sobolev_test_equation {U : Set Plane}
     (∫ x, inner (𝕜 := ℝ) (g x) (h x)) = 0 := by
   let L : SobolevPair →L[ℝ] ℝ :=
     (innerSL ℝ (hg.toLp g)).comp (ContinuousLinearMap.snd ℝ _ _)
-  have hker : H10Graph U ≤ LinearMap.ker L := by
+  have hker : H10Graph U ≤ LinearMap.ker L.toLinearMap := by
     apply (testGraphSubmodule U).topologicalClosure_minimal
     · rintro p ⟨f, hf, rfl⟩
       change inner (𝕜 := ℝ) (hg.toLp g) (hf.memLp_gradient.toLp (gradient f)) = 0
@@ -61,15 +61,15 @@ estimate is assumed. -/
 theorem IsWeakHarmonicOn.caccioppoli_norm {U E : Set Plane}
     {u : Plane → ℝ} {g : Plane → Plane} (hw : IsWeakHarmonicOn U u g)
     (hu : MemH10 E u g) {η : Plane → ℝ} (hη : IsTest U η) :
-    ‖((hu.2.1.smul (hη.memLp_value (p := ∞))) :
+    ‖(((hη.memLp_value (p := ∞)).smul hu.2.1) :
       MemLp (fun x => η x • g x) 2 volume).toLp (fun x => η x • g x)‖ ≤
-    2 * ‖((hη.memLp_gradient (p := ∞)).smul hu.1 :
+    2 * ‖(hu.1.smul (hη.memLp_gradient (p := ∞)) :
       MemLp (fun x => u x • gradient η x) 2 volume).toLp
         (fun x => u x • gradient η x)‖ := by
   let A : Plane → Plane := fun x => η x • g x
   let B : Plane → Plane := fun x => u x • gradient η x
-  have hA : MemLp A 2 volume := hu.2.1.smul (hη.memLp_value (p := ∞))
-  have hB : MemLp B 2 volume := (hη.memLp_gradient (p := ∞)).smul hu.1
+  have hA : MemLp A 2 volume := (hη.memLp_value (p := ∞)).smul hu.2.1
+  have hB : MemLp B 2 volume := hu.1.smul (hη.memLp_gradient (p := ∞))
   have htest := (hu.mul_test hη).mul_test hη
   have hzero := hw.sobolev_test_equation hu.2.1 htest
   have hAA : Integrable (fun x => inner (𝕜 := ℝ) (A x) (A x)) volume :=
@@ -81,7 +81,7 @@ theorem IsWeakHarmonicOn.caccioppoli_norm {U E : Set Plane}
         (η x • (η x • g x + u x • gradient η x) +
           (η x * u x) • gradient η x) =
       inner (𝕜 := ℝ) (A x) (A x) + 2 * inner (𝕜 := ℝ) (A x) (B x) := by
-    simp [A, B, inner_add_right, real_inner_smul_left, real_inner_smul_right]
+    simp only [A, B, inner_add_right, real_inner_smul_left, real_inner_smul_right]
     ring
   simp only [hpoint] at hzero
   rw [integral_add hAA (hAB.const_mul 2), integral_const_mul,
@@ -104,9 +104,9 @@ theorem IsWeakHarmonicOn.caccioppoli_energy {U E : Set Plane}
     (hu : MemH10 E u g) {η : Plane → ℝ} (hη : IsTest U η) :
     (∫ x, ‖η x • g x‖ ^ 2) ≤ 4 * ∫ x, ‖u x • gradient η x‖ ^ 2 := by
   have hA : MemLp (fun x => η x • g x) 2 volume :=
-    hu.2.1.smul (hη.memLp_value (p := ∞))
+    (hη.memLp_value (p := ∞)).smul hu.2.1
   have hB : MemLp (fun x => u x • gradient η x) 2 volume :=
-    (hη.memLp_gradient (p := ∞)).smul hu.1
+    hu.1.smul (hη.memLp_gradient (p := ∞))
   have hn := hw.caccioppoli_norm hu hη
   rw [← norm_toLp_sq_eq_integral hA, ← norm_toLp_sq_eq_integral hB]
   nlinarith [norm_nonneg (hA.toLp (fun x => η x • g x)),
@@ -120,8 +120,8 @@ theorem IsWeakHarmonicOn.caccioppoli_energy_of_gradient_bound {U E : Set Plane}
     {L : ℝ} (_hL : 0 ≤ L) (hbound : ∀ x, ‖gradient η x‖ ≤ L) :
     (∫ x, ‖η x • g x‖ ^ 2) ≤ 4 * L ^ 2 * ∫ x, (u x) ^ 2 := by
   have hB : MemLp (fun x => u x • gradient η x) 2 volume :=
-    (hη.memLp_gradient (p := ∞)).smul hu.1
-  have hintB := (memLp_two_iff_integrable_sq_norm hB.1).mp hB
+    hu.1.smul (hη.memLp_gradient (p := ∞))
+  have hintB := (memLp_two_iff_integrable_sq_norm hB.aestronglyMeasurable).mp hB
   have hintU := hu.1.integrable_sq.mul_const (L ^ 2)
   have hineq : (∫ x, ‖u x • gradient η x‖ ^ 2) ≤
       ∫ x, (u x) ^ 2 * L ^ 2 := by
@@ -144,7 +144,7 @@ theorem IsWeakHarmonicOn.local_energy_le {U E K : Set Plane}
     {L : ℝ} (hL : 0 ≤ L) (hbound : ∀ x, ‖gradient η x‖ ≤ L) :
     (∫ x in K, ‖g x‖ ^ 2) ≤ 4 * L ^ 2 * ∫ x, (u x) ^ 2 := by
   have hA : MemLp (fun x => η x • g x) 2 volume :=
-    hu.2.1.smul (hη.memLp_value (p := ∞))
+    (hη.memLp_value (p := ∞)).smul hu.2.1
   calc
     (∫ x in K, ‖g x‖ ^ 2) = ∫ x in K, ‖η x • g x‖ ^ 2 := by
       apply setIntegral_congr_fun hK
@@ -152,7 +152,7 @@ theorem IsWeakHarmonicOn.local_energy_le {U E K : Set Plane}
       dsimp only
       rw [hηK x hx, one_smul]
     _ ≤ ∫ x, ‖η x • g x‖ ^ 2 :=
-      setIntegral_le_integral ((memLp_two_iff_integrable_sq_norm hA.1).mp hA)
+      setIntegral_le_integral ((memLp_two_iff_integrable_sq_norm hA.aestronglyMeasurable).mp hA)
         (ae_of_all _ fun x => sq_nonneg _)
     _ ≤ _ := hw.caccioppoli_energy_of_gradient_bound hu hη hL hbound
 

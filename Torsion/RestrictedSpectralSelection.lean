@@ -94,7 +94,7 @@ theorem secondEigenvalue_le_of_odd_eigenfunction {a : ℝ} {φ : ℝ → ℝ}
   have heq : energy φ φ = a * ∫ x : ℝ, φ x ^ 2 := by
     simpa only [pow_two] using hφ.2.2 φ hφ.1
   rw [heq] at h
-  exact (mul_le_mul_right hsq).mp h
+  exact (mul_le_mul_iff_of_pos_right hsq).mp h
 
 
 /-- The actual first variational value chosen along with the second pair. -/

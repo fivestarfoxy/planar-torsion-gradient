@@ -40,8 +40,8 @@ private theorem log_ratio_mono {A B u v : ℝ}
     Real.log (A + u) - Real.log (B + u) ≤ Real.log (A + v) - Real.log (B + v) := by
   have hAu : 0 < A + u := add_pos_of_nonneg_of_pos hA hu
   have hBu : 0 < B + u := add_pos_of_nonneg_of_pos (hA.trans hAB) hu
-  have hAv : 0 < A + v := hAu.trans_le (add_le_add_left huv A)
-  have hBv : 0 < B + v := hBu.trans_le (add_le_add_left huv B)
+  have hAv : 0 < A + v := hAu.trans_le (add_le_add_right huv A)
+  have hBv : 0 < B + v := hBu.trans_le (add_le_add_right huv B)
   rw [← Real.log_div hAu.ne' hBu.ne', ← Real.log_div hAv.ne' hBv.ne']
   apply Real.log_le_log (div_pos hAu hBu)
   apply (div_le_div_iff₀ hBu hBv).2

@@ -53,7 +53,6 @@ theorem thickening_subset_dilate_of_convex {D : Set Plane} (hD : Convex ℝ D)
   have hsb : s * b * (r / δ) = 1 := by
     dsimp [b]
     field_simp
-    ring
   refine ⟨a • y + b • w, hp, ?_⟩
   calc
     s • (a • y + b • w) = y + (x - y) := by

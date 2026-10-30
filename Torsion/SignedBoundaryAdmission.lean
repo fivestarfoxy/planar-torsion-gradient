@@ -56,7 +56,7 @@ theorem memH10_pos_part_of_zero_extension {D : Set Plane}
     MemH10 D (fun x => max (u x) 0) (fun x => if 0 < u x then g x else 0) := by
   let k : Plane → Plane := fun x => if 0 < u x then g x else 0
   have hk : MemLp k 2 volume := by
-    simpa only [k, indicator_apply, mem_setOf_eq] using
+    simpa only [k, indicator_apply, mem_setOf_eq] using!
       hgLp.indicator (isOpen_lt continuous_const hc).measurableSet
   let f : ℕ → Plane → ℝ := fun n x => truncation n (u x)
   have hf (n : ℕ) : IsTest D (f n) := truncation_isTest hD hb hc hs hzero n
@@ -69,15 +69,15 @@ theorem memH10_pos_part_of_zero_extension {D : Set Plane}
         hdiff.hasGradientAt.hasFDerivAt
       have hG : HasGradientAt (f n) (coefficient n (u x) • gradient u x) x := by
         apply hasGradientAt_iff_hasFDerivAt.mpr
-        simpa only [map_smul, RCLike.conj_to_real] using hd
+        simpa only [map_smul, RCLike.conj_to_real, f, Function.comp_def] using! hd
       rw [hG.gradient, hgrad x hx]
     · rw [gradient_eq_zero_of_not_mem_tsupport (fun h => hx ((hf n).2.2 h)),
         hgzero x hx, smul_zero]
   refine ⟨huLp.pos_part, hk, f, hf, ?_, ?_⟩
   · apply tendsto_eLpNorm_two_of_dominated (B := fun x => 2 * ‖u x‖)
     · intro n
-      exact (hf n).1.continuous.aestronglyMeasurable.sub huLp.pos_part.1
-    · convert ((memLp_two_iff_integrable_sq_norm huLp.1).mp huLp).const_mul (4 : ℝ) using 1
+      exact (hf n).1.continuous.aestronglyMeasurable.sub huLp.pos_part.aestronglyMeasurable
+    · convert ((memLp_two_iff_integrable_sq_norm huLp.aestronglyMeasurable).mp huLp).const_mul (4 : ℝ) using 1
       funext x
       ring
     · intro n
@@ -90,8 +90,8 @@ theorem memH10_pos_part_of_zero_extension {D : Set Plane}
         simpa only [sub_self] using (truncation_tendsto_pos_part (u x)).sub_const (max (u x) 0)
   · apply tendsto_eLpNorm_two_of_dominated (B := fun x => 2 * ‖g x‖)
     · intro n
-      exact (hf n).continuous_gradient.aestronglyMeasurable.sub hk.1
-    · convert ((memLp_two_iff_integrable_sq_norm hgLp.1).mp hgLp).const_mul (4 : ℝ) using 1
+      exact (hf n).continuous_gradient.aestronglyMeasurable.sub hk.aestronglyMeasurable
+    · convert ((memLp_two_iff_integrable_sq_norm hgLp.aestronglyMeasurable).mp hgLp).const_mul (4 : ℝ) using 1
       funext x
       ring
     · intro n
@@ -127,7 +127,7 @@ theorem memH10_of_smooth_zero_extension {D : Set Plane}
       change -(g x) = gradient (fun x => -u x) x
       rw [hgrad x hx]
       unfold gradient
-      rw [fderiv_neg, map_neg])
+      rw [fderiv_fun_neg, map_neg])
     (fun x hx => by simp [hgzero x hx]) huLp.neg hgLp.neg
   have hzeroAE : ∀ᵐ x ∂volume, u x = 0 → g x = 0 := by
     have hz := (ae_restrict_iff' hD.measurableSet).mp

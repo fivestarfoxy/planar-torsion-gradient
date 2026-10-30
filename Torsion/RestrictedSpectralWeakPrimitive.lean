@@ -77,8 +77,10 @@ theorem integral_norm_sub_tendsto_of_eLpNorm_one
   have htoReal := (ENNReal.continuousAt_toReal (by simp : (0 : ℝ≥0∞) ≠ ⊤)).tendsto.comp hlim
   have heq (n : ℕ) : (∫ x : ℝ, ‖v n x - f x‖) =
       (eLpNorm (fun x => v n x - f x) 1 volume).toReal := by
-    simpa only [eLpNorm_one_eq_lintegral_enorm, Pi.sub_apply] using
-      integral_norm_eq_lintegral_enorm ((hvi n).aestronglyMeasurable.sub hfi.aestronglyMeasurable)
+    have hm : AEStronglyMeasurable (fun x => v n x - f x) volume :=
+      (hvi n).aestronglyMeasurable.sub hfi.aestronglyMeasurable
+    rw [eLpNorm_one_eq_lintegral_enorm hm]
+    exact integral_norm_eq_lintegral_enorm hm
   simp_rw [heq]
   exact htoReal
 
@@ -156,7 +158,7 @@ theorem MemRestrictedFormDomain.finiteEnergy_height {φ : ℝ → ℝ}
     rw [Real.norm_of_nonneg (by positivity)]
     exact mul_le_mul_of_nonneg_left (pow_le_pow_left₀ (norm_nonneg _) hle 2) (abs_nonneg _)
   have hall := hnear.union hfar
-  simpa only [union_compl_self, integrableOn_univ] using hall
+  simpa only [union_compl_self, integrableOn_univ, FiniteEnergy, g] using hall
 
 /-- The original Fourier form commutes with taking the actual odd
 primitive, for every actual closed form member. -/

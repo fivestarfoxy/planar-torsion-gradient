@@ -89,12 +89,12 @@ theorem hasGradientAt_log_norm {z : Plane} (hz : z ≠ 0) :
   have h := ((hasFDerivAt_id z).norm_sq.log
     (pow_ne_zero 2 (norm_ne_zero_iff.mpr hz))).mul_const (2⁻¹ : ℝ)
   apply hasGradientAt_iff_hasFDerivAt.mpr
-  convert h using 1
+  convert! h using 1
   · ext u
     norm_num [Real.log_pow]
     ring
   · ext u
-    simp [InnerProductSpace.toDual_apply, ContinuousLinearMap.comp_apply,
+    simp [InnerProductSpace.toDual_apply_apply, ContinuousLinearMap.comp_apply,
       Complex.inner, Complex.inv_re, Complex.inv_im, Complex.normSq_eq_norm_sq,
       Complex.star_def, Complex.mul_re, Complex.mul_im]
     ring
@@ -104,14 +104,14 @@ theorem hasGradientAt_log_norm_sub (w : Plane) {z : Plane} (hz : z ≠ w) :
   apply hasGradientAt_iff_hasFDerivAt.mpr
   convert (hasGradientAt_iff_hasFDerivAt.mp
     (hasGradientAt_log_norm (sub_ne_zero.mpr hz))).comp z
-      ((hasFDerivAt_id z).sub_const w) using 1 <;> simp
+      ((hasFDerivAt_id z).sub_const w) using 1 <;> simp [Function.comp_def]
 
 theorem fundamental_hasGradientAt {z w : Plane} (hz : z ≠ w) :
     HasGradientAt (fundamental w) (-(2 * Real.pi)⁻¹ • star (z-w)⁻¹) z := by
   apply hasGradientAt_iff_hasFDerivAt.mpr
   have h := (hasGradientAt_iff_hasFDerivAt.mp (hasGradientAt_log_norm_sub w hz)).neg.mul_const
     ((2 * Real.pi)⁻¹)
-  simpa only [fundamental, div_eq_mul_inv, map_smul, map_neg, neg_smul, smul_neg] using h
+  simpa only [fundamental, div_eq_mul_inv, map_smul, map_neg, neg_smul, smul_neg] using! h
 
 /-- Pairing with the radius vector incorporates the circle's arclength
 factor. Its integral over one turn is exactly `-1`, fixing the source mass. -/
@@ -150,7 +150,7 @@ theorem green_hasGradientAt {z w : Plane}
   apply hasGradientAt_iff_hasFDerivAt.mpr
   have h := ((hasGradientAt_iff_hasFDerivAt.mp (hasGradientAt_log_norm_sub (star w) hr)).sub
     (hasGradientAt_iff_hasFDerivAt.mp (hasGradientAt_log_norm_sub w hp))).mul_const ((2*Real.pi)⁻¹)
-  simpa only [green, div_eq_mul_inv, map_smul, map_sub] using h
+  simpa only [green, div_eq_mul_inv, map_smul, map_sub] using! h
 
 private theorem divergence_star_of_hasDerivAt {f : Plane → Plane} {d z : Plane}
     (h : HasDerivAt f d z) :
@@ -169,9 +169,9 @@ theorem hasGradientAt_log_norm_comp {B : Plane → Plane} {d z c : Plane}
   apply hasGradientAt_iff_hasFDerivAt.mpr
   have h := (hasGradientAt_iff_hasFDerivAt.mp
     (hasGradientAt_log_norm_sub c hne)).comp z hB.complexToReal_fderiv
-  convert h using 1
+  convert! h using 1
   ext v
-  simp [InnerProductSpace.toDual_apply, ContinuousLinearMap.comp_apply,
+  simp [InnerProductSpace.toDual_apply_apply, ContinuousLinearMap.comp_apply,
     Complex.inner, Complex.star_def, div_eq_mul_inv, Complex.mul_re, Complex.mul_im]
   ring
 
@@ -204,7 +204,7 @@ theorem green_comp_hasGradientAt {B : Plane → Plane} {d z w : Plane}
   apply hasGradientAt_iff_hasFDerivAt.mpr
   have h := ((hasGradientAt_iff_hasFDerivAt.mp (hasGradientAt_log_norm_comp hB hr)).sub
     (hasGradientAt_iff_hasFDerivAt.mp (hasGradientAt_log_norm_comp hB hp))).mul_const ((2*Real.pi)⁻¹)
-  simpa only [green, div_eq_mul_inv, map_smul, map_sub] using h
+  simpa only [green, div_eq_mul_inv, map_smul, map_sub] using! h
 
 /-- Classical conformal covariance of the harmonic equation for the concrete
 Green formula. This result is independent of distributional source admission. -/
@@ -300,7 +300,7 @@ theorem green_hasDerivAt_boundary_source {z : Plane} (hz : 0 < z.im) (x : ℝ) :
     ring
   convert hd using 1
   · ext t
-    simp only [green, hlog, Complex.normSq_apply, Complex.sub_re, Complex.sub_im,
+    simp only [Pi.sub_apply, green, hlog, Complex.normSq_apply, Complex.sub_re, Complex.sub_im,
       Complex.star_def, Complex.conj_re, Complex.conj_im, Complex.add_re, Complex.add_im,
       Complex.mul_re, Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im,
       Complex.I_re, Complex.I_im]

@@ -71,7 +71,7 @@ theorem energy_ge_of_resolvent_quadratic_bound_at {μ : ℝ} (hμ : 0 < μ) (q :
     exact energy_self_nonneg q
   have hfpos : 0 < ‖f‖ ^ 2 := sq_pos_of_ne_zero (norm_ne_zero_iff.mpr hf0)
   have hcancel : ‖f‖ ^ 2 ≤ μ * energy q q := by
-    apply (mul_le_mul_iff_left₀ hfpos).mp
+    apply (mul_le_mul_iff_of_pos_left hfpos).mp
     convert hm using 1 <;> ring
   have hdiv : ‖f‖ ^ 2 / μ ≤ energy q q :=
     (div_le_iff₀ hμ).mpr (by simpa only [mul_comm] using hcancel)

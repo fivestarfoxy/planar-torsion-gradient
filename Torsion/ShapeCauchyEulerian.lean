@@ -7,6 +7,7 @@ public import Torsion.CauchyBoundaryStationarity
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Eulerian commutator and boundary lift data of the actual spectral torsion

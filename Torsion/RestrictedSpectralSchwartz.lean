@@ -47,6 +47,7 @@ theorem finiteEnergy_of_schwartz (S : 𝓢(ℝ, ℝ)) : FiniteEnergy S := by
   apply (h1.const_mul B).mono'
     ((continuous_abs.mul ((fourier_continuous S.integrable).norm.pow 2)).aestronglyMeasurable)
   exact ae_of_all _ fun ξ => by
+    change ‖|ξ| * ‖fourier S ξ‖ ^ 2‖ ≤ B * (|ξ| * ‖fourier S ξ‖)
     rw [Real.norm_of_nonneg (mul_nonneg (abs_nonneg _) (sq_nonneg _))]
     have hbound : ‖fourier S ξ‖ ≤ B := norm_fourier_le_integral_norm S ξ
     have hmul := mul_le_mul_of_nonneg_left hbound (mul_nonneg (abs_nonneg ξ) (norm_nonneg (fourier S ξ)))
@@ -70,6 +71,6 @@ theorem schwartz_exists_uniform_bound (S : 𝓢(ℝ, ℝ)) :
 theorem schwartz_deriv_exists_uniform_bound (S : 𝓢(ℝ, ℝ)) :
     ∃ M : ℝ, 0 < M ∧ ∀ x : ℝ, |deriv S x| ≤ M := by
   simpa only [SchwartzMap.derivCLM_apply] using
-    schwartz_exists_uniform_bound (SchwartzMap.derivCLM ℝ S)
+    schwartz_exists_uniform_bound (SchwartzMap.derivCLM ℝ ℝ S)
 
 end Torsion.Spectral

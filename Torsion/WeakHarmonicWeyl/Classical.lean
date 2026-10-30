@@ -32,7 +32,7 @@ theorem fderiv_gradient_inner {f : Plane → ℝ} (hf : ContDiff ℝ ∞ f)
     inner (𝕜 := ℝ) (fderiv ℝ (gradient f) x v) w =
       fderiv ℝ (fderiv ℝ f) x v w := by
   have hfd : Differentiable ℝ (fderiv ℝ f) :=
-    (hf.fderiv_right (m := 1) (WithTop.coe_le_coe.mpr le_top)).differentiable le_rfl
+    (hf.fderiv_right (m := 1) (WithTop.coe_le_coe.mpr le_top)).differentiable (by norm_num)
   have hd := (InnerProductSpace.toDual ℝ Plane).symm.hasFDerivAt.comp x
     (hfd x).hasFDerivAt
   change HasFDerivAt (gradient f) _ x at hd
@@ -48,8 +48,7 @@ theorem fderiv_gradient_inner_symm {f : Plane → ℝ} (hf : ContDiff ℝ ∞ f)
       inner (𝕜 := ℝ) (fderiv ℝ (gradient f) x w) v := by
   rw [fderiv_gradient_inner hf, fderiv_gradient_inner hf]
   have hle : minSmoothness ℝ 2 ≤ (∞ : WithTop ℕ∞) := by
-    simpa only [minSmoothness_of_isRCLikeNormedField] using
-      (WithTop.coe_le_coe.mpr le_top : (2 : WithTop ℕ∞) ≤ ∞)
+    norm_num [minSmoothness_of_isRCLikeNormedField]
   exact (hf.contDiffAt.isSymmSndFDerivAt hle).eq v w
 
 /-- Conjugating the gradient gives the classical complex derivative field
@@ -106,7 +105,6 @@ theorem holomorphic_circle_mean_value {F : ℂ → ℂ} {c : ℂ} {r : ℝ}
     simp only [smul_eq_mul]
     have hne0 : circleMap 0 r θ ≠ 0 := by rwa [hc]
     field_simp [hne0]
-    ring
   simp_rw [hkernel] at H
   rw [intervalIntegral.integral_const_mul] at H
   have H' : Complex.I * (∫ θ in (0 : ℝ)..2 * Real.pi, F (circleMap c r θ)) =

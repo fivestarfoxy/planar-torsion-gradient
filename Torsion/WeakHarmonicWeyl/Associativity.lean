@@ -34,7 +34,7 @@ theorem convolution_compact_scalar_assoc
         (κ ⋆[mul ℝ ℝ, volume] ρ)) x := by
   let L := (lsmul ℝ ℝ : ℝ →L[ℝ] E →L[ℝ] E).flip
   apply convolution_assoc L L L (mul ℝ ℝ)
-    (fun a b c => by simp [L, smul_smul, mul_comm]) hu.1
+    (fun a b c => by simp [L, smul_smul, mul_comm]) hu.aestronglyMeasurable
     hκ.aestronglyMeasurable hρ.aestronglyMeasurable
   · exact ae_of_all _ fun y =>
       hcκ.convolutionExists_right L (hu.locallyIntegrable (by norm_num)) hκ y

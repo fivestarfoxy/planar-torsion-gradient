@@ -97,7 +97,7 @@ theorem resolvent_quadratic_bound_of_form_lower_bound {a : ℝ} (ha : 0 < a)
   have hwpos : 0 < ‖w‖ := norm_pos_iff.mpr hw
   have hcs : inner (𝕜 := ℝ) F w ≤ ‖F‖ * ‖w‖ := real_inner_le_norm F w
   have hmul : a * ‖w‖ ≤ ‖F‖ := by
-    apply (mul_le_mul_iff_right₀ hwpos).mp
+    apply (mul_le_mul_iff_of_pos_right hwpos).mp
     nlinarith [hl, hcs]
   have hwnorm : ‖w‖ ≤ ‖F‖ / a :=
     (le_div_iff₀ ha).mpr (by simpa only [mul_comm] using hmul)

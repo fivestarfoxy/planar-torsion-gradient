@@ -139,7 +139,7 @@ theorem physicalGreen_finite_boundary_tendsto {φ : ℝ → ℝ} {C α : ℝ≥0
       (t : Plane) := (hcont₁.sub hcont₂).div_const _
   have hlim := hcont.tendsto.comp
     (cauchyInverse_boundary_tendsto hφ hα0 hα1 hodd hzero hpos t)
-  simpa only [HalfPlane.green_real_boundary, physicalGreen] using hlim
+  simpa only [HalfPlane.green_real_boundary, physicalGreen, Function.comp_apply] using! hlim
 
 /-- The logarithmic singularity has exactly coefficient `-1/(2π)` in
 physical distance. The inverse derivative determines only the regular part. -/
@@ -197,11 +197,9 @@ theorem physicalGreen_marked_source_quotient_tendsto {φ : ℝ → ℝ}
   have hd : HasDerivAt
       (fun t : ℝ => (cauchyAtInfinity φ ((t : Plane) * Complex.I)).im)
       (mass φ / Real.pi) 0 := by
-    convert him using 1
-    simp [ContinuousLinearMap.smul_apply, Complex.mul_re, Complex.mul_im,
-      div_eq_mul_inv, mul_comm]
-    left
-    field_simp
+    convert! him using 1 <;>
+      first | rfl | (simp [ContinuousLinearMap.smul_apply, Complex.mul_re, Complex.mul_im,
+        div_eq_mul_inv, mul_comm] <;> ring)
   have hden : Tendsto (fun t : ℝ =>
       (cauchyAtInfinity φ ((t : Plane) * Complex.I)).im / t)
       (𝓝[>] 0) (𝓝 (mass φ / Real.pi)) := by

@@ -38,7 +38,7 @@ def translate (D : ConvexDomain) (a : Plane) : ConvexDomain where
     calc
       ‖x‖ = ‖(x - a) + a‖ := by rw [sub_add_cancel]
       _ ≤ ‖x - a‖ + ‖a‖ := norm_add_le _ _
-      _ ≤ R + ‖a‖ := add_le_add_right (hR _ hx) _
+      _ ≤ R + ‖a‖ := add_le_add (hR _ hx) le_rfl
   convex := by simpa only [sub_eq_add_neg] using D.convex.translate_preimage_left (-a)
   nonempty := by
     obtain ⟨x, hx⟩ := D.nonempty

@@ -117,9 +117,9 @@ theorem energy_abs_eq_iff_sign {f : ℝ → ℝ} (hf : MemRestrictedFormDomain f
       filter_upwards [hzero] with x hx
       change 0 ≤ f x
       simpa only [hx, Pi.zero_apply] using (le_refl (0 : ℝ))
-    · let g := hf.1.1.mk f
-      have hfg : f =ᵐ[volume] g := hf.1.1.ae_eq_mk
-      have hg : Measurable g := hf.1.1.stronglyMeasurable_mk.measurable
+    · let g := hf.1.aestronglyMeasurable.mk f
+      have hfg : f =ᵐ[volume] g := hf.1.aestronglyMeasurable.ae_eq_mk
+      have hg : Measurable g := hf.1.aestronglyMeasurable.stronglyMeasurable_mk.measurable
       have hgform : MemRestrictedFormDomain g := hf.congr_ae hfg
       have habsfg : (fun x => |f x|) =ᵐ[volume] (fun x => |g x|) := hfg.fun_comp abs
       have hGeq : gagliardoEnergy (fun x => |g x|) = gagliardoEnergy g := by

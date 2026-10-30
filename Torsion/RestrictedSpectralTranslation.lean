@@ -85,7 +85,7 @@ theorem integral_sq_translation_le_of_compact_smooth {f : ℝ → ℝ}
     hft.continuous.integrable_of_hasCompactSupport hct
   have hg : ContDiff ℝ ∞ g := hft.sub hf
   have hgc : HasCompactSupport g := by
-    simpa only [g, sub_eq_add_neg, Pi.add_apply, Pi.neg_apply] using hct.add hc.neg' 
+    simpa only [g, Pi.sub_apply] using! hct.sub hc
   have hF (ξ : ℝ) : fourier g ξ =
       (Complex.exp (((t * ξ : ℝ) : ℂ) * Complex.I) - 1) * fourier f ξ := by
     simp only [g, fourier_sub hfti hfi, Pi.sub_apply, fourier_comp_add_right]
@@ -105,7 +105,7 @@ theorem integral_sq_translation_le_of_compact_smooth {f : ℝ → ℝ}
     rw [energy_self]
     field_simp [Real.pi_ne_zero]
   rw [integral_norm_sq_fourier_of_core hg hgc, integral_const_mul, hE] at hi
-  apply (mul_le_mul_iff_left₀ (show 0 < 2 * Real.pi by positivity)).mp
+  apply (mul_le_mul_iff_of_pos_left (show 0 < 2 * Real.pi by positivity)).mp
   convert hi using 1
   ring
 
@@ -139,7 +139,7 @@ theorem MemRestrictedFormDomain.integral_sq_translation_le {f : ℝ → ℝ}
     apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds
       (by simpa using hL.add hL)
     · intro n
-      exact zero_le _
+      exact bot_le
     · intro n
       dsimp only
       have heq : (fun x => (v n (x + t) - v n x) - (f (x + t) - f x)) =
@@ -148,14 +148,14 @@ theorem MemRestrictedFormDomain.integral_sq_translation_le {f : ℝ → ℝ}
       calc
         _ ≤ eLpNorm (fun x => v n (x + t) - f (x + t)) 2 volume +
             eLpNorm (fun x => -(v n x - f x)) 2 volume :=
-          eLpNorm_add_le ((hvLt n).1.sub hLt.1) (((hvL n).1.sub hf.1.1).neg) (by norm_num)
+          eLpNorm_add_le (by norm_num)
         _ = _ := by
           rw [show eLpNorm (fun x => v n (x + t) - f (x + t)) 2 volume =
               eLpNorm (fun x => v n x - f x) 2 volume from
                 eLpNorm_comp_add_right (fun x => v n x - f x) t 2]
           rw [show eLpNorm (fun x => -(v n x - f x)) 2 volume =
               eLpNorm (fun x => v n x - f x) 2 volume from by
-                simpa only [Pi.neg_apply] using eLpNorm_neg (fun x => v n x - f x) 2 volume]
+                simpa only [Pi.neg_apply] using! eLpNorm_neg (fun x => v n x - f x) 2 volume]
   have hSq := integral_sq_tendsto_of_eLpNorm_sub (hLt.sub hf.1)
     (fun n => (hvLt n).sub (hvL n)) hlim
   have hEn := energy_tendsto_of_difference hf.integrable hvI hf.2.1 hvE hE

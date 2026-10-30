@@ -134,7 +134,7 @@ theorem isRestrictedEigenfunction_of_resolvent_eigenvector
     IsRestrictedEigenfunction (1 / μ) (v : ℝ → ℝ) := by
   have hae : (resolvent v : ℝ → ℝ) =ᵐ[volume] fun x => μ * v x := by
     rw [hv]
-    simpa only [Pi.smul_apply, smul_eq_mul] using Lp.coeFn_smul μ v
+    simpa only [Pi.smul_apply, smul_eq_mul] using! Lp.coeFn_smul μ v
   have hscale : (fun x => μ⁻¹ * (resolvent v : ℝ → ℝ) x) =ᵐ[volume] (v : ℝ → ℝ) := by
     filter_upwards [hae] with x hx
     rw [hx]

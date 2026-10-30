@@ -90,8 +90,8 @@ theorem semicircleRoot_sq {z : ℂ} (hz : 0 ≤ z.im) : (semicircleRoot z) ^ 2 =
   ring
 
 theorem semicircleRoot_im_pos {z : ℂ} (hz : z ∈ upperHalfPlane) : 0 < (semicircleRoot z).im := by
-  have h1 : 0 < (z - 1).im := by simpa using hz
-  have h2 : 0 < (z + 1).im := by simpa using hz
+  have h1 : 0 < (z - 1).im := by simpa [upperHalfPlane] using hz
+  have h2 : 0 < (z + 1).im := by simpa [upperHalfPlane] using hz
   dsimp only [semicircleRoot]
   rw [Complex.mul_im]
   exact add_pos (mul_pos (upperSquareRoot_re_pos h1) (upperSquareRoot_im_pos h2))
@@ -175,7 +175,6 @@ theorem hasDerivAt_semicircleRoot {z : ℂ} (hz : z ∈ upperHalfPlane) :
       (show nhdsWithin z ({z}ᶜ) ≤ nhds z from nhdsWithin_le_nhds)
   have hval : (z + z) / (semicircleRoot z + semicircleRoot z) = z / semicircleRoot z := by
     field_simp
-    ring
   rw [hval] at hlim
   apply hasDerivAt_iff_tendsto_slope.mpr
   apply hlim.congr' ?_
@@ -209,7 +208,7 @@ theorem semicircleRoot_re_mul_re_nonneg {z : ℂ} (hz : z ∈ upperHalfPlane) :
   have hsq := congrArg Complex.im (semicircleRoot_sq (show 0 ≤ z.im from (show 0 < z.im from hz).le))
   simp only [pow_two, Complex.mul_im, Complex.sub_im, Complex.one_im, sub_zero] at hsq
   have hmul : (semicircleRoot z).re * (semicircleRoot z).im = z.re * z.im := by nlinarith
-  apply (mul_le_mul_iff_right₀ (semicircleRoot_im_pos hz)).mp
+  apply (mul_le_mul_iff_of_pos_right (semicircleRoot_im_pos hz)).mp
   simp only [zero_mul]
   calc
     _ = z.re ^ 2 * z.im := by linear_combination (z.re) * hmul

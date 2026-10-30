@@ -29,12 +29,12 @@ theorem IsWeakHarmonicOn.caccioppoli_energy_of_local_value_bound
     (hbound : ∀ᵐ x ∂volume.restrict U, |u x| ≤ M) :
     (∫ x, ‖η x • g x‖ ^ 2) ≤ 4 * M ^ 2 * ∫ x, ‖gradient η x‖ ^ 2 := by
   have hB : MemLp (fun x => u x • gradient η x) 2 volume :=
-    (hη.memLp_gradient (p := ∞)).smul hu.1
+    hu.1.smul (hη.memLp_gradient (p := ∞))
   have hηI : Integrable (fun x => ‖gradient η x‖ ^ 2) :=
-    (memLp_two_iff_integrable_sq_norm (hη.memLp_gradient (p := 2)).1).mp
+    (memLp_two_iff_integrable_sq_norm (hη.memLp_gradient (p := 2)).aestronglyMeasurable).mp
       (hη.memLp_gradient (p := 2))
   have hUI : Integrable (fun x => ‖u x • gradient η x‖ ^ 2) :=
-    (memLp_two_iff_integrable_sq_norm hB.1).mp hB
+    (memLp_two_iff_integrable_sq_norm hB.aestronglyMeasurable).mp hB
   have hb : ∀ᵐ x ∂volume, x ∈ U → |u x| ≤ M :=
     (ae_restrict_iff' hU).mp hbound
   have hineq : (∫ x, ‖u x • gradient η x‖ ^ 2) ≤
@@ -62,7 +62,7 @@ theorem IsWeakHarmonicOn.local_energy_le_of_local_value_bound
     (hbound : ∀ᵐ x ∂volume.restrict U, |u x| ≤ M) :
     (∫ x in K, ‖g x‖ ^ 2) ≤ 4 * M ^ 2 * ∫ x, ‖gradient η x‖ ^ 2 := by
   have hA : MemLp (fun x => η x • g x) 2 volume :=
-    hu.2.1.smul (hη.memLp_value (p := ∞))
+    (hη.memLp_value (p := ∞)).smul hu.2.1
   calc
     (∫ x in K, ‖g x‖ ^ 2) = ∫ x in K, ‖η x • g x‖ ^ 2 := by
       apply setIntegral_congr_fun hK
@@ -70,7 +70,7 @@ theorem IsWeakHarmonicOn.local_energy_le_of_local_value_bound
       dsimp only
       rw [hηK x hx, one_smul]
     _ ≤ ∫ x, ‖η x • g x‖ ^ 2 :=
-      setIntegral_le_integral ((memLp_two_iff_integrable_sq_norm hA.1).mp hA)
+      setIntegral_le_integral ((memLp_two_iff_integrable_sq_norm hA.aestronglyMeasurable).mp hA)
         (ae_of_all _ fun x => sq_nonneg _)
     _ ≤ _ := hw.caccioppoli_energy_of_local_value_bound hu hU hη hM hbound
 
@@ -121,7 +121,7 @@ theorem exists_uniform_ball_harmonic_L2_constant {r : ℝ} (hr : 0 < r) :
   intro E u g M hu hw hM hb
   have henergy := hbound hu hw hM hb
   have hgI : Integrable (fun x => ‖g x‖ ^ 2) :=
-    (memLp_two_iff_integrable_sq_norm hu.2.1.1).mp hu.2.1
+    (memLp_two_iff_integrable_sq_norm hu.2.1.aestronglyMeasurable).mp hu.2.1
   have hball : (∫ x in Metric.ball (0 : Plane) (2*r), ‖g x‖ ^ 2) ≤
       ∫ x in Metric.closedBall (0 : Plane) (2*r), ‖g x‖ ^ 2 := by
     apply setIntegral_mono_set hgI.integrableOn
@@ -131,7 +131,7 @@ theorem exists_uniform_ball_harmonic_L2_constant {r : ℝ} (hr : 0 < r) :
       ENNReal.ofReal (Real.sqrt (∫ x in Metric.ball (0 : Plane) (2*r), ‖g x‖ ^ 2)) := by
     simpa only [ENNReal.toReal_ofNat, Real.rpow_two, Real.sqrt_eq_rpow, one_div] using
       MemLp.eLpNorm_eq_integral_rpow_norm (by norm_num : (2 : ℝ≥0∞) ≠ 0)
-        (by norm_num : (2 : ℝ≥0∞) ≠ ∞) (hu.2.1.restrict (Metric.ball (0 : Plane) (2*r)))
+        (by norm_num : (2 : ℝ≥0∞) ≠ (∞ : ℝ≥0∞)) (hu.2.1.restrict (Metric.ball (0 : Plane) (2*r)))
   rw [eLpNorm_indicator_eq_eLpNorm_restrict Metric.isOpen_ball.measurableSet, heq,
     ENNReal.toReal_ofReal (Real.sqrt_nonneg _)]
   calc

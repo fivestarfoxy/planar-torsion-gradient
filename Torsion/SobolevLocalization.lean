@@ -34,7 +34,7 @@ theorem exists_test_eq_one_near_compact {D K : Set Plane}
   let B : Set Plane := D ∩ Metric.ball 0 r
   have hB : IsOpen B := hD.inter Metric.isOpen_ball
   have hKB : K ⊆ B := subset_inter hKD hKr
-  obtain ⟨η, hzero, hone, _⟩ := exists_smooth_zero_one_nhds_of_isClosed
+  obtain ⟨η, hzero, hone, _⟩ := exists_contMDiffMap_zero_one_nhds_of_isClosed
     (𝓘(ℝ, Plane)) hB.isClosed_compl hK.isClosed
     (disjoint_left.mpr (fun x hx hxK => hx (hKB hxK)))
   have hs : tsupport (η : Plane → ℝ) ⊆ B := by
@@ -42,7 +42,7 @@ theorem exists_test_eq_one_near_compact {D K : Set Plane}
     by_contra hnot
     have hlocal : (η : Plane → ℝ) =ᶠ[𝓝 x] 0 :=
       hzero.filter_mono (nhds_le_nhdsSet hnot)
-    exact (not_mem_tsupport_iff_eventuallyEq.mpr hlocal) hx
+    exact (notMem_tsupport_iff_eventuallyEq.mpr hlocal) hx
   refine ⟨η, ⟨η.contMDiff.contDiff, ?_, hs.trans inter_subset_left⟩, hone⟩
   exact HasCompactSupport.of_support_subset_isCompact (isCompact_closedBall (0 : Plane) r)
     ((subset_tsupport (η : Plane → ℝ)).trans

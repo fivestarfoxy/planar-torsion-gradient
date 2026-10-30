@@ -140,8 +140,11 @@ theorem HasTorsionFlux.of_localRepresentative {D : Set Plane}
   have hdv : HasFDerivAt v (fderiv ℝ v 0) ((0 : ℂ) * Complex.I) := by
     simpa using hvd.hasFDerivAt
   have hd : HasDerivAt (fun t : ℝ => v ((t : ℂ) * Complex.I)) (gradient v 0).im 0 := by
-    convert hdv.comp_hasDerivAt 0 hline using 1
-    simp [fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re]
+    have heq : fderiv ℝ v 0 Complex.I = (gradient v 0).im := by
+      simp only [fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re,
+        Complex.conj_re, Complex.conj_im, Complex.I_re, Complex.I_im,
+        mul_zero, zero_mul, mul_one, one_mul, zero_sub, sub_zero, neg_neg]
+    simpa only [heq, Function.comp_apply] using! hdv.comp_hasDerivAt 0 hline
   have hf := hasMarkedFlux_of_normal_derivative hv0 hd
   refine ⟨w, g, r, hweak, hr, hcont, ?_⟩
   apply hf.congr'
@@ -207,7 +210,6 @@ theorem HasMarkedFlux.dilate {u : Plane → ℝ} {q : ℝ}
     simp only [Complex.real_smul, Complex.ofReal_mul, mul_assoc]
   rw [heq]
   field_simp [hs.ne', ht0']
-  ring
 
 private theorem inverseDilation_mem_halfBall {s r : ℝ} (hs : 0 < s)
     {z : Plane} (hz : z ∈ upperHalfPlane ∩ Metric.ball 0 (s * r)) :
@@ -231,7 +233,7 @@ theorem HasTorsionFlux.dilate {D : Set Plane} {q : ℝ}
     hu.dilate s hs, mul_pos hs hr, ?_, hf.dilate s hs⟩
   exact continuousOn_const.mul (hc.comp
     (show Continuous (fun z : Plane => s⁻¹ • z) from
-      continuous_const.smul continuous_id).continuousOn
+      by fun_prop).continuousOn
     (fun z hz => inverseDilation_mem_halfBall hs hz))
 
 /-- Marked domains are closed under union. -/

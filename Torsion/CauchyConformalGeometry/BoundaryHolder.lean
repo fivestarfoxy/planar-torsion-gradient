@@ -103,7 +103,9 @@ theorem cauchy_boundary_tangent_holderOn {a b : ℝ} {φ : ℝ → ℝ} {C α : 
         add_le_add (mul_le_mul_of_nonneg_left (hY.dist_le x y) (abs_nonneg a))
           (hφ.dist_le x y)
       _ = (K : ℝ) * dist x y ^ (α : ℝ) := by
-        simp only [K, NNReal.coe_add, NNReal.coe_mul, NNReal.coe_mk]
+        change |a| * ((D : ℝ) * dist x y ^ (α : ℝ)) +
+          (C : ℝ) * dist x y ^ (α : ℝ) =
+          (|a| * (D : ℝ) + (C : ℝ)) * dist x y ^ (α : ℝ)
         ring
   rw [edist_dist, edist_dist, ENNReal.ofReal_rpow_of_nonneg dist_nonneg α.coe_nonneg,
     ← ENNReal.ofReal_coe_nnreal, ← ENNReal.ofReal_mul K.coe_nonneg]

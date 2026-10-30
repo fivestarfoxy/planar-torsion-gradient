@@ -62,7 +62,7 @@ theorem cauchy_closedHalfPlane_tendsto_zero {φ : ℝ → ℝ} {C α : ℝ≥0}
   have hs : IsClosed {z : ℂ | 0 ≤ z.im} := isClosed_le continuous_const Complex.continuous_im
   have hsub : Tendsto (fun z : CauchyClosedHalfPlane => (z : ℂ))
       (coclosedCompact CauchyClosedHalfPlane) (cocompact ℂ) := by
-    simpa only [coclosedCompact_eq_cocompact] using hs.isClosedEmbedding_subtypeVal.tendsto_cocompact
+    simpa only [coclosedCompact_eq_cocompact] using! hs.isClosedEmbedding_subtypeVal.tendsto_cocompact
   have hn : Tendsto (fun z : CauchyClosedHalfPlane => ‖(z : ℂ)‖)
       (coclosedCompact CauchyClosedHalfPlane) atTop :=
     tendsto_norm_cocompact_atTop.comp hsub

@@ -57,7 +57,7 @@ theorem MemRestrictedFormDomain.energy_ge_of_support_interval
     (pow_le_pow_left₀ (norm_nonneg _) (norm_fourier_le_integral_norm f ξ) 2).trans
       (hf.integral_norm_sq_le_of_support_interval hlr hzero)
   have hi : Integrable (fun ξ => ‖fourier f ξ‖ ^ 2) :=
-    (memLp_two_iff_integrable_sq_norm hf.fourier_parseval.1.1).mp hf.fourier_parseval.1
+    (memLp_two_iff_integrable_sq_norm hf.fourier_parseval.1.aestronglyMeasurable).mp hf.fourier_parseval.1
   have he : Integrable W := hf.2.1
   have hbi : Integrable ((Icc (-δ) δ).indicator (fun _ : ℝ => L * M)) :=
     (integrable_indicator_iff measurableSet_Icc).mpr continuous_const.integrableOn_Icc

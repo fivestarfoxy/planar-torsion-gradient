@@ -32,7 +32,7 @@ theorem mollifyGradient_tendsto_zero_of_eLpNorm_filter
   apply tendsto_zero_iff_norm_tendsto_zero.mpr
   have hreal : Tendsto (fun a => ‖(hg a).toLp (g a)‖) l (𝓝 0) := by
     simp only [Lp.norm_toLp]
-    simpa only [ENNReal.toReal_zero] using
+    simpa only [Function.comp_def, ENNReal.toReal_zero] using
       (ENNReal.continuousAt_toReal (by simp : (0 : ℝ≥0∞) ≠ ⊤)).tendsto.comp hlim
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds
     (by simpa using hreal.const_mul ‖hκ.toLp κ‖)
@@ -91,8 +91,16 @@ theorem eLpNorm_reflectedGradient (g : Plane → Plane) (p : ℝ≥0∞) :
     eLpNorm (reflectedGradient g) p volume = eLpNorm g p volume := by
   calc
     _ = eLpNorm (fun z => g (star z)) p volume := by
-      apply eLpNorm_congr_norm_ae
-      exact ae_of_all _ fun z => norm_star _
+      by_cases hm : AEStronglyMeasurable (fun z => g (star z)) volume
+      · exact eLpNorm_congr_norm_ae
+          (Complex.continuous_conj.comp_aestronglyMeasurable hm) hm
+          (ae_of_all _ fun z => norm_star (g (star z)))
+      · have hn : ¬ AEStronglyMeasurable (reflectedGradient g) volume := by
+          intro h
+          apply hm
+          simpa only [reflectedGradient, Function.comp_apply, starRingEnd_apply, star_star] using
+            Complex.continuous_conj.comp_aestronglyMeasurable h
+        rw [eLpNorm_of_not_aestronglyMeasurable hn, eLpNorm_of_not_aestronglyMeasurable hm]
     _ = _ := eLpNorm_comp_conjugation g p
 
 /-- Odd reflection is continuous for arbitrary strong L² parameter limits. -/
@@ -114,12 +122,12 @@ theorem oddGradient_tendsto_eLpNorm_sub_filter
     abel
   have hbound (a : A) : eLpNorm (fun z => k a z - reflectedGradient (k a) z) 2 volume ≤
       eLpNorm (k a) 2 volume + eLpNorm (k a) 2 volume := by
-    have hb := eLpNorm_sub_le (hk a).1 (memLp_reflectedGradient (hk a)).1
+    have hb := eLpNorm_sub_le (f := k a) (g := reflectedGradient (k a)) (μ := volume)
       (by norm_num : (1 : ℝ≥0∞) ≤ 2)
-    simpa only [eLpNorm_reflectedGradient] using hb
+    simpa only [Pi.sub_def, eLpNorm_reflectedGradient] using hb
   simp_rw [heq]
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds
-    (by simpa only [zero_add] using hlim.add hlim) (fun _ => zero_le _) hbound
+    (by simpa only [zero_add] using hlim.add hlim) (fun _ => zero_le) hbound
 
 /-- A fixed smoothing of the actual odd weak gradient converges pointwise
 under an arbitrary-filter strong L² limit of the original gradients. -/

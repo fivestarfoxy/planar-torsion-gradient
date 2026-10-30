@@ -80,7 +80,7 @@ theorem integral_sq_translate_sub_of_core {f : ℝ → ℝ}
   have htransc : HasCompactSupport (fun x : ℝ => f (x + h)) :=
     hc.comp_homeomorph (Homeomorph.addRight h)
   have hdiffc : HasCompactSupport (fun x : ℝ => f (x + h) - f x) :=
-    htransc.comp₂_left hc (sub_self (0 : ℝ))
+    htransc.sub hc
   have hparseval := integral_norm_sq_fourier_of_core (htrans.sub hf) hdiffc
   have hfreq : (∫ ξ : ℝ, ‖fourier (fun x => f (x + h) - f x) ξ‖ ^ 2) =
       ∫ ξ : ℝ, (2 - 2 * Real.cos (h * ξ)) * ‖fourier f ξ‖ ^ 2 := by
@@ -120,7 +120,6 @@ theorem gagliardoEnergy_abs_le (f : ℝ → ℝ) :
 
 /-- The physical squared translated quotient is genuinely integrable for
 all translations of a compact smooth function, including h=0. -/
-set_option maxHeartbeats 800000 in
 theorem integrable_sq_translate_quotient_of_core {f : ℝ → ℝ}
     (hf : ContDiff ℝ ∞ f) (hc : HasCompactSupport f) (h : ℝ) :
     Integrable (fun x : ℝ => (f (x + h) - f x) ^ 2 / h ^ 2) := by
@@ -129,9 +128,12 @@ theorem integrable_sq_translate_quotient_of_core {f : ℝ → ℝ}
   have htransc : HasCompactSupport (fun x : ℝ => f (x + h)) :=
     hc.comp_homeomorph (Homeomorph.addRight h)
   have hdiffc : HasCompactSupport (fun x : ℝ => f (x + h) - f x) :=
-    htransc.comp₂_left hc (sub_self (0 : ℝ))
-  exact (((htrans.sub hf).continuous.pow 2).integrable_of_hasCompactSupport
-    (hdiffc.comp_left (g := fun x : ℝ => x ^ 2) (by norm_num))).div_const _
+    htransc.sub hc
+  have hsquare : HasCompactSupport (fun x : ℝ => (f (x + h) - f x) ^ 2) :=
+    hdiffc.comp_left (g := fun x : ℝ => x ^ 2) (by norm_num)
+  have hi : Integrable (fun x : ℝ => (f (x + h) - f x) ^ 2) :=
+    ((htrans.sub hf).continuous.pow 2).integrable_of_hasCompactSupport hsquare
+  exact hi.div_const (h ^ 2)
 
 /-- The nonnegative frequency translated quotient is integrable, from the
 bounded cosine increment and the already proved source Parseval theorem. -/
@@ -240,6 +242,6 @@ theorem energy_comp_le_of_core {f Φ : ℝ → ℝ}
   rw [gagliardoEnergy_of_core hcomp hcompc, gagliardoEnergy_of_core hf hc] at hG
   have hreal := (ENNReal.ofReal_le_ofReal_iff
     (mul_nonneg gagliardoSymbolConstant_pos.le (energy_nonneg f))).1 hG
-  exact (mul_le_mul_iff_left₀ gagliardoSymbolConstant_pos).1 hreal
+  exact (mul_le_mul_iff_of_pos_left gagliardoSymbolConstant_pos).1 hreal
 
 end Torsion.Spectral

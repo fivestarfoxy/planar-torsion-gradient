@@ -37,7 +37,7 @@ theorem injOn_of_im_deriv_neg {S : Set ℂ} (hS : Convex ℝ S) {f : ℂ → ℂ
   have hqd (t : ℝ) (ht : t ∈ Icc (0 : ℝ) 1) :
       HasDerivAt q (-(deriv f (p t)).im) t := by
     have hline : HasDerivAt (fun τ : ℂ => z + τ * (w - z)) (w - z) (t : ℂ) := by
-      simpa only [Pi.add_apply, zero_add] using! (hasDerivAt_const (t : ℂ) z).add ((hasDerivAt_id (t : ℂ)).mul_const (w - z))
+      simpa only [Pi.add_def, id_eq, zero_add, one_mul] using! (hasDerivAt_const (t : ℂ) z).add ((hasDerivAt_id (t : ℂ)).mul_const (w - z))
     have hf := ((hd _ (hp t ht)).hasDerivAt.comp (t : ℂ) hline).sub_const (f z)
     have hg := (hf.div_const (w - z)).const_mul Complex.I
     have hg' : HasDerivAt g (Complex.I * deriv f (p t)) (t : ℂ) := by

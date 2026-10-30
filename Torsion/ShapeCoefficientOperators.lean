@@ -7,6 +7,7 @@ public import Torsion.L2Dominated
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-! # Actual coefficient forms on the original Dirichlet Hilbert graph -/
 
@@ -140,8 +141,8 @@ theorem coefficientFormOfMaps_hasDerivAt {E : Type*} [NormedAddCommGroup E] [Nor
   have hL : HasFDerivAt (coefficientFormOfMaps M G H) (coefficientFormOfMaps M G H) (a t) :=
     ContinuousLinearMap.hasFDerivAt (𝕜 := ℝ) (E := CoefficientField)
       (F := E →L[ℝ] E →L[ℝ] ℝ) (coefficientFormOfMaps M G H)
-  simpa only [Function.comp_apply] using
-    HasFDerivAt.comp_hasDerivAt (E := E →L[ℝ] E →L[ℝ] ℝ) (F := CoefficientField) t hL ha
+  convert HasFDerivAt.comp_hasDerivAt (E := E →L[ℝ] E →L[ℝ] ℝ)
+    (F := CoefficientField) t hL ha using 1 <;> rfl
 
 theorem coefficientForcingOfMaps_hasDerivAt {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     (M : CoefficientField →L[ℝ] ScalarL2 →L[ℝ] ScalarL2) (oneD : ScalarL2) (G : E →L[ℝ] ScalarL2)
@@ -152,8 +153,8 @@ theorem coefficientForcingOfMaps_hasDerivAt {E : Type*} [NormedAddCommGroup E] [
       (coefficientForcingOfMaps M oneD G) (a t) :=
     ContinuousLinearMap.hasFDerivAt (𝕜 := ℝ) (E := CoefficientField)
       (F := E →L[ℝ] ℝ) (coefficientForcingOfMaps M oneD G)
-  simpa only [Function.comp_apply] using
-    HasFDerivAt.comp_hasDerivAt (E := E →L[ℝ] ℝ) (F := CoefficientField) t hL ha
+  convert HasFDerivAt.comp_hasDerivAt (E := E →L[ℝ] ℝ)
+    (F := CoefficientField) t hL ha using 1 <;> rfl
 
 /-- Actual coefficient integration on the original Dirichlet Hilbert graph. -/
 def coefficientForm (D : Set Plane) (i j : Fin 2) :

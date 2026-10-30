@@ -40,7 +40,7 @@ theorem MemH10.of_nonneg_le {D E : Set Plane}
     apply (hvB.min (hfB n)).localize_compact_value hD (hf n).2.1 (hf n).2.2
     filter_upwards [hv0] with x hx
     intro hxK
-    have hfx : f n x = 0 := image_eq_zero_of_nmem_tsupport hxK
+    have hfx : f n x = 0 := image_eq_zero_of_notMem_tsupport hxK
     simp only [hfx, min_eq_right hx]
   have hzeroV : Tendsto (fun _ : ℕ => eLpNorm (fun x => v x - v x) 2 volume)
       atTop (𝓝 0) := by simp

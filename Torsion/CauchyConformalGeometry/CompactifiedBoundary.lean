@@ -39,8 +39,10 @@ theorem cauchy_boundary_tendsto_zero {φ : ℝ → ℝ} {C α : ℝ≥0}
     (hodd : Function.Odd φ) (hzero : ∀ s : ℝ, 1 ≤ |s| → φ s = 0) :
     Tendsto (fun x : ℝ => cauchyExtension φ (x : ℂ)) (coclosedCompact ℝ) (𝓝 0) := by
   have hn : Tendsto (fun x : ℝ => ‖(x : ℂ)‖) (coclosedCompact ℝ) atTop := by
-    simpa only [coclosedCompact_eq_cocompact, Complex.norm_real, Real.norm_eq_abs] using
-      (tendsto_norm_cocompact_atTop : Tendsto (fun x : ℝ => ‖x‖) (cocompact ℝ) atTop)
+    rw [coclosedCompact_eq_cocompact]
+    apply (tendsto_norm_cocompact_atTop : Tendsto (norm : ℝ → ℝ) (cocompact ℝ) atTop).congr'
+    filter_upwards [] with x
+    simp only [Complex.norm_real]
   have h := cauchy_tendsto_zero (hφ.continuous hα0).continuousOn hn
   apply h.congr'
   filter_upwards [hn.eventually (eventually_gt_atTop (1 : ℝ))] with x hx

@@ -27,7 +27,7 @@ theorem leastOddEigenvalue_lt_even_gap : leastOddEigenvalue < (63 / 20 : ℝ) :=
     oddTrial_memRestrictedFormDomain oddTrial_odd
   have hlt := lt_of_le_of_lt hlower oddTrial_energy_lt_even_gap
   have hm : 0 < ∫ x : ℝ, oddTrial x ^ 2 := by rw [oddTrial_integral_sq]; norm_num
-  exact (mul_lt_mul_right hm).mp hlt
+  exact (mul_lt_mul_iff_of_pos_right hm).mp hlt
 
 theorem secondEigenvalue_lt_even_gap : secondEigenvalue < (63 / 20 : ℝ) :=
   lt_of_le_of_lt secondEigenvalue_le_leastOddEigenvalue leastOddEigenvalue_lt_even_gap
@@ -40,7 +40,7 @@ theorem firstEigenvalue_le_of_isRestrictedEigenfunction {a : ℝ} {φ : ℝ → 
   rw [heq] at h
   have hm : 0 < ∫ x : ℝ, φ x ^ 2 := by
     simpa only [← pow_two] using hφ.square_integral_pos
-  exact (mul_le_mul_right hm).mp h
+  exact (mul_le_mul_iff_of_pos_right hm).mp h
 
 /-- No genuine eigenvalue other than the constructed first value lies below
 the constructed second value. This identifies the variational indexing
@@ -55,7 +55,7 @@ theorem secondEigenvalue_le_of_isRestrictedEigenfunction_ne_first {a : ℝ} {φ 
   rw [heq] at h
   have hm : 0 < ∫ x : ℝ, φ x ^ 2 := by
     simpa only [← pow_two] using hφ.square_integral_pos
-  exact (mul_le_mul_right hm).mp h
+  exact (mul_le_mul_iff_of_pos_right hm).mp h
 
 /-- The actually constructed second variational value is exactly the
 actually constructed least odd value. -/

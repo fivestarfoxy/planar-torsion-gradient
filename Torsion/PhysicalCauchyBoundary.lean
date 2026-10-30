@@ -67,6 +67,7 @@ private theorem rotated_gradient_boundary_algebra {a b Y : ℝ} {D : ℂ}
       Complex.ofReal_im, Complex.div_ofReal_re, Complex.div_ofReal_im, Complex.star_def,
       Complex.conj_re, Complex.conj_im]
   · field_simp [ha]
+    ring
   · rw [hv]
     field_simp [ha]
     ring

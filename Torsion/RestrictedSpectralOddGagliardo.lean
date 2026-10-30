@@ -131,7 +131,7 @@ theorem gagliardoEnergy_folded_comp_le {f g Φ : ℝ → ℝ}
     gagliardoEnergy g ≤ gagliardoEnergy f := by
   rw [gagliardoEnergy_odd_eq_positive_pair hg hgodd,
     gagliardoEnergy_odd_eq_positive_pair hf hodd]
-  apply mul_le_mul_left'
+  apply mul_le_mul_right
   apply lintegral_mono_ae
   filter_upwards [ae_restrict_mem measurableSet_Ioi] with x hx
   apply lintegral_mono_ae

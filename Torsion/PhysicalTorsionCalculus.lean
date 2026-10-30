@@ -38,9 +38,9 @@ theorem hasGradientAt_im_of_hasDerivAt {B : Plane → Plane} {d w : Plane}
     (hB : HasDerivAt B d w) :
     HasGradientAt (fun z => (B z).im) (Complex.I * star d) w := by
   apply hasGradientAt_iff_hasFDerivAt.mpr
-  convert (Complex.imCLM.hasFDerivAt.comp w hB.complexToReal_fderiv) using 1
+  convert! (Complex.imCLM.hasFDerivAt.comp w hB.complexToReal_fderiv) using 1
   ext v
-  simp [InnerProductSpace.toDual_apply, ContinuousLinearMap.comp_apply,
+  simp [InnerProductSpace.toDual_apply_apply, ContinuousLinearMap.comp_apply,
     Complex.inner, Complex.mul_re, Complex.mul_im]
   ring
 
@@ -56,9 +56,9 @@ theorem candidate_hasGradientAt {B : Plane → Plane} {w : Plane}
       ext v <;> simp <;> ring
   have hb := Complex.imCLM.hasFDerivAt.comp w hB.hasDerivAt.complexToReal_fderiv
   apply hasGradientAt_iff_hasFDerivAt.mpr
-  convert hq.add hb using 1
+  convert! hq.add hb using 1
   ext v
-  simp [candidateGradient, InnerProductSpace.toDual_apply,
+  simp [candidateGradient, InnerProductSpace.toDual_apply_apply,
     ContinuousLinearMap.comp_apply, Complex.inner, Complex.mul_re, Complex.mul_im]
   ring
 

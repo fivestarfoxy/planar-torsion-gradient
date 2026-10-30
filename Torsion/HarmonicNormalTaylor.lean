@@ -31,8 +31,12 @@ theorem normalLine_deriv {v : Plane → ℝ} (hv : ContDiff ℝ ∞ v) (t : ℝ)
   have hline : HasDerivAt (fun s : ℝ => (s : Plane) * Complex.I) Complex.I t := by
     simpa using (Complex.ofRealCLM.hasDerivAt (x := t)).mul_const Complex.I
   have hd := ((hv.differentiable (by simp) _).hasFDerivAt).comp_hasDerivAt t hline
-  convert hd.deriv using 1
-  simp [fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re]
+  have heq : fderiv ℝ v ((t : Plane) * Complex.I) Complex.I =
+      (gradient v ((t : Plane) * Complex.I)).im := by
+    simp only [fderiv_apply_eq_inner_gradient, Complex.inner, Complex.mul_re,
+      Complex.conj_re, Complex.conj_im, Complex.I_re, Complex.I_im,
+      mul_zero, zero_mul, mul_one, one_mul, zero_sub, sub_zero, neg_neg]
+  simpa only [heq, Function.comp_apply] using! hd.deriv
 
 /-- The second normal derivative is the imaginary component of the actual
 classical gradient's directional derivative. -/

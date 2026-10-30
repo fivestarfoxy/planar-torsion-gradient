@@ -101,7 +101,7 @@ theorem IsRestrictedEigenfunction.normalized_cauchy_candidate
     rw [hE]
   · change ENNReal.ofReal (spectralConstant a φ) ≤ torsionTheory.G (S.domain s hs D₀)
     rw [S.gradient_eq, ← hscalar, ENNReal.ofReal_mul hs.le]
-    exact mul_le_mul_left' hlower₀ _
+    exact mul_le_mul_right hlower₀ _
 
 /-- Consequently the candidate constant is a genuine lower bound on the
 original area-one supremum, without assuming any reference certificate. -/

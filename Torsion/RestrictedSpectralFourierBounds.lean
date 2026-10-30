@@ -29,10 +29,11 @@ theorem MemRestrictedFormDomain.integral_norm_le_two_norm {f : ℝ → ℝ}
   have h := eLpNorm_one_le_two_of_zero_exterior hf.1 hf.2.2.1
   have hp : (2 : ℝ≥0∞) ^ (1 - 1 / (2 : ℝ)) ≠ ⊤ :=
     ENNReal.rpow_ne_top_of_nonneg (by norm_num) (by norm_num)
-  have ht := ENNReal.toReal_mono (ENNReal.mul_ne_top hf.1.2.ne hp) h
+  have ht := ENNReal.toReal_mono (ENNReal.mul_ne_top hf.1.ne hp) h
   rw [ENNReal.toReal_mul, ← ENNReal.toReal_rpow, ENNReal.toReal_ofNat] at ht
   have hL : (∫ x : ℝ, ‖f x‖) = (eLpNorm f 1 volume).toReal := by
-    simpa only [eLpNorm_one_eq_lintegral_enorm] using integral_norm_eq_lintegral_enorm hf.1.1
+    rw [eLpNorm_one_eq_lintegral_enorm hf.1.aestronglyMeasurable]
+    exact integral_norm_eq_lintegral_enorm hf.1.aestronglyMeasurable
   have hp2 : (2 : ℝ) ^ (1 - 1 / (2 : ℝ)) ≤ 2 := by
     calc
       _ ≤ (2 : ℝ) ^ (1 : ℝ) :=

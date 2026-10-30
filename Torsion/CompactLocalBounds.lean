@@ -82,7 +82,7 @@ theorem exists_bound_convection_of_local_extensions {D : Set Plane}
   by_cases hyV : y ∈ tsupport V
   · exact hbound y hyD ⟨subset_closure hyD, hyV⟩
   · have hzero : f =ᶠ[𝓝 y] 0 := by
-      filter_upwards [not_mem_tsupport_iff_eventuallyEq.mp hyV] with z hz
+      filter_upwards [notMem_tsupport_iff_eventuallyEq.mp hyV] with z hz
       simp [f, hz]
     have hgrad : gradient f y = 0 := by
       rw [hzero.gradient_eq]

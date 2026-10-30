@@ -57,7 +57,7 @@ theorem MemH10.of_nonneg_le_inter {D₀ D₁ B : Set Plane}
     apply (hwD₀ n).localize_compact_inter hD₁ (hf n).2.1 (hf n).2.2
     filter_upwards [hv0] with x hx
     intro hxK
-    have hfx : f n x = 0 := image_eq_zero_of_nmem_tsupport hxK
+    have hfx : f n x = 0 := image_eq_zero_of_notMem_tsupport hxK
     change Min.min (v x) (Max.max (f n x) 0) = 0
     rw [hfx, max_self, min_eq_right hx]
   have hzeroV : Tendsto (fun _ : ℕ => eLpNorm (fun x => v x - v x) 2 volume)

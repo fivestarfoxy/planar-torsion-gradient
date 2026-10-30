@@ -31,7 +31,7 @@ theorem radialKernelRaw_contDiff (r : ℝ) : ContDiff ℝ ∞ (radialKernelRaw r
     (ContDiffBumpBase.ofInnerProductSpace Plane).smooth.contDiffAt
       (prod_mem_nhds (Ioi_mem_nhds (by norm_num : (1 : ℝ) < 2)) univ_mem)
   have hmap : ContDiffAt ℝ ∞ (fun w : Plane => ((2 : ℝ), (2 / r) • w)) z :=
-    (contDiff_const.prodMk (contDiff_const.smul contDiff_id)).contDiffAt
+    (contDiff_const.prodMk (contDiff_id.const_smul (2 / r : ℝ))).contDiffAt
   have hcomp := hbase.comp z hmap
   exact hcomp
 

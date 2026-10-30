@@ -49,7 +49,7 @@ private theorem weak_eval_cluster {E : Type*} [NormedAddCommGroup E] [NormedSpac
     MapClusterPt (l (p : E)) atTop (fun n => l (u n)) := by
   have hc : Continuous (fun z : WeakSpace ℝ E => l (z : E)) :=
     WeakBilin.eval_continuous (B := (topDualPairing ℝ E).flip) (y := l)
-  simpa only [Function.comp_def] using
+  simpa only [Function.comp_def] using!
     MapClusterPt.continuousAt_comp hc.continuousAt hp
 
 /-- Weak graph cluster points preserve every eventual bound on the norm of
@@ -73,7 +73,7 @@ private theorem weak_map_norm_le {E F : Type*}
   rw [real_inner_self_eq_norm_sq, pow_two] at hs
   by_cases hz : ‖z‖ = 0
   · simpa only [z, hz] using hr
-  · exact (mul_le_mul_left (lt_of_le_of_ne (norm_nonneg z) (Ne.symm hz))).mp hs
+  · exact (mul_le_mul_iff_of_pos_left (lt_of_le_of_ne (norm_nonneg z) (Ne.symm hz))).mp hs
 
 /-- Actual form-domain membership and its actual Fourier energy are closed
 under strong L² limits of sequences with eventually bounded energy. -/
@@ -120,7 +120,7 @@ theorem memRestrictedFormDomain_of_bounded_energy
     have hval : Tendsto (fun n => RestrictedHilbert.valueMap (P n)) atTop (𝓝 (hf.toLp f)) := by
       apply tendsto_iff_edist_tendsto_0.mpr
       simpa only [P, RestrictedHilbert.valueMap_ofMemRestrictedFormDomain,
-        Lp.edist_toLp_toLp] using hL
+        Lp.edist_toLp_toLp, Pi.sub_def] using hL
     let z : RestrictedHilbert.ValueL2 :=
       RestrictedHilbert.valueMap (p : RestrictedHilbert.space) - hf.toLp f
     let l : RestrictedHilbert.space →L[ℝ] ℝ :=
