@@ -133,8 +133,8 @@ review:
     Exact-commit sandboxed Comparator replay through Lean, NanoDa, and
     con-ron is reported separately in external CI. The official bundled Comparator workflow is
     configured separately from ordinary build/audit CI. No independent
-    expert peer review, author verification of every proof, or Comparator
-    pass is claimed.
+    expert peer review or author verification of every proof is claimed.
+    Comparator status is taken from the selected exact-commit CI check.
 
 alignment:
   namespace: "Torsion"

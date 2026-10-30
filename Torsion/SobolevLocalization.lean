@@ -4,7 +4,10 @@ public import Torsion.SobolevCutoff
 public import Torsion.SobolevLattice
 public import Mathlib.Geometry.Manifold.PartitionOfUnity
 public import Mathlib.Geometry.Manifold.ContMDiff.NormedSpace
-public import Mathlib.Data.Complex.FiniteDimensional
+public import Mathlib.Algebra.Order.Module.Field
+public import Mathlib.Data.EReal.Inv
+public import Mathlib.Topology.Algebra.InfiniteSum.Order
+public import Mathlib.Topology.MetricSpace.Bounded
 public import Mathlib.Analysis.Normed.Group.Bounded
 public import Mathlib.Analysis.Normed.Module.FiniteDimension
 public import Mathlib.Tactic

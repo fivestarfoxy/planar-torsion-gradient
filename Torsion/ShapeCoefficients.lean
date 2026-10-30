@@ -2,7 +2,7 @@ module
 
 public import Torsion.Definitions
 public import Torsion.ShapeDeformation
-public import Mathlib.Analysis.Matrix
+public import Mathlib.Analysis.Matrix.Normed
 public import Mathlib.Analysis.Calculus.Deriv.Prod
 public import Mathlib.Analysis.Calculus.Deriv.Inv
 public import Mathlib.Analysis.Calculus.Deriv.Pow

@@ -4,7 +4,9 @@ public import Mathlib.Analysis.Real.Pi.Bounds
 public import Torsion.RestrictedSpectralParseval
 public import Torsion.RestrictedSpectralEvenFourierBounds
 public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
-public import Mathlib.Data.Real.Pi.Bounds
+public import Mathlib.Algebra.Order.Algebra
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Arctan
+public import Mathlib.Tactic.Positivity
 
 @[expose] public section
 

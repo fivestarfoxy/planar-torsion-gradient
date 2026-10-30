@@ -4,7 +4,9 @@ public import Torsion.SmoothPositivePart
 public import Torsion.SobolevComposition
 public import Torsion.L2Dominated
 public import Mathlib.Analysis.Calculus.ContDiff.Operations
-public import Mathlib.Data.Complex.FiniteDimensional
+public import Mathlib.Algebra.Order.Module.Field
+public import Mathlib.Data.EReal.Inv
+public import Mathlib.Topology.Algebra.InfiniteSum.Order
 public import Mathlib.Topology.MetricSpace.Bounded
 
 @[expose] public section

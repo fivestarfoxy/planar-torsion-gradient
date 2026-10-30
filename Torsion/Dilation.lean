@@ -2,7 +2,10 @@ module
 
 public import Torsion.Definitions
 public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
-public import Mathlib.Analysis.NormedSpace.Pointwise
+public import Mathlib.Analysis.Normed.Group.Basic
+public import Mathlib.Data.EReal.Inv
+public import Mathlib.Topology.Algebra.InfiniteSum.Order
+public import Mathlib.Topology.MetricSpace.Bounded
 public import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
 public import Mathlib.Analysis.Calculus.FDeriv.Comp
 public import Mathlib.Analysis.Calculus.FDeriv.Mul

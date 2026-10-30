@@ -22,10 +22,13 @@ The claim covers the universal sharp bound, exact optimal constant, and attainme
 
 `Audit.lean` uses `import all` for each project module and inspects the private environment. The module system can represent imported public theorems as `axiomInfo`, so enumerating ordinary public imports would miss theorem roots. A coverage guard rejects any project module lacking a full import; the checked roots include private/generated declarations and backports outside the `Torsion` namespace.
 
+`scripts/check-mathlib-imports.py` verifies the mathlib checkout against the manifest and requires all project Mathlib import paths to exist in its tracked Git tree. This ensures fresh CI uses the same canonical modules as local verification.
+
 The `lean-audit.yml` workflow checks the exact Lean and mathlib pins, builds the full library, runs `Audit.lean`, and builds `SubmissionStatement`, `Challenge`, and `Solution`. The local equivalents are:
 
 ```sh
 lake exe cache get
+python3 scripts/check-mathlib-imports.py
 lake build
 lake env lean Audit.lean
 lake build SubmissionStatement Challenge Solution

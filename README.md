@@ -23,6 +23,7 @@ Lean **4.35.0-rc2**; mathlib revision **065356127b1dc0016f66b7283ce0ce2c4055aa55
 
 ```sh
 lake exe cache get
+python3 scripts/check-mathlib-imports.py
 lake build
 lake env lean Audit.lean
 lake build SubmissionStatement Challenge Solution

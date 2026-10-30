@@ -5,11 +5,14 @@ mathlib commit `065356127b1dc0016f66b7283ce0ce2c4055aa55`.
 All transitive dependencies are pinned in `lake-manifest.json`.
 Project modules were compiled from source against the pinned dependency cache.
 
+The canonical dependency-import check also passed: every imported Mathlib module
+exists in the Git tree pinned by the manifest, including on a fresh checkout.
+
 | Check | Result |
 | --- | --- |
-| `lake build Torsion` | Passed; 4,189 build jobs. |
+| `lake build Torsion` | Passed; 4,185 build jobs. |
 | `lake env lean Audit.lean` | Passed; full imports for 393 project modules; 4,201 project theorem roots audited. |
-| `lake build SubmissionStatement Challenge Solution` | Passed; 4,167 build jobs. |
+| `lake build SubmissionStatement Challenge Solution` | Passed; 4,163 build jobs. |
 | Submission theorem axiom dependencies | `propext`, `Classical.choice`, `Quot.sound` only. |
 
 The audit loads every project proof body with `import all` and rejects missing
