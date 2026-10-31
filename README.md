@@ -12,12 +12,13 @@ The formalized core proves the sharp torsion-gradient bound for every original b
 | Development | Status |
 | --- | --- |
 | Lean 4.19 baseline at `a4fe19c71d4ac5ffbd85fc9d2f013a0c7b1a5e4b` | Full build, 3,587-theorem axiom audit, and submission wrapper passed [GitHub run 41132349657](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/runs/41132349657). |
-| Current Lean 4.35.0-rc2 port | Complete local build, 4,201-theorem audit across 393 project modules, and aggregate submission proof passed; see [verification record](validation/LEAN435_VERIFICATION.md). |
-| Principia Comparator for the port | Exact-commit status is reported by the Comparator badge and the Principia project. |
+| Verified Lean 4.35 baseline `cd46d135` | Full build, 4,201-theorem audit across 393 modules, and aggregate submission proof passed; see [baseline record](validation/LEAN435_VERIFICATION.md). |
+| Marked-stability extension | Full local build, 4,264-theorem audit across 396 modules, and unchanged submission regression passed; see [extension record](validation/MARKED_STABILITY_EXTENSION.md). |
+| Comparator | Exact-commit external status is reported separately; a baseline success is not evidence for a changed tree. |
 
-The passing Lean 4.19 baseline remains intact on `main` while the compatibility branch is prepared. The current port changes module visibility metadata and mathlib API usage while preserving the headline statements and original mathematical objects. One auxiliary convergence lemma makes measurability explicit; its callers already supply those facts. See [the port note](docs/LEAN435_PORT.md). The recorded v8 census of 392 mathematical modules, 52,713 lines, and 3,587 audited theorem declarations describes the historical source, not a new census or audit of this port.
+The Lean 4.19 baseline remains intact on `main`; the Lean 4.35 development is maintained separately. The current port changes module visibility metadata and mathlib API usage while preserving the headline statements and original mathematical objects. One auxiliary convergence lemma makes measurability explicit; its callers already supply those facts. See [the port note](docs/LEAN435_PORT.md). The recorded v8 census of 392 mathematical modules, 52,713 lines, and 3,587 audited theorem declarations describes the historical source, not a new census or audit of this port.
 
-## Build the compatibility branch
+## Build the pinned development
 
 Lean **4.35.0-rc2**; mathlib revision **065356127b1dc0016f66b7283ce0ce2c4055aa55**. The complete dependency set is pinned in `lake-manifest.json`.
 
@@ -38,12 +39,31 @@ The separate [Comparator workflow](.github/workflows/comparator.yml) uses the `l
 - `Torsion.second_exact_value`: exact sharp value and attainment, with no mathematical proof parameters (`Torsion/CanonicalOptimization.lean`).
 - `Torsion.DirichletTheory.G_le_second_spectral_bound`: universal bound for arbitrary convex competitors (`Torsion/CanonicalUniversal.lean`).
 - `Torsion.Spectral.second_localized_hadamard`: localized marked Hadamard formula (`Torsion/CanonicalHadamard.lean`).
+- `Torsion.Spectral.second_marked_area_one_symmDiff_deficit`: concrete `C*/8` geometric deficit against the normalized Cauchy image (`Torsion/CanonicalRadialStability.lean`).
+- `Torsion.Spectral.second_marked_area_one_domain_rigidity`: equality of the actual area-one marked domain with that image (same module).
+- `Torsion.DirichletTheory.exists_supporting_positive_radial_flux_gt`: an arbitrarily close convex radial outer domain whose marked flux exceeds any strict lower threshold for the full gradient norm (`Torsion/CanonicalGradientStability.lean`).
 
 `SubmissionStatement.lean` defines the concrete aggregate claim using the original objects. `Challenge.lean` states it with the single deliberate reference placeholder used by Comparator. `Solution.lean` imports the statement definitions, never the reference theorem, and proves the same claim from the unconditional development. The reference placeholder is outside the proof development.
 
 ## Scope and provenance
 
-The scope remains the sharp bound, exact value, and attainment. The manuscript's classical uniqueness classification is outside the existing Lean final theorem. General deficit identities are formalized with their explicit premises; no separate concrete theorem of full gradient-functional shape stability is claimed. Floating-point illustrations are not proof inputs.
+The core submission remains the sharp bound, exact value, and attainment.
+The marked extension proves the concrete spectral deficit and exact equality
+classification within the positive continuous radial class, including the
+`C*/8` symmetric-difference bound using genuine planar Lebesgue area and the
+actual normalized Cauchy image. Its calibration and Euler identities are
+proved inputs, not remaining hypotheses.
+
+A second extension proves that any strict nonnegative lower bound for an
+arbitrary convex domain's gradient norm is exceeded by the marked flux of a
+convex radial outer domain, in a suitable supporting frame. Both approximation
+radii are prescribed in advance. This uses the existing weak boundary-collar
+machinery without an external boundary-attainment assumption.
+
+These results do not yet formalize the paper's uniqueness classification for
+all convex domains or full gradient-functional shape stability. Those require
+the normalized geometric limit and rigidity-of-placement argument. Floating-point
+illustrations are not proof inputs. See [the extension record](validation/MARKED_STABILITY_EXTENSION.md).
 
 The original Lean 4.19 source and verification evidence remain available at the baseline commit above. The supplied original README is retained in [docs/UPSTREAM_V8_README.md](docs/UPSTREAM_V8_README.md), its original Lake configuration in `docs/UPSTREAM_V8_LAKEFILE.toml`, and historical logs in `validation/`. These records retain their original toolchain context. Earlier comments about conditional interfaces are superseded by the final canonical constructions; inspect the actual definitions and theorem statements.
 

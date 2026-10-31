@@ -9,8 +9,8 @@ set_option backward.isDefEq.respectTransparency false
 /-!
 Trusted Comparator reference, using the concrete Claim in SubmissionStatement.
 The deliberate proof placeholder belongs only to this reference module,
-never to the proof development or Solution imports. This is Lean 4.19 source,
-not a completed port to the current Principia Comparator toolchain.
+never to the proof development or Solution imports. This reference uses the
+pinned Lean 4.35.0-rc2 toolchain of the compatibility branch.
 -/
 
 namespace TorsionSubmission

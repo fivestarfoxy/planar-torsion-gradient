@@ -29,10 +29,10 @@ sources:
     location: "Theorem 1.1; Sections 2-5; Appendix A"
     relationship: "formalizes"
     note: >-
-      Manuscript dated 30 October 2026, not peer-reviewed. The formalized core
+      Manuscript dated 31 October 2026, not peer-reviewed. The formalized core
       is the sharp inequality, exact spectral value, and attainment. The
-      manuscript's uniqueness theorem and the concrete marked-flux deficit
-      corollary have the qualifications recorded under status and fidelity.
+      manuscript's uniqueness theorem remains outside the final Lean claim.
+      The concrete marked-flux deficit is now proved in the checked library.
       The manuscript discloses AI assistance.
     license: "unknown"
 
@@ -47,10 +47,12 @@ status:
     attainment by the specified normalized Cauchy image without mathematical
     proof parameters. The universal inequality is proved in
     Torsion.DirichletTheory.G_le_second_spectral_bound. Uniqueness of all
-    maximizing domains is outside the current Lean final theorem. General
-    Hilbert-space radial deficit identities have explicit calibration and
-    Euler premises; the source has no separate declaration of the paper's
-    concrete marked-flux corollary verbatim. Full gradient-functional
+    maximizing domains is outside the current Lean final theorem. The
+    canonical marked radial deficit, its C*/8 planar symmetric-difference
+    consequence, and equality within the marked radial class are proved
+    with calibration and Euler identities instantiated. A supporting-frame
+    outer-domain theorem also realizes every strict lower threshold for
+    the full gradient norm as a marked radial outer flux. Full gradient-functional
     stability, perimeter normalization, and higher-dimensional extensions
     are not claimed. The historical v8 source reports 392 mathematical
     modules, 52713 lines, and an audit of 3587 theorem declarations. The
@@ -64,8 +66,9 @@ status:
     and mathlib APIs while preserving headline statements and original
     mathematical objects. One auxiliary convergence lemma now takes explicit
     measurability proofs, discharged at its original callers without adding
-    headline hypotheses. The full local build, complete 4201-theorem audit
-    across all 393 project modules, and aggregate submission proof passed.
+    headline hypotheses. The marked-stability extension passed its full local
+    build, complete 4264-theorem audit across 396 project modules, and
+    unchanged aggregate submission proof.
     The exact-commit official sandboxed Comparator result with NanoDa and
     con-ron is reported separately by GitHub Actions and Principia. The passing Lean 4.19 main
     baseline is preserved while the compatibility branch is validated.
@@ -106,11 +109,13 @@ fidelity:
     The formalized core matches the sharp-bound, exact-value, and attainment
     scope of Theorem 1.1. The shorter manuscript uses existing spectral and
     boundary-attainment results; the formal development constructs its
-    required inputs independently. The manuscript's Theorem 1.2 uniqueness
-    classification is not included in the current final Lean theorem.
-    Its concrete marked-flux deficit corollary is an application of the
-    proved calibration to general formal identities, not a separate concrete
-    source declaration. Floating-point numerical illustrations are not
+    spectral input independently and proves universal comparison directly.
+    The manuscript's Theorem 1.2 uniqueness classification is not included
+    in the current final Lean theorem. Its concrete marked-flux deficit
+    and planar symmetric-difference consequence are now separate canonical
+    declarations; equality is also proved within the marked radial class.
+    The new supporting radial outer-domain witness supplies an analytic
+    bridge toward full-gradient stability, not that completed theorem. Floating-point numerical illustrations are not
     certified decimal enclosures and are not used as premises of the core.
     The Lean 4.35 port adds explicit measurability arguments to the auxiliary
     tendsto_eLpNorm_lipschitz_comp lemma because mathlib changed eLpNorm for
@@ -127,9 +132,9 @@ review:
     audit, and aggregate submission wrapper at baseline commit
     a4fe19c71d4ac5ffbd85fc9d2f013a0c7b1a5e4b on Lean 4.19. Both axiom
     checks allow only propext, Classical.choice, and Quot.sound. The current
-    Lean 4.35.0-rc2 port passed its complete local build and audit of 4201
-    project theorem roots, including private/generated declarations and
-    backports. Its submission proof also passed the permitted-axiom check.
+    Lean 4.35.0-rc2 extension passed its complete local build and audit of 4264
+    project theorem roots across 396 modules, including private/generated
+    declarations and backports. Its submission proof also passed the permitted-axiom check.
     Exact-commit sandboxed Comparator replay through Lean, NanoDa, and
     con-ron is reported separately in external CI. The official bundled Comparator workflow is
     configured separately from ordinary build/audit CI. No independent
@@ -158,6 +163,22 @@ alignment:
         Cauchy-image attainment. Challenge contains only its
         deliberate reference proof placeholder; Claim remains a concrete
         definition, not a permitted definition hole.
+
+    - source: "Concrete marked radial deficit and planar symmetric-difference corollary"
+      lean: "Torsion.Spectral.second_marked_area_one_symmDiff_deficit"
+      module: "Torsion.CanonicalRadialStability"
+      status: "Full local build and recursive axiom audit passed; external CI tracked separately"
+      note: "Uses genuine planar area and the actual normalized Cauchy image; fixes the mark."
+    - source: "Equality in the area-one marked radial class"
+      lean: "Torsion.Spectral.second_marked_area_one_domain_rigidity"
+      module: "Torsion.CanonicalRadialStability"
+      status: "Full local build and recursive axiom audit passed; external CI tracked separately"
+      note: "Does not classify arbitrary convex maximizers."
+    - source: "Supporting radial outer observation for the full weak-gradient norm"
+      lean: "Torsion.DirichletTheory.exists_supporting_positive_radial_flux_gt"
+      module: "Torsion.CanonicalGradientStability"
+      status: "Full local build and recursive axiom audit passed; external CI tracked separately"
+      note: "Any strict lower threshold is exceeded on a convex positive radial outer domain."
 
 acknowledgements: >-
   Lean, mathlib and their contributors; ChatGPT assistance as described above.

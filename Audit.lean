@@ -326,6 +326,9 @@ import all Torsion.SmoothConvexOuterApproximation
 import all Torsion.SmoothConvexReduction
 import all Torsion.PhysicalCauchyGreenBoundary
 import all Torsion.CanonicalHadamard
+import all Torsion.CanonicalRadialStability
+import all Torsion.CanonicalGradientStability
+import all Torsion.RadialSymmetricDifference
 import all Torsion.CauchyConvectionLp
 import all Torsion.CauchyFreeArcGradient
 import all Torsion.CauchyFreeArcInverse
@@ -527,6 +530,14 @@ proof parameters are not axioms and must be read in the theorem types. -/
 #check Torsion.Spectral.second_localized_hadamard
 #check Torsion.Spectral.second_radial_calibration
 #check Torsion.Spectral.second_radial_bound
+#check Torsion.Spectral.second_radial_normalized_deficit
+#check Torsion.Spectral.second_radial_rigidity
+#check Torsion.Spectral.second_radial_area_one_deficit
+#check Torsion.Spectral.second_radial_area_one_equality_iff
+#check Torsion.Spectral.second_marked_area_one_symmDiff_deficit
+#check Torsion.Spectral.second_marked_area_one_domain_rigidity
+#check Torsion.DirichletTheory.exists_supporting_flatHull_flux_gt
+#check Torsion.DirichletTheory.exists_supporting_positive_radial_flux_gt
 #check Torsion.ConvexDomain.exists_nearest_supported_frontier
 #check Torsion.ConvexDomain.exists_marked_flat_outer
 #check Torsion.DirichletTheory.G_isometryPreimage

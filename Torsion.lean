@@ -325,6 +325,9 @@ public import Torsion.SmoothConvexReduction
 public import Torsion.PhysicalCauchyGreenBoundary
 
 public import Torsion.CanonicalHadamard
+public import Torsion.CanonicalRadialStability
+public import Torsion.CanonicalGradientStability
+public import Torsion.RadialSymmetricDifference
 public import Torsion.CauchyConvectionLp
 public import Torsion.CauchyFreeArcGradient
 public import Torsion.CauchyFreeArcInverse
