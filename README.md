@@ -1,7 +1,7 @@
 # Planar torsion-gradient optimization in Lean
 
-[![Comparator](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/comparator.yml/badge.svg?branch=principia-lean4.35)](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/comparator.yml?query=branch%3Aprincipia-lean4.35)
-[![Build and audit](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/lean-audit.yml/badge.svg?branch=principia-lean4.35)](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/lean-audit.yml?query=branch%3Aprincipia-lean4.35)
+[![Comparator](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/comparator.yml/badge.svg?branch=codex%2Fconcrete-deficit-20261031)](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/comparator.yml?query=branch%3Acodex%2Fconcrete-deficit-20261031)
+[![Build and audit](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/lean-audit.yml/badge.svg?branch=codex%2Fconcrete-deficit-20261031)](https://github.com/fivestarfoxy/planar-torsion-gradient/actions/workflows/lean-audit.yml?query=branch%3Acodex%2Fconcrete-deficit-20261031)
 
 Caden Young. Companion development for *An exact spectral construction for the optimal planar torsion gradient*.
 
@@ -23,14 +23,12 @@ The Lean 4.19 baseline remains intact on `main`; the Lean 4.35 development is ma
 Lean **4.35.0-rc2**; mathlib revision **065356127b1dc0016f66b7283ce0ce2c4055aa55**. The complete dependency set is pinned in `lake-manifest.json`.
 
 ```sh
-lake exe cache get
-python3 scripts/check-mathlib-imports.py
-lake build
-lake env lean Audit.lean
-lake build SubmissionStatement Challenge Solution
+./scripts/verify-clean.sh
 ```
 
-`Torsion.lean` imports the complete development. `Audit.lean` explicitly imports every project proof body with `import all`, checks that this coverage is complete, and checks every project theorem's axiom dependencies, allowing only `propext`, `Classical.choice`, and `Quot.sound`. `Solution.lean` additionally checks the submission theorem's axiom dependencies.
+This checks all pinned dependency source revisions, removes the project's entire `.lake/build`, rebuilds every mathematical module and the aggregate solution, audits the rebuilt declarations, and builds the reference separately. Only external dependency caches are retained. The build-and-audit workflow runs this same procedure on a fresh checkout and preserves its log.
+
+`Torsion.lean` imports the complete development. The source checker compares the filesystem module set with both its build imports and `Audit.lean`'s full imports, rejecting missing, stale, or duplicate entries. `Audit.lean` imports every project proof body with `import all` and checks every project declaration's axiom dependencies, including definitions, private/generated declarations, backports, and unused axioms. Only `propext`, `Classical.choice`, and `Quot.sound` are allowed. `Solution.lean` additionally checks the submission theorem's axiom dependencies. See the [2 November source audit](validation/AUDIT_20261102.md) for the manuscript correspondence and repaired coverage gaps.
 
 The separate [Comparator workflow](.github/workflows/comparator.yml) uses the `lake comparator` bundled with the pinned Lean toolchain. It builds the solution in its bubblewrap sandbox, compares it with the reference statement, and replays the proof through Lean's kernel and the bundled independent kernels NanoDa and con-ron. It uses a fresh runner checkout; an ordinary build or axiom-audit pass does not substitute for this check. See [docs/PRINCIPIA_CI_SETUP.md](docs/PRINCIPIA_CI_SETUP.md) for the interface and reproduction instructions.
 

@@ -10,17 +10,19 @@ set_option backward.isDefEq.respectTransparency false
 /-!
 # Explicit connection to the Cauchy-transform domain
 
-`SpectralBridge` lists the still-unproved identification of the concrete
-spectral integrals and Cauchy image with the analytic reference certificate.
-It is an explicit proof parameter, not an axiom or a constructed instance.
-The resulting theorem gives (1.5), including the actual normalized image.
+`SpectralBridge` records the identification of the concrete spectral
+integrals and Cauchy image with the analytic reference certificate.
+It is an explicit proof parameter of the theorem below, not an axiom.
+`CanonicalOptimization` later constructs the canonical instance and applies
+this theorem to obtain the unconditional endpoint, including the actual
+normalized image.
 -/
 
 noncomputable section
 
 namespace Torsion
 
-/-- The unresolved bridge from Sections 5--7 to the calibrated reference.
+/-- The bridge from Sections 5--7 to the calibrated reference.
 The spectral theorem selecting `a = λ₂` and its eigenfunction is a separate
 input; this structure alone does not select the second eigenpair. -/
 structure SpectralBridge (T : DirichletTheory) (a : ℝ) (φ : ℝ → ℝ) where
@@ -32,8 +34,9 @@ structure SpectralBridge (T : DirichletTheory) (a : ℝ) (φ : ℝ → ℝ) wher
   image_eq : reference.domain.carrier = Spectral.cauchy φ '' upperHalfPlane
 
 /-- Conditional spectral version of (1.5), with its normalized Cauchy image.
-Constructing `B` is the outstanding analytic work, and is not discharged by
-this theorem. The essential-supremum and area-one claims are kernel checked. -/
+This theorem takes `B` as an explicit argument; its canonical construction
+is supplied in `CanonicalOptimization`. The conclusion uses the original
+essential-supremum and area-one definitions. -/
 theorem conditional_spectral_exact_value (T : DirichletTheory) (S : ScalingLaw T)
     (a : ℝ) (φ : ℝ → ℝ) (B : SpectralBridge T a φ) :
     T.cStar = ENNReal.ofReal

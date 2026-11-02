@@ -557,31 +557,35 @@ proof parameters are not axioms and must be read in the theorem types. -/
 #print Torsion.SpectralBridge
 
 
-/- Check every theorem defined by a project module, including generated
-theorems and backports in existing library namespaces, and reject admissions
-or any nonstandard axiom dependency. -/
+/- Check every declaration defined by a project module, including data
+definitions, unused axioms, generated declarations, and backports in library
+namespaces. This also catches admissions outside theorem bodies. -/
 run_cmd do
   -- Enumerate the complete checked environment, including declarations
   -- hidden from the current public export scope of the module system.
   let env := (← Lean.getEnv).setExporting false
   let mut projectModuleCount : Nat := 0
   for imported in env.header.modules do
+    if imported.module == `Challenge then
+      throwError "Reference Challenge module must not enter the proof audit"
     if (`Torsion).isPrefixOf imported.module then
       projectModuleCount := projectModuleCount + 1
       unless imported.importAll do
         throwError "Incomplete audit: {imported.module} must be imported with import all"
-  let names := env.constants.toList.filterMap fun (name, info) =>
+  let declarations := env.constants.toList.filterMap fun (name, info) =>
     let inProjectModule := match env.getModuleIdxFor? name with
       | some idx => (`Torsion).isPrefixOf env.header.moduleNames[idx.toNat]!
       | none => false
-    if ((`Torsion).isPrefixOf name || inProjectModule) && info.isTheorem then some name else none
+    if (`Torsion).isPrefixOf name || inProjectModule then some (name, info.isTheorem) else none
+  let names := declarations.filterMap fun (name, isTheorem) =>
+    if isTheorem then some name else none
   -- Lean now records axiom dependencies in imported module metadata.
   -- Use its public collector rather than the former internal traversal API.
-  for name in names do
+  for (name, _) in declarations do
     for ax in (← Lean.collectAxioms name) do
       unless [(`propext), (`Classical.choice), (`Quot.sound)].contains ax do
         throwError "Unexpected axiom {ax} in dependencies of {name}"
   unless !names.isEmpty do
     throwError "Incomplete audit: no project theorem roots found"
   Lean.logInfo m!"Checked full imports for {projectModuleCount} project modules."
-  Lean.logInfo m!"Audited {names.length} project theorems: only propext, Classical.choice, Quot.sound allowed."
+  Lean.logInfo m!"Audited {declarations.length} project declarations ({names.length} theorems): only propext, Classical.choice, Quot.sound allowed."

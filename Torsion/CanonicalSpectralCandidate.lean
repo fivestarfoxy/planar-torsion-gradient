@@ -252,8 +252,9 @@ namespace Torsion
 open Spectral
 
 /-- All reference fields except the substantial global upper bound are
-constructed. The displayed remaining hypothesis is exactly the universal
-calibrated estimate for the original full convex admissible class. -/
+constructed in this module. The displayed hypothesis is the universal
+calibrated estimate for the original full convex admissible class, proved
+separately in `CanonicalUniversal`. -/
 def secondReferenceCertificate_of_universal
     (huniversal : ∀ D : ConvexDomain, torsionTheory.G D ≤ ENNReal.ofReal
       (2 * secondMoments.stationarity * Real.sqrt secondMoments.area * Real.sqrt D.area)) :
@@ -264,7 +265,7 @@ def secondReferenceCertificate_of_universal
   universal := huniversal
 
 /-- This is an actual assembly of the existing bridge interface, conditional
-only on its precise unresolved universal inequality. -/
+only on the universal inequality, which `CanonicalUniversal` proves. -/
 def secondSpectralBridge_of_universal
     (huniversal : ∀ D : ConvexDomain, torsionTheory.G D ≤ ENNReal.ofReal
       (2 * secondMoments.stationarity * Real.sqrt secondMoments.area * Real.sqrt D.area)) :
@@ -276,8 +277,9 @@ def secondSpectralBridge_of_universal
   reference := secondReferenceCertificate_of_universal huniversal
   image_eq := rfl
 
-/-- The remaining global inequality alone would complete exact value and
-attainment for the canonical actual second spectral construction. -/
+/-- Assembly of exact value and attainment from the universal inequality
+for the canonical actual second spectral construction. `CanonicalOptimization`
+supplies the proved inequality to the same bridge constructor. -/
 theorem second_exact_value_of_universal
     (huniversal : ∀ D : ConvexDomain, torsionTheory.G D ≤ ENNReal.ofReal
       (2 * secondMoments.stationarity * Real.sqrt secondMoments.area * Real.sqrt D.area)) :

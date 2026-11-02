@@ -29,22 +29,29 @@ jobs:
           assert mathlib['rev'] == '065356127b1dc0016f66b7283ce0ce2c4055aa55'
           PY
 
-      - name: Build the complete Lean library
+      - name: Check source requirements and complete audit coverage
+        run: python3 scripts/check-lean-sources.py
+
+      - name: Install the pinned toolchain and dependency cache
         uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           auto-config: false
-          build: true
+          build: false
           test: false
           lint: false
           use-mathlib-cache: true
 
-      - name: Check canonical dependency imports
-        run: python3 scripts/check-mathlib-imports.py
-
-      - name: Run the complete project theorem axiom audit
-        run: lake env lean Audit.lean
-
-      - name: Check the concrete submission statement and proof
+      - name: Rebuild all project sources and audit every declaration
         shell: bash
         run: |
-          lake build SubmissionStatement Challenge Solution
+          set -euo pipefail
+          ./scripts/verify-clean.sh 2>&1 | tee "$RUNNER_TEMP/lean-audit.log"
+
+      - name: Preserve the clean build and audit log
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: lean-audit-log
+          path: ${{ runner.temp }}/lean-audit.log
+          if-no-files-found: ignore
+          retention-days: 30

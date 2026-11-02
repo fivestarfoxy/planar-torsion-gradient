@@ -16,9 +16,10 @@ This is the last step of Theorem 1.1, over the concrete weak-solution and
 essential-supremum definitions in `Definitions`. The low-level analytic
 inputs are explicit arguments: the scaling law, a reference domain with
 its exact area and marked-flux lower bound, and the global calibration
-inequality. `ProvedMain` constructs the weak theory and scaling law; its
-remaining reference certificate is still unconstructed. This is NOT an unconditional proof of
-Theorem 1.1 or of the spectral construction.
+inequality. `ProvedMain` constructs the weak theory and scaling law.
+`CanonicalOptimization` later supplies the reference certificate and proves
+the unconditional endpoint. The theorems in this module retain their
+analytic inputs as explicit parameters.
 -/
 
 noncomputable section

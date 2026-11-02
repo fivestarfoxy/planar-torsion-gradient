@@ -13,8 +13,9 @@ set_option backward.isDefEq.respectTransparency false
 # Main theorem after constructing weak Dirichlet theory and proving scaling
 
 The weak solution theory and physical scaling law are now proved objects,
-not assumptions of these entry points. The remaining spectral/geometric
-calibration bridge is still an explicit, unconstructed argument.
+not assumptions of these entry points. At this layer the spectral/geometric
+calibration bridge remains an explicit argument; `CanonicalOptimization`
+constructs it and supplies the unconditional endpoint.
 -/
 noncomputable section
 namespace Torsion
@@ -24,7 +25,8 @@ Poincaré inequality and Lax--Milgram theorem. -/
 def torsionTheory : DirichletTheory := HilbertDirichlet.dirichletTheory
 
 /-- Value and attainment now require no unproved Dirichlet or scaling law.
-The analytic reference certificate remains to be constructed. -/
+The analytic reference certificate is an explicit argument here and is
+constructed in `CanonicalOptimization`. -/
 theorem exact_value_of_reference (d : Moments) (C : ReferenceCertificate torsionTheory d) :
     torsionTheory.cStar = ENNReal.ofReal d.sharpConstant ∧
     ∃ D : ConvexDomain, D.area = 1 ∧
@@ -32,7 +34,8 @@ theorem exact_value_of_reference (d : Moments) (C : ReferenceCertificate torsion
   conditional_exact_value torsionTheory d (ScalingLaw.proved torsionTheory) C
 
 /-- Spectral formulation with the proved base theory and scaling.
-The only remaining proof parameter is the explicit spectral reference bridge. -/
+The spectral reference bridge is the only proof parameter at this layer;
+`second_exact_value` later applies this theorem to its constructed instance. -/
 theorem exact_value_of_spectralBridge (a : ℝ) (φ : ℝ → ℝ)
     (B : SpectralBridge torsionTheory a φ) :
     torsionTheory.cStar = ENNReal.ofReal (Spectral.spectralConstant a φ) ∧

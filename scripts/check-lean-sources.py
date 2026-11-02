@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check source requirements before builds: module headers and file sizes."""
+"""Check source headers, sizes, and complete build/axiom-audit coverage."""
 import os
 import re
 from pathlib import Path
@@ -75,6 +75,36 @@ def lean_source_files(root: Path) -> list[Path]:
     return files
 
 
+def coverage_errors(root: Path) -> list[str]:
+    """Keep every mathematical source in the build and full-import audit.
+
+    The checked files use one import per line. Lean checks their actual import
+    semantics during the build; this guard also detects files never imported.
+    """
+    sources = {
+        ".".join(path.relative_to(root).with_suffix("").parts)
+        for path in (root / "Torsion").rglob("*.lean")
+    }
+    sources.add("Torsion")
+    errors = []
+    for filename, prefix, expected in [
+        ("Audit.lean", "import all", sources),
+        ("Torsion.lean", "public import", sources - {"Torsion"}),
+    ]:
+        imports = re.findall(
+            rf"^{prefix} (Torsion(?:\.[A-Za-z0-9_]+)*)[ \t]*$",
+            (root / filename).read_text(), re.MULTILINE,
+        )
+        actual = set(imports)
+        for module in sorted(expected - actual):
+            errors.append(f"{filename}: missing {prefix} {module}")
+        for module in sorted(actual - expected):
+            errors.append(f"{filename}: stale {prefix} {module}")
+        if len(actual) != len(imports):
+            errors.append(f"{filename}: duplicate project imports")
+    return errors
+
+
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
     failed = False
@@ -96,6 +126,9 @@ def main() -> int:
         if physical_lines(text) > 10_000:
             print(f"{relative}: exceeds 10,000 lines; split into smaller modules")
             failed = True
+    for error in coverage_errors(root):
+        print(error)
+        failed = True
     return int(failed)
 
 
