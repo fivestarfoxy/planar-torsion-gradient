@@ -7,7 +7,7 @@ project:
   description: >-
     A substantive Lean development of the sharp torsion-gradient bound for
     nonempty bounded open convex planar domains, its exact spectral constant,
-    and attainment by the area-normalized second-eigenfunction Cauchy image.
+    and classification of every equality case as a similarity of the normalized Cauchy image.
   authors:
     - "Caden Young"
   license: "Apache-2.0"
@@ -26,52 +26,26 @@ sources:
     authors:
       - "Caden Young"
     type: "unpublished manuscript"
-    location: "Theorem 1.1; Sections 2-5; Appendix A"
+    location: "Theorems 1.1 and 1.2, supporting results, and computational formulas"
     relationship: "formalizes"
     note: >-
-      Manuscript dated 31 October 2026, not peer-reviewed. The formalized core
-      is the sharp inequality, exact spectral value, and attainment. The
-      manuscript's uniqueness theorem remains outside the final Lean claim.
-      The concrete marked-flux deficit is now proved in the checked library.
-      The manuscript discloses AI assistance.
+      The 18 November 2026 manuscript credits AI assistance. A section-by-section
+      correspondence with the Lean development is given in validation/PAPER_COVERAGE.md.
     license: "unknown"
 
 related_formalizations: []
 
 status:
   scope: >-
-    The core result applies to the original nonempty bounded open convex
-    planar class, with zero-Dirichlet weak torsion, ordinary planar Lebesgue
-    area, and the interior essential supremum of the genuine weak gradient.
-    Torsion.second_exact_value proves the exact area-one supremum and
-    attainment by the specified normalized Cauchy image without mathematical
-    proof parameters. The universal inequality is proved in
-    Torsion.DirichletTheory.G_le_second_spectral_bound. Uniqueness of all
-    maximizing domains is outside the current Lean final theorem. The
-    canonical marked radial deficit, its C*/8 planar symmetric-difference
-    consequence, and equality within the marked radial class are proved
-    with calibration and Euler identities instantiated. A supporting-frame
-    outer-domain theorem also realizes every strict lower threshold for
-    the full gradient norm as a marked radial outer flux. Full gradient-functional
-    stability, perimeter normalization, and higher-dimensional extensions
-    are not claimed. The historical v8 source reports 392 mathematical
-    modules, 52713 lines, and an audit of 3587 theorem declarations. The
-    original Lean 4.19 baseline at commit
-    a4fe19c71d4ac5ffbd85fc9d2f013a0c7b1a5e4b passed its full GitHub build,
-    3587-theorem axiom audit, and aggregate submission wrapper in run
-    41132349657; the wrapper also uses only the permitted three axioms.
-    The current compatibility branch genuinely targets Lean 4.35.0-rc2 and
-    mathlib commit 065356127b1dc0016f66b7283ce0ce2c4055aa55, with all
-    transitive dependencies pinned. It ports module visibility metadata
-    and mathlib APIs while preserving headline statements and original
-    mathematical objects. One auxiliary convergence lemma now takes explicit
-    measurability proofs, discharged at its original callers without adding
-    headline hypotheses. The marked-stability extension passed its full local
-    build, complete 4264-theorem audit across 396 project modules, and
-    unchanged aggregate submission proof.
-    The exact-commit official sandboxed Comparator result with NanoDa and
-    con-ron is reported separately by GitHub Actions and Principia. The passing Lean 4.19 main
-    baseline is preserved while the compatibility branch is validated.
+    TorsionSubmission.paperSolution proves both main theorems for the weak
+    Dirichlet solution, planar Lebesgue area and the actual essential supremum
+    of its weak gradient. Equality holds exactly on the similarities of the
+    area-normalized Cauchy image of the second restricted eigenfunction.
+    Supporting results include attainment of a fixed boundary quotient on
+    every convex competitor, radial calibration and its deficit, the physical
+    first variations, disk and ellipse benchmarks, and the exact finite
+    Galerkin mass and energy matrices. The project is pinned to Lean 4.35.0-rc2
+    and mathlib 065356127b1dc0016f66b7283ce0ce2c4055aa55.
   # Counts describe the recorded proof development and exclude only the
   # intentional reference-theorem placeholder in Challenge.lean.
   sorry_count: 0
@@ -106,40 +80,21 @@ automation:
 
 fidelity:
   divergences: >-
-    The formalized core matches the sharp-bound, exact-value, and attainment
-    scope of Theorem 1.1. The shorter manuscript uses existing spectral and
-    boundary-attainment results; the formal development constructs its
-    spectral input independently and proves universal comparison directly.
-    The manuscript's Theorem 1.2 uniqueness classification is not included
-    in the current final Lean theorem. Its concrete marked-flux deficit
-    and planar symmetric-difference consequence are now separate canonical
-    declarations; equality is also proved within the marked radial class.
-    The new supporting radial outer-domain witness supplies an analytic
-    bridge toward full-gradient stability, not that completed theorem. Floating-point numerical illustrations are not
-    certified decimal enclosures and are not used as premises of the core.
-    The Lean 4.35 port adds explicit measurability arguments to the auxiliary
-    tendsto_eLpNorm_lipschitz_comp lemma because mathlib changed eLpNorm for
-    nonmeasurable functions. Both original Sobolev callers discharge these
-    arguments from existing facts; their headline statements are unchanged.
+    The development constructs the one-dimensional spectral input directly.
+    It derives fixed boundary attainment by a harmonic rectangle comparison.
+    Global rigidity follows from compactness of supporting frames and the
+    calibrated deficit. The numerical Poisson and Galerkin tables are
+    floating-point experiments. See validation/PAPER_COVERAGE.md for the
+    exact benchmark inequalities checked in Lean.
 
 review:
-  status: "Lean 4.35 full local build and complete axiom audit passed; external CI tracked separately"
+  status: "Kernel checks, full declaration audit, and separate exact-commit Comparator workflow"
   reviewers: []
   notes: >-
-    ChatGPT performed source-level checks of the final theorem types, key
-    definitions, import dependencies, and documented verification scope.
-    GitHub run 41132349657 passed the complete build, original theorem
-    audit, and aggregate submission wrapper at baseline commit
-    a4fe19c71d4ac5ffbd85fc9d2f013a0c7b1a5e4b on Lean 4.19. Both axiom
-    checks allow only propext, Classical.choice, and Quot.sound. The current
-    Lean 4.35.0-rc2 extension passed its complete local build and audit of 4264
-    project theorem roots across 396 modules, including private/generated
-    declarations and backports. Its submission proof also passed the permitted-axiom check.
-    Exact-commit sandboxed Comparator replay through Lean, NanoDa, and
-    con-ron is reported separately in external CI. The official bundled Comparator workflow is
-    configured separately from ordinary build/audit CI. No independent
-    expert peer review or author verification of every proof is claimed.
-    Comparator status is taken from the selected exact-commit CI check.
+    Audit.lean inspects all project declarations including private and generated
+    declarations. Challenge.lean contains the isolated Comparator reference.
+    GitHub Actions records the clean rebuild, axiom audit, and independent
+    kernel replays for each submitted revision.
 
 alignment:
   namespace: "Torsion"
@@ -154,6 +109,14 @@ alignment:
       module: "Torsion.CanonicalOptimization"
       status: "Lean 4.35 full local build and axiom audit passed; external CI tracked separately"
       note: "No mathematical proof parameters remain in this final theorem."
+    - source: "Theorem 1.2, equality if and only if similarity"
+      lean: "Torsion.second_sharp_equality_iff_similarity"
+      module: "Torsion.Proof.PaperUniqueness"
+      status: "Proved"
+    - source: "Both main theorems"
+      lean: "TorsionSubmission.paperSolution"
+      module: "Solution"
+      status: "Proved"
     - source: "Combined submission claim for Theorem 1.1"
       lean: "TorsionSubmission.solution"
       module: "Solution"
@@ -173,7 +136,7 @@ alignment:
       lean: "Torsion.Spectral.second_marked_area_one_domain_rigidity"
       module: "Torsion.CanonicalRadialStability"
       status: "Full local build and recursive axiom audit passed; external CI tracked separately"
-      note: "Does not classify arbitrary convex maximizers."
+      note: "Identifies the domain in the fixed marked coordinates."
     - source: "Supporting radial outer observation for the full weak-gradient norm"
       lean: "Torsion.DirichletTheory.exists_supporting_positive_radial_flux_gt"
       module: "Torsion.CanonicalGradientStability"

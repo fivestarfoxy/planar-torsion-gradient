@@ -43,7 +43,7 @@ private theorem radialArea_eq_volumeReal (R : ContinuousProfiles.Profile)
 
 /-- Positive radial observations near an extremizer converge in geometric
 symmetric difference even if their areas only tend to one. -/
-private theorem radial_observation_excess_tendsto (R : ℕ → ContinuousProfiles.Profile)
+theorem radial_observation_excess_tendsto (R : ℕ → ContinuousProfiles.Profile)
     (hR : ∀ k θ, 0 < R k θ) (δ : ℕ → ℝ) (hδ : Tendsto δ atTop (𝓝 0))
     (harea : Tendsto (fun k => radialArea (ContinuousProfiles.extend (R k))) atTop (𝓝 1))
     (hq : ∀ k, spectralConstant secondEigenvalue secondEigenfunction * (1 - δ k) ≤
