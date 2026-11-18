@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Analysis.Complex.Conformal
 public import Torsion.ProvedMain
 public import Torsion.RestrictedSpectralSecondProfile
 public import Torsion.SpectralNormalization
@@ -45,5 +46,22 @@ def Classification : Prop :=
         D.carrier = (fun z => p + s • U z) ''
           Torsion.Spectral.normalizedImage Torsion.Spectral.secondEigenvalue
             Torsion.Spectral.secondEigenfunction
+
+/-- The geometric assertions in Theorem 1.1, using the actual Cauchy
+transform and weak solution. The interval endpoints constitute the full
+intersection of the normalized frontier with its supporting line. -/
+def Geometry : Prop :=
+  let φ := Torsion.Spectral.secondEigenfunction
+  let a := Torsion.Spectral.secondEigenvalue
+  let F := Torsion.Spectral.cauchy φ
+  (∀ z ∈ Torsion.upperHalfPlane, ConformalAt F z) ∧
+  Set.InjOn F Torsion.upperHalfPlane ∧
+  (∃ D : Torsion.ConvexDomain, D.carrier = F '' Torsion.upperHalfPlane ∧
+    D.area = a * Torsion.Spectral.squareMass φ / 2) ∧
+  ∃ (D : Torsion.ConvexDomain) (h : ℝ) (u : Torsion.Plane → ℝ) (g : Torsion.Plane → Torsion.Plane),
+    D.carrier = Torsion.Spectral.normalizedImage a φ ∧ D.area = 1 ∧ 0 < h ∧
+    (∀ x : ℝ, (x : ℂ) ∈ frontier D.carrier ↔ |x| ≤ h) ∧
+    Torsion.IsWeakTorsion D.carrier u g ∧ Continuous u ∧
+    Torsion.HasMarkedFlux u (Torsion.Spectral.spectralConstant a φ)
 
 end TorsionSubmission

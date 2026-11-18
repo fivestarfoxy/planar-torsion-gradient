@@ -27,7 +27,7 @@ The separate [Comparator workflow](.github/workflows/comparator.yml) uses the `l
 
 | Declaration | Mathematical content |
 | --- | --- |
-| `TorsionSubmission.paperSolution` | Combines the universal sharp bound, the exact spectral constant, normalized attainment, and the classification of every equality case. |
+| `TorsionSubmission.paperTheorems` | Both main theorems. Includes conformality, injectivity, the image area, the sharp bound, the flat-side midpoint quotient, and the classification of every equality case. |
 | `Torsion.second_sharp_equality_iff_similarity` | Equality holds precisely on translations, positive dilations, and orthogonal images of the spectral domain. |
 | `Torsion.DirichletTheory.exists_maximizing_normal_quotient` | Finds a fixed boundary point and an entering inward unit normal where the one-sided quotient of the continuous torsion representative tends to the full gradient norm. |
 | `Torsion.Spectral.second_area_one_rigidity_at_maximizing_quotient` | Identifies the domain in the coordinates of the maximizing observation. |

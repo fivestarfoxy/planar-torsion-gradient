@@ -17,8 +17,10 @@ namespace TorsionSubmission
 
 /-- Comparator reference for the main theorem and the all-domain equality
 classification. Only this isolated reference carries a proof placeholder. -/
-theorem paperSolution : Claim ∧ Classification := by
+theorem paperTheorems : (Claim ∧ Classification) ∧ Geometry := by
   sorry
+
+theorem paperSolution : Claim ∧ Classification := paperTheorems.1
 
 /-- The original reference statement, preserved for existing callers. -/
 theorem solution : Claim := paperSolution.1

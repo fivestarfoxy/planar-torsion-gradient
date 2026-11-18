@@ -37,7 +37,7 @@ related_formalizations: []
 
 status:
   scope: >-
-    TorsionSubmission.paperSolution proves both main theorems for the weak
+    TorsionSubmission.paperTheorems proves both main theorems for the weak
     Dirichlet solution, planar Lebesgue area and the actual essential supremum
     of its weak gradient. Equality holds exactly on the similarities of the
     area-normalized Cauchy image of the second restricted eigenfunction.
@@ -113,8 +113,8 @@ alignment:
       lean: "Torsion.second_sharp_equality_iff_similarity"
       module: "Torsion.Proof.PaperUniqueness"
       status: "Proved"
-    - source: "Both main theorems"
-      lean: "TorsionSubmission.paperSolution"
+    - source: "Both main theorems, including conformality, image area and midpoint slope"
+      lean: "TorsionSubmission.paperTheorems"
       module: "Solution"
       status: "Proved"
     - source: "Combined submission claim for Theorem 1.1"
