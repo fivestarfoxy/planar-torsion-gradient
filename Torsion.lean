@@ -398,6 +398,15 @@ public import Torsion.WeakTorsionInterior
 public import Torsion.WeakTorsionRepresentative
 public import Torsion.WeakTranslationLipschitz
 
+public import Torsion.PaperLipschitz
+public import Torsion.Proof.PaperFlatMark
+public import Torsion.Proof.PaperFrameLimit
+public import Torsion.Proof.PaperGradientPositive
+public import Torsion.Proof.PaperMarkedRadial
+public import Torsion.Proof.PaperMaximizerApproximation
+public import Torsion.Proof.PaperSimilarity
+public import Torsion.Proof.PaperUniqueness
+
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false

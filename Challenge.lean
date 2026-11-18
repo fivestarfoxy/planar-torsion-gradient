@@ -15,9 +15,12 @@ pinned Lean 4.35.0-rc2 toolchain of the compatibility branch.
 
 namespace TorsionSubmission
 
-/-- Exact universal bound, spectral value, and normalized-image attainment.
-The reference proof placeholder is intentional. -/
-theorem solution : Claim := by
+/-- Comparator reference for the main theorem and the all-domain equality
+classification. Only this isolated reference carries a proof placeholder. -/
+theorem paperSolution : Claim ∧ Classification := by
   sorry
+
+/-- The original reference statement, preserved for existing callers. -/
+theorem solution : Claim := paperSolution.1
 
 end TorsionSubmission

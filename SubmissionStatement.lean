@@ -17,7 +17,7 @@ canonical optimization or universal-comparison modules.
 namespace TorsionSubmission
 
 /-- Universal sharp bound, exact optimal value, and attainment by the actual
-area-normalized second-eigenfunction Cauchy image. Uniqueness is not asserted. -/
+area-normalized second-eigenfunction Cauchy image. -/
 def Claim : Prop :=
   (∀ D : Torsion.ConvexDomain,
     Torsion.torsionTheory.G D ≤ ENNReal.ofReal
@@ -33,5 +33,17 @@ def Claim : Prop :=
     Torsion.torsionTheory.G D = ENNReal.ofReal
       (Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue
         Torsion.Spectral.secondEigenfunction)
+
+/-- Theorem 1.2 for the original weak-gradient objective on every bounded,
+nonempty open convex planar domain, with no regularity hypothesis at the mark. -/
+def Classification : Prop :=
+  ∀ D : Torsion.ConvexDomain,
+    Torsion.torsionTheory.G D = ENNReal.ofReal
+      (Torsion.Spectral.spectralConstant Torsion.Spectral.secondEigenvalue
+        Torsion.Spectral.secondEigenfunction * Real.sqrt D.area) ↔
+      ∃ (p : Torsion.Plane) (s : ℝ), 0 < s ∧ ∃ (U : Torsion.Plane ≃ₗᵢ[ℝ] Torsion.Plane),
+        D.carrier = (fun z => p + s • U z) ''
+          Torsion.Spectral.normalizedImage Torsion.Spectral.secondEigenvalue
+            Torsion.Spectral.secondEigenfunction
 
 end TorsionSubmission

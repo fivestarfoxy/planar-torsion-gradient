@@ -1,7 +1,7 @@
 {
   "challenge_module": "Challenge",
   "solution_module": "Solution",
-  "theorem_names": ["TorsionSubmission.solution"],
+  "theorem_names": ["TorsionSubmission.solution", "TorsionSubmission.paperSolution"],
   "definition_names": [],
   "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
 }

@@ -397,6 +397,15 @@ import all Torsion.UniformSupportedCollar
 import all Torsion.WeakTorsionInterior
 import all Torsion.WeakTorsionRepresentative
 import all Torsion.WeakTranslationLipschitz
+import all Torsion.PaperLipschitz
+import all Torsion.Proof.PaperFlatMark
+import all Torsion.Proof.PaperFrameLimit
+import all Torsion.Proof.PaperGradientPositive
+import all Torsion.Proof.PaperMarkedRadial
+import all Torsion.Proof.PaperMaximizerApproximation
+import all Torsion.Proof.PaperSimilarity
+import all Torsion.Proof.PaperUniqueness
+
 
 set_option backward.isDefEq.respectTransparency false
 
